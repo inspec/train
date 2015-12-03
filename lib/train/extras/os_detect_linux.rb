@@ -21,7 +21,7 @@ module Train::Extras
       elsif !(raw = get_config('/etc/enterprise-release')).nil?
         @platform[:family] = 'oracle'
         @platform[:release] = redhatish_version(raw)
-      elsif !(_raw = get_config('/etc/debian_version')).nil?
+      elsif !(raw = get_config('/etc/debian_version')).nil?
         case lsb[:id]
         when /ubuntu/i
           @platform[:family] = 'ubuntu'
@@ -30,11 +30,8 @@ module Train::Extras
           @platform[:family] = 'linuxmint'
           @platform[:release] = lsb[:release]
         else
-          @platform[:family] = 'debian'
-          @platform[:family] = 'raspbian' if unix_file?('/usr/bin/raspi-config')
-          unless (rel = get_config('/etc/debian_version')).nil?
-            @platform[:release] = rel.chomp
-          end
+          @platform[:family] = unix_file?('/usr/bin/raspi-config') ? 'raspbian' : 'debian'
+          @platform[:release] = raw.chomp
         end
       elsif !(raw = get_config('/etc/parallels-release')).nil?
         @platform[:family] = redhatish_platform(raw)
@@ -82,22 +79,14 @@ module Train::Extras
         @platform[:family] = 'coreos'
         meta = lsb_config(raw)
         @platform[:release] = meta[:release]
-      elsif !(raw = get_config('/etc/os-release')).nil?
-        os_info = parse_os_release_info(raw)
-        if os_info['CISCO_RELEASE_INFO']
-          os_info.merge!(parse_os_release_info(get_config(os_info['CISCO_RELEASE_INFO'])))
-        end
-
+      elsif !(os_info = fetch_os_release).nil?
         if os_info['ID_LIKE'].match('wrlinux')
           @platform[:family]  = 'wrlinux'
           @platform[:release] = os_info['VERSION']
         end
-      else
-        # in all other cases we didn't detect it
-        return false
       end
-      # when we get here the detection returned a result
-      true
+
+      !@platform[:family].nil? && !@platform[:release].nil?
     end
 
     def uname_s
@@ -133,13 +122,26 @@ module Train::Extras
       @platform[:family] = 'unknown'
     end
 
+    def fetch_os_release
+      data = get_config('/etc/os-release')
+      return if data.nil?
+
+      os_info = parse_os_release_info(data)
+      cisco_info_file = os_info['CISCO_RELEASE_INFO']
+      if cisco_info_file
+        os_info.merge!(parse_os_release_info(get_config(cisco_info_file)))
+      end
+
+      os_info
+    end
+
     def parse_os_release_info(raw)
       return {} if raw.nil?
 
       raw.lines.each_with_object({}) do |line, memo|
         line.strip!
         key, value = line.split('=', 2)
-        memo[key] = value.gsub(/\A"|"\Z/, '') if value
+        memo[key] = value.gsub(/\A"|"\Z/, '') unless value.empty?
       end
     end
   end
