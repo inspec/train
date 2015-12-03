@@ -36,7 +36,7 @@ module Train::Extras
 
     OS = {
       'redhat' => %w{
-        redhat oracle centos fedora amazon scientific xenserver
+        redhat oracle centos fedora amazon scientific xenserver wrlinux
       },
       'debian' => %w{
         debian ubuntu linuxmint raspbian

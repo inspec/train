@@ -172,6 +172,15 @@ describe 'os common plugin' do
     it { os.unix?.must_equal(true) }
   end
 
+  describe 'with platform set to wrlinux' do
+    let(:os) { mock_platform('wrlinux') }
+    it { os.redhat?.must_equal(true) }
+    it { os.debian?.must_equal(false) }
+    it { os.suse?.must_equal(false) }
+    it { os.linux?.must_equal(true) }
+    it { os.unix?.must_equal(true) }
+  end
+
   describe 'with platform set to linux' do
     let(:os) { mock_platform('linux') }
     it { os.linux?.must_equal(true) }
