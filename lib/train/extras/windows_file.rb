@@ -26,7 +26,9 @@ module Train::Extras
     end
 
     def exist?
-      nil
+      return @exist if defined?(@exist)
+      @exist = @backend.run_command(
+        "(Test-Path -Path \"#{@spath}\").ToString()").stdout.chomp == 'True'
     end
 
     def link_target
