@@ -31,11 +31,11 @@ describe 'local transport' do
   end
 
   describe 'when running a local command' do
-    let(:mock) { Minitest::Mock.new }
+    let(:cmd_runner) { Minitest::Mock.new }
 
     def mock_run_cmd(cmd, &block)
-      mock.expect :run_command, nil
-      Mixlib::ShellOut.stub :new, mock do |*args|
+      cmd_runner.expect :run_command, nil
+      Mixlib::ShellOut.stub :new, cmd_runner do |*args|
         block.call()
       end
     end
@@ -43,9 +43,9 @@ describe 'local transport' do
     it 'gets stdout' do
       mock_run_cmd(rand) do
         x = rand
-        mock.expect :stdout, x
-        mock.expect :stderr, nil
-        mock.expect :exitstatus, nil
+        cmd_runner.expect :stdout, x
+        cmd_runner.expect :stderr, nil
+        cmd_runner.expect :exitstatus, nil
         connection.run_command(rand).stdout.must_equal x
       end
     end
@@ -53,9 +53,9 @@ describe 'local transport' do
     it 'gets stderr' do
       mock_run_cmd(rand) do
         x = rand
-        mock.expect :stdout, nil
-        mock.expect :stderr, x
-        mock.expect :exitstatus, nil
+        cmd_runner.expect :stdout, nil
+        cmd_runner.expect :stderr, x
+        cmd_runner.expect :exitstatus, nil
         connection.run_command(rand).stderr.must_equal x
       end
     end
@@ -63,9 +63,9 @@ describe 'local transport' do
     it 'gets exit_status' do
       mock_run_cmd(rand) do
         x = rand
-        mock.expect :stdout, nil
-        mock.expect :stderr, nil
-        mock.expect :exitstatus, x
+        cmd_runner.expect :stdout, nil
+        cmd_runner.expect :stderr, nil
+        cmd_runner.expect :exitstatus, x
         connection.run_command(rand).exit_status.must_equal x
       end
     end
