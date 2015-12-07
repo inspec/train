@@ -8,13 +8,13 @@ group :test do
   gem 'rake', '~> 10'
   gem 'rubocop', '~> 0.33.0'
   gem 'simplecov', '~> 0.10'
+  gem 'concurrent-ruby', '~> 0.9'
 end
 
 group :integration do
   gem 'berkshelf', '~> 4.0'
   gem 'test-kitchen', '~> 1.4'
   gem 'kitchen-vagrant'
-  gem 'concurrent-ruby', '~> 0.9'
 end
 
 group :tools do
