@@ -1,6 +1,12 @@
 ---
+sudo: required
 language: ruby
 cache: bundler
+
+# necessary for docker to work
+dist: trusty
+services:
+  - docker
 
 matrix:
   include:
@@ -10,3 +16,6 @@ matrix:
     gemfile: Gemfile
   - rvm: 2.2
     gemfile: Gemfile
+  - rvm: 2.2
+    gemfile: Gemfile
+    script: bundle exec rake test:docker config=test/integration/test-runner.yaml
