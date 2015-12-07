@@ -10,8 +10,8 @@ describe 'run_command' do
   end
 
   it 'is not running sudo without password' do
-    run_as('whoami', { sudo: true })
-      .exit_status.wont_equal 0
+    err = ->{Train.create('local', { sudo: true }).connection}.must_raise Train::UserError
+    err.message.must_match /Sudo requires a password/
   end
 
   it 'is running passwd sudo' do
