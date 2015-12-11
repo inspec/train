@@ -36,6 +36,27 @@ namespace :test do
     path = File.join(File.dirname(__FILE__), 'test', 'integration')
     sh('sh', '-c', "cd #{path} && kitchen test -c #{concurrency}")
   end
+
+  # rake "test:ssh[user@server]"
+  # sh -c cd /home/foobarbam/src/gems/train/test/integration \
+  #   && target=user@server key_files=/home/foobarbam/.ssh/id_rsa \
+  #   ruby -I ../../lib test_ssh.rb tests/*
+  # to turn debug logging back on:
+  #   rake "test:ssh[user@server, true]"
+  # to use a different key_file but no debug logs:
+  #   rake "test:ssh[user@server, false, /home/foobarbam/.ssh/id_rsa2]"
+  task :ssh, [:target, :debug, :key_files] do |t, args|
+    path = File.join(File.dirname(__FILE__), 'test', 'integration')
+    key_files = args[:key_files] || File.join(ENV['HOME'], '.ssh', 'id_rsa')
+
+    sh_cmd =  "cd #{path} && target=#{args[:target]} key_files=#{key_files}"
+    sh_cmd += " debug=#{args[:debug]}" if args[:debug]
+    sh_cmd += ' ruby -I ../../lib test_ssh.rb tests/*'
+    sh(
+      'sh', '-c',
+      sh_cmd
+    )
+  end
 end
 
 # Print the current version of this gem or update it.
