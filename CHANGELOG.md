@@ -1,11 +1,12 @@
 # Change Log
 
-## [Unreleased](https://github.com/chef/train/tree/HEAD)
-
-[Full Changelog](https://github.com/chef/train/compare/v0.9.1...HEAD)
+## [0.9.2](https://github.com/chef/train/tree/0.9.2) (2015-12-11)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.1...0.9.2)
 
 **Implemented enhancements:**
 
+- add changelog [\#38](https://github.com/chef/train/pull/38) ([chris-rock](https://github.com/chris-rock))
+- activate integration tests in travis [\#37](https://github.com/chef/train/pull/37) ([chris-rock](https://github.com/chris-rock))
 - Adding support for Wind River Linux in support of Cisco devices [\#33](https://github.com/chef/train/pull/33) ([adamleff](https://github.com/adamleff))
 
 **Fixed bugs:**
@@ -17,6 +18,10 @@
 **Closed issues:**
 
 - WinRM plaintext transport is hardcoded \(cannot use SSL\) [\#29](https://github.com/chef/train/issues/29)
+
+**Merged pull requests:**
+
+- add rake version helpers [\#39](https://github.com/chef/train/pull/39) ([arlimus](https://github.com/arlimus))
 
 ## [v0.9.1](https://github.com/chef/train/tree/v0.9.1) (2015-11-03)
 [Full Changelog](https://github.com/chef/train/compare/0.9.0...v0.9.1)
