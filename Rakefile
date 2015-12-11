@@ -45,13 +45,16 @@ namespace :test do
   #   rake "test:ssh[user@server, true]"
   # to use a different key_file but no debug logs:
   #   rake "test:ssh[user@server, false, /home/foobarbam/.ssh/id_rsa2]"
+  # run with a specific test
+  #   test=path_block_device_test.rb rake "test:ssh[user@server]"
   task :ssh, [:target, :debug, :key_files] do |t, args|
     path = File.join(File.dirname(__FILE__), 'test', 'integration')
     key_files = args[:key_files] || File.join(ENV['HOME'], '.ssh', 'id_rsa')
 
     sh_cmd =  "cd #{path} && target=#{args[:target]} key_files=#{key_files}"
     sh_cmd += " debug=#{args[:debug]}" if args[:debug]
-    sh_cmd += ' ruby -I ../../lib test_ssh.rb tests/*'
+    sh_cmd += ' ruby -I ../../lib test_ssh.rb tests/'
+    sh_cmd += ENV['test'] || '*'
     sh(
       'sh', '-c',
       sh_cmd
