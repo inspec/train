@@ -1,2 +1,3 @@
 train-*.gem
 Gemfile.lock
+.kitchen/
