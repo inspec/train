@@ -48,8 +48,7 @@ namespace :test do
   #   key_file=/home/foobarbam/.ssh/id_rsa2 rake "test:ssh[user@server]"
   # Run with a specific test:
   #   test=path_block_device_test.rb rake "test:ssh[user@server]"
-  task :ssh, [:target, :debug, :key_files] do |t, args|
-  #task :ssh, [:target] do |t, args|
+  task :ssh, [:target] do |t, args|
     path = File.join(File.dirname(__FILE__), 'test', 'integration')
     key_files = ENV['key_files'] || File.join(ENV['HOME'], '.ssh', 'id_rsa')
 
