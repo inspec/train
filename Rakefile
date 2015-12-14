@@ -37,28 +37,29 @@ namespace :test do
     sh('sh', '-c', "cd #{path} && kitchen test -c #{concurrency}")
   end
 
-  # rake "test:ssh[user@server]"
-  # sh -c cd /home/foobarbam/src/gems/train/test/integration \
-  #   && target=user@server key_files=/home/foobarbam/.ssh/id_rsa \
-  #   ruby -I ../../lib test_ssh.rb tests/*
-  # to turn debug logging back on:
-  #   rake "test:ssh[user@server, true]"
-  # to use a different key_file but no debug logs:
-  #   rake "test:ssh[user@server, false, /home/foobarbam/.ssh/id_rsa2]"
-  # run with a specific test
+  # Target required:
+  #   rake "test:ssh[user@server]"
+  #   sh -c cd /home/foobarbam/src/gems/train/test/integration \
+  #     && target=user@serverruby -I ../../lib test_ssh.rb tests/*
+  #   ...
+  # Turn debug logging back on:
+  #   debug=1 rake "test:ssh[user@server]"
+  # Use a different ssh key:
+  #   key_file=/home/foobarbam/.ssh/id_rsa2 rake "test:ssh[user@server]"
+  # Run with a specific test:
   #   test=path_block_device_test.rb rake "test:ssh[user@server]"
   task :ssh, [:target, :debug, :key_files] do |t, args|
+  #task :ssh, [:target] do |t, args|
     path = File.join(File.dirname(__FILE__), 'test', 'integration')
-    key_files = args[:key_files] || File.join(ENV['HOME'], '.ssh', 'id_rsa')
+    key_files = ENV['key_files'] || File.join(ENV['HOME'], '.ssh', 'id_rsa')
 
-    sh_cmd =  "cd #{path} && target=#{args[:target]} key_files=#{key_files}"
-    sh_cmd += " debug=#{args[:debug]}" if args[:debug]
+    sh_cmd    =  "cd #{path} && target=#{args[:target]} key_files=#{key_files}"
+
+    sh_cmd += " debug=#{ENV['debug']}" if ENV['debug']
     sh_cmd += ' ruby -I ../../lib test_ssh.rb tests/'
     sh_cmd += ENV['test'] || '*'
-    sh(
-      'sh', '-c',
-      sh_cmd
-    )
+
+    sh('sh', '-c', sh_cmd)
   end
 end
 
