@@ -53,6 +53,9 @@ module Train::Extras
       'windows' => %w{
         windows
       },
+      'aix' => %w{
+        aix
+      },
     }
 
     OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware} +

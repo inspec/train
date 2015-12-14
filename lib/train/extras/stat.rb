@@ -20,6 +20,10 @@ module Train::Extras
     end
 
     def self.stat(shell_escaped_path, backend)
+      #require 'pp'
+      #pp backend.os
+      #exit
+      return aix_stat(shell_escaped_path, backend) if backend.os.aix?
       return bsd_stat(shell_escaped_path, backend) if backend.os.bsd?
       return linux_stat(shell_escaped_path, backend) if backend.os.unix?
       # all other cases we don't handle
@@ -86,6 +90,34 @@ module Train::Extras
         mtime: fields[7].to_i,
         size: fields[0].to_i,
         selinux_label: fields[8],
+      }
+    end
+
+    def self.aix_stat(shell_escaped_path, backend)
+      # Perl here b/c it is default on AIX like stat is on Linux
+      stat_cmd = <<-EOF
+      perl -e '
+      @a = stat(shift) or exit 2;
+      $u = getpwuid($a[4]);
+      $g = getgrgid($a[5]);
+      printf("0%o\\n%s\\n%s\\n%d\\n%d\\n", $a[2], $u, $g, $a[9], $a[7])
+      ' #{shell_escaped_path}
+      EOF
+
+      res = backend.run_command(stat_cmd)
+      return {} if res.exit_status != 0
+
+      fields = res.stdout.split("\n")
+      tmask  = fields[0].to_i(8)
+
+      {
+        type:  find_type(tmask),
+        mode:  tmask & 00777,
+        owner: fields[1],
+        group: fields[2],
+        mtime: fields[3].to_i,
+        size:  fields[4].to_i,
+        selinux_label: nil,
       }
     end
   end
