@@ -28,5 +28,11 @@ module Train::Extras
         ).stdout
       )
     end
+
+    def mounted?
+      @mounted ||= (
+        !@backend.run_command("lsfs -c #{@spath}").stdout.empty?
+      )
+    end
   end
 end
