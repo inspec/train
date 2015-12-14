@@ -92,14 +92,14 @@ module Train::Extras
 
     def self.aix_stat(shell_escaped_path, backend)
       # Perl here b/c it is default on AIX like stat is on Linux
-      stat_cmd = <<-EOF
+      stat_cmd = <<-EOP
       perl -e '
       @a = lstat(shift) or exit 2;
       $u = getpwuid($a[4]);
       $g = getgrgid($a[5]);
       printf("0%o\\n%s\\n%s\\n%d\\n%d\\n", $a[2], $u, $g, $a[9], $a[7])
       ' #{shell_escaped_path}
-      EOF
+      EOP
 
       res = backend.run_command(stat_cmd)
       return {} if res.exit_status != 0
