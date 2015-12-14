@@ -8,7 +8,6 @@ require 'train/extras/stat'
 
 module Train::Extras
   class AixFile < LinuxFile
-
     def initialize(backend, path)
       super(backend, path)
     end
@@ -25,7 +24,7 @@ module Train::Extras
       return nil unless symlink?
       @link_path ||= (
         @backend.run_command(
-          "perl -e '$ln = readlink(shift) or exit 2; print $ln' #{@spath}"
+          "perl -e '$ln = readlink(shift) or exit 2; print $ln' #{@spath}",
         ).stdout
       )
     end
