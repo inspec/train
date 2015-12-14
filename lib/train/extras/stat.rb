@@ -20,9 +20,6 @@ module Train::Extras
     end
 
     def self.stat(shell_escaped_path, backend)
-      #require 'pp'
-      #pp backend.os
-      #exit
       return aix_stat(shell_escaped_path, backend) if backend.os.aix?
       return bsd_stat(shell_escaped_path, backend) if backend.os.bsd?
       return linux_stat(shell_escaped_path, backend) if backend.os.unix?
@@ -97,7 +94,7 @@ module Train::Extras
       # Perl here b/c it is default on AIX like stat is on Linux
       stat_cmd = <<-EOF
       perl -e '
-      @a = stat(shift) or exit 2;
+      @a = lstat(shift) or exit 2;
       $u = getpwuid($a[4]);
       $g = getgrgid($a[5]);
       printf("0%o\\n%s\\n%s\\n%d\\n%d\\n", $a[2], $u, $g, $a[9], $a[7])
