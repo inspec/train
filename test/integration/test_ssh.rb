@@ -14,7 +14,7 @@ backend_conf = {
 
 backend_conf['target'] = 'ssh://' + backend_conf['target']
 backend_conf['logger'].level = \
-  if ENV['debug'] && !ENV['debug'].to_s.match(/^true$/i)
+  if ENV.key?('debug')
     case ENV['debug'].to_s
     when /^false$/i, /^0$/i
       Logger::INFO
