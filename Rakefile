@@ -40,7 +40,7 @@ namespace :test do
   # Target required:
   #   rake "test:ssh[user@server]"
   #   sh -c cd /home/foobarbam/src/gems/train/test/integration \
-  #     && target=user@serverruby -I ../../lib test_ssh.rb tests/*
+  #     && target=user@server ruby -I ../../lib test_ssh.rb tests/*
   #   ...
   # Turn debug logging back on:
   #   debug=1 rake "test:ssh[user@server]"
