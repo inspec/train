@@ -19,8 +19,6 @@ module Train::Extras
                  else
                    @backend.run_command("cat #{@spath}").stdout || ''
                  end
-
-      @content
     end
 
     def link_path
