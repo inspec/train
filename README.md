@@ -32,7 +32,7 @@ train = Train.create('local')
 ```ruby
 require 'train'
 train = Train.create('ssh',
-  host: '1.2.3.4', port: 22, user: 'root', key_files: '/vagrant')
+  host: '1.2.3.4', port: 22, user: 'root', keys: '/vagrant')
 ```
 
 **WinRM**
