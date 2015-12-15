@@ -45,7 +45,7 @@ namespace :test do
   # Turn debug logging back on:
   #   debug=1 rake "test:ssh[user@server]"
   # Use a different ssh key:
-  #   key_file=/home/foobarbam/.ssh/id_rsa2 rake "test:ssh[user@server]"
+  #   key_files=/home/foobarbam/.ssh/id_rsa2 rake "test:ssh[user@server]"
   # Run with a specific test:
   #   test=path_block_device_test.rb rake "test:ssh[user@server]"
   task :ssh, [:target] do |t, args|
