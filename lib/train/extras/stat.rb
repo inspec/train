@@ -91,7 +91,7 @@ module Train::Extras
     end
 
     def self.aix_stat(shell_escaped_path, backend)
-      # Perl here b/c it is default on AIX like stat is on Linux
+      # Perl here b/c it is default on AIX
       stat_cmd = <<-EOP
       perl -e '
       @a = lstat(shift) or exit 2;
