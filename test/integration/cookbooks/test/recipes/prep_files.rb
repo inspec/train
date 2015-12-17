@@ -7,6 +7,7 @@
 
 gid = 'root'
 gid = 'wheel' if node['platform_family'] == 'freebsd'
+gid = 'system' if node['platform_family'] == 'aix'
 
 file '/tmp/file' do
   mode '0765'
