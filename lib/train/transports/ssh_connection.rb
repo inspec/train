@@ -58,7 +58,13 @@ class Train::Transports::SSH
     end
 
     def file(path)
-      @files[path] ||= LinuxFile.new(self, path)
+      @files[path] ||= \
+        case os[:family]
+        when 'aix'
+          AixFile.new(self, path)
+        else
+          LinuxFile.new(self, path)
+        end
     end
 
     # (see Base::Connection#run_command)

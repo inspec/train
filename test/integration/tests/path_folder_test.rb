@@ -18,7 +18,8 @@ describe 'file interface' do
       file.type.must_equal(:directory)
     end
 
-    if get_backend.call.os[:family] == 'freebsd'
+    case get_backend.call.os[:family]
+    when 'freebsd'
       it 'has freebsd folder content behavior' do
         file.content.must_equal("\u0003\u0000")
       end
@@ -30,6 +31,7 @@ describe 'file interface' do
       it 'has an sha256sum' do
         file.sha256sum.must_equal('9b4fb24edd6d1d8830e272398263cdbf026b97392cc35387b991dc0248a628f9')
       end
+
     else
       it 'has no content' do
         file.content.must_equal(nil)

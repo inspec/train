@@ -20,8 +20,11 @@ module Test
     end
 
     def root_group(os)
-      if os[:family] == 'freebsd'
+      case os[:family]
+      when 'freebsd'
         'wheel'
+      when 'aix'
+        'system'
       else
         'root'
       end
