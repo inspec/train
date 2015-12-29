@@ -6,6 +6,20 @@
 require 'helper'
 require 'train/transports/local'
 
+# overwrite os detection to simplify mock tests, otherwise run_command tries to
+# determine the OS first and fails the tests
+class Train::Transports::Local::Connection
+  class OS < OSCommon
+    def initialize(backend)
+      super(backend, { family: 'train_mock_os' })
+    end
+
+    def detect_family
+      # no op, we do not need to detect the os
+    end
+  end
+end
+
 describe 'local transport' do
   let(:transport) { Train::Transports::Local.new }
   let(:connection) { transport.connection }

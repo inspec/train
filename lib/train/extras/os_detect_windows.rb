@@ -9,6 +9,7 @@
 #
 
 require 'json'
+require 'winrm'
 
 module Train::Extras
   module DetectWindows
@@ -57,7 +58,16 @@ module Train::Extras
             '-Name OS -Value (Get-WmiObject -Class Win32_OperatingSystem) '\
             '-PassThru | Add-Member -MemberType NoteProperty -Name OSVersion '\
             '-Value ([Environment]::OSVersion) -PassThru | ConvertTo-Json'
+
+      # wrap the script to ensure we always run it via powershell
+      # especially in local mode, we cannot be sure that we get a Powershell
+      # we may just get a `cmd`. os detection and powershell command wrapper is
+      # not available when this code is executed
+      script = WinRM::PowershellScript.new(cmd)
+      cmd = "powershell -encodedCommand #{script.encoded}"
+
       res = @backend.run_command(cmd)
+
       # TODO: error as this shouldnt be happening at this point
       return false if res.exit_status != 0 or res.stdout.empty?
 
@@ -67,6 +77,7 @@ module Train::Extras
 
       @platform[:family] = 'windows'
       @platform[:release] = WINDOWS_VERSIONS[version]
+
       true
     end
   end

@@ -90,16 +90,44 @@ module Train::Extras
     end
   end
 
+  # this is required if you run locally on windows,
+  # winrm connections provide a PowerShell shell automatically
+  # TODO: only activate in local mode
+  class PowerShellCommand < CommandWrapperBase
+    Train::Options.attach(self)
+
+    def initialize(backend, options)
+      @backend = backend
+      validate_options(options)
+
+      @prefix = 'powershell '
+    end
+
+    def run(command)
+      @prefix + command
+    end
+
+    def to_s
+      'PowerShell CommandWrapper'
+    end
+  end
+
   class CommandWrapper
     include_options LinuxCommand
 
     def self.load(transport, options)
-      return nil unless LinuxCommand.active?(options)
-      return nil unless transport.os.unix?
-      res = LinuxCommand.new(transport, options)
-      msg = res.verify
-      fail Train::UserError, "Sudo failed: #{msg}" unless msg.nil?
-      res
+      if transport.os.unix?
+        return nil unless LinuxCommand.active?(options)
+        res = LinuxCommand.new(transport, options)
+        msg = res.verify
+        fail Train::UserError, "Sudo failed: #{msg}" unless msg.nil?
+        res
+      # only use powershell command for local transport. winrm transport
+      # uses powershell as default
+      elsif transport.os.windows? && transport.class == Train::Transports::Local::Connection
+        PowerShellCommand.new(transport, options)
+      end
+      nil
     end
   end
 end
