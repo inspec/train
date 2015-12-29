@@ -39,3 +39,18 @@ describe 'linux command' do
     lc.run(cmd).must_equal "echo #{bpw} | base64 -d | sudo -S #{cmd}"
   end
 end
+
+describe 'powershell command' do
+  let(:cls) { Train::Extras::PowerShellCommand }
+  let(:cmd) { rand.to_s }
+  let(:backend) {
+    backend = Train::Transports::Mock.new.connection
+    backend.mock_os({ family: 'windows' })
+    backend
+  }
+
+  it 'wraps commands in powershell' do
+    lc = cls.new(backend, {})
+    lc.run(cmd).must_equal "powershell #{cmd}"
+  end
+end
