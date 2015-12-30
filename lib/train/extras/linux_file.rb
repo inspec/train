@@ -43,11 +43,14 @@ module Train::Extras
       )
     end
 
-    def mounted?
+    def mounted
       @mounted ||= (
-        !@backend.run_command("mount | grep -- ' on #{@spath}'")
-                 .stdout.empty?
+        @backend.run_command("mount | grep -- ' on #{@spath}'")
       )
+    end
+
+    def mounted?
+      !mounted.stdout.empty?
     end
 
     %w{

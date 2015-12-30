@@ -39,6 +39,10 @@ module Train::Extras
       nil
     end
 
+    def mounted
+      nil
+    end
+
     def mounted?
       nil
     end
