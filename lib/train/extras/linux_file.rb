@@ -49,10 +49,6 @@ module Train::Extras
       )
     end
 
-    def mounted?
-      !mounted.stdout.empty?
-    end
-
     %w{
       type mode owner group mtime size selinux_label
     }.each do |field|

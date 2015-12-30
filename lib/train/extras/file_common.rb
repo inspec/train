@@ -102,6 +102,10 @@ module Train::Extras
       t & o
     end
 
+    def mounted?
+      !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.empty?
+    end
+
     # helper methods provided to any implementing class
 
     private

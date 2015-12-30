@@ -115,21 +115,17 @@ class Train::Transports::Mock::Connection
       attr_accessor m.tr('?', '').to_sym
     end
 
-    def initialize(_runtime, path)
+    def initialize(runtime, path)
       @path = path
       @type = :unknown
       @exist = false
-      @runtime = _runtime
+      @runtime = runtime
     end
 
     def mounted
       @mounted ||= (
         @runtime.run_command("mount | grep -- ' on #{@path}'")
       )
-    end
-
-    def mounted?
-      !mounted.stdout.empty?
     end
   end
 end
