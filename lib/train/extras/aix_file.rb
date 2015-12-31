@@ -28,9 +28,9 @@ module Train::Extras
       )
     end
 
-    def mounted?
+    def mounted
       @mounted ||= (
-        !@backend.run_command("lsfs -c #{@spath}").stdout.empty?
+        @backend.run_command("lsfs -c #{@spath}")
       )
     end
   end
