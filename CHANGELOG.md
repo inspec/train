@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.9.2](https://github.com/chef/train/tree/0.9.2) (2015-12-11)
-[Full Changelog](https://github.com/chef/train/compare/v0.9.1...0.9.2)
+## [0.9.3](https://github.com/chef/train/tree/0.9.3) (2016-01-02)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.2...0.9.3)
+
+**Implemented enhancements:**
+
+- Support for local transport on Windows [\#43](https://github.com/chef/train/pull/43) ([chris-rock](https://github.com/chris-rock))
+- Split integration test preparation from executing [\#42](https://github.com/chef/train/pull/42) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- introduce `mounted` as a separate method to retrieve the content [\#44](https://github.com/chef/train/pull/44) ([chris-rock](https://github.com/chris-rock))
+- Support for AIX and targeted SSH testing [\#41](https://github.com/chef/train/pull/41) ([foobarbam](https://github.com/foobarbam))
+
+## [v0.9.2](https://github.com/chef/train/tree/v0.9.2) (2015-12-11)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.1...v0.9.2)
 
 **Implemented enhancements:**
 
@@ -21,6 +34,7 @@
 
 **Merged pull requests:**
 
+- 0.9.2 [\#40](https://github.com/chef/train/pull/40) ([arlimus](https://github.com/arlimus))
 - add rake version helpers [\#39](https://github.com/chef/train/pull/39) ([arlimus](https://github.com/arlimus))
 
 ## [v0.9.1](https://github.com/chef/train/tree/v0.9.1) (2015-11-03)
