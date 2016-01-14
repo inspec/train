@@ -13,7 +13,12 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/chef/train/'
   spec.license       = 'Apache 2.0'
 
-  spec.files         = `hash git 2>/dev/null && git ls-files -z`.split("\x0").find_all { |x| x !~ /^\.delivery/ }
+  spec.files = %w{
+    train.gemspec README.md Rakefile LICENSE Gemfile CHANGELOG.md .rubocop.yml
+  } + Dir.glob(
+    '{lib,test}/**/*', File::FNM_DOTMATCH
+  ).reject { |f| File.directory?(f) }
+
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
