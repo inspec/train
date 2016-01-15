@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.9.3](https://github.com/chef/train/tree/0.9.3) (2016-01-02)
-[Full Changelog](https://github.com/chef/train/compare/v0.9.2...0.9.3)
+## [0.9.4](https://github.com/chef/train/tree/0.9.4) (2016-01-15)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.3...0.9.4)
+
+**Fixed bugs:**
+
+- bugfix: command wrapper always return nil [\#50](https://github.com/chef/train/pull/50) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- 0.9.3 is empty on Windows [\#48](https://github.com/chef/train/pull/48) ([tyler-ball](https://github.com/tyler-ball))
+- Updating to the latest release of net-ssh to consume https://github.com/net-ssh/net-ssh/pull/280 [\#47](https://github.com/chef/train/pull/47) ([tyler-ball](https://github.com/tyler-ball))
+
+## [v0.9.3](https://github.com/chef/train/tree/v0.9.3) (2016-01-03)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.2...v0.9.3)
 
 **Implemented enhancements:**
 
@@ -10,6 +22,7 @@
 
 **Merged pull requests:**
 
+- 0.9.3 [\#45](https://github.com/chef/train/pull/45) ([chris-rock](https://github.com/chris-rock))
 - introduce `mounted` as a separate method to retrieve the content [\#44](https://github.com/chef/train/pull/44) ([chris-rock](https://github.com/chris-rock))
 - Support for AIX and targeted SSH testing [\#41](https://github.com/chef/train/pull/41) ([foobarbam](https://github.com/foobarbam))
 
