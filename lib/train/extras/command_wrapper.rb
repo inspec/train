@@ -127,7 +127,6 @@ module Train::Extras
       elsif transport.os.windows? && transport.class == Train::Transports::Local::Connection
         PowerShellCommand.new(transport, options)
       end
-      nil
     end
   end
 end
