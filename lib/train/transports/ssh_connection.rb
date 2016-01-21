@@ -20,6 +20,7 @@
 
 require 'net/ssh'
 require 'net/scp'
+require 'timeout'
 
 class Train::Transports::SSH
   # A Connection instance can be generated and re-generated, given new
