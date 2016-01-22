@@ -29,8 +29,8 @@ Gem::Specification.new do |spec|
   # 1.9 support is no longer needed here or for Inspec
   spec.add_dependency 'net-ssh', '>= 2.9', '< 4.0'
   spec.add_dependency 'net-scp', '~> 1.2'
-  spec.add_dependency 'winrm', '~> 1.3'
-  spec.add_dependency 'winrm-transport', '~> 1.0'
+  spec.add_dependency 'winrm', '~> 1.5'
+  spec.add_dependency 'winrm-fs', '~> 0.3'
   spec.add_dependency 'docker-api', '~> 1.22'
 
   spec.add_development_dependency 'rake',     '~> 10.4'
