@@ -28,6 +28,9 @@ branches:
   only:
     - master
 
+cache:
+  - C:/Ruby21/bin/gem
+
 install:
   - ps: net user /add $env:winrm_user $env:winrm_pass
   - ps: net localgroup administrators $env:winrm_user /add
