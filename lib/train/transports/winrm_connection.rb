@@ -27,7 +27,7 @@ class Train::Transports::WinRM
   # host such as executing commands, transferring files, etc.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
+  class Connection < BaseConnection
     def initialize(options)
       super(options)
       @endpoint               = @options.delete(:endpoint)
@@ -42,10 +42,8 @@ class Train::Transports::WinRM
     # (see Base::Connection#close)
     def close
       return if @session.nil?
-      shell_id = session.shell
-      logger.debug("[WinRM] closing remote shell #{shell_id} on #{self}")
+
       session.close
-      logger.debug("[WinRM] remote shell #{shell_id} closed")
     ensure
       @session = nil
     end
@@ -95,10 +93,8 @@ class Train::Transports::WinRM
     def wait_until_ready
       delay = 3
       session(
-        retries: @max_wait_until_ready / delay,
-        delay:   delay,
-        message: "Waiting for WinRM service on #{endpoint}, "\
-                 "retrying in #{delay} seconds",
+        retry_limit: @max_wait_until_ready / delay,
+        retry_delay: delay,
       )
       execute(PING_COMMAND.dup)
     end
@@ -106,16 +102,6 @@ class Train::Transports::WinRM
     private
 
     PING_COMMAND = "Write-Host '[WinRM] Established\n'".freeze
-
-    RESCUE_EXCEPTIONS_ON_ESTABLISH = lambda do
-      [
-        Errno::EACCES, Errno::EADDRINUSE, Errno::ECONNREFUSED,
-        Errno::ECONNRESET, Errno::ENETUNREACH, Errno::EHOSTUNREACH,
-        ::WinRM::WinRMHTTPTransportError, ::WinRM::WinRMAuthorizationError,
-        HTTPClient::KeepAliveDisconnected,
-        HTTPClient::ConnectTimeoutError
-      ].freeze
-    end
 
     # Create a local RDP document and return it
     #
@@ -136,35 +122,10 @@ class Train::Transports::WinRM
       content
     end
 
-    # Establish a remote shell session on the remote host.
-    #
-    # @param opts [Hash] retry options
-    # @option opts [Integer] :retries the number of times to retry before
-    #   failing
-    # @option opts [Float] :delay the number of seconds to wait until
-    #   attempting a retry
-    # @option opts [String] :message an optional message to be logged on
-    #   debug (overriding the default) when a rescuable exception is raised
-    # @return [Winrm::CommandExecutor] the command executor session
-    # @api private
-    def establish_shell(opts)
-      service_args = [@endpoint, @winrm_transport, options]
-      @service = ::WinRM::WinRMWebService.new(*service_args)
-      closer = WinRM::Transport::ShellCloser.new("#{self}", false, service_args)
-
-      executor = WinRM::Transport::CommandExecutor.new(@service, logger, closer)
-      retryable(opts) do
-        logger.debug("[WinRM] opening remote shell on #{self}")
-        shell_id = executor.open
-        logger.debug("[WinRM] remote shell #{shell_id} is open on #{self}")
-      end
-      executor
-    end
-
     # @return [Winrm::FileTransporter] a file transporter
     # @api private
     def file_transporter
-      @file_transporter ||= WinRM::Transport::FileTransporter.new(session, logger)
+      @file_transporter ||= WinRM::FS::Core::FileTransporter.new(session)
     end
 
     # Builds a `LoginCommand` for use by Linux-based platforms.
@@ -196,38 +157,6 @@ class Train::Transports::WinRM
       LoginCommand.new('mstsc', rdp_doc)
     end
 
-    # Yields to a block and reties the block if certain rescuable
-    # exceptions are raised.
-    #
-    # @param opts [Hash] retry options
-    # @option opts [Integer] :retries the number of times to retry before
-    #   failing
-    # @option opts [Float] :delay the number of seconds to wait until
-    #   attempting a retry
-    # @option opts [String] :message an optional message to be logged on
-    #   debug (overriding the default) when a rescuable exception is raised
-    # @return [Winrm::CommandExecutor] the command executor session
-    # @api private
-    def retryable(opts)
-      yield
-    rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH.call => e
-      if (opts[:retries] -= 1) <= 0
-        logger.warn("[WinRM] connection failed, terminating (#{e.inspect})")
-        raise
-      end
-
-      if opts[:message]
-        logger.debug("[WinRM] connection failed (#{e.inspect})")
-        message = opts[:message]
-      else
-        message = '[WinRM] connection failed, '\
-                  "retrying in #{opts[:delay]} seconds (#{e.inspect})"
-      end
-      logger.info(message)
-      sleep(opts[:delay])
-      retry
-    end
-
     # Establishes a remote shell session, or establishes one when invoked
     # the first time.
     #
@@ -235,10 +164,17 @@ class Train::Transports::WinRM
     # @return [Winrm::CommandExecutor] the command executor session
     # @api private
     def session(retry_options = {})
-      @session ||= establish_shell({
-        retries: @connection_retries.to_i,
-        delay:   @connection_retry_sleep.to_i,
-      }.merge(retry_options))
+      @session ||= begin
+        opts = {
+          retry_limit: @connection_retries.to_i,
+          retry_delay: @connection_retry_sleep.to_i,
+        }.merge(retry_options)
+
+        service_args = [@endpoint, @winrm_transport, options.merge(opts)]
+        @service = ::WinRM::WinRMWebService.new(*service_args)
+        @service.logger = logger
+        @service.create_executor
+      end
     end
 
     # String representation of object, reporting its connection details and

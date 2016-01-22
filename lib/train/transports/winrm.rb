@@ -89,7 +89,7 @@ module Train::Transports
       opts[:endpoint] = "#{scheme}://#{opts[:host]}:#{port}/#{path}"
     end
 
-    WINRM_TRANSPORT_SPEC_VERSION = '~> 1.0'.freeze
+    WINRM_FS_SPEC_VERSION = '~> 0.3'.freeze
 
     # Builds the hash of options needed by the Connection object on
     # construction.
@@ -132,39 +132,35 @@ module Train::Transports
 
     # (see Base#load_needed_dependencies!)
     def load_needed_dependencies!
-      spec_version = WINRM_TRANSPORT_SPEC_VERSION.dup
-      logger.debug('Winrm Transport requested,' \
-        " loading WinRM::Transport gem (#{spec_version})")
-      gem 'winrm-transport', spec_version
-      first_load = require 'winrm/transport/version'
+      spec_version = WINRM_FS_SPEC_VERSION.dup
+      logger.debug('winrm-fs requested,' \
+        " loading WinRM::FS gem (#{spec_version})")
+      gem 'winrm-fs', spec_version
+      first_load = require 'winrm-fs'
       load_winrm_transport!
 
-      version = ::WinRM::Transport::VERSION
       if first_load
-        logger.debug("WinRM::Transport #{version} library loaded")
+        logger.debug('WinRM::FS library loaded')
       else
-        logger.debug("WinRM::Transport #{version} previously loaded")
+        logger.debug('WinRM::FS previously loaded')
       end
     rescue LoadError => e
       logger.fatal(
-        "The `winrm-transport' gem is missing and must" \
+        "The `winrm-fs' gem is missing and must" \
         ' be installed or cannot be properly activated. Run' \
-        " `gem install winrm-transport --version '#{spec_version}'`" \
+        " `gem install winrm-fs --version '#{spec_version}'`" \
         ' or add the following to your Gemfile if you are using Bundler:' \
-        " `gem 'winrm-transport', '#{spec_version}'`.",
+        " `gem 'winrm-fs', '#{spec_version}'`.",
       )
       raise Train::UserError,
-            "Could not load or activate WinRM::Transport (#{e.message})"
+            "Could not load or activate WinRM::FS (#{e.message})"
     end
 
     # Load WinRM::Transport code.
     #
     # @api private
     def load_winrm_transport!
-      silence_warnings { require 'winrm' }
-      require 'winrm/transport/shell_closer'
-      require 'winrm/transport/command_executor'
-      require 'winrm/transport/file_transporter'
+      silence_warnings { require 'winrm-fs' }
     end
 
     # Return the last saved WinRM connection instance.
