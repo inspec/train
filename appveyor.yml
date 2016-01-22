@@ -22,16 +22,14 @@ environment:
       winrm_endpoint: https://localhost:5986/wsman
       use_ssl_peer_fingerprint: true
 
-clone_folder: c:\projects\winrm
+clone_folder: c:\projects\train
 clone_depth: 1
-branches:
-  only:
-    - master
 
 cache:
-  - C:/Ruby21/bin/gem
+  - C:\Ruby21\bin\gem
 
 install:
+  - systeminfo
   - ps: net user /add $env:winrm_user $env:winrm_pass
   - ps: net localgroup administrators $env:winrm_user /add
   - ps: $env:winrm_cert = (New-SelfSignedCertificate -DnsName localhost -CertStoreLocation cert:\localmachine\my).Thumbprint
@@ -41,10 +39,12 @@ install:
   - ps: winrm set winrm/config/service '@{AllowUnencrypted="true"}'
   - ps: $env:PATH="C:\Ruby$env:ruby_version\bin;$env:PATH"
   - ps: Write-Host $env:PATH
-  - ps: ruby --version
-  - ps: gem --version
-  - ps: gem install bundler --quiet --no-ri --no-rdoc
-  - ps: bundler --version
+  - gem install bundler --quiet --no-ri --no-rdoc
+  - gem update --system 2.4.5
+  - ruby --version
+  - gem --version
+  - bundler --version
+  - ruby -r rubygems -e "p Gem.path"
 
 build_script:
   - bundle install
