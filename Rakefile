@@ -33,6 +33,11 @@ namespace :test do
     sh('sh', '-c', "cd #{path} && config=test-runner.yaml ruby -I ../../lib docker_test.rb tests/*")
   end
 
+  task :winrm do
+    path = File.join(File.dirname(__FILE__), 'test', 'winrm')
+    sh('sh', '-c', "cd #{path} && ruby windows.rb")
+  end
+
   task :vm do
     concurrency = ENV['CONCURRENCY'] || 4
     path = File.join(File.dirname(__FILE__), 'test', 'integration')

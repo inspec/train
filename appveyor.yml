@@ -10,17 +10,11 @@ environment:
 
   matrix:
     - ruby_version: "21"
-      winrm_endpoint: http://localhost:5985/wsman
+      train_target: winrm://test_user@localhost:5985
 
     - ruby_version: "21"
-      winrm_auth_type: ssl
-      winrm_endpoint: https://localhost:5986/wsman
-      winrm_no_ssl_peer_verification: true
-
-    - ruby_version: "21"
-      winrm_auth_type: ssl
-      winrm_endpoint: https://localhost:5986/wsman
-      use_ssl_peer_fingerprint: true
+      train_ssl: true
+      train_target: winrm://test_user@localhost:5986
 
 clone_folder: c:\projects\train
 clone_depth: 1
@@ -47,8 +41,8 @@ install:
   - ruby -r rubygems -e "p Gem.path"
 
 build_script:
-  - bundle install
+  - bundle install --without integration tools
 
 test_script:
   - SET SPEC_OPTS=--format progress
-  - bundle exec rake lint
+  - bundle exec rake test:winrm
