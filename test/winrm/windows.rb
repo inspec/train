@@ -15,7 +15,7 @@ require 'json'
 def get_os(backend, opts = {})
   # resolve configuration
   target_config = Train.target_config(opts)
-  puts "Use the following config: #{puts target_config}"
+  puts "Use the following config: #{target_config}"
 
   # initialize train
   train = Train.create(backend, target_config)
@@ -37,13 +37,13 @@ def get_os(backend, opts = {})
   conf
 end
 
-def print(data)
-  puts data
+def compare_hash(value, cmp)
+  value == cmp
 end
 
 # check local
 local = get_os('local')
-print(local)
+puts "Detected the following OS (local): #{local}"
 
 # winrm over http
 winrm = get_os('winrm', {
@@ -52,4 +52,11 @@ winrm = get_os('winrm', {
   ssl: ENV['train_ssl'],
   self_signed: true,
 })
-print(winrm)
+puts "Detected the following OS (remote): #{winrm}"
+
+# compare values
+cmp = {:name=>nil, :family=>"windows", :release=>"Server 2012 R2", :arch=>nil}
+if !compare_hash(local, cmp) || !compare_hash(winrm, cmp)
+  puts "Expected OS: #{cmp}"
+  exit 1
+end
