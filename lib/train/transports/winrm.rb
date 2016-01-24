@@ -100,9 +100,9 @@ module Train::Transports
     def connection_options(opts)
       {
         logger:                   logger,
-        winrm_transport:          :plaintext,
-        disable_sspi:             true,
-        basic_auth_only:          true,
+        winrm_transport:          :negotiate,
+        disable_sspi:             false,
+        basic_auth_only:          false,
         endpoint:                 opts[:endpoint],
         user:                     opts[:user],
         pass:                     opts[:password],
