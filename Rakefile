@@ -33,9 +33,10 @@ namespace :test do
     sh('sh', '-c', "cd #{path} && config=test-runner.yaml ruby -I ../../lib docker_test.rb tests/*")
   end
 
-  task :winrm do
-    path = File.join(File.dirname(__FILE__), 'test', 'winrm')
-    sh('sh', '-c', "cd #{path} && ruby windows.rb")
+  task :windows do
+    Dir.glob('test/windows/*_test.rb').all? do |file|
+      sh(Gem.ruby, '-w', '-Ilib:test', file)
+    end or fail 'Failures'
   end
 
   task :vm do
