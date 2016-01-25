@@ -1,7 +1,29 @@
 # Change Log
 
-## [0.9.4](https://github.com/chef/train/tree/0.9.4) (2016-01-15)
-[Full Changelog](https://github.com/chef/train/compare/v0.9.3...0.9.4)
+## [0.9.5](https://github.com/chef/train/tree/0.9.5) (2016-01-25)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.4...0.9.5)
+
+**Implemented enhancements:**
+
+- use minitest for windows tests [\#56](https://github.com/chef/train/pull/56) ([chris-rock](https://github.com/chris-rock))
+- use negotiate auth for winrm and not basic\_auth [\#55](https://github.com/chef/train/pull/55) ([mwrock](https://github.com/mwrock))
+- bugfix: pin net-ssh 2.9 in gem file [\#54](https://github.com/chef/train/pull/54) ([chris-rock](https://github.com/chris-rock))
+- Add appveyor and Windows test [\#53](https://github.com/chef/train/pull/53) ([chris-rock](https://github.com/chris-rock))
+- Deprecating winrm-tansport gem [\#46](https://github.com/chef/train/pull/46) ([mwrock](https://github.com/mwrock))
+
+**Fixed bugs:**
+
+- Cannot install train on Windows with ChefDK if username \>9 chars in length due to spec filename lengths in docker-api gem. [\#28](https://github.com/chef/train/issues/28)
+- Properly wrap commands in powershell for local backend [\#57](https://github.com/chef/train/pull/57) ([chris-rock](https://github.com/chris-rock))
+- Copying https://github.com/test-kitchen/test-kitchen/pull/919 to this repo [\#52](https://github.com/chef/train/pull/52) ([tyler-ball](https://github.com/tyler-ball))
+
+## [v0.9.4](https://github.com/chef/train/tree/v0.9.4) (2016-01-15)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.3...v0.9.4)
+
+**Implemented enhancements:**
+
+- 0.9.3 is empty on Windows [\#48](https://github.com/chef/train/pull/48) ([tyler-ball](https://github.com/tyler-ball))
+- Updating to the latest release of net-ssh to consume https://github.com/net-ssh/net-ssh/pull/280 [\#47](https://github.com/chef/train/pull/47) ([tyler-ball](https://github.com/tyler-ball))
 
 **Fixed bugs:**
 
@@ -9,22 +31,21 @@
 
 **Merged pull requests:**
 
-- 0.9.3 is empty on Windows [\#48](https://github.com/chef/train/pull/48) ([tyler-ball](https://github.com/tyler-ball))
-- Updating to the latest release of net-ssh to consume https://github.com/net-ssh/net-ssh/pull/280 [\#47](https://github.com/chef/train/pull/47) ([tyler-ball](https://github.com/tyler-ball))
+- 0.9.4 [\#51](https://github.com/chef/train/pull/51) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.9.3](https://github.com/chef/train/tree/v0.9.3) (2016-01-03)
 [Full Changelog](https://github.com/chef/train/compare/v0.9.2...v0.9.3)
 
 **Implemented enhancements:**
 
+- introduce `mounted` as a separate method to retrieve the content [\#44](https://github.com/chef/train/pull/44) ([chris-rock](https://github.com/chris-rock))
 - Support for local transport on Windows [\#43](https://github.com/chef/train/pull/43) ([chris-rock](https://github.com/chris-rock))
 - Split integration test preparation from executing [\#42](https://github.com/chef/train/pull/42) ([chris-rock](https://github.com/chris-rock))
+- Support for AIX and targeted SSH testing [\#41](https://github.com/chef/train/pull/41) ([foobarbam](https://github.com/foobarbam))
 
 **Merged pull requests:**
 
 - 0.9.3 [\#45](https://github.com/chef/train/pull/45) ([chris-rock](https://github.com/chris-rock))
-- introduce `mounted` as a separate method to retrieve the content [\#44](https://github.com/chef/train/pull/44) ([chris-rock](https://github.com/chris-rock))
-- Support for AIX and targeted SSH testing [\#41](https://github.com/chef/train/pull/41) ([foobarbam](https://github.com/foobarbam))
 
 ## [v0.9.2](https://github.com/chef/train/tree/v0.9.2) (2015-12-11)
 [Full Changelog](https://github.com/chef/train/compare/v0.9.1...v0.9.2)
