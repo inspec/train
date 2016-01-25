@@ -35,7 +35,7 @@ namespace :test do
 
   task :windows do
     Dir.glob('test/windows/*_test.rb').all? do |file|
-      sh(Gem.ruby, '-w', '-Ilib:test', file)
+      sh(Gem.ruby, '-w', '-I .\test\windows', file)
     end or fail 'Failures'
   end
 
