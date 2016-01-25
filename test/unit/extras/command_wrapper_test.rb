@@ -51,6 +51,7 @@ describe 'powershell command' do
 
   it 'wraps commands in powershell' do
     lc = cls.new(backend, {})
-    lc.run(cmd).must_equal "powershell #{cmd}"
+    tmp =
+    lc.run(cmd).must_equal "powershell -encodedCommand #{WinRM::PowershellScript.new('$ProgressPreference=\'SilentlyContinue\';' + cmd).encoded}"
   end
 end

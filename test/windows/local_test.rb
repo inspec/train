@@ -27,6 +27,18 @@ describe 'windows local command' do
     os[:arch].must_equal nil
   end
 
+  it 'run echo test' do
+    cmd = conn.run_command('Write-Output "test"')
+    cmd.stdout.must_equal "test\r\n"
+    cmd.stderr.must_equal ''
+  end
+
+  it 'use powershell piping' do
+    cmd = conn.run_command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name A -Value (Write-Output 'PropertyA') -PassThru | Add-Member -MemberType NoteProperty -Name B -Value (Write-Output 'PropertyB') -PassThru | ConvertTo-Json")
+    cmd.stdout.must_equal "{\r\n    \"A\":  \"PropertyA\",\r\n    \"B\":  \"PropertyB\"\r\n}\r\n"
+    cmd.stderr.must_equal ''
+  end
+
   after do
     # close the connection
     conn.close
