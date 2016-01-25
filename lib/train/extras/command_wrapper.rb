@@ -99,12 +99,22 @@ module Train::Extras
     def initialize(backend, options)
       @backend = backend
       validate_options(options)
-
-      @prefix = 'powershell '
     end
 
-    def run(command)
-      @prefix + command
+    def run(script)
+
+      # wrap the script to ensure we always run it via powershell
+      # especially in local mode, we cannot be sure that we get a Powershell
+      # we may just get a `cmd`.
+      # TODO: we may want to opt for powershell.exe -command instead of `encodeCommand`
+      cmd = "powershell -encodedCommand #{WinRM::PowershellScript.new(safe_script(script)).encoded}"
+      cmd
+    end
+
+    # reused from https://github.com/WinRb/WinRM/blob/master/lib/winrm/command_executor.rb
+    # suppress the progress stream from leaking to stderr
+    def safe_script(script)
+      "$ProgressPreference='SilentlyContinue';" + script
     end
 
     def to_s
