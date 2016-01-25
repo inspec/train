@@ -89,6 +89,25 @@ puts conn.file('/proc/version').content
 conn.close
 ```
 
+# Testing
+
+We perform `unit`, `integration` and `windows` tests.
+
+* `unit` tests ensure the intended behaviour of the implementation
+* `integration` tests run against VMs and docker containers
+* `windows` tests that run on appveyor for windows integration tests
+
+## Windows
+
+```
+# run windows tests
+bundle exec rake test:windows
+
+# run single tests
+bundle exec ruby -I .\test\windows\ .\test\windows\local_test.rb
+```
+
+
 # Kudos and Contributors
 
 Train is heavily based on the work of:
