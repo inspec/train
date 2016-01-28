@@ -60,9 +60,10 @@ class Train::Transports::SSH
 
     def file(path)
       @files[path] ||= \
-        case os[:family]
-        when 'aix'
+        if os[:family] == 'aix'
           AixFile.new(self, path)
+        elsif os.solaris?
+          SolarisFile.new(self, path)
         else
           LinuxFile.new(self, path)
         end

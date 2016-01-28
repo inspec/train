@@ -7,6 +7,7 @@ module Train::Extras
   autoload :FileCommon,     'train/extras/file_common'
   autoload :AixFile,        'train/extras/file_aix'
   autoload :LinuxFile,      'train/extras/file_linux'
+  autoload :SolarisFile,    'train/extras/file_solaris'
   autoload :WindowsFile,    'train/extras/file_windows'
   autoload :OSCommon,       'train/extras/os_common'
   autoload :Stat,           'train/extras/stat'
