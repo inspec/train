@@ -48,7 +48,7 @@ module Train::Extras
         freebsd netbsd openbsd darwin
       },
       'solaris' => %w{
-        solaris smartos openindiana opensolaris solaris2 nexentacore
+        solaris smartos omnios openindiana opensolaris nexentacore
       },
       'windows' => %w{
         windows
