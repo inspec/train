@@ -4,18 +4,7 @@ require 'shellwords'
 require 'train/extras/stat'
 
 module Train::Extras
-  class AixFile < LinuxFile
-    def content
-      @content ||= case
-                   when !exist?, directory?
-                     nil
-                   when size.nil?, size == 0
-                     ''
-                   else
-                     @backend.run_command("cat #{@spath}").stdout || ''
-                   end
-    end
-
+  class AixFile < UnixFile
     def link_path
       return nil unless symlink?
       @link_path ||= (
