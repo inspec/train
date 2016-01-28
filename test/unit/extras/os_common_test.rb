@@ -243,13 +243,6 @@ describe 'os common plugin' do
     it { os.unix?.must_equal(true) }
   end
 
-  describe 'with platform set to solaris2' do
-    let(:os) { mock_platform('solaris2') }
-    it { os.solaris?.must_equal(true) }
-    it { os.linux?.must_equal(false) }
-    it { os.unix?.must_equal(true) }
-  end
-
   describe 'with platform set to nexentacore' do
     let(:os) { mock_platform('nexentacore') }
     it { os.solaris?.must_equal(true) }
