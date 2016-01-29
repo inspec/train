@@ -5,9 +5,10 @@
 module Train::Extras
   autoload :CommandWrapper, 'train/extras/command_wrapper'
   autoload :FileCommon,     'train/extras/file_common'
-  autoload :LinuxFile,      'train/extras/linux_file'
-  autoload :AixFile,        'train/extras/aix_file'
-  autoload :WindowsFile,    'train/extras/windows_file'
+  autoload :AixFile,        'train/extras/file_aix'
+  autoload :UnixFile,       'train/extras/file_unix'
+  autoload :LinuxFile,      'train/extras/file_linux'
+  autoload :WindowsFile,    'train/extras/file_windows'
   autoload :OSCommon,       'train/extras/os_common'
   autoload :Stat,           'train/extras/stat'
 

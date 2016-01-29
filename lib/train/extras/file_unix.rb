@@ -6,7 +6,7 @@ require 'shellwords'
 require 'train/extras/stat'
 
 module Train::Extras
-  class LinuxFile < FileCommon
+  class UnixFile < FileCommon
     attr_reader :path
     def initialize(backend, path)
       @backend = backend
@@ -15,12 +15,14 @@ module Train::Extras
     end
 
     def content
-      return @content if defined?(@content)
-      @content = @backend.run_command(
-        "cat #{@spath} || echo -n").stdout
-      return @content unless @content.empty?
-      @content = nil if directory? or size.nil? or size > 0
-      @content
+      @content ||= case
+                   when !exist?, directory?
+                     nil
+                   when size.nil?, size == 0
+                     ''
+                   else
+                     @backend.run_command("cat #{@spath}").stdout || ''
+                   end
     end
 
     def exist?

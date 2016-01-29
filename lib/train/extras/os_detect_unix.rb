@@ -10,7 +10,7 @@
 
 module Train::Extras
   module DetectUnix
-    def detect_via_uname # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
+    def detect_via_uname # rubocop:disable Metrics/AbcSize
       case uname_s.downcase
       when /aix/
         @platform[:family] = 'aix'
@@ -37,41 +37,59 @@ module Train::Extras
         @platform[:release] = uname_r.lines[0].chomp
 
       when /sunos/
-        @platform[:family] = 'solaris'
-        if uname_r =~ /5\.10/
-          # TODO: should be string!
-          @platform[:release] = 10
-        else
-          rel = get_config('/etc/release')
-          case rel
-          when /^.*(SmartOS).*$/
-            @platform[:family] = 'smartos'
-          when !(m = /^\s*(OmniOS).*r(\d+).*$/).nil?
-            @platform[:family] = 'omnios'
-            @platform[:release] = m[2]
-          when !(m = /^\s*(OpenIndiana).*oi_(\d+).*$/).nil?
-            @platform[:family] = 'openindiana'
-            @platform[:release] = m[2]
-          when /^\s*(OpenSolaris).*snv_(\d+).*$/
-            @platform[:family] = 'opensolaris'
-            @platform[:release] = m[2]
-          when !(m = /Oracle Solaris (\d+)/).nil?
-            # TODO: should be string!
-            @platform[:release] = m[1].to_i
-            @platform[:family] = 'solaris2'
-          when /^\s*(Solaris)\s.*$/
-            @platform[:family] = 'solaris2'
-          when /^\s*(NexentaCore)\s.*$/
-            @platform[:family] = 'nexentacore'
-          end
-        end
-
+        detect_solaris
       else
         # in all other cases we didn't detect it
         return false
       end
       # when we get here the detection returned a result
       true
+    end
+
+    def detect_solaris # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
+      # read specific os name
+      # DEPRECATED: os[:family] is going to be deprecated, use os.solaris?
+      rel = get_config('/etc/release')
+      if /^.*(SmartOS).*$/.match(rel)
+        @platform[:name] = 'smartos'
+        @platform[:family] = 'smartos'
+      elsif !(m = /^\s*(OmniOS).*r(\d+).*$/.match(rel)).nil?
+        @platform[:name] = 'omnios'
+        @platform[:family] = 'omnios'
+        @platform[:release] = m[2]
+      elsif !(m = /^\s*(OpenIndiana).*oi_(\d+).*$/.match(rel)).nil?
+        @platform[:name] = 'openindiana'
+        @platform[:family] = 'openindiana'
+        @platform[:release] = m[2]
+      elsif /^\s*(OpenSolaris).*snv_(\d+).*$/.match(rel)
+        @platform[:name] = 'opensolaris'
+        @platform[:family] = 'opensolaris'
+        @platform[:release] = m[2]
+      elsif !(m = /Oracle Solaris (\d+)/.match(rel)).nil?
+        # TODO: should be string!
+        @platform[:release] = m[1]
+        @platform[:name] = 'solaris'
+        @platform[:family] = 'solaris'
+      elsif /^\s*(Solaris)\s.*$/.match(rel)
+        @platform[:name] = 'solaris'
+        @platform[:family] = 'solaris'
+      elsif /^\s*(NexentaCore)\s.*$/.match(rel)
+        @platform[:name] = 'nexentacore'
+        @platform[:family] = 'nexentacore'
+      else
+        # unknown solaris
+        @platform[:name] = 'solaris_distro'
+        @platform[:family] = 'solaris'
+      end
+
+      # read release version
+      unless (version = /^5\.(?<release>\d+)$/.match(uname_r)).nil?
+        @platform[:release] = version['release']
+      end
+
+      # read architecture
+      arch = @backend.run_command('uname -p')
+      @platform[:arch] = arch.stdout.chomp if arch.exit_status == 0
     end
   end
 end

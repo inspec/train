@@ -20,8 +20,12 @@ module Train::Extras
     end
 
     def self.stat(shell_escaped_path, backend)
-      return aix_stat(shell_escaped_path, backend) if backend.os.aix?
+      # use perl scripts for aix and solaris 10
+      if backend.os.aix? || (backend.os.solaris? && backend.os[:release].to_i < 11)
+        return aix_stat(shell_escaped_path, backend)
+      end
       return bsd_stat(shell_escaped_path, backend) if backend.os.bsd?
+      # linux and solaris 11 will use standard linux stats
       return linux_stat(shell_escaped_path, backend) if backend.os.unix?
       # all other cases we don't handle
       # TODO: print an error if we get here, as it shouldn't be invoked
