@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.9.5](https://github.com/chef/train/tree/0.9.5) (2016-01-25)
-[Full Changelog](https://github.com/chef/train/compare/v0.9.4...0.9.5)
+## [0.9.5](https://github.com/chef/train/tree/0.9.5) (2016-01-29)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.5...0.9.5)
+
+**Merged pull requests:**
+
+- add solaris support [\#61](https://github.com/chef/train/pull/61) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.9.5](https://github.com/chef/train/tree/v0.9.5) (2016-01-25)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.4...v0.9.5)
 
 **Implemented enhancements:**
 
@@ -16,6 +23,10 @@
 - Cannot install train on Windows with ChefDK if username \>9 chars in length due to spec filename lengths in docker-api gem. [\#28](https://github.com/chef/train/issues/28)
 - Properly wrap commands in powershell for local backend [\#57](https://github.com/chef/train/pull/57) ([chris-rock](https://github.com/chris-rock))
 - Copying https://github.com/test-kitchen/test-kitchen/pull/919 to this repo [\#52](https://github.com/chef/train/pull/52) ([tyler-ball](https://github.com/tyler-ball))
+
+**Merged pull requests:**
+
+- 0.9.5 [\#58](https://github.com/chef/train/pull/58) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.9.4](https://github.com/chef/train/tree/v0.9.4) (2016-01-15)
 [Full Changelog](https://github.com/chef/train/compare/v0.9.3...v0.9.4)
