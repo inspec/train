@@ -36,6 +36,7 @@ module Train::Transports
     name 'ssh'
 
     autoload :Connection, 'train/transports/ssh_connection'
+    autoload :PtyConnection, 'train/transports/ssh_connection_pty'
 
     # add options for submodules
     include_options Train::Extras::CommandWrapper
@@ -55,6 +56,7 @@ module Train::Transports
     option :connection_retry_sleep, default: 1
     option :max_wait_until_ready, default: 600
     option :compression, default: true
+    option :pty, default: false
 
     option :compression_level do |opts|
       # on nil or false: set compression level to 0
@@ -146,7 +148,11 @@ module Train::Transports
       end
 
       @connection_options = options
-      conn = Connection.new(options, &block)
+      if !options[:transport_options][:pty]
+        conn = Connection.new(options, &block)
+      else
+        conn = PtyConnection.new(options, &block)
+      end
       @connection = conn unless conn.nil?
     end
 
