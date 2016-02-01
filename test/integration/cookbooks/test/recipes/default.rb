@@ -76,3 +76,19 @@ end
     user name
   end
 end
+
+execute 'fix sudoers for reqtty' do
+  command 'chef-apply contrib/fixup_requiretty.rb'
+  cwd '/tmp/kitchen/data'
+  environment(
+    'TRAIN_SUDO_USER' => 'reqtty',
+    'TRAIN_SUDO_VERY_MUCH' => 'yes',
+  )
+end
+
+# if it's fixed, it should behave like user 'nopasswd'
+execute "run local sudo tests as reqtty, no longer requiring a tty" do
+  command "/opt/chef/embedded/bin/ruby -I lib test/integration/sudo/nopasswd.rb"
+  cwd '/tmp/kitchen/data'
+  user 'reqtty'
+end
