@@ -18,6 +18,14 @@ describe 'file common' do
     )
   end
 
+  it 'provides the full path' do
+    cls.new(backend, '/dir/file').path.must_equal '/dir/file'
+  end
+
+  it 'provides the basename to a unix path' do
+    cls.new(backend, '/dir/file').basename.must_equal 'file'
+  end
+
   it 'reads file contents' do
     out = rand.to_s
     backend.mock_command('cat path || echo -n', out)

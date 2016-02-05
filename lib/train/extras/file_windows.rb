@@ -2,6 +2,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
+require 'shellwords'
 require 'train/extras/stat'
 
 # PS C:\Users\Administrator> Get-Item -Path C:\test.txt | Select-Object -Property BaseName, FullName, IsReadOnly, Exists,
@@ -14,6 +15,10 @@ module Train::Extras
       @backend = backend
       @path = path
       @spath = Shellwords.escape(@path)
+    end
+
+    def basename(suffix = nil, sep = '\\')
+      super(suffix, sep)
     end
 
     def content
