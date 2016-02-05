@@ -10,6 +10,10 @@ services:
 
 bundler_args: --without integration tools
 
+before_install:
+  - gem install bundler
+  - gem --version
+
 matrix:
   include:
   - rvm: 1.9.3
