@@ -1,10 +1,23 @@
 # Change Log
 
-## [0.9.5](https://github.com/chef/train/tree/0.9.5) (2016-01-29)
-[Full Changelog](https://github.com/chef/train/compare/v0.9.5...0.9.5)
+## [0.9.7](https://github.com/chef/train/tree/0.9.7) (2016-02-05)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.6...0.9.7)
+
+**Implemented enhancements:**
+
+- add `requiretty` workaround measures [\#63](https://github.com/chef/train/pull/63) ([srenatus](https://github.com/srenatus))
 
 **Merged pull requests:**
 
+- ensure bundler is installed on travis [\#66](https://github.com/chef/train/pull/66) ([chris-rock](https://github.com/chris-rock))
+- feature: add file.basename [\#64](https://github.com/chef/train/pull/64) ([arlimus](https://github.com/arlimus))
+
+## [v0.9.6](https://github.com/chef/train/tree/v0.9.6) (2016-01-29)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.5...v0.9.6)
+
+**Merged pull requests:**
+
+- 0.9.6 [\#62](https://github.com/chef/train/pull/62) ([chris-rock](https://github.com/chris-rock))
 - add solaris support [\#61](https://github.com/chef/train/pull/61) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.9.5](https://github.com/chef/train/tree/v0.9.5) (2016-01-25)
