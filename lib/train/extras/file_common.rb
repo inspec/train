@@ -6,7 +6,7 @@ require 'digest/sha2'
 require 'digest/md5'
 
 module Train::Extras
-  class FileCommon
+  class FileCommon # rubocop:disable Metrics/ClassLength
     # interface methods: these fields should be implemented by every
     # backend File
     %w{
@@ -106,9 +106,22 @@ module Train::Extras
       !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.empty?
     end
 
+    def basename(suffix = nil, sep = '/')
+      fail 'Not yet supported: Suffix in file.basename' unless suffix.nil?
+      @basename ||= detect_filename(path, sep || '/')
+    end
+
     # helper methods provided to any implementing class
 
     private
+
+    def detect_filename(path, sep)
+      idx = path.rindex(sep)
+      return path if idx.nil?
+      idx += 1
+      return detect_filename(path[0..-2], sep) if idx == path.length
+      path[idx..-1]
+    end
 
     def target_type
       # Just return the type unless this is a symlink
