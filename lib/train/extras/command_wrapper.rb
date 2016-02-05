@@ -50,13 +50,18 @@ module Train::Extras
       return nil if res.exit_status == 0
       rawerr = res.stdout + ' ' + res.stderr
 
-      rawerr = 'Wrong sudo password.' if rawerr.include? 'Sorry, try again'
-      if rawerr.include? 'sudo: no tty present and no askpass program specified'
-        rawerr = 'Sudo requires a password, please configure it.'
-      end
-      if rawerr.include? 'sudo: command not found'
-        rawerr = "Can't find sudo command. Please either install and "\
-                 'configure it on the target or deactivate sudo.'
+      {
+        'Sorry, try again' => 'Wrong sudo password.',
+        'sudo: no tty present and no askpass program specified' =>
+          'Sudo requires a password, please configure it.',
+        'sudo: command not found' =>
+          "Can't find sudo command. Please either install and "\
+            'configure it on the target or deactivate sudo.',
+        'sudo: sorry, you must have a tty to run sudo' =>
+          'Sudo requires a TTY. Please see the README on how to configure '\
+            'sudo to allow for non-interactive usage.',
+      }.each do |sudo, human|
+        rawerr = human if rawerr.include? sudo
       end
 
       rawerr

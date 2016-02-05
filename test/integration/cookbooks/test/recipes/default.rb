@@ -26,7 +26,7 @@ execute 'test ssh connection' do
 end
 
 # prepare a few users
-%w{ nopasswd passwd nosudo }.each do |name|
+%w{ nopasswd passwd nosudo reqtty }.each do |name|
   user name do
     password '$1$7MCNTXPI$r./jqCEoVlLlByYKSL3sZ.'
     manage_home true
@@ -37,12 +37,20 @@ end
   sudo name do
     user '%'+name
     nopasswd true
+    defaults ['!requiretty']
   end
 end
 
 sudo 'passwd' do
   user 'passwd'
   nopasswd false
+  defaults ['!requiretty']
+end
+
+sudo 'reqtty' do
+  user 'reqtty'
+  nopasswd true
+  defaults ['requiretty']
 end
 
 # execute tests
@@ -61,10 +69,26 @@ execute 'run ssh tests' do
   cwd '/tmp/kitchen/data'
 end
 
-%w{passwd nopasswd}.each do |name|
+%w{passwd nopasswd reqtty}.each do |name|
   execute "run local sudo tests as #{name}" do
     command "/opt/chef/embedded/bin/ruby -I lib test/integration/sudo/#{name}.rb"
     cwd '/tmp/kitchen/data'
     user name
   end
+end
+
+execute 'fix sudoers for reqtty' do
+  command 'chef-apply contrib/fixup_requiretty.rb'
+  cwd '/tmp/kitchen/data'
+  environment(
+    'TRAIN_SUDO_USER' => 'reqtty',
+    'TRAIN_SUDO_VERY_MUCH' => 'yes',
+  )
+end
+
+# if it's fixed, it should behave like user 'nopasswd'
+execute "run local sudo tests as reqtty, no longer requiring a tty" do
+  command "/opt/chef/embedded/bin/ruby -I lib test/integration/sudo/nopasswd.rb"
+  cwd '/tmp/kitchen/data'
+  user 'reqtty'
 end
