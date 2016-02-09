@@ -4,9 +4,9 @@ gemspec
 
 group :test do
   gem 'bundler', '~> 1.5'
-  gem 'minitest', '~> 5.5'
+  gem 'minitest', '~> 5.8'
   gem 'rake', '~> 10'
-  gem 'rubocop', '~> 0.33.0'
+  gem 'rubocop', '~> 0.36.0'
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 0.9'
 end

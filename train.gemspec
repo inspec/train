@@ -33,8 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'winrm-fs', '~> 0.3'
   spec.add_dependency 'docker-api', '~> 1.22'
 
-  spec.add_development_dependency 'rake',     '~> 10.4'
-  spec.add_development_dependency 'minitest', '~> 5.8'
   spec.add_development_dependency 'mocha',    '~> 1.1'
-  spec.add_development_dependency 'rubocop',  '~> 0.34'
 end

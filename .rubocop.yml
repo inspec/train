@@ -16,14 +16,18 @@ HashSyntax:
   Enabled: true
 LineLength:
   Enabled: false
+EmptyLinesAroundBlockBody:
+  Enabled: false
 MethodLength:
   Max: 40
+NumericLiterals:
+  MinDigits: 10
 Metrics/CyclomaticComplexity:
   Max: 10
 Metrics/PerceivedComplexity:
   Max: 10
 Metrics/AbcSize:
-  Max: 29
+  Max: 33
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%':  '{}'
@@ -35,11 +39,33 @@ Style/PercentLiteralDelimiters:
     '%w': '{}'
     '%W': ()
     '%x': ()
+Style/AlignHash:
+  Enabled: false
+Style/PredicateName:
+  Enabled: false
 Style/ClassAndModuleChildren:
+  Enabled: false
+Style/ConditionalAssignment:
+  Enabled: false
+Style/BracesAroundHashParameters:
   Enabled: false
 Style/AndOr:
   Enabled: false
-Style/TrailingComma:
+Style/Not:
+  Enabled: false
+Style/FileName:
+  Enabled: false
+Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+Style/NegatedIf:
+  Enabled: false
+Style/UnlessElse:
+  Enabled: false
+BlockDelimiters:
+  Enabled: false
 Style/SpaceAroundOperators:
-  MultiSpaceAllowedForOperators: [ "=", "=>", "||=" ]
+  Enabled: false
+Style/IfUnlessModifier:
+  Enabled: false
