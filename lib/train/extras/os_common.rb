@@ -34,7 +34,7 @@ module Train::Extras
       @platform
     end
 
-    OS = {
+    OS = { # rubocop:disable Style/MutableConstant
       'redhat' => %w{
         redhat oracle centos fedora amazon scientific xenserver wrlinux
       },
@@ -58,8 +58,7 @@ module Train::Extras
       },
     }
 
-    OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware} +
-                  OS['redhat'] + OS['debian'] + OS['suse']
+    OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware} + OS['redhat'] + OS['debian'] + OS['suse']
 
     OS['unix'] = %w{unix aix} + OS['linux'] + OS['solaris'] + OS['bsd']
 

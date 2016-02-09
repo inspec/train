@@ -40,15 +40,13 @@ module Train::Extras
 
     def link_path
       return nil unless symlink?
-      @link_path ||= (
+      @link_path ||=
         @backend.run_command("readlink #{@spath}").stdout.chomp
-      )
     end
 
     def mounted
-      @mounted ||= (
+      @mounted ||=
         @backend.run_command("mount | grep -- ' on #{@spath}'")
-      )
     end
 
     %w{

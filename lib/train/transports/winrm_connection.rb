@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# encoding: utf-8
 #
 # Author:: Salim Afiune (<salim@afiunemaya.com.mx>)
 # Author:: Matt Wrock (<matt@mattwrock.com>)

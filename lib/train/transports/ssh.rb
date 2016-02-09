@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# encoding: utf-8
 #
 # Author:: Fletcher Nichol (<fnichol@nichol.ca>)
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
@@ -94,7 +94,7 @@ module Train::Transports
         options[:key_files] = key_files
       end
 
-      unless options[:password].nil? # rubocop:disable Style/IfUnlessModifier
+      unless options[:password].nil?
         options[:auth_methods].push('password')
       end
 

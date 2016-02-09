@@ -79,8 +79,6 @@ module Train
     conf
   end
 
-  private
-
   def self.group_keys_and_keyfiles(conf)
     # in case the user specified a key-file, register it that way
     # we will clear the list of keys and put keys and key_files separately

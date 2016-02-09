@@ -80,9 +80,10 @@ class Train::Transports::Docker
 
     def run_command(cmd)
       cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
-      stdout, stderr, exit_status = @container.exec([
-        '/bin/sh', '-c', cmd
-      ])
+      stdout, stderr, exit_status = @container.exec(
+        [
+          '/bin/sh', '-c', cmd
+        ])
       CommandResult.new(stdout.join, stderr.join, exit_status)
     rescue ::Docker::Error::DockerError => _
       raise
