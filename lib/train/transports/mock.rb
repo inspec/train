@@ -12,11 +12,11 @@ module Train::Transports
 
     def initialize(conf = nil)
       @conf = conf || {}
-      trace_calls if @conf[:verbose]
+      trace_calls if @conf[:trace]
     end
 
     def connection
-      @connection ||= Connection.new
+      @connection ||= Connection.new(@conf)
     end
 
     def to_s
@@ -27,9 +27,14 @@ module Train::Transports
 
     def trace_calls
       interface_methods = {
-        'Train::Transports::Mock' => Train::Transports::Mock.instance_methods(false),
-        'Train::Transports::Mock::File' => FileCommon.instance_methods(false),
-        'Train::Transports::Mock::OS' => OSCommon.instance_methods(false),
+        'Train::Transports::Mock' =>
+          Train::Transports::Mock.instance_methods(false),
+        'Train::Transports::Mock::Connection' =>
+          Connection.instance_methods(false),
+        'Train::Transports::Mock::Connection::File' =>
+          Connection::FileCommon.instance_methods(false),
+        'Train::Transports::Mock::Connection::OS' =>
+          Connection::OSCommon.instance_methods(false),
       }
 
       # rubocop:disable Metrics/ParameterLists
@@ -63,7 +68,6 @@ class Train::Transports::Mock
       @files = {}
       @os = OS.new(self, family: 'unknown')
       @commands = {}
-      trace_calls if @conf[:verbose]
     end
 
     def mock_os(value)
@@ -74,14 +78,28 @@ class Train::Transports::Mock
       @commands[cmd] = Command.new(stdout || '', stderr || '', exit_status)
     end
 
+    def command_not_found(cmd)
+      if @conf[:verbose]
+        STDERR.puts('Command not mocked:')
+        STDERR.puts('    '+cmd.split("\n").join("\n    "))
+        STDERR.puts('    SHA: ' + Digest::SHA256.hexdigest(cmd))
+      end
+      mock_command(cmd)
+    end
+
     def run_command(cmd)
       @commands[cmd] ||
         @commands[Digest::SHA256.hexdigest cmd] ||
-        mock_command(cmd)
+        command_not_found(cmd)
+    end
+
+    def file_not_found(path)
+      STDERR.puts('File not mocked: '+path.to_s) if @conf[:verbose]
+      File.new(self, path)
     end
 
     def file(path)
-      @files[path] ||= File.new(self, path)
+      @files[path] ||= file_not_found(path)
     end
 
     def to_s
