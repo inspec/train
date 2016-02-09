@@ -50,7 +50,7 @@ module Train::Extras
       # read specific os name
       # DEPRECATED: os[:family] is going to be deprecated, use os.solaris?
       rel = get_config('/etc/release')
-      if /^.*(SmartOS).*$/.match(rel)
+      if /^.*(SmartOS).*$/ =~ rel
         @platform[:name] = 'smartos'
         @platform[:family] = 'smartos'
       elsif !(m = /^\s*(OmniOS).*r(\d+).*$/.match(rel)).nil?
@@ -61,7 +61,7 @@ module Train::Extras
         @platform[:name] = 'openindiana'
         @platform[:family] = 'openindiana'
         @platform[:release] = m[2]
-      elsif /^\s*(OpenSolaris).*snv_(\d+).*$/.match(rel)
+      elsif /^\s*(OpenSolaris).*snv_(\d+).*$/ =~ rel
         @platform[:name] = 'opensolaris'
         @platform[:family] = 'opensolaris'
         @platform[:release] = m[2]
@@ -70,10 +70,10 @@ module Train::Extras
         @platform[:release] = m[1]
         @platform[:name] = 'solaris'
         @platform[:family] = 'solaris'
-      elsif /^\s*(Solaris)\s.*$/.match(rel)
+      elsif /^\s*(Solaris)\s.*$/ =~ rel
         @platform[:name] = 'solaris'
         @platform[:family] = 'solaris'
-      elsif /^\s*(NexentaCore)\s.*$/.match(rel)
+      elsif /^\s*(NexentaCore)\s.*$/ =~ rel
         @platform[:name] = 'nexentacore'
         @platform[:family] = 'nexentacore'
       else

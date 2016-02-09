@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# encoding: utf-8
 #
 # Author:: Salim Afiune (<salim@afiunemaya.com.mx>)
 # Author:: Matt Wrock (<matt@mattwrock.com>)
@@ -174,7 +174,8 @@ module Train::Transports
     end
 
     def silence_warnings
-      old_verbose, $VERBOSE = $VERBOSE, nil
+      old_verbose = $VERBOSE
+      $VERBOSE = nil
       yield
     ensure
       $VERBOSE = old_verbose

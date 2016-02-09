@@ -137,12 +137,12 @@ module Train::Extras
       owner: 00700,
       group: 00070,
       other: 00007,
-    }
+    }.freeze
 
     UNIX_MODE_TYPES = {
       r: 00444,
       w: 00222,
       x: 00111,
-    }
+    }.freeze
   end
 end

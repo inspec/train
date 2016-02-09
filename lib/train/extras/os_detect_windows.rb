@@ -40,7 +40,7 @@ module Train::Extras
       '3263' => 'Server 2012 R2',
       '12100' => '10',
       '32100' => 'Server 2016',
-    }
+    }.freeze
 
     def windows_version(json)
       producttype = json['OS']['ProductType'].to_s

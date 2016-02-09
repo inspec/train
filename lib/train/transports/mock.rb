@@ -123,9 +123,8 @@ class Train::Transports::Mock::Connection
     end
 
     def mounted
-      @mounted ||= (
+      @mounted ||=
         @runtime.run_command("mount | grep -- ' on #{@path}'")
-      )
     end
   end
 end

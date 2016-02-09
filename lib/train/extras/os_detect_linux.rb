@@ -80,7 +80,7 @@ module Train::Extras
         meta = lsb_config(raw)
         @platform[:release] = meta[:release]
       elsif !(os_info = fetch_os_release).nil?
-        if os_info['ID_LIKE'].match('wrlinux')
+        if os_info['ID_LIKE'] =~ /wrlinux/
           @platform[:family]  = 'wrlinux'
           @platform[:release] = os_info['VERSION']
         end

@@ -82,7 +82,7 @@ def train_version(target = nil)
 
   unless target.nil?
     raw = File.read(path)
-    nu = raw.sub(/VERSION.*/, "VERSION = '#{target}'")
+    nu = raw.sub(/VERSION.*/, "VERSION = '#{target}'.freeze")
     File.write(path, nu)
     load(path)
   end

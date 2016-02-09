@@ -12,7 +12,7 @@ module Train::Extras
       directory:        00040000,
       character_device: 00020000,
       pipe:             00010000,
-    }
+    }.freeze
 
     def self.find_type(mode)
       res = TYPES.find { |_, mask| mask & mode == mask }
