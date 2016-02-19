@@ -3,6 +3,7 @@
 # author: Christoph Hartmann
 
 require 'base64'
+require 'winrm'
 require 'train/errors'
 
 module Train::Extras
