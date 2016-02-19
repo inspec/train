@@ -20,7 +20,8 @@ clone_folder: c:\projects\train
 clone_depth: 1
 
 cache:
-  - C:\Ruby21\bin\gem
+  - C:\Users\appveyor\.gem\ruby\2.1.0
+  - C:\Ruby21\lib\ruby\gems\2.1.0
 
 install:
   - systeminfo
@@ -33,7 +34,6 @@ install:
   - ps: $env:PATH="C:\Ruby$env:ruby_version\bin;$env:PATH"
   - ps: Write-Host $env:PATH
   - gem install bundler --quiet --no-ri --no-rdoc
-  - gem update --system 2.4.5
   - ruby --version
   - gem --version
   - bundler --version

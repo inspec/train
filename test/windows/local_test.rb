@@ -21,10 +21,10 @@ describe 'windows local command' do
 
   it 'verify os' do
     os = conn.os
-    os[:name].must_equal nil
+    os[:name].must_equal 'Windows Server 2012 R2 Datacenter'
     os[:family].must_equal "windows"
-    os[:release].must_equal "Server 2012 R2"
-    os[:arch].must_equal nil
+    os[:release].must_equal '6.3.9600'
+    os[:arch].must_equal '64-bit'
   end
 
   it 'run echo test' do
