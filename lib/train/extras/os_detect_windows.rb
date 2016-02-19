@@ -7,78 +7,51 @@
 #   OHAI https://github.com/chef/ohai
 #   by Adam Jacob, Chef Software Inc
 #
-
-require 'json'
-require 'winrm'
-
 module Train::Extras
   module DetectWindows
-    # See: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832%28v=vs.85%29.aspx
-    # Product Type:
-    # Work Station (1)
-    # Domain Controller (2)
-    # Server (3)
-    WINDOWS_VERSIONS = {
-      '0' => '3.1',
-      '140' => '95',
-      '1410' => '98',
-      '1490' => 'ME',
-      '1351' => 'NT 3.51',
-      '3351' => 'NT 3.51 Server',
-      '1240' => 'NT 4.0',
-      '3240' => 'NT 4.0 Server',
-      '1250' => '2000',
-      '1251' => 'XP',
-      '3252' => 'Server 2003',
-      '1252' => 'Vista',
-      '3260' => 'Server 2008',
-      '1261' => '7',
-      '3261' => 'Server 2008 R2',
-      '1262' => '8',
-      '3262' => 'Server 2012',
-      '1263' => '8.1',
-      '3263' => 'Server 2012 R2',
-      '12100' => '10',
-      '32100' => 'Server 2016',
-    }.freeze
-
-    def windows_version(json)
-      producttype = json['OS']['ProductType'].to_s
-      # do not distigush between domain controller and server
-      producttype = '3' if producttype == '2'
-      platform = json['OSVersion']['Platform'].to_s
-      major = json['OSVersion']['Version']['Major'].to_s
-      minor = json['OSVersion']['Version']['Minor'].to_s
-      # construct it
-      producttype + platform + major + minor
-    end
-
     def detect_windows
-      cmd = 'New-Object -Type PSObject | Add-Member -MemberType NoteProperty '\
-            '-Name OS -Value (Get-WmiObject -Class Win32_OperatingSystem) '\
-            '-PassThru | Add-Member -MemberType NoteProperty -Name OSVersion '\
-            '-Value ([Environment]::OSVersion) -PassThru | ConvertTo-Json'
-
-      # wrap the script to ensure we always run it via powershell
-      # especially in local mode, we cannot be sure that we get a Powershell
-      # we may just get a `cmd`. os detection and powershell command wrapper is
-      # not available when this code is executed
-      script = WinRM::PowershellScript.new(cmd)
-      cmd = "powershell -encodedCommand #{script.encoded}"
-
-      res = @backend.run_command(cmd)
-
-      # TODO: error as this shouldnt be happening at this point
+      res = @backend.run_command('cmd /c ver')
       return false if res.exit_status != 0 or res.stdout.empty?
 
-      json = JSON.parse(res.stdout)
-      return false if json.nil? or json.empty?
-      version = windows_version(json)
-
+      # if the ver contains `Windows`, we know its a Windows system
+      version = res.stdout.strip
+      return false unless version.downcase =~ /windows/
       @platform[:family] = 'windows'
-      @platform[:release] = WINDOWS_VERSIONS[version]
+
+      # try to extract release from eg. `Microsoft Windows [Version 6.3.9600]`
+      release = /\[(?<name>.*)\]/.match(version)
+      unless release[:name].nil?
+        # release is 6.3.9600 now
+        @platform[:release] = release[:name].downcase.gsub('version', '').strip
+        # fallback, if we are not able to extract the name from wmic later
+        @platform[:name] = @platform[:release]
+      end
+
+      # try to use wmic, but lets keep it optional
+      read_wmic
 
       true
+    end
+
+    # reads os name and version from wmic
+    # @see https://msdn.microsoft.com/en-us/library/bb742610.aspx#EEAA
+    # Thanks to Matt Wrock (https://github.com/mwrock) for this hint
+    def read_wmic
+      res = @backend.run_command('wmic os get * /format:list')
+      if res.exit_status == 0
+        sys_info = {}
+        res.stdout.lines.each { |line|
+          m = /^\s*([^=]*?)\s*=\s*(.*?)\s*$/.match(line)
+          sys_info[m[1].to_sym] = m[2] unless m.nil? || m[1].nil?
+        }
+
+        @platform[:release] = sys_info[:Version]
+        # additional info on windows
+        @platform[:build] = sys_info[:BuildNumber]
+        @platform[:name] = sys_info[:Caption]
+        @platform[:name] = @platform[:name].gsub('Microsoft', '').strip unless @platform[:name].empty?
+        @platform[:arch] = sys_info[:OSArchitecture]
+      end
     end
   end
 end
