@@ -1,24 +1,43 @@
 # Change Log
 
-## [0.9.7](https://github.com/chef/train/tree/0.9.7) (2016-02-05)
-[Full Changelog](https://github.com/chef/train/compare/v0.9.6...0.9.7)
+## [0.10.0](https://github.com/chef/train/tree/0.10.0) (2016-02-19)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.7...0.10.0)
 
 **Implemented enhancements:**
 
+- show mock failures for commands [\#69](https://github.com/chef/train/pull/69) ([arlimus](https://github.com/arlimus))
+- update gems and rubocop [\#68](https://github.com/chef/train/pull/68) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- complete rewrite of windows version detection [\#70](https://github.com/chef/train/pull/70) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.9.7](https://github.com/chef/train/tree/v0.9.7) (2016-02-05)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.6...v0.9.7)
+
+**Implemented enhancements:**
+
+- feature: add file.basename [\#64](https://github.com/chef/train/pull/64) ([arlimus](https://github.com/arlimus))
 - add `requiretty` workaround measures [\#63](https://github.com/chef/train/pull/63) ([srenatus](https://github.com/srenatus))
+
+**Fixed bugs:**
+
+- ensure bundler is installed on travis [\#66](https://github.com/chef/train/pull/66) ([chris-rock](https://github.com/chris-rock))
 
 **Merged pull requests:**
 
-- ensure bundler is installed on travis [\#66](https://github.com/chef/train/pull/66) ([chris-rock](https://github.com/chris-rock))
-- feature: add file.basename [\#64](https://github.com/chef/train/pull/64) ([arlimus](https://github.com/arlimus))
+- 0.9.7 [\#67](https://github.com/chef/train/pull/67) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.9.6](https://github.com/chef/train/tree/v0.9.6) (2016-01-29)
 [Full Changelog](https://github.com/chef/train/compare/v0.9.5...v0.9.6)
 
+**Implemented enhancements:**
+
+- add solaris support [\#61](https://github.com/chef/train/pull/61) ([chris-rock](https://github.com/chris-rock))
+
 **Merged pull requests:**
 
 - 0.9.6 [\#62](https://github.com/chef/train/pull/62) ([chris-rock](https://github.com/chris-rock))
-- add solaris support [\#61](https://github.com/chef/train/pull/61) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.9.5](https://github.com/chef/train/tree/v0.9.5) (2016-01-25)
 [Full Changelog](https://github.com/chef/train/compare/v0.9.4...v0.9.5)
