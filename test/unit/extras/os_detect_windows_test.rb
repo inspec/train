@@ -91,7 +91,7 @@ describe 'os_detect_windows' do
     it 'fallback to version number if wmic is not available' do
       detector.detect_windows
       detector.platform[:family].must_equal('windows')
-      detector.platform[:name].must_equal('4.10.1998')
+      detector.platform[:name].must_equal('Windows 4.10.1998')
       detector.platform[:arch].must_equal(nil)
       detector.platform[:release].must_equal('4.10.1998')
     end

@@ -24,7 +24,7 @@ module Train::Extras
         # release is 6.3.9600 now
         @platform[:release] = release[:name].downcase.gsub('version', '').strip
         # fallback, if we are not able to extract the name from wmic later
-        @platform[:name] = @platform[:release]
+        @platform[:name] = "Windows #{@platform[:release]}"
       end
 
       # try to use wmic, but lets keep it optional
