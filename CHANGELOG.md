@@ -1,7 +1,15 @@
 # Change Log
 
-## [0.10.0](https://github.com/chef/train/tree/0.10.0) (2016-02-19)
-[Full Changelog](https://github.com/chef/train/compare/v0.9.7...0.10.0)
+## [0.10.0](https://github.com/chef/train/tree/0.10.0) (2016-02-29)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.0...0.10.0)
+
+**Merged pull requests:**
+
+- fix gem build license warning [\#73](https://github.com/chef/train/pull/73) ([chris-rock](https://github.com/chris-rock))
+- depend on docker-api 1.26.2 [\#72](https://github.com/chef/train/pull/72) ([someara](https://github.com/someara))
+
+## [v0.10.0](https://github.com/chef/train/tree/v0.10.0) (2016-02-19)
+[Full Changelog](https://github.com/chef/train/compare/v0.9.7...v0.10.0)
 
 **Implemented enhancements:**
 
@@ -11,6 +19,10 @@
 **Fixed bugs:**
 
 - complete rewrite of windows version detection [\#70](https://github.com/chef/train/pull/70) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- 0.10.0 [\#71](https://github.com/chef/train/pull/71) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.9.7](https://github.com/chef/train/tree/v0.9.7) (2016-02-05)
 [Full Changelog](https://github.com/chef/train/compare/v0.9.6...v0.9.7)
