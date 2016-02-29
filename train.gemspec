@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = 'Transport interface to talk to different backends.'
   spec.description   = 'Transport interface to talk to different backends.'
   spec.homepage      = 'https://github.com/chef/train/'
-  spec.license       = 'Apache 2.0'
+  spec.license       = 'Apache-2.0'
 
   spec.files = %w{
     train.gemspec README.md Rakefile LICENSE Gemfile CHANGELOG.md .rubocop.yml
