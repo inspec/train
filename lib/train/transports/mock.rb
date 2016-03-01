@@ -82,7 +82,7 @@ class Train::Transports::Mock
       if @conf[:verbose]
         STDERR.puts('Command not mocked:')
         STDERR.puts('    '+cmd.to_s.split("\n").join("\n    "))
-        STDERR.puts('    SHA: ' + Digest::SHA256.hexdigest(cmd))
+        STDERR.puts('    SHA: ' + Digest::SHA256.hexdigest(cmd.to_s))
       end
       mock_command(cmd)
     end

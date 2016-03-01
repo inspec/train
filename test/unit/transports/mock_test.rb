@@ -4,7 +4,7 @@ require 'train/transports/mock'
 require 'digest/sha2'
 
 describe 'mock transport' do
-  let(:transport) { Train::Transports::Mock.new }
+  let(:transport) { Train::Transports::Mock.new(verbose: true) }
   let(:connection) { transport.connection }
 
   it 'can be instantiated' do
