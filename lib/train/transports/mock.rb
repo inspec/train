@@ -81,7 +81,7 @@ class Train::Transports::Mock
     def command_not_found(cmd)
       if @conf[:verbose]
         STDERR.puts('Command not mocked:')
-        STDERR.puts('    '+cmd.split("\n").join("\n    "))
+        STDERR.puts('    '+cmd.to_s.split("\n").join("\n    "))
         STDERR.puts('    SHA: ' + Digest::SHA256.hexdigest(cmd))
       end
       mock_command(cmd)
@@ -89,7 +89,7 @@ class Train::Transports::Mock
 
     def run_command(cmd)
       @commands[cmd] ||
-        @commands[Digest::SHA256.hexdigest cmd] ||
+        @commands[Digest::SHA256.hexdigest cmd.to_s] ||
         command_not_found(cmd)
     end
 
