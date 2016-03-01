@@ -4,7 +4,7 @@ require 'train/transports/mock'
 require 'digest/sha2'
 
 describe 'mock transport' do
-  let(:transport) { Train::Transports::Mock.new }
+  let(:transport) { Train::Transports::Mock.new(verbose: true) }
   let(:connection) { transport.connection }
 
   it 'can be instantiated' do
@@ -23,6 +23,17 @@ describe 'mock transport' do
       cls = Train::Transports::Mock::Connection::Command
       res = cls.new(out, '', 0)
       connection.mock_command('test', out).must_equal res
+    end
+
+    it 'handles nil commands' do
+      connection.run_command(nil).stdout.must_equal('')
+    end
+
+    it 'can mock up nil commands' do
+      out = rand
+      connection.mock_command('', rand) # don't pull this result! always mock the input
+      connection.mock_command(nil, out) # pull this result
+      connection.run_command(nil).stdout.must_equal(out)
     end
 
     it 'gets results for stdout' do
