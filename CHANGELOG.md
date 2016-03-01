@@ -1,10 +1,18 @@
 # Change Log
 
-## [0.10.0](https://github.com/chef/train/tree/0.10.0) (2016-02-29)
-[Full Changelog](https://github.com/chef/train/compare/v0.10.0...0.10.0)
+## [0.10.2](https://github.com/chef/train/tree/0.10.2) (2016-03-02)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.1...0.10.2)
+
+**Fixed bugs:**
+
+- avoid mock backend error on nil commands [\#75](https://github.com/chef/train/pull/75) ([arlimus](https://github.com/arlimus))
+
+## [v0.10.1](https://github.com/chef/train/tree/v0.10.1) (2016-02-29)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.0...v0.10.1)
 
 **Merged pull requests:**
 
+- 0.10.1 [\#74](https://github.com/chef/train/pull/74) ([chris-rock](https://github.com/chris-rock))
 - fix gem build license warning [\#73](https://github.com/chef/train/pull/73) ([chris-rock](https://github.com/chris-rock))
 - depend on docker-api 1.26.2 [\#72](https://github.com/chef/train/pull/72) ([someara](https://github.com/someara))
 
