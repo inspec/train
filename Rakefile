@@ -88,17 +88,6 @@ def train_version(target = nil)
   end
 end
 
-# Automatically generate a changelog for this project. Only loaded if
-# the necessary gem is installed.
-begin
-  require 'github_changelog_generator/task'
-  GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-    require_relative 'lib/train/version'
-    config.future_release = Train::VERSION
-  end
-rescue LoadError
-end
-
 # Check if a command is available
 #
 # @param [Type] x the command you are interested in
@@ -138,6 +127,12 @@ end
 desc 'Show the version of this gem'
 task :version do
   train_version
+end
+
+desc 'Generate the changelog'
+task :changelog do
+  require_relative 'lib/train/version'
+  system "github_changelog_generator -u chef -p train --future-release #{Train::VERSION}"
 end
 
 # Update the version of this gem and create an updated
