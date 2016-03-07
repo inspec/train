@@ -54,7 +54,7 @@ module Train::Transports
     option :connection_retries, default: 5
     option :connection_retry_sleep, default: 1
     option :max_wait_until_ready, default: 600
-    option :compression, default: true
+    option :compression, default: false
 
     option :compression_level do |opts|
       # on nil or false: set compression level to 0
