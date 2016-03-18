@@ -14,11 +14,19 @@ module Train::Extras
     def initialize(backend, path)
       @backend = backend
       @path = path
-      @spath = Shellwords.escape(@path)
+      @spath = sanitize_filename(@path)
     end
 
     def basename(suffix = nil, sep = '\\')
       super(suffix, sep)
+    end
+
+    # Ensures we do not use invalid characters for file names
+    # @see https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#naming_conventions
+    def sanitize_filename(filename)
+      return if filename.nil?
+      # we do not filter :, backslash and forward slash, since they are part of the path
+      filename.gsub(/[<>"|?*]/, '')
     end
 
     def content
