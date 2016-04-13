@@ -58,7 +58,7 @@ module Train::Extras
       },
       'hpux' => %w{
         hpux
-      }
+      },
     }
 
     OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware} + OS['redhat'] + OS['debian'] + OS['suse']

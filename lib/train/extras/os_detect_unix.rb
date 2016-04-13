@@ -20,11 +20,10 @@ module Train::Extras
           @platform[:release] = "#{m[2]}.#{m[1]}"
           @platform[:arch] = m[3].to_s
         end
-        
       when /hp-ux/
-      @platform[:family] = 'hpux'
-      @platform[:name] = uname_s.lines[0].chomp
-      @platform[:release] = uname_r.lines[0].chomp
+        @platform[:family] = 'hpux'
+        @platform[:name] = uname_s.lines[0].chomp
+        @platform[:release] = uname_r.lines[0].chomp
 
       when /freebsd/
         @platform[:family] = 'freebsd'
