@@ -56,11 +56,14 @@ module Train::Extras
       'aix' => %w{
         aix
       },
+      'hpux' => %w{
+        hpux
+      },
     }
 
     OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware} + OS['redhat'] + OS['debian'] + OS['suse']
 
-    OS['unix'] = %w{unix aix} + OS['linux'] + OS['solaris'] + OS['bsd']
+    OS['unix'] = %w{unix aix hpux} + OS['linux'] + OS['solaris'] + OS['bsd']
 
     # Helper methods to check the OS type
     # Provides methods in the form of: linux?, unix?, solaris? ...
@@ -107,7 +110,7 @@ module Train::Extras
       return detect_windows if pf == 'windows'
       return detect_darwin if pf == 'darwin'
 
-      if %w{freebsd netbsd openbsd aix solaris2}.include?(pf)
+      if %w{freebsd netbsd openbsd aix solaris2 hpux}.include?(pf)
         return detect_via_uname
       end
 
