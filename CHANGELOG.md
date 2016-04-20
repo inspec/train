@@ -1,10 +1,19 @@
 # Change Log
 
-## [0.10.5](https://github.com/chef/train/tree/0.10.5) (2016-04-18)
-[Full Changelog](https://github.com/chef/train/compare/v0.10.4...0.10.5)
+## [0.10.6](https://github.com/chef/train/tree/0.10.6) (2016-04-20)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.5...0.10.6)
 
 **Merged pull requests:**
 
+- add -L to get stat for symlink [\#85](https://github.com/chef/train/pull/85) ([vjeffrey](https://github.com/vjeffrey))
+- release via travis + test via rubygems [\#84](https://github.com/chef/train/pull/84) ([arlimus](https://github.com/arlimus))
+
+## [v0.10.5](https://github.com/chef/train/tree/v0.10.5) (2016-04-18)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.4...v0.10.5)
+
+**Merged pull requests:**
+
+- 0.10.5 [\#83](https://github.com/chef/train/pull/83) ([srenatus](https://github.com/srenatus))
 - detection for hp-ux machine [\#82](https://github.com/chef/train/pull/82) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
 
 ## [v0.10.4](https://github.com/chef/train/tree/v0.10.4) (2016-03-31)
