@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.10.6](https://github.com/chef/train/tree/0.10.6) (2016-04-20)
-[Full Changelog](https://github.com/chef/train/compare/v0.10.5...0.10.6)
+## [0.10.7](https://github.com/chef/train/tree/0.10.7) (2016-04-21)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.6...0.10.7)
+
+**Merged pull requests:**
+
+- Revert "add -L to get stat for symlink" [\#86](https://github.com/chef/train/pull/86) ([arlimus](https://github.com/arlimus))
+
+## [v0.10.6](https://github.com/chef/train/tree/v0.10.6) (2016-04-20)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.5...v0.10.6)
 
 **Merged pull requests:**
 
