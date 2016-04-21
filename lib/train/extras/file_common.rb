@@ -10,7 +10,7 @@ module Train::Extras
     # interface methods: these fields should be implemented by every
     # backend File
     %w{
-      exist? mode owner group link_target link_path content mtime size
+      exist? mode owner group link_path content mtime size
       selinux_label product_version file_version path
     }.each do |m|
       define_method m.to_sym do
@@ -126,8 +126,6 @@ module Train::Extras
     def target_type
       # Just return the type unless this is a symlink
       return type unless type == :symlink
-      # Get the link's target type, i.e. the real destination's type
-      return link_target.type unless link_target.nil?
       # Return unknown if we don't know where this is pointing to
       :unknown
     end

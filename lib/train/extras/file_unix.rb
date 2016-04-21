@@ -32,16 +32,20 @@ module Train::Extras
       )
     end
 
-    def link_target
-      return @link_target if defined? @link_target
-      return @link_target = nil if link_path.nil?
-      @link_target = @backend.file(link_path)
+    # Returns full path of a symlink target(real dest) or '' on symlink loop
+    def get_target_path
+      full_path = @backend.run_command("readlink -n #{@spath} -f").stdout
+      # Needed for some OSes like OSX that returns relative path
+      # when the link and target are in the same directory
+      if !full_path.start_with?('/') && full_path != ''
+        full_path = File.expand_path("../#{full_path}", @spath)
+      end
+      full_path
     end
 
     def link_path
       return nil unless symlink?
-      @link_path ||=
-        @backend.run_command("readlink #{@spath}").stdout.chomp
+      @link_path ||= get_target_path
     end
 
     def mounted

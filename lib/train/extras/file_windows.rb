@@ -44,10 +44,6 @@ module Train::Extras
         "(Test-Path -Path \"#{@spath}\").ToString()").stdout.chomp == 'True'
     end
 
-    def link_target
-      nil
-    end
-
     def link_path
       nil
     end
@@ -57,7 +53,7 @@ module Train::Extras
     end
 
     def type
-      :unknown
+      target_type
     end
 
     %w{
@@ -85,7 +81,7 @@ module Train::Extras
     def attributes
       return @attributes if defined?(@attributes)
       @attributes = @backend.run_command(
-        "(Get-ItemProperty -Path \"#{@spath}\").attributes.ToString()").stdout.chomp.split(',')
+        "(Get-ItemProperty -Path \"#{@spath}\").attributes.ToString()").stdout.chomp.split(/\s*,\s*/)
     end
 
     def target_type

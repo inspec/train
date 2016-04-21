@@ -51,16 +51,8 @@ describe 'file common' do
   it 'retrieves the link path' do
     out = rand.to_s
     mock_stat('path', "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\n?")
-    backend.mock_command('readlink path', out)
-    cls.new(backend, 'path').link_path.must_equal out
-  end
-
-  it 'retrieves the linked file' do
-    out = rand.to_s
-    mock_stat('path', "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\n?")
-    backend.mock_command('readlink path', out)
-    f = backend.file(out)
-    cls.new(backend, 'path').link_target.must_equal f
+    backend.mock_command('readlink -n path -f', out)
+    cls.new(backend, 'path').link_path.must_equal File.join(Dir.pwd, out)
   end
 
   it 'checks a mounted path' do

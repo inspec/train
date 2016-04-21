@@ -23,7 +23,12 @@ class Train::Transports::Local::Connection
 
     def link_path
       return nil unless symlink?
-      @link_path ||= ::File.readlink(@path)
+      begin
+        @link_path ||= ::File.realpath(@path)
+      rescue Errno::ELOOP => e
+        # Leave it blank on symbolic loop, same as readlink
+        @link_path = ''
+      end
     end
 
     def block_device?

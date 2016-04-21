@@ -42,7 +42,7 @@ describe 'local file transport' do
 
   it 'checks a file\'s link path' do
     out = rand.to_s
-    File.stub :readlink, out do
+    File.stub :realpath, out do
       File.stub :symlink?, true do
         connection.file(rand.to_s).link_path.must_equal out
       end
