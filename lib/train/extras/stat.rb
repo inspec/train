@@ -34,7 +34,7 @@ module Train::Extras
     end
 
     def self.linux_stat(shell_escaped_path, backend)
-      res = backend.run_command("stat -L #{shell_escaped_path} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
+      res = backend.run_command("stat #{shell_escaped_path} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
 
       # ignore the exit_code: it is != 0 if selinux labels are not supported
       # on the system.
@@ -73,7 +73,7 @@ module Train::Extras
       #      ...
       #      gu      Display group or user name.
       res = backend.run_command(
-        "stat -Lf '%z\n%p\n%Su\n%u\n%Sg\n%g\n%a\n%m' "\
+        "stat -f '%z\n%p\n%Su\n%u\n%Sg\n%g\n%a\n%m' "\
         "#{shell_escaped_path}")
 
       return {} if res.exit_status != 0

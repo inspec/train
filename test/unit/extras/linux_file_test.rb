@@ -13,7 +13,7 @@ describe 'file common' do
 
   def mock_stat(path, out, err = '', code = 0)
     backend.mock_command(
-      "stat -L path 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'",
+      "stat path 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'",
       out, err, code,
     )
   end
