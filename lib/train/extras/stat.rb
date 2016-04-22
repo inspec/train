@@ -85,7 +85,7 @@ module Train::Extras
 
       {
         type: find_type(tmask),
-        mode: tmask & 00777,
+        mode: tmask & 07777,
         owner: fields[2],
         group: fields[4],
         mtime: fields[7].to_i,
@@ -113,7 +113,7 @@ module Train::Extras
 
       {
         type:  find_type(tmask),
-        mode:  tmask & 00777,
+        mode:  tmask & 07777,
         owner: fields[1],
         group: fields[2],
         mtime: fields[3].to_i,
