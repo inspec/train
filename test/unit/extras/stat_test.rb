@@ -16,27 +16,27 @@ describe 'stat' do
       cls.find_type(00140755).must_equal :socket
     end
 
-    it 'detects sockets' do
+    it 'detects symlinks' do
       cls.find_type(00120755).must_equal :symlink
     end
 
-    it 'detects sockets' do
+    it 'detects files' do
       cls.find_type(00100755).must_equal :file
     end
 
-    it 'detects sockets' do
+    it 'detects block devices' do
       cls.find_type(00060755).must_equal :block_device
     end
 
-    it 'detects sockets' do
+    it 'detects directories' do
       cls.find_type(00040755).must_equal :directory
     end
 
-    it 'detects sockets' do
+    it 'detects character devices' do
       cls.find_type(00020755).must_equal :character_device
     end
 
-    it 'detects sockets' do
+    it 'detects pipes' do
       cls.find_type(00010755).must_equal :pipe
     end
   end
@@ -53,11 +53,12 @@ describe 'stat' do
 
     it 'reads correct stat results' do
       res = Minitest::Mock.new
+      # 43ff is 41777; linux_stat strips the 4
       res.expect :stdout, "360\n43ff\nroot\n0\nroot\n0\n1444520846\n1444522445\n?"
       backend.expect :run_command, res, [String]
       cls.linux_stat('/path', backend).must_equal({
         type: :directory,
-        mode: 00777,
+        mode: 01777,
         owner: 'root',
         group: 'root',
         mtime: 1444522445,
@@ -93,7 +94,7 @@ describe 'stat' do
       backend.expect :run_command, res, [String]
       cls.bsd_stat('/path', backend).must_equal({
         type: :directory,
-        mode: 00777,
+        mode: 01777,
         owner: 'root',
         group: 'root',
         mtime: 1444522445,
