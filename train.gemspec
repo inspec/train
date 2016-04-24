@@ -24,7 +24,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'json', '~> 1.8'
-  spec.add_dependency 'mixlib-shellout', '~> 2.1'
+  # chef-client < 12.4.1 require mixlib-shellout-2.0.1
+  spec.add_dependency 'mixlib-shellout', '~> 2.0'
   # net-ssh 3.x drops Ruby 1.9 support, so this constraint could be raised when
   # 1.9 support is no longer needed here or for Inspec
   spec.add_dependency 'net-ssh', '>= 2.9', '< 4.0'
