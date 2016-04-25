@@ -27,6 +27,7 @@ matrix:
     script: bundle exec rake test:docker config=test/integration/test-runner.yaml
 deploy:
   provider: rubygems
+  gemspec: train.gemspec
   on:
     tags: true
   api_key:
