@@ -1,10 +1,23 @@
 # Change Log
 
-## [0.10.7](https://github.com/chef/train/tree/0.10.7) (2016-04-21)
-[Full Changelog](https://github.com/chef/train/compare/v0.10.6...0.10.7)
+## [0.10.8](https://github.com/chef/train/tree/0.10.8) (2016-04-25)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.7...0.10.8)
+
+**Implemented enhancements:**
+
+- loose restriction for mixlib-shellout [\#89](https://github.com/chef/train/pull/89) ([chris-rock](https://github.com/chris-rock))
 
 **Merged pull requests:**
 
+- use gemspec for travis [\#90](https://github.com/chef/train/pull/90) ([chris-rock](https://github.com/chris-rock))
+- Don't strip off the second byte of the octal mode. [\#88](https://github.com/chef/train/pull/88) ([justindossey](https://github.com/justindossey))
+
+## [v0.10.7](https://github.com/chef/train/tree/v0.10.7) (2016-04-21)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.6...v0.10.7)
+
+**Merged pull requests:**
+
+- 0.10.7 [\#87](https://github.com/chef/train/pull/87) ([arlimus](https://github.com/arlimus))
 - Revert "add -L to get stat for symlink" [\#86](https://github.com/chef/train/pull/86) ([arlimus](https://github.com/arlimus))
 
 ## [v0.10.6](https://github.com/chef/train/tree/v0.10.6) (2016-04-20)
