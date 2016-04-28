@@ -10,12 +10,18 @@ module Train::Extras
     # interface methods: these fields should be implemented by every
     # backend File
     %w{
-      exist? mode owner group link_path content mtime size
-      selinux_label product_version file_version path
+      exist? mode owner group content mtime size selinux_label path
+      product_version file_version
     }.each do |m|
       define_method m.to_sym do
         fail NotImplementedError, "File must implement the #{m}() method."
       end
+    end
+
+    def initialize(backend, path, follow_symlink = true)
+      @backend = backend
+      @path = path
+      @follow_symlink = follow_symlink
     end
 
     def type
@@ -44,31 +50,39 @@ module Train::Extras
     # Additional methods for convenience
 
     def file?
-      target_type == :file
+      type == :file
     end
 
     def block_device?
-      target_type == :block_device
+      type == :block_device
     end
 
     def character_device?
-      target_type == :character_device
+      type == :character_device
     end
 
     def socket?
-      target_type == :socket
+      type == :socket
     end
 
     def directory?
-      target_type == :directory
+      type == :directory
     end
 
     def symlink?
-      type == :symlink
+      source.type == :symlink
+    end
+
+    def source
+      if @follow_symlink
+        self.class.new(@backend, @path, false)
+      else
+        self
+      end
     end
 
     def pipe?
-      target_type == :pipe
+      type == :pipe
     end
 
     def mode?(sth)
@@ -121,13 +135,6 @@ module Train::Extras
       idx += 1
       return detect_filename(path[0..-2], sep) if idx == path.length
       path[idx..-1]
-    end
-
-    def target_type
-      # Just return the type unless this is a symlink
-      return type unless type == :symlink
-      # Return unknown if we don't know where this is pointing to
-      :unknown
     end
 
     UNIX_MODE_OWNERS = {

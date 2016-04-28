@@ -57,7 +57,12 @@ class Train::Transports::Local::Connection
       return @stat if defined? @stat
 
       begin
-        file_stat = ::File.lstat(@path)
+        file_stat =
+          if @follow_symlink
+            ::File.stat(@path)
+          else
+            ::File.lstat(@path)
+          end
       rescue StandardError => _err
         return @stat = {}
       end
@@ -71,7 +76,8 @@ class Train::Transports::Local::Connection
         group: pw_groupname(file_stat.gid),
       }
 
-      res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%C'")
+      lstat = @follow_symlink ? '-L' : ''
+      res = @backend.run_command("stat #{lstat} #{@spath} 2>/dev/null --printf '%C'")
       if res.exit_status == 0 && !res.stdout.empty? && res.stdout != '?'
         @stat[:selinux_label] = res.stdout.strip
       end

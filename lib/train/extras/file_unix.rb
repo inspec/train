@@ -8,9 +8,8 @@ require 'train/extras/stat'
 module Train::Extras
   class UnixFile < FileCommon
     attr_reader :path
-    def initialize(backend, path)
-      @backend = backend
-      @path = path
+    def initialize(backend, path, follow_symlink = true)
+      super(backend, path, follow_symlink)
       @spath = Shellwords.escape(@path)
     end
 
@@ -27,25 +26,15 @@ module Train::Extras
 
     def exist?
       @exist ||= (
-        @backend.run_command("test -e #{@spath}")
+        f = @follow_symlink ? '' : " || test -L #{@spath}"
+        @backend.run_command("test -e #{@spath}"+f)
                 .exit_status == 0
       )
     end
 
-    # Returns full path of a symlink target(real dest) or '' on symlink loop
-    def get_target_path
-      full_path = @backend.run_command("readlink -n #{@spath} -f").stdout
-      # Needed for some OSes like OSX that returns relative path
-      # when the link and target are in the same directory
-      if !full_path.start_with?('/') && full_path != ''
-        full_path = File.expand_path("../#{full_path}", @spath)
-      end
-      full_path
-    end
-
-    def link_path
-      return nil unless symlink?
-      @link_path ||= get_target_path
+    def path
+      return @path unless @follow_symlink && symlink?
+      @link_path ||= read_target_path
     end
 
     def mounted
@@ -71,7 +60,20 @@ module Train::Extras
 
     def stat
       return @stat if defined?(@stat)
-      @stat = Train::Extras::Stat.stat(@spath, @backend)
+      @stat = Train::Extras::Stat.stat(@spath, @backend, @follow_symlink)
+    end
+
+    private
+
+    # Returns full path of a symlink target(real dest) or '' on symlink loop
+    def read_target_path
+      full_path = @backend.run_command("readlink -n #{@spath} -f").stdout
+      # Needed for some OSes like OSX that returns relative path
+      # when the link and target are in the same directory
+      if !full_path.start_with?('/') && full_path != ''
+        full_path = File.expand_path("../#{full_path}", @spath)
+      end
+      full_path
     end
   end
 end

@@ -133,16 +133,15 @@ class Train::Transports::Mock::Connection
       attr_accessor m.tr('?', '').to_sym
     end
 
-    def initialize(runtime, path)
-      @path = path
+    def initialize(backend, path, follow_symlink = true)
+      super(backend, path, follow_symlink)
       @type = :unknown
       @exist = false
-      @runtime = runtime
     end
 
     def mounted
       @mounted ||=
-        @runtime.run_command("mount | grep -- ' on #{@path}'")
+        @backend.run_command("mount | grep -- ' on #{@path}'")
     end
   end
 end
