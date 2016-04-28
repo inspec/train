@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.10.8](https://github.com/chef/train/tree/0.10.8) (2016-04-25)
-[Full Changelog](https://github.com/chef/train/compare/v0.10.7...0.10.8)
+## [0.11.0](https://github.com/chef/train/tree/0.11.0) (2016-04-28)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.8...0.11.0)
+
+**Implemented enhancements:**
+
+- Overhault file\(...\) and stat\(...\); point to destination of symlinks [\#92](https://github.com/chef/train/pull/92) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- validate the backend configuration [\#91](https://github.com/chef/train/pull/91) ([arlimus](https://github.com/arlimus))
+
+## [v0.10.8](https://github.com/chef/train/tree/v0.10.8) (2016-04-25)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.7...v0.10.8)
 
 **Implemented enhancements:**
 
