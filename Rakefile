@@ -30,7 +30,7 @@ end
 namespace :test do
   task :docker do
     path = File.join(File.dirname(__FILE__), 'test', 'integration')
-    sh('sh', '-c', "cd #{path} && config=test-runner.yaml ruby -I ../../lib docker_test.rb tests/*")
+    sh('sh', '-c', "cd #{path} && ruby -I ../../lib docker_test.rb tests/*")
   end
 
   task :windows do
