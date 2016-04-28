@@ -34,8 +34,8 @@ module Train::Extras
     end
 
     def self.linux_stat(shell_escaped_path, backend, follow_symlink)
-      lstat = follow_symlink ? '-L' : ''
-      res = backend.run_command("stat #{lstat} #{shell_escaped_path} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
+      lstat = follow_symlink ? ' -L' : ''
+      res = backend.run_command("stat#{lstat} #{shell_escaped_path} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
 
       # ignore the exit_code: it is != 0 if selinux labels are not supported
       # on the system.
@@ -48,12 +48,14 @@ module Train::Extras
       selinux = nil if selinux == '?' or selinux == '(null)'
 
       {
-        type: find_type(tmask),
-        mode: tmask & 07777,
+        type:  find_type(tmask),
+        mode:  tmask & 07777,
         owner: fields[2],
+        uid:   fields[3].to_i,
         group: fields[4],
+        gid:   fields[5].to_i,
         mtime: fields[7].to_i,
-        size: fields[0].to_i,
+        size:  fields[0].to_i,
         selinux_label: selinux,
       }
     end
@@ -73,9 +75,9 @@ module Train::Extras
       # in combination with:
       #      ...
       #      gu      Display group or user name.
-      lstat = follow_symlink ? '-L' : ''
+      lstat = follow_symlink ? ' -L' : ''
       res = backend.run_command(
-        "stat #{lstat} -f '%z\n%p\n%Su\n%u\n%Sg\n%g\n%a\n%m' "\
+        "stat#{lstat} -f '%z\n%p\n%Su\n%u\n%Sg\n%g\n%a\n%m' "\
         "#{shell_escaped_path}")
 
       return {} if res.exit_status != 0
@@ -86,12 +88,14 @@ module Train::Extras
       tmask = fields[1].to_i(8)
 
       {
-        type: find_type(tmask),
-        mode: tmask & 07777,
+        type:  find_type(tmask),
+        mode:  tmask & 07777,
         owner: fields[2],
+        uid:   fields[3].to_i,
         group: fields[4],
+        gid:   fields[5].to_i,
         mtime: fields[7].to_i,
-        size: fields[0].to_i,
+        size:  fields[0].to_i,
         selinux_label: fields[8],
       }
     end
@@ -104,7 +108,7 @@ module Train::Extras
       @a = #{lstat}(shift) or exit 2;
       $u = getpwuid($a[4]);
       $g = getgrgid($a[5]);
-      printf("0%o\\n%s\\n%s\\n%d\\n%d\\n", $a[2], $u, $g, $a[9], $a[7])
+      printf("0%o\\n%s\\n%d\\n%s\\n%d\\n%d\\n%d\\n", $a[2], $u, $a[4], $u, $a[5], $a[9], $a[7])
       ' #{shell_escaped_path}
       EOP
 
@@ -118,9 +122,11 @@ module Train::Extras
         type:  find_type(tmask),
         mode:  tmask & 07777,
         owner: fields[1],
-        group: fields[2],
-        mtime: fields[3].to_i,
-        size:  fields[4].to_i,
+        uid:   fields[2].to_i,
+        group: fields[3],
+        gid:   fields[4].to_i,
+        mtime: fields[5].to_i,
+        size:  fields[6].to_i,
         selinux_label: nil,
       }
     end

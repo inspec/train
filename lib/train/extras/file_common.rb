@@ -10,7 +10,7 @@ module Train::Extras
     # interface methods: these fields should be implemented by every
     # backend File
     %w{
-      exist? mode owner group content mtime size selinux_label path
+      exist? mode owner group uid gid content mtime size selinux_label path
       product_version file_version
     }.each do |m|
       define_method m.to_sym do
@@ -99,6 +99,10 @@ module Train::Extras
 
     def linked_to?(dst)
       link_path == dst
+    end
+
+    def link_path
+      symlink? ? path : nil
     end
 
     def version?(version)

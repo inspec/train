@@ -51,7 +51,9 @@ describe 'local file transport' do
 
   describe 'file metadata' do
     let(:stat) { Struct.new(:mode, :size, :mtime, :uid, :gid) }
-    let(:statres) { stat.new(00140755, rand, (rand*100).to_i, rand, rand) }
+    let(:uid) { rand }
+    let(:gid) { rand }
+    let(:statres) { stat.new(00140755, rand, (rand*100).to_i, uid, gid) }
 
     def meta_stub(method, param, &block)
       pwres = Struct.new(:name)
@@ -63,47 +65,117 @@ describe 'local file transport' do
     end
 
     it 'recognizes type' do
-      meta_stub :lstat, statres do
+      meta_stub :stat, statres do
         connection.file(rand.to_s).type.must_equal :socket
       end
     end
 
     it 'recognizes mode' do
-      meta_stub :lstat, statres do
+      meta_stub :stat, statres do
         connection.file(rand.to_s).mode.must_equal 00755
       end
     end
 
     it 'recognizes mtime' do
-      meta_stub :lstat, statres do
+      meta_stub :stat, statres do
         connection.file(rand.to_s).mtime.must_equal statres.mtime
       end
     end
 
     it 'recognizes size' do
-      meta_stub :lstat, statres do
+      meta_stub :stat, statres do
         connection.file(rand.to_s).size.must_equal statres.size
       end
     end
 
     it 'recognizes owner' do
-      meta_stub :lstat, statres do
+      meta_stub :stat, statres do
         connection.file(rand.to_s).owner.must_equal 'owner'
       end
     end
 
+    it 'recognizes uid' do
+      meta_stub :stat, statres do
+        connection.file(rand.to_s).uid.must_equal uid
+      end
+    end
+
     it 'recognizes group' do
-      meta_stub :lstat, statres do
+      meta_stub :stat, statres do
         connection.file(rand.to_s).group.must_equal 'group'
       end
     end
 
+    it 'recognizes gid' do
+      meta_stub :stat, statres do
+        connection.file(rand.to_s).gid.must_equal gid
+      end
+    end
+
     it 'recognizes selinux label' do
-      meta_stub :lstat, statres do
+      meta_stub :stat, statres do
         label = rand.to_s
         res = Train::Extras::CommandResult.new(label, nil, 0)
         connection.stub :run_command, res do
           connection.file(rand.to_s).selinux_label.must_equal label
+        end
+      end
+    end
+
+    it 'recognizes source type' do
+      meta_stub :lstat, statres do
+        connection.file(rand.to_s).source.type.must_equal :socket
+      end
+    end
+
+    it 'recognizes source mode' do
+      meta_stub :lstat, statres do
+        connection.file(rand.to_s).source.mode.must_equal 00755
+      end
+    end
+
+    it 'recognizes source mtime' do
+      meta_stub :lstat, statres do
+        connection.file(rand.to_s).source.mtime.must_equal statres.mtime
+      end
+    end
+
+    it 'recognizes source size' do
+      meta_stub :lstat, statres do
+        connection.file(rand.to_s).source.size.must_equal statres.size
+      end
+    end
+
+    it 'recognizes source owner' do
+      meta_stub :lstat, statres do
+        connection.file(rand.to_s).source.owner.must_equal 'owner'
+      end
+    end
+
+    it 'recognizes source uid' do
+      meta_stub :lstat, statres do
+        connection.file(rand.to_s).source.uid.must_equal uid
+      end
+    end
+
+    it 'recognizes source owner' do
+      meta_stub :lstat, statres do
+        connection.file(rand.to_s).source.owner.must_equal 'owner'
+      end
+    end
+
+    it 'recognizes source gid' do
+      meta_stub :lstat, statres do
+        connection.file(rand.to_s).source.gid.must_equal gid
+      end
+    end
+
+    it 'recognizes source selinux label' do
+      meta_stub :lstat, statres do
+        label = rand.to_s
+        res = Train::Extras::CommandResult.new(label, nil, 0)
+        connection.stub :run_command, res do
+          connection.file(rand.to_s).source.selinux_label.must_equal label
         end
       end
     end

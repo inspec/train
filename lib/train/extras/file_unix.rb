@@ -43,7 +43,7 @@ module Train::Extras
     end
 
     %w{
-      type mode owner group mtime size selinux_label
+      type mode owner group uid gid mtime size selinux_label
     }.each do |field|
       define_method field.to_sym do
         stat[field.to_sym]

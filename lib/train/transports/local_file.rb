@@ -25,7 +25,7 @@ class Train::Transports::Local::Connection
       return nil unless symlink?
       begin
         @link_path ||= ::File.realpath(@path)
-      rescue Errno::ELOOP => e
+      rescue Errno::ELOOP => _
         # Leave it blank on symbolic loop, same as readlink
         @link_path = ''
       end
@@ -73,11 +73,13 @@ class Train::Transports::Local::Connection
         mtime: file_stat.mtime.to_i,
         size: file_stat.size,
         owner: pw_username(file_stat.uid),
+        uid: file_stat.uid,
         group: pw_groupname(file_stat.gid),
+        gid: file_stat.gid,
       }
 
-      lstat = @follow_symlink ? '-L' : ''
-      res = @backend.run_command("stat #{lstat} #{@spath} 2>/dev/null --printf '%C'")
+      lstat = @follow_symlink ? ' -L' : ''
+      res = @backend.run_command("stat#{lstat} #{@spath} 2>/dev/null --printf '%C'")
       if res.exit_status == 0 && !res.stdout.empty? && res.stdout != '?'
         @stat[:selinux_label] = res.stdout.strip
       end
