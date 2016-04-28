@@ -11,9 +11,8 @@ require 'train/extras/stat'
 module Train::Extras
   class WindowsFile < FileCommon
     attr_reader :path
-    def initialize(backend, path)
-      @backend = backend
-      @path = path
+    def initialize(backend, path, follow_symlink)
+      super(backend, path, follow_symlink)
       @spath = sanitize_filename(@path)
     end
 
@@ -44,10 +43,6 @@ module Train::Extras
         "(Test-Path -Path \"#{@spath}\").ToString()").stdout.chomp == 'True'
     end
 
-    def link_target
-      nil
-    end
-
     def link_path
       nil
     end
@@ -57,11 +52,16 @@ module Train::Extras
     end
 
     def type
+      if attributes.include?('Archive')
+        return :file
+      elsif attributes.include?('Directory')
+        return :directory
+      end
       :unknown
     end
 
     %w{
-      mode owner group mtime size selinux_label
+      mode owner group uid gid mtime size selinux_label
     }.each do |field|
       define_method field.to_sym do
         nil
@@ -85,16 +85,7 @@ module Train::Extras
     def attributes
       return @attributes if defined?(@attributes)
       @attributes = @backend.run_command(
-        "(Get-ItemProperty -Path \"#{@spath}\").attributes.ToString()").stdout.chomp.split(',')
-    end
-
-    def target_type
-      if attributes.include?('Archive')
-        return :file
-      elsif attributes.include?('Directory')
-        return :directory
-      end
-      :unknown
+        "(Get-ItemProperty -Path \"#{@spath}\").attributes.ToString()").stdout.chomp.split(/\s*,\s*/)
     end
   end
 end

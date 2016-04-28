@@ -48,19 +48,21 @@ describe 'stat' do
       res = Minitest::Mock.new
       res.expect :stdout, ''
       backend.expect :run_command, res, [String]
-      cls.linux_stat('/path', backend).must_equal({})
+      cls.linux_stat('/path', backend, false).must_equal({})
     end
 
     it 'reads correct stat results' do
       res = Minitest::Mock.new
       # 43ff is 41777; linux_stat strips the 4
-      res.expect :stdout, "360\n43ff\nroot\n0\nroot\n0\n1444520846\n1444522445\n?"
+      res.expect :stdout, "360\n43ff\nroot\n0\nrootz\n1\n1444520846\n1444522445\n?"
       backend.expect :run_command, res, [String]
-      cls.linux_stat('/path', backend).must_equal({
+      cls.linux_stat('/path', backend, false).must_equal({
         type: :directory,
         mode: 01777,
         owner: 'root',
-        group: 'root',
+        uid: 0,
+        group: 'rootz',
+        gid: 1,
         mtime: 1444522445,
         size: 360,
         selinux_label: nil,
@@ -76,7 +78,7 @@ describe 'stat' do
       res.expect :stdout, '.....'
       res.expect :exit_status, 1
       backend.expect :run_command, res, [String]
-      cls.bsd_stat('/path', backend).must_equal({})
+      cls.bsd_stat('/path', backend, false).must_equal({})
     end
 
     it 'ignores wrong stat results' do
@@ -84,19 +86,21 @@ describe 'stat' do
       res.expect :stdout, ''
       res.expect :exit_status, 0
       backend.expect :run_command, res, [String]
-      cls.bsd_stat('/path', backend).must_equal({})
+      cls.bsd_stat('/path', backend, false).must_equal({})
     end
 
     it 'reads correct stat results' do
       res = Minitest::Mock.new
-      res.expect :stdout, "360\n41777\nroot\n0\nroot\n0\n1444520846\n1444522445"
+      res.expect :stdout, "360\n41777\nroot\n0\nrootz\n1\n1444520846\n1444522445"
       res.expect :exit_status, 0
       backend.expect :run_command, res, [String]
-      cls.bsd_stat('/path', backend).must_equal({
+      cls.bsd_stat('/path', backend, false).must_equal({
         type: :directory,
         mode: 01777,
         owner: 'root',
-        group: 'root',
+        uid: 0,
+        group: 'rootz',
+        gid: 1,
         mtime: 1444522445,
         size: 360,
         selinux_label: nil,

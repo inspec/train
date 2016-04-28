@@ -11,9 +11,9 @@ describe 'file common' do
     backend
   }
 
-  def mock_stat(path, out, err = '', code = 0)
+  def mock_stat(args, out, err = '', code = 0)
     backend.mock_command(
-      "stat path 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'",
+      "stat #{args} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'",
       out, err, code,
     )
   end
@@ -34,7 +34,7 @@ describe 'file common' do
 
   it 'reads file contents' do
     backend.mock_command('cat path || echo -n', '')
-    mock_stat('path', '', 'some error...', 1)
+    mock_stat('-L path', '', 'some error...', 1)
     cls.new(backend, 'path').content.must_equal nil
   end
 
@@ -51,16 +51,8 @@ describe 'file common' do
   it 'retrieves the link path' do
     out = rand.to_s
     mock_stat('path', "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\n?")
-    backend.mock_command('readlink path', out)
-    cls.new(backend, 'path').link_path.must_equal out
-  end
-
-  it 'retrieves the linked file' do
-    out = rand.to_s
-    mock_stat('path', "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\n?")
-    backend.mock_command('readlink path', out)
-    f = backend.file(out)
-    cls.new(backend, 'path').link_target.must_equal f
+    backend.mock_command('readlink -n path -f', out)
+    cls.new(backend, 'path').link_path.must_equal File.join(Dir.pwd, out)
   end
 
   it 'checks a mounted path' do
@@ -77,30 +69,84 @@ describe 'file common' do
   end
 
   describe 'stat on a file' do
-    before { mock_stat('path', "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\nlabels") }
+    before { mock_stat('-L path', "13\na1ff\nz\n1001\nz2\n1002\n1444573475\n1444573475\nlabels") }
+    let(:f) { cls.new(backend, 'path') }
 
     it 'retrieves the file type' do
-      cls.new(backend, 'path').type.must_equal :symlink
+      f.type.must_equal :symlink
     end
 
     it 'retrieves the file mode' do
-      cls.new(backend, 'path').mode.must_equal 00777
+      f.mode.must_equal 00777
     end
 
     it 'retrieves the file owner' do
-      cls.new(backend, 'path').owner.must_equal 'z'
+      f.owner.must_equal 'z'
+    end
+
+    it 'retrieves the file uid' do
+      f.uid.must_equal 1001
+    end
+
+    it 'retrieves the file group' do
+      f.group.must_equal 'z2'
+    end
+
+    it 'retrieves the file gid' do
+      f.gid.must_equal 1002
     end
 
     it 'retrieves the file mtime' do
-      cls.new(backend, 'path').mtime.must_equal 1444573475
+      f.mtime.must_equal 1444573475
     end
 
     it 'retrieves the file size' do
-      cls.new(backend, 'path').size.must_equal 13
+      f.size.must_equal 13
     end
 
     it 'retrieves the file selinux_label' do
-      cls.new(backend, 'path').selinux_label.must_equal 'labels'
+      f.selinux_label.must_equal 'labels'
+    end
+  end
+
+  describe 'stat on the source file' do
+    before { mock_stat('path', "13\na1ff\nz\n1001\nz2\n1002\n1444573475\n1444573475\nlabels") }
+    let(:f) { cls.new(backend, 'path').source }
+
+    it 'retrieves the file type' do
+      f.type.must_equal :symlink
+    end
+
+    it 'retrieves the file mode' do
+      f.mode.must_equal 00777
+    end
+
+    it 'retrieves the file owner' do
+      f.owner.must_equal 'z'
+    end
+
+    it 'retrieves the file uid' do
+      f.uid.must_equal 1001
+    end
+
+    it 'retrieves the file group' do
+      f.group.must_equal 'z2'
+    end
+
+    it 'retrieves the file gid' do
+      f.gid.must_equal 1002
+    end
+
+    it 'retrieves the file mtime' do
+      f.mtime.must_equal 1444573475
+    end
+
+    it 'retrieves the file size' do
+      f.size.must_equal 13
+    end
+
+    it 'retrieves the file selinux_label' do
+      f.selinux_label.must_equal 'labels'
     end
   end
 end

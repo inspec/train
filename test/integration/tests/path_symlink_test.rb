@@ -22,8 +22,8 @@ describe 'file interface' do
       file.directory?.must_equal(false)
     end
 
-    it 'has type :symlink' do
-      file.type.must_equal(:symlink)
+    it 'has type :file' do
+      file.type.must_equal(:file)
     end
 
     it 'has content' do
@@ -34,16 +34,28 @@ describe 'file interface' do
       file.owner.must_equal('root')
     end
 
+    it 'has uid 0' do
+      file.uid.must_equal(0)
+    end
+
     it 'has group name' do
       file.group.must_equal(Test.root_group(backend.os))
     end
 
-    it 'has mode 0777' do
-      file.mode.must_equal(00777)
+    it 'has gid 0' do
+      file.gid.must_equal(0)
     end
 
-    it 'checks mode? 0777' do
-      file.mode?(00777).must_equal(true)
+    it 'has mode 0777' do
+      file.source.mode.must_equal(00777)
+    end
+
+    it 'has mode 0765' do
+      file.mode.must_equal(00765)
+    end
+
+    it 'checks mode? 0765' do
+      file.mode?(00765).must_equal(true)
     end
 
     it 'has link_path' do

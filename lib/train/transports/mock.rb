@@ -127,22 +127,21 @@ end
 class Train::Transports::Mock::Connection
   class File < FileCommon
     %w{
-      exist? mode owner group link_target link_path content mtime size
+      exist? mode owner group link_path content mtime size
       selinux_label product_version file_version path type
     }.each do |m|
       attr_accessor m.tr('?', '').to_sym
     end
 
-    def initialize(runtime, path)
-      @path = path
+    def initialize(backend, path, follow_symlink = true)
+      super(backend, path, follow_symlink)
       @type = :unknown
       @exist = false
-      @runtime = runtime
     end
 
     def mounted
       @mounted ||=
-        @runtime.run_command("mount | grep -- ' on #{@path}'")
+        @backend.run_command("mount | grep -- ' on #{@path}'")
     end
   end
 end

@@ -23,7 +23,12 @@ class Train::Transports::Local::Connection
 
     def link_path
       return nil unless symlink?
-      @link_path ||= ::File.readlink(@path)
+      begin
+        @link_path ||= ::File.realpath(@path)
+      rescue Errno::ELOOP => _
+        # Leave it blank on symbolic loop, same as readlink
+        @link_path = ''
+      end
     end
 
     def block_device?
@@ -52,7 +57,12 @@ class Train::Transports::Local::Connection
       return @stat if defined? @stat
 
       begin
-        file_stat = ::File.lstat(@path)
+        file_stat =
+          if @follow_symlink
+            ::File.stat(@path)
+          else
+            ::File.lstat(@path)
+          end
       rescue StandardError => _err
         return @stat = {}
       end
@@ -63,10 +73,13 @@ class Train::Transports::Local::Connection
         mtime: file_stat.mtime.to_i,
         size: file_stat.size,
         owner: pw_username(file_stat.uid),
+        uid: file_stat.uid,
         group: pw_groupname(file_stat.gid),
+        gid: file_stat.gid,
       }
 
-      res = @backend.run_command("stat #{@spath} 2>/dev/null --printf '%C'")
+      lstat = @follow_symlink ? ' -L' : ''
+      res = @backend.run_command("stat#{lstat} #{@spath} 2>/dev/null --printf '%C'")
       if res.exit_status == 0 && !res.stdout.empty? && res.stdout != '?'
         @stat[:selinux_label] = res.stdout.strip
       end

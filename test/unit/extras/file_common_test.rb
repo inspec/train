@@ -5,6 +5,7 @@ require 'train/extras/file_common'
 
 describe 'file common' do
   let(:cls) { Train::Extras::FileCommon }
+  let(:new_cls) { cls.new(nil, nil, false) }
 
   def mockup(stubs)
     Class.new(cls) do
@@ -13,35 +14,35 @@ describe 'file common' do
           v
         end
       end
-    end.new
+    end.new(nil, nil, false)
   end
 
   it 'has the default type of unknown' do
-    cls.new.type.must_equal :unknown
+    new_cls.type.must_equal :unknown
   end
 
   it 'calculates md5sum from content' do
     content = 'hello world'
-    cls.new.stub :content, content do |i|
+    new_cls.stub :content, content do |i|
       i.md5sum.must_equal '5eb63bbbe01eeed093cb22bb8f5acdc3'
     end
   end
 
   it 'sets md5sum of nil content to nil' do
-    cls.new.stub :content, nil do |i|
+    new_cls.stub :content, nil do |i|
       i.md5sum.must_be_nil
     end
   end
 
   it 'calculates md5sum from content' do
     content = 'hello world'
-    cls.new.stub :content, content do |i|
+    new_cls.stub :content, content do |i|
       i.sha256sum.must_equal 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
     end
   end
 
   it 'sets sha256sum of nil content to nil' do
-    cls.new.stub :content, nil do |i|
+    new_cls.stub :content, nil do |i|
       i.sha256sum.must_be_nil
     end
   end
