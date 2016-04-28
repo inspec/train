@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.11.0](https://github.com/chef/train/tree/0.11.0) (2016-04-28)
-[Full Changelog](https://github.com/chef/train/compare/v0.10.8...0.11.0)
+## [0.11.1](https://github.com/chef/train/tree/0.11.1) (2016-04-28)
+[Full Changelog](https://github.com/chef/train/compare/v0.11.0...0.11.1)
+
+**Fixed bugs:**
+
+- fix nil file paths [\#94](https://github.com/chef/train/pull/94) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- provide a source path for filecommon [\#95](https://github.com/chef/train/pull/95) ([arlimus](https://github.com/arlimus))
+- restructure docker tests to balance load between 2 runs [\#93](https://github.com/chef/train/pull/93) ([arlimus](https://github.com/arlimus))
+
+## [v0.11.0](https://github.com/chef/train/tree/v0.11.0) (2016-04-28)
+[Full Changelog](https://github.com/chef/train/compare/v0.10.8...v0.11.0)
 
 **Implemented enhancements:**
 
