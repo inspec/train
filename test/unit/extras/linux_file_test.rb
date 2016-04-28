@@ -52,11 +52,22 @@ describe 'file common' do
     cls.new(backend, 'path').exist?.must_equal false
   end
 
+  it 'retrieves the link path via #path()' do
+    out = rand.to_s
+    mock_stat('path', "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\n?")
+    backend.mock_command('readlink -n path -f', out)
+    cls.new(backend, 'path').path.must_equal File.join(Dir.pwd, out)
+  end
+
   it 'retrieves the link path' do
     out = rand.to_s
     mock_stat('path', "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\n?")
     backend.mock_command('readlink -n path -f', out)
     cls.new(backend, 'path').link_path.must_equal File.join(Dir.pwd, out)
+  end
+
+  it 'provide the source path' do
+    cls.new(backend, 'path').source_path.must_equal 'path'
   end
 
   it 'checks a mounted path' do

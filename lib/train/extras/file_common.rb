@@ -73,6 +73,10 @@ module Train::Extras
       source.type == :symlink
     end
 
+    def source_path
+      @path
+    end
+
     def source
       if @follow_symlink
         self.class.new(@backend, @path, false)
