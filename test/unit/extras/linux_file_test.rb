@@ -18,6 +18,10 @@ describe 'file common' do
     )
   end
 
+  it 'works on nil path' do
+    cls.new(backend, nil).path.must_equal ''
+  end
+
   it 'provides the full path' do
     cls.new(backend, '/dir/file').path.must_equal '/dir/file'
   end

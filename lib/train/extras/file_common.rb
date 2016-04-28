@@ -20,7 +20,7 @@ module Train::Extras
 
     def initialize(backend, path, follow_symlink = true)
       @backend = backend
-      @path = path
+      @path = path || ''
       @follow_symlink = follow_symlink
     end
 
