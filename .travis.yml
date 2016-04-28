@@ -22,9 +22,10 @@ matrix:
     gemfile: Gemfile
   - rvm: 2.2
     gemfile: Gemfile
+    script: bundle exec rake test test:docker config=test-travis-1.yaml
   - rvm: 2.2
     gemfile: Gemfile
-    script: bundle exec rake test:docker config=test/integration/test-runner.yaml
+    script: bundle exec rake test:docker config=test-travis-2.yaml
 deploy:
   provider: rubygems
   gemspec: train.gemspec
