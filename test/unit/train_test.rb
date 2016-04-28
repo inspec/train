@@ -129,4 +129,28 @@ describe Train do
       res.must_equal nu
     end
   end
+
+  describe '#validate_backend' do
+    it 'just returns the backend if it is provided' do
+      x = rand
+      Train.validate_backend({ backend: x }).must_equal x
+    end
+
+    it 'returns the local backend if nothing was provided' do
+      Train.validate_backend({}).must_equal :local
+    end
+
+    it 'returns the default backend if nothing was provided' do
+      x = rand
+      Train.validate_backend({}, x).must_equal x
+    end
+
+    it 'fails if no backend was given but a target is provided' do
+      proc { Train.validate_backend({ target: rand }) }.must_raise Train::UserError
+    end
+
+    it 'fails if no backend was given but a host is provided' do
+      proc { Train.validate_backend({ host: rand }) }.must_raise Train::UserError
+    end
+  end
 end

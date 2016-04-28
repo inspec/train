@@ -62,6 +62,7 @@ module Train
 
     return conf if conf[:target].to_s.empty?
 
+    # split up the target's host/scheme configuration
     uri = URI.parse(conf[:target].to_s)
     unless uri.host.nil? and uri.scheme.nil?
       conf[:backend]  ||= uri.scheme
@@ -77,6 +78,24 @@ module Train
 
     # return the updated config
     conf
+  end
+
+  def self.validate_backend(conf, default = :local)
+    return default if conf.nil?
+    res = conf[:backend]
+    return res if !res.nil?
+
+    if !conf[:target].nil?
+      fail Train::UserError, 'Cannot determine backend from target '\
+           "configuration #{conf[:target].inspect}. Valid example: ssh://192.168.0.1."
+    end
+
+    if !conf[:host].nil?
+      fail Train::UserError, 'Host configured, but no backend was provided. Please '\
+           'specify how you want to connect. Valid example: ssh://192.168.0.1.'
+    end
+
+    conf[:backend] = default
   end
 
   def self.group_keys_and_keyfiles(conf)
