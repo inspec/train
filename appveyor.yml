@@ -9,10 +9,10 @@ environment:
   winrm_pass: Pass@word1
 
   matrix:
-    - ruby_version: "21"
+    - ruby_version: "22"
       train_target: winrm://test_user@localhost:5985
 
-    - ruby_version: "21"
+    - ruby_version: "22"
       train_ssl: true
       train_target: winrm://test_user@localhost:5986
 
@@ -20,8 +20,10 @@ clone_folder: c:\projects\train
 clone_depth: 1
 
 cache:
-  - C:\Users\appveyor\.gem\ruby\2.1.0
-  - C:\Ruby21\lib\ruby\gems\2.1.0
+  - C:\Users\appveyor\.gem\ruby\2.2.0
+  - C:\Ruby200-x64\bin\gem
+  - C:\Ruby22\bin\gem
+  - C:\Ruby22\lib\ruby\gems\2.2.0
 
 install:
   - systeminfo
