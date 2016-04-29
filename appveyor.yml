@@ -7,8 +7,12 @@ platform:
 environment:
   winrm_user: test_user
   winrm_pass: Pass@word1
+  bundler_url: https://rubygems.org/downloads/bundler-1.9.9.gem
 
   matrix:
+    - ruby_version: "193"
+      train_target: winrm://test_user@localhost:5985
+
     - ruby_version: "22"
       train_target: winrm://test_user@localhost:5985
 
@@ -20,10 +24,7 @@ clone_folder: c:\projects\train
 clone_depth: 1
 
 cache:
-  - C:\Users\appveyor\.gem\ruby\2.2.0
-  - C:\Ruby200-x64\bin\gem
-  - C:\Ruby22\bin\gem
-  - C:\Ruby22\lib\ruby\gems\2.2.0
+  - vendor/bundle -> appveyor.yml
 
 install:
   - systeminfo
@@ -35,14 +36,15 @@ install:
   - ps: winrm create winrm/config/Listener?Address=*+Transport=HTTPS "@{Hostname=`"localhost`";CertificateThumbprint=`"$($env:winrm_cert)`"}"
   - ps: $env:PATH="C:\Ruby$env:ruby_version\bin;$env:PATH"
   - ps: Write-Host $env:PATH
-  - gem install bundler --quiet --no-ri --no-rdoc
   - ruby --version
   - gem --version
+  - appveyor DownloadFile -Url %bundler_url% -FileName bundler.gem
+  - gem install --local bundler --quiet --no-document
   - bundler --version
   - ruby -r rubygems -e "p Gem.path"
 
 build_script:
-  - bundle install --without integration tools
+  - bundle install --path=vendor/bundle --without integration tools
 
 test_script:
   - SET SPEC_OPTS=--format progress

@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gemspec
 
 group :test do
-  gem 'bundler', '~> 1.5'
+  gem 'bundler', '~> 1.11'
   gem 'minitest', '~> 5.8'
   gem 'rake', '~> 10'
   gem 'rubocop', '~> 0.36.0'
