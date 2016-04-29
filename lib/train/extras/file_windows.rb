@@ -11,7 +11,7 @@ require 'train/extras/stat'
 module Train::Extras
   class WindowsFile < FileCommon
     attr_reader :path
-    def initialize(backend, path, follow_symlink)
+    def initialize(backend, path, follow_symlink = false)
       super(backend, path, follow_symlink)
       @spath = sanitize_filename(@path)
     end
