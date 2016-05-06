@@ -21,7 +21,7 @@ module Train::Extras
 
     def self.stat(shell_escaped_path, backend, follow_symlink)
       # use perl scripts for aix and solaris 10
-      if backend.os.aix? || (backend.os.solaris? && backend.os[:release].to_i < 11)
+      if backend.os.aix? || (backend.os.solaris? && backend.os[:release].to_i < 11) || backend.os.hpux?
         return aix_stat(shell_escaped_path, backend, follow_symlink)
       end
       return bsd_stat(shell_escaped_path, backend, follow_symlink) if backend.os.bsd?
@@ -114,10 +114,9 @@ module Train::Extras
 
       res = backend.run_command(stat_cmd)
       return {} if res.exit_status != 0
-
       fields = res.stdout.split("\n")
+      return {} if fields.length != 7
       tmask  = fields[0].to_i(8)
-
       {
         type:  find_type(tmask),
         mode:  tmask & 07777,

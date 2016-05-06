@@ -107,4 +107,42 @@ describe 'stat' do
       })
     end
   end
+
+  describe 'aix stat' do
+    let(:backend) { Minitest::Mock.new }
+
+    it 'ignores failed stat results' do
+      res = Minitest::Mock.new
+      res.expect :stdout, '.....'
+      res.expect :exit_status, 1
+      backend.expect :run_command, res, [String]
+      cls.aix_stat('/path', backend, false).must_equal({})
+    end
+
+    it 'ignores wrong stat results' do
+      res = Minitest::Mock.new
+      res.expect :stdout, ''
+      res.expect :exit_status, 0
+      backend.expect :run_command, res, [String]
+      cls.aix_stat('/path', backend, false).must_equal({})
+    end
+
+    it 'reads correct stat results' do
+      res = Minitest::Mock.new
+      res.expect :stdout, "41777\nroot\n0\nrootz\n1\n1444522445\n360\n"
+      res.expect :exit_status, 0
+      backend.expect :run_command, res, [String]
+      cls.aix_stat('/path', backend, false).must_equal({
+        type: :directory,
+        mode: 01777,
+        owner: 'root',
+        uid: 0,
+        group: 'rootz',
+        gid: 1,
+        mtime: 1444522445,
+        size: 360,
+        selinux_label: nil,
+      })
+    end
+  end
 end
