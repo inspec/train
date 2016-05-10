@@ -1,11 +1,27 @@
 # Change Log
 
-## [0.11.2](https://github.com/chef/train/tree/0.11.2) (2016-04-29)
-[Full Changelog](https://github.com/chef/train/compare/v0.11.1...0.11.2)
+## [0.11.3](https://github.com/chef/train/tree/0.11.3) (2016-05-10)
+[Full Changelog](https://github.com/chef/train/compare/v0.11.2...0.11.3)
+
+**Fixed bugs:**
+
+- appveyor fixing... [\#98](https://github.com/chef/train/pull/98) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- fix: winrm https listener is not configured anymore in appveyor [\#100](https://github.com/chef/train/pull/100) ([chris-rock](https://github.com/chris-rock))
+- use aix stats implementation for hpux as well [\#99](https://github.com/chef/train/pull/99) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+
+## [v0.11.2](https://github.com/chef/train/tree/v0.11.2) (2016-04-29)
+[Full Changelog](https://github.com/chef/train/compare/v0.11.1...v0.11.2)
 
 **Fixed bugs:**
 
 - bugfix: windows file failed to initialize with new symlink handler [\#96](https://github.com/chef/train/pull/96) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- 0.11.2 [\#97](https://github.com/chef/train/pull/97) ([alexpop](https://github.com/alexpop))
 
 ## [v0.11.1](https://github.com/chef/train/tree/v0.11.1) (2016-04-28)
 [Full Changelog](https://github.com/chef/train/compare/v0.11.0...v0.11.1)
