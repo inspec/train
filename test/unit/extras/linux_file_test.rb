@@ -71,8 +71,8 @@ describe 'file common' do
   end
 
   it 'checks a mounted path' do
-    backend.mock_command("mount | grep -- ' on path'", rand.to_s)
-    cls.new(backend, 'path').mounted?.must_equal true
+    backend.mock_command("mount | grep -- ' on /mount/path '", rand.to_s)
+    cls.new(backend, '/mount/path').mounted?.must_equal true
   end
 
   it 'has nil product version' do
