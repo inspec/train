@@ -1,7 +1,16 @@
 # Change Log
 
-## [0.11.3](https://github.com/chef/train/tree/0.11.3) (2016-05-10)
-[Full Changelog](https://github.com/chef/train/compare/v0.11.2...0.11.3)
+## [0.11.4](https://github.com/chef/train/tree/0.11.4) (2016-05-13)
+[Full Changelog](https://github.com/chef/train/compare/v0.11.3...0.11.4)
+
+**Fixed bugs:**
+
+- mount resource incorrect matching [\#103](https://github.com/chef/train/issues/103)
+- Add a space to avoid matching partial paths [\#104](https://github.com/chef/train/pull/104) ([alexpop](https://github.com/alexpop))
+- Update README.md [\#102](https://github.com/chef/train/pull/102) ([mcquin](https://github.com/mcquin))
+
+## [v0.11.3](https://github.com/chef/train/tree/v0.11.3) (2016-05-10)
+[Full Changelog](https://github.com/chef/train/compare/v0.11.2...v0.11.3)
 
 **Fixed bugs:**
 
