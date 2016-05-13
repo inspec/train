@@ -39,7 +39,7 @@ module Train::Extras
 
     def mounted
       @mounted ||=
-        @backend.run_command("mount | grep -- ' on #{@spath}'")
+        @backend.run_command("mount | grep -- ' on #{@spath} '")
     end
 
     %w{
