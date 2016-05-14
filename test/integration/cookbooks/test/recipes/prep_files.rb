@@ -22,7 +22,7 @@ directory '/tmp/folder' do
   group gid
 end
 
-link '/tmp/symlink'do
+link '/tmp/symlink' do
   to '/tmp/file'
   owner 'root'
   group gid

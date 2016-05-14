@@ -93,7 +93,7 @@ execute 'fix sudoers for reqtty' do
 end
 
 # if it's fixed, it should behave like user 'nopasswd'
-execute "run local sudo tests as reqtty, no longer requiring a tty" do
+execute 'run local sudo tests as reqtty, no longer requiring a tty' do
   command "/opt/chef/embedded/bin/ruby -I lib test/integration/sudo/nopasswd.rb"
   cwd '/tmp/kitchen/data'
   user 'reqtty'
