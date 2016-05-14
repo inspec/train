@@ -29,6 +29,13 @@ link '/tmp/symlink'do
   mode '0777'
 end
 
+link '/usr/bin/allyourbase' do
+  to '/usr/bin/sudo'
+  owner 'root'
+  group gid
+  mode '0777'
+end
+
 execute 'create pipe/fifo' do
   command 'mkfifo /tmp/pipe'
   not_if 'test -e /tmp/pipe'
