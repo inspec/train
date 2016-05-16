@@ -38,6 +38,27 @@ describe 'linux command' do
     bpw = Base64.strict_encode64(pw + "\n")
     lc.run(cmd).must_equal "echo #{bpw} | base64 -d | sudo -S #{cmd}"
   end
+
+  it 'wraps commands in sudo_command instead of sudo' do
+    sudo_command = rand.to_s
+    lc = cls.new(backend, { sudo: true, sudo_command: sudo_command })
+    lc.run(cmd).must_equal "#{sudo_command} #{cmd}"
+  end
+
+  it 'wraps commands in sudo_command with all options' do
+    opts = rand.to_s
+    sudo_command = rand.to_s
+    lc = cls.new(backend, { sudo: true, sudo_command: sudo_command, sudo_options: opts })
+    lc.run(cmd).must_equal "#{sudo_command} #{opts} #{cmd}"
+  end
+
+  it 'runs commands in sudo_command with password' do
+    pw = rand.to_s
+    sudo_command = rand.to_s
+    lc = cls.new(backend, { sudo: true, sudo_command: sudo_command, sudo_password: pw })
+    bpw = Base64.strict_encode64(pw + "\n")
+    lc.run(cmd).must_equal "echo #{bpw} | base64 -d | #{sudo_command} -S #{cmd}"
+  end
 end
 
 describe 'powershell command' do

@@ -22,8 +22,15 @@ directory '/tmp/folder' do
   group gid
 end
 
-link '/tmp/symlink'do
+link '/tmp/symlink' do
   to '/tmp/file'
+  owner 'root'
+  group gid
+  mode '0777'
+end
+
+link '/usr/bin/allyourbase' do
+  to '/usr/bin/sudo'
   owner 'root'
   group gid
   mode '0777'
