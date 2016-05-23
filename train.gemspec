@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'net-scp', '~> 1.2'
   spec.add_dependency 'winrm', '~> 1.6'
   spec.add_dependency 'winrm-fs', '~> 0.3'
-  spec.add_dependency 'docker-api', '~> 1.26.2'
+  spec.add_dependency 'docker-api', '~> 1.26'
 
   spec.add_development_dependency 'mocha', '~> 1.1'
 end
