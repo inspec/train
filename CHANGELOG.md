@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.12.0](https://github.com/chef/train/tree/0.12.0) (2016-05-16)
-[Full Changelog](https://github.com/chef/train/compare/v0.11.4...0.12.0)
+## [0.12.1](https://github.com/chef/train/tree/0.12.1) (2016-05-23)
+[Full Changelog](https://github.com/chef/train/compare/v0.12.0...0.12.1)
+
+**Fixed bugs:**
+
+-  loosen restriction for docker api [\#109](https://github.com/chef/train/pull/109) ([chris-rock](https://github.com/chris-rock))
+
+**Closed issues:**
+
+- docker-api conflict when using docker cookbook [\#108](https://github.com/chef/train/issues/108)
+
+## [v0.12.0](https://github.com/chef/train/tree/v0.12.0) (2016-05-16)
+[Full Changelog](https://github.com/chef/train/compare/v0.11.4...v0.12.0)
 
 **Merged pull requests:**
 
