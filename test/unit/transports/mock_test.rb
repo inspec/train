@@ -15,6 +15,10 @@ describe 'mock transport' do
     connection.wont_be_nil
   end
 
+  it 'provides a uri' do
+    connection.uri.must_equal 'mock://'
+  end
+
   describe 'when running a mocked command' do
     let(:mock_cmd) {  }
 

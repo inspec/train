@@ -70,6 +70,10 @@ class Train::Transports::Mock
       @commands = {}
     end
 
+    def uri
+      'mock://'
+    end
+
     def mock_os(value)
       @os = OS.new(self, value)
     end

@@ -52,6 +52,10 @@ describe 'ssh transport' do
       connection.must_be_kind_of Train::Transports::SSH::Connection
     end
 
+    it 'provides a uri' do
+      connection.uri.must_equal "ssh://root@#{conf[:host]}:22"
+    end
+
     it 'must respond to wait_until_ready' do
       connection.must_respond_to :wait_until_ready
     end

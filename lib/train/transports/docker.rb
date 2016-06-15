@@ -92,6 +92,14 @@ class Train::Transports::Docker
       raise
     end
 
+    def uri
+      if @container.nil?
+        "docker://#{@id}"
+      else
+        "docker://#{@container.id}"
+      end
+    end
+
     class OS < OSCommon
       def initialize(backend)
         # hardcoded to unix/linux for now, until other operating systems
