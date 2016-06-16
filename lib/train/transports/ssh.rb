@@ -95,7 +95,7 @@ module Train::Transports
       end
 
       unless options[:password].nil?
-        options[:auth_methods].push('password')
+        options[:auth_methods].push('password', 'keyboard-interactive')
       end
 
       super
