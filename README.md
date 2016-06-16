@@ -123,6 +123,8 @@ Train is heavily based on the work of:
     and [a great community of contributors](https://github.com/chef/ohai/graphs/contributors)
 
 
+We also want to thank [halo](https://github.com/halo) who did a great contribution by handing over the `train` gem name.
+
 ## Contributing
 
 1. Fork it
