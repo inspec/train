@@ -59,6 +59,9 @@ module Train::Extras
       'hpux' => %w{
         hpux
       },
+      'esx' => %w{
+        esx
+      },
     }
 
     OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware} + OS['redhat'] + OS['debian'] + OS['suse']
@@ -109,6 +112,7 @@ module Train::Extras
 
       return detect_windows if pf == 'windows'
       return detect_darwin if pf == 'darwin'
+      return detect_esx if pf == 'esx'
 
       if %w{freebsd netbsd openbsd aix solaris2 hpux}.include?(pf)
         return detect_via_uname

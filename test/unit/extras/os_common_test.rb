@@ -259,11 +259,19 @@ describe 'os common plugin' do
   end
 
   describe 'with platform set to hpux' do
-  let(:os) { mock_platform('hpux') }
-  it { os.solaris?.must_equal(false) }
-  it { os.linux?.must_equal(false) }
-  it { os.unix?.must_equal(true) }
-  it { os.hpux?.must_equal(true) }
-end
+    let(:os) { mock_platform('hpux') }
+    it { os.solaris?.must_equal(false) }
+    it { os.linux?.must_equal(false) }
+    it { os.unix?.must_equal(true) }
+    it { os.hpux?.must_equal(true) }
+  end
+
+  describe 'with platform set to esx' do
+    let(:os) { mock_platform('esx') }
+    it { os.solaris?.must_equal(false) }
+    it { os.linux?.must_equal(false) }
+    it { os.unix?.must_equal(false) }
+    it { os.esx?.must_equal(true) }
+  end
 
 end
