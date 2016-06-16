@@ -47,6 +47,10 @@ module Train::Transports
       def login_command
         nil # none, open your shell
       end
+
+      def uri
+        'local://'
+      end
     end
   end
 end

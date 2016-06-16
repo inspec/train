@@ -151,6 +151,10 @@ class Train::Transports::SSH
       execute(PING_COMMAND.dup)
     end
 
+    def uri
+      "ssh://#{@username}@#{@hostname}:#{@port}"
+    end
+
     private
 
     PING_COMMAND = "echo '[SSH] Established'".freeze

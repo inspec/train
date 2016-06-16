@@ -32,6 +32,10 @@ describe 'local transport' do
     connection.must_be_kind_of Train::Transports::Local::Connection
   end
 
+  it 'provides a uri' do
+    connection.uri.must_equal "local://"
+  end
+
   it 'doesnt wait to be read' do
     connection.wait_until_ready.must_be_nil
   end

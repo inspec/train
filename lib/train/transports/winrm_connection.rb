@@ -27,7 +27,7 @@ class Train::Transports::WinRM
   # host such as executing commands, transferring files, etc.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class Connection < BaseConnection
+  class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     def initialize(options)
       super(options)
       @endpoint               = @options.delete(:endpoint)
@@ -42,7 +42,6 @@ class Train::Transports::WinRM
     # (see Base::Connection#close)
     def close
       return if @session.nil?
-
       session.close
     ensure
       @session = nil
@@ -97,6 +96,10 @@ class Train::Transports::WinRM
         retry_delay: delay,
       )
       execute(PING_COMMAND.dup)
+    end
+
+    def uri
+      "winrm://#{options[:user]}@#{@endpoint}:#{@rdp_port}"
     end
 
     private
