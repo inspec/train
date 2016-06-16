@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'train/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'r-train'
+  spec.name          = 'train'
   spec.version       = Train::VERSION
   spec.authors       = ['Dominik Richter']
   spec.email         = ['dominik.richter@gmail.com']
