@@ -1,7 +1,23 @@
 # Change Log
 
-## [0.12.1](https://github.com/chef/train/tree/0.12.1) (2016-05-23)
-[Full Changelog](https://github.com/chef/train/compare/v0.12.0...0.12.1)
+## [0.13.0](https://github.com/chef/train/tree/0.13.0) (2016-06-16)
+[Full Changelog](https://github.com/chef/train/compare/v0.12.1...0.13.0)
+
+**Implemented enhancements:**
+
+- provide uri-formatted information on all connections [\#113](https://github.com/chef/train/pull/113) ([arlimus](https://github.com/arlimus))
+
+**Fixed bugs:**
+
+- Authentication with SSH Server on OSX is failing [\#111](https://github.com/chef/train/issues/111)
+
+**Merged pull requests:**
+
+- adding support for vmware's esx server [\#114](https://github.com/chef/train/pull/114) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+- add missing keyboard-interactive authentication method [\#112](https://github.com/chef/train/pull/112) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.12.1](https://github.com/chef/train/tree/v0.12.1) (2016-05-23)
+[Full Changelog](https://github.com/chef/train/compare/v0.12.0...v0.12.1)
 
 **Fixed bugs:**
 
