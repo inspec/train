@@ -1,7 +1,7 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-
+require 'pry'
 module Train::Extras
   class Stat
     TYPES = {
@@ -20,13 +20,13 @@ module Train::Extras
     end
 
     def self.stat(shell_escaped_path, backend, follow_symlink)
-      # use perl scripts for aix and solaris 10
+      # use perl scripts for aix, solaris 10 and hpux
       if backend.os.aix? || (backend.os.solaris? && backend.os[:release].to_i < 11) || backend.os.hpux?
         return aix_stat(shell_escaped_path, backend, follow_symlink)
       end
       return bsd_stat(shell_escaped_path, backend, follow_symlink) if backend.os.bsd?
-      # linux and solaris 11 will use standard linux stats
-      return linux_stat(shell_escaped_path, backend, follow_symlink) if backend.os.unix?
+      # linux,solaris 11 and esx will use standard linux stats
+      return linux_stat(shell_escaped_path, backend, follow_symlink) if backend.os.unix? || backend.os.esx?
       # all other cases we don't handle
       # TODO: print an error if we get here, as it shouldn't be invoked
       # on non-unix
@@ -35,7 +35,8 @@ module Train::Extras
 
     def self.linux_stat(shell_escaped_path, backend, follow_symlink)
       lstat = follow_symlink ? ' -L' : ''
-      res = backend.run_command("stat#{lstat} #{shell_escaped_path} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
+      format = backend.os.esx? ? '-c' : '--printf'
+      res = backend.run_command("stat#{lstat} #{shell_escaped_path} 2>/dev/null #{format} '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
 
       # ignore the exit_code: it is != 0 if selinux labels are not supported
       # on the system.
@@ -45,8 +46,8 @@ module Train::Extras
 
       tmask = fields[1].to_i(16)
       selinux = fields[8]
-      selinux = nil if selinux == '?' or selinux == '(null)'
-
+      ## selinux security context string not available on esxi
+      selinux = nil if selinux == '?' or selinux == '(null)' or selinux == 'C'
       {
         type:  find_type(tmask),
         mode:  tmask & 07777,

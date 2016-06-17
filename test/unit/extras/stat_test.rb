@@ -46,15 +46,56 @@ describe 'stat' do
 
     it 'ignores wrong stat results' do
       res = Minitest::Mock.new
+      os = Minitest::Mock.new
       res.expect :stdout, ''
+      os.expect :esx?, false
+      backend.expect :os, os
       backend.expect :run_command, res, [String]
       cls.linux_stat('/path', backend, false).must_equal({})
     end
 
     it 'reads correct stat results' do
       res = Minitest::Mock.new
+      os = Minitest::Mock.new
       # 43ff is 41777; linux_stat strips the 4
       res.expect :stdout, "360\n43ff\nroot\n0\nrootz\n1\n1444520846\n1444522445\n?"
+      os.expect :esx?, false
+      backend.expect :os, os
+      backend.expect :run_command, res, [String]
+      cls.linux_stat('/path', backend, false).must_equal({
+        type: :directory,
+        mode: 01777,
+        owner: 'root',
+        uid: 0,
+        group: 'rootz',
+        gid: 1,
+        mtime: 1444522445,
+        size: 360,
+        selinux_label: nil,
+      })
+    end
+  end
+
+  describe 'esx stat' do
+    let(:backend) { Minitest::Mock.new }
+
+    it 'ignores wrong stat results' do
+      res = Minitest::Mock.new
+      os = Minitest::Mock.new
+      res.expect :stdout, ''
+      os.expect :esx?, true
+      backend.expect :os, os
+      backend.expect :run_command, res, [String]
+      cls.linux_stat('/path', backend, false).must_equal({})
+    end
+
+    it 'reads correct stat results' do
+      res = Minitest::Mock.new
+      os = Minitest::Mock.new
+      # 43ff is 41777; linux_stat strips the 4
+      res.expect :stdout, "360\n43ff\nroot\n0\nrootz\n1\n1444520846\n1444522445\nC"
+      os.expect :esx?, true
+      backend.expect :os, os
       backend.expect :run_command, res, [String]
       cls.linux_stat('/path', backend, false).must_equal({
         type: :directory,
