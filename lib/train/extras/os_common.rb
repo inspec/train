@@ -109,7 +109,7 @@ module Train::Extras
       detect_family_type
     end
 
-    def detect_family_type
+    def detect_family_type # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       pf = @platform[:family]
 
       return detect_windows if pf == 'windows'

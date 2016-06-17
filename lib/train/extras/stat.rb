@@ -1,7 +1,6 @@
 # encoding: utf-8
 # author: Dominik Richter
 # author: Christoph Hartmann
-require 'pry'
 module Train::Extras
   class Stat
     TYPES = {
