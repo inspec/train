@@ -12,6 +12,7 @@ require 'train/extras/os_detect_darwin'
 require 'train/extras/os_detect_linux'
 require 'train/extras/os_detect_unix'
 require 'train/extras/os_detect_windows'
+require 'train/extras/os_detect_esx'
 
 module Train::Extras
   class OSCommon
@@ -19,6 +20,7 @@ module Train::Extras
     include Train::Extras::DetectLinux
     include Train::Extras::DetectUnix
     include Train::Extras::DetectWindows
+    include Train::Extras::DetectEsx
 
     def initialize(backend, platform = nil)
       @backend = backend
@@ -107,7 +109,7 @@ module Train::Extras
       detect_family_type
     end
 
-    def detect_family_type
+    def detect_family_type # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       pf = @platform[:family]
 
       return detect_windows if pf == 'windows'
@@ -120,6 +122,7 @@ module Train::Extras
 
       # unix based systems combine the above
       return true if pf == 'unix' and detect_darwin
+      return true if pf == 'unix' and detect_esx
       return true if pf == 'unix' and detect_via_uname
 
       # if we arrive here, we most likey have a regular linux

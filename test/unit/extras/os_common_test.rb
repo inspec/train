@@ -270,6 +270,7 @@ describe 'os common plugin' do
     let(:os) { mock_platform('esx') }
     it { os.solaris?.must_equal(false) }
     it { os.linux?.must_equal(false) }
+    it {os[:family].must_equal('esx')}
     it { os.unix?.must_equal(false) }
     it { os.esx?.must_equal(true) }
   end

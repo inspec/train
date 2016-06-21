@@ -11,10 +11,12 @@
 module Train::Extras
   module DetectEsx
     def detect_esx
-      @platform[:family] = 'esx'
-      @platform[:name] = uname_s.lines[0].chomp
-      @platform[:release] = uname_r.lines[0].chomp
-      true
+      if uname_s.downcase.chomp == 'vmkernel'
+        @platform[:family] = 'esx'
+        @platform[:name] = uname_s.lines[0].chomp
+        @platform[:release] = uname_r.lines[0].chomp
+        true
+      end
     end
   end
 end
