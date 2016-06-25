@@ -73,7 +73,7 @@ class Train::Transports::SSH
     def run_command(cmd)
       stdout = stderr = ''
       exit_status = nil
-      cmd.force_encoding('binary') if cmd.respond_to?(:force_encoding)
+      cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
       logger.debug("[SSH] #{self} (#{cmd})")
 
       session.open_channel do |channel|
