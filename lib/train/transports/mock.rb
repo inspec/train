@@ -129,10 +129,7 @@ end
 
 class Train::Transports::Mock::Connection
   class File < FileCommon
-    %w{
-      exist? mode owner group link_path content mtime size
-      selinux_label product_version file_version path type
-    }.each do |m|
+    Train::Extras::FileCommon::DATA_FIELDS.each do |m|
       attr_accessor m.tr('?', '').to_sym
     end
 

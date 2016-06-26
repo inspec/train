@@ -9,10 +9,12 @@ module Train::Extras
   class FileCommon # rubocop:disable Metrics/ClassLength
     # interface methods: these fields should be implemented by every
     # backend File
-    %w{
+    DATA_FIELDS = %w{
       exist? mode owner group uid gid content mtime size selinux_label path
       product_version file_version
-    }.each do |m|
+    }.freeze
+
+    DATA_FIELDS.each do |m|
       define_method m.to_sym do
         fail NotImplementedError, "File must implement the #{m}() method."
       end
