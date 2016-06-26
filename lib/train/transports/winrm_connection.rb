@@ -27,7 +27,7 @@ class Train::Transports::WinRM
   # host such as executing commands, transferring files, etc.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
+  class Connection < BaseConnection
     def initialize(options)
       super(options)
       @endpoint               = @options.delete(:endpoint)

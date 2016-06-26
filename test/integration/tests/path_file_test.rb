@@ -75,5 +75,11 @@ describe 'file interface' do
     it 'has no file_version' do
       file.file_version.must_equal(nil)
     end
+
+    it 'provides a json representation' do
+      j = file.to_json
+      j.must_be_kind_of Hash
+      j['type'].must_equal :file
+    end
   end
 end

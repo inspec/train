@@ -26,6 +26,14 @@ module Train::Extras
       @follow_symlink = follow_symlink
     end
 
+    def to_json
+      res = Hash[DATA_FIELDS.map { |x| [x, method(x).call] }]
+      # additional fields provided as input
+      res['type'] = type
+      res['follow_symlink'] = @follow_symlink
+      res
+    end
+
     def type
       :unknown
     end
