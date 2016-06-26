@@ -38,7 +38,6 @@ class Train::Transports::SSH
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
-      @files                  = {}
       @session                = nil
       @transport_options      = @options.delete(:transport_options)
       @cmd_wrapper            = nil

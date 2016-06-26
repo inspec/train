@@ -22,7 +22,6 @@ module Train::Transports
     class Connection < BaseConnection
       def initialize(options)
         super(options)
-        @files = {}
         @cmd_wrapper = nil
         @cmd_wrapper = CommandWrapper.load(self, options)
       end

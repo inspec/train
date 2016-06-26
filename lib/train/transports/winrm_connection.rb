@@ -36,7 +36,6 @@ class Train::Transports::WinRM
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
-      @files                  = {}
     end
 
     # (see Base::Connection#close)
