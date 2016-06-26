@@ -143,6 +143,11 @@ class Train::Transports::Mock::Connection
 
     Train::Extras::FileCommon::DATA_FIELDS.each do |m|
       attr_accessor m.tr('?', '').to_sym
+      next unless m.include?('?')
+
+      define_method m.to_sym do
+        method(m.tr('?', '').to_sym).call
+      end
     end
     attr_accessor :type
 

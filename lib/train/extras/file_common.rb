@@ -60,27 +60,27 @@ module Train::Extras
     # Additional methods for convenience
 
     def file?
-      type == :file
+      type.to_s == 'file'
     end
 
     def block_device?
-      type == :block_device
+      type.to_s == 'block_device'
     end
 
     def character_device?
-      type == :character_device
+      type.to_s == 'character_device'
     end
 
     def socket?
-      type == :socket
+      type.to_s == 'socket'
     end
 
     def directory?
-      type == :directory
+      type.to_s == 'directory'
     end
 
     def symlink?
-      source.type == :symlink
+      source.type.to_s == 'symlink'
     end
 
     def source_path
