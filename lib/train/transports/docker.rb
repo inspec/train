@@ -60,7 +60,6 @@ class Train::Transports::Docker
       @id = options[:host]
       @container = ::Docker::Container.get(@id) ||
                    fail("Can't find Docker container #{@id}")
-      @files = {}
       @cmd_wrapper = nil
       @cmd_wrapper = CommandWrapper.load(self, @options)
       self

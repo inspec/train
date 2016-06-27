@@ -18,6 +18,9 @@ class Train::Plugins::Transport
   class BaseConnection
     include Train::Extras
 
+    # Provide access to the files cache.
+    attr_reader :files
+
     # Create a new Connection instance.
     #
     # @param options [Hash] connection options
@@ -25,11 +28,25 @@ class Train::Plugins::Transport
     def initialize(options = nil)
       @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
+      @files = {}
     end
 
     # Closes the session connection, if it is still active.
     def close
       # this method may be left unimplemented if that is applicable
+    end
+
+    def to_json
+      {
+        'files' => Hash[@files.map { |x, y| [x, y.to_json] }],
+      }
+    end
+
+    def load_json(j)
+      require 'train/transports/mock'
+      j['files'].each do |path, jf|
+        @files[path] = Train::Transports::Mock::Connection::File.from_json(jf)
+      end
     end
 
     # Execute a command using this connection.

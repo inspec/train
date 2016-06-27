@@ -9,10 +9,12 @@ module Train::Extras
   class FileCommon # rubocop:disable Metrics/ClassLength
     # interface methods: these fields should be implemented by every
     # backend File
-    %w{
+    DATA_FIELDS = %w{
       exist? mode owner group uid gid content mtime size selinux_label path
       product_version file_version
-    }.each do |m|
+    }.freeze
+
+    DATA_FIELDS.each do |m|
       define_method m.to_sym do
         fail NotImplementedError, "File must implement the #{m}() method."
       end
@@ -22,6 +24,14 @@ module Train::Extras
       @backend = backend
       @path = path || ''
       @follow_symlink = follow_symlink
+    end
+
+    def to_json
+      res = Hash[DATA_FIELDS.map { |x| [x, method(x).call] }]
+      # additional fields provided as input
+      res['type'] = type
+      res['follow_symlink'] = @follow_symlink
+      res
     end
 
     def type
@@ -50,27 +60,27 @@ module Train::Extras
     # Additional methods for convenience
 
     def file?
-      type == :file
+      type.to_s == 'file'
     end
 
     def block_device?
-      type == :block_device
+      type.to_s == 'block_device'
     end
 
     def character_device?
-      type == :character_device
+      type.to_s == 'character_device'
     end
 
     def socket?
-      type == :socket
+      type.to_s == 'socket'
     end
 
     def directory?
-      type == :directory
+      type.to_s == 'directory'
     end
 
     def symlink?
-      source.type == :symlink
+      source.type.to_s == 'symlink'
     end
 
     def source_path

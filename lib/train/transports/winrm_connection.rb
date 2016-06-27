@@ -27,7 +27,7 @@ class Train::Transports::WinRM
   # host such as executing commands, transferring files, etc.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
+  class Connection < BaseConnection
     def initialize(options)
       super(options)
       @endpoint               = @options.delete(:endpoint)
@@ -36,7 +36,6 @@ class Train::Transports::WinRM
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
-      @files                  = {}
     end
 
     # (see Base::Connection#close)

@@ -65,7 +65,6 @@ class Train::Transports::Mock
 
     def initialize(conf = nil)
       @conf = conf || {}
-      @files = {}
       @os = OS.new(self, family: 'unknown')
       @commands = {}
     end
@@ -130,12 +129,27 @@ end
 
 class Train::Transports::Mock::Connection
   class File < FileCommon
-    %w{
-      exist? mode owner group link_path content mtime size
-      selinux_label product_version file_version path type
-    }.each do |m|
-      attr_accessor m.tr('?', '').to_sym
+    def self.from_json(json)
+      res = new(json['backend'],
+                json['path'],
+                json['follow_symlink'])
+      res.type = json['type']
+      Train::Extras::FileCommon::DATA_FIELDS.each do |f|
+        m = (f.tr('?', '') + '=').to_sym
+        res.method(m).call(json[f])
+      end
+      res
     end
+
+    Train::Extras::FileCommon::DATA_FIELDS.each do |m|
+      attr_accessor m.tr('?', '').to_sym
+      next unless m.include?('?')
+
+      define_method m.to_sym do
+        method(m.tr('?', '').to_sym).call
+      end
+    end
+    attr_accessor :type
 
     def initialize(backend, path, follow_symlink = true)
       super(backend, path, follow_symlink)
