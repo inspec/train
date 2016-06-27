@@ -64,7 +64,7 @@ class Train::Transports::Mock
     attr_reader :os
 
     def initialize(conf = nil)
-      @conf = conf || {}
+      super(conf)
       @os = OS.new(self, family: 'unknown')
       @commands = {}
     end
@@ -82,7 +82,7 @@ class Train::Transports::Mock
     end
 
     def command_not_found(cmd)
-      if @conf[:verbose]
+      if @options[:verbose]
         STDERR.puts('Command not mocked:')
         STDERR.puts('    '+cmd.to_s.split("\n").join("\n    "))
         STDERR.puts('    SHA: ' + Digest::SHA256.hexdigest(cmd.to_s))
@@ -97,7 +97,7 @@ class Train::Transports::Mock
     end
 
     def file_not_found(path)
-      STDERR.puts('File not mocked: '+path.to_s) if @conf[:verbose]
+      STDERR.puts('File not mocked: '+path.to_s) if @options[:verbose]
       File.new(self, path)
     end
 
