@@ -10,6 +10,13 @@ describe 'run_command' do
     res.exit_status.must_equal(0)
   end
 
+  it 'can run frozen commands' do
+    res = backend.run_command('echo hello world'.freeze)
+    res.stdout.must_equal("hello world\n")
+    res.stderr.must_equal('')
+    res.exit_status.must_equal(0)
+  end
+
   it 'can echo commands to stderr' do
     # TODO: Specinfra often fails on this test.
     # Fix and re-enable it.
