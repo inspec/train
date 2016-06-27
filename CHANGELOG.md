@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.13.1](https://github.com/chef/train/tree/0.13.1) (2016-06-16)
-[Full Changelog](https://github.com/chef/train/compare/v0.12.1...0.13.1)
+## [0.14.0](https://github.com/chef/train/tree/0.14.0) (2016-06-27)
+[Full Changelog](https://github.com/chef/train/compare/v0.13.1...0.14.0)
+
+**Implemented enhancements:**
+
+- json in and out for base connection [\#118](https://github.com/chef/train/pull/118) ([arlimus](https://github.com/arlimus))
+- ESX support [\#116](https://github.com/chef/train/pull/116) ([Anirudh-Gupta](https://github.com/Anirudh-Gupta))
+
+**Fixed bugs:**
+
+- sporadic appveyor failure on `winrm delete ...` [\#105](https://github.com/chef/train/issues/105)
+- bugfix: run frozen string commands via ssh [\#117](https://github.com/chef/train/pull/117) ([arlimus](https://github.com/arlimus))
+
+## [v0.13.1](https://github.com/chef/train/tree/v0.13.1) (2016-06-16)
+[Full Changelog](https://github.com/chef/train/compare/v0.12.1...v0.13.1)
 
 **Implemented enhancements:**
 
