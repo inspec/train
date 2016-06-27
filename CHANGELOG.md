@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.14.0](https://github.com/chef/train/tree/0.14.0) (2016-06-27)
-[Full Changelog](https://github.com/chef/train/compare/v0.13.1...0.14.0)
+## [0.14.1](https://github.com/chef/train/tree/0.14.1) (2016-06-27)
+[Full Changelog](https://github.com/chef/train/compare/v0.14.0...0.14.1)
+
+**Fixed bugs:**
+
+- bugfix: add mock backend initialization [\#119](https://github.com/chef/train/pull/119) ([arlimus](https://github.com/arlimus))
+
+## [v0.14.0](https://github.com/chef/train/tree/v0.14.0) (2016-06-27)
+[Full Changelog](https://github.com/chef/train/compare/v0.13.1...v0.14.0)
 
 **Implemented enhancements:**
 
@@ -14,12 +21,18 @@
 - bugfix: run frozen string commands via ssh [\#117](https://github.com/chef/train/pull/117) ([arlimus](https://github.com/arlimus))
 
 ## [v0.13.1](https://github.com/chef/train/tree/v0.13.1) (2016-06-16)
-[Full Changelog](https://github.com/chef/train/compare/v0.12.1...v0.13.1)
+[Full Changelog](https://github.com/chef/train/compare/v0.13.0...v0.13.1)
 
 **Implemented enhancements:**
 
 - have net-ssh request a pty [\#60](https://github.com/chef/train/issues/60)
 - use train as gem name. Thanks @halo [\#115](https://github.com/chef/train/pull/115) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.13.0](https://github.com/chef/train/tree/v0.13.0) (2016-06-16)
+[Full Changelog](https://github.com/chef/train/compare/v0.12.1...v0.13.0)
+
+**Implemented enhancements:**
+
 - provide uri-formatted information on all connections [\#113](https://github.com/chef/train/pull/113) ([arlimus](https://github.com/arlimus))
 
 **Fixed bugs:**
