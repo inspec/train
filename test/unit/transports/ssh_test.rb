@@ -82,6 +82,15 @@ describe 'ssh transport' do
     end
   end
 
+  describe 'converting connection to string for logging' do
+   it "masks passwords" do
+      assert_output(/.*:password=>"<hidden>".*/) do
+        connection = cls.new(conf).connection
+        puts "#{connection}"
+      end
+    end
+  end
+
   describe 'failed configuration' do
     it 'works with a minimum valid config' do
       cls.new(conf).connection
