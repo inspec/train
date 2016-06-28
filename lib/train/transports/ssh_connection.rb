@@ -217,7 +217,7 @@ class Train::Transports::SSH
     # @api private
     def to_s
       options_to_print = @options.clone
-      options_to_print[:password] = "<hidden>" if options_to_print.has_key?(:password)
+      options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
       "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
     end
 
