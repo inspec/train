@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.14.1](https://github.com/chef/train/tree/0.14.1) (2016-06-27)
-[Full Changelog](https://github.com/chef/train/compare/v0.14.0...0.14.1)
+## [0.14.2](https://github.com/chef/train/tree/0.14.2) (2016-06-28)
+[Full Changelog](https://github.com/chef/train/compare/v0.14.1...0.14.2)
+
+**Merged pull requests:**
+
+- do not log password in ssh connection output [\#120](https://github.com/chef/train/pull/120) ([marcparadise](https://github.com/marcparadise))
+
+## [v0.14.1](https://github.com/chef/train/tree/v0.14.1) (2016-06-27)
+[Full Changelog](https://github.com/chef/train/compare/v0.14.0...v0.14.1)
 
 **Fixed bugs:**
 
