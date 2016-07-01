@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.14.2](https://github.com/chef/train/tree/0.14.2) (2016-06-28)
-[Full Changelog](https://github.com/chef/train/compare/v0.14.1...0.14.2)
+## [0.15.0](https://github.com/chef/train/tree/0.15.0) (2016-07-01)
+[Full Changelog](https://github.com/chef/train/compare/v0.14.2...0.15.0)
+
+**Implemented enhancements:**
+
+- have net-ssh request a pty [\#60](https://github.com/chef/train/issues/60)
+
+**Merged pull requests:**
+
+- Allow requesting a PTY [\#121](https://github.com/chef/train/pull/121) ([srenatus](https://github.com/srenatus))
+
+## [v0.14.2](https://github.com/chef/train/tree/v0.14.2) (2016-06-28)
+[Full Changelog](https://github.com/chef/train/compare/v0.14.1...v0.14.2)
 
 **Merged pull requests:**
 
@@ -32,7 +43,6 @@
 
 **Implemented enhancements:**
 
-- have net-ssh request a pty [\#60](https://github.com/chef/train/issues/60)
 - use train as gem name. Thanks @halo [\#115](https://github.com/chef/train/pull/115) ([chris-rock](https://github.com/chris-rock))
 
 ## [v0.13.0](https://github.com/chef/train/tree/v0.13.0) (2016-06-16)
