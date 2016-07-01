@@ -79,6 +79,12 @@ class Train::Transports::SSH
         # wrap commands if that is configured
         cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
 
+        if @transport_options[:pty]
+          channel.request_pty do |_ch, success|
+            fail Train::Transports::SSHPTYFailed, 'Requesting PTY failed' unless success
+          end
+        end
+
         channel.exec(cmd) do |_, success|
           abort 'Couldn\'t execute command on SSH.' unless success
 
