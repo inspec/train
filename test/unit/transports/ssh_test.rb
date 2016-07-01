@@ -42,6 +42,10 @@ describe 'ssh transport' do
     it 'has default user' do
       ssh.options[:user].must_equal 'root'
     end
+
+    it 'by default does not request a pty' do
+      ssh.options[:pty].must_equal false
+    end
   end
 
   describe 'opening a connection' do
@@ -83,7 +87,7 @@ describe 'ssh transport' do
   end
 
   describe 'converting connection to string for logging' do
-   it "masks passwords" do
+   it 'masks passwords' do
       assert_output(/.*:password=>"<hidden>".*/) do
         connection = cls.new(conf).connection
         puts "#{connection}"
@@ -96,7 +100,7 @@ describe 'ssh transport' do
       cls.new(conf).connection
     end
 
-    it 'doesnt like host == nil' do
+    it 'does not like host == nil' do
       conf.delete(:host)
       proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
@@ -106,13 +110,13 @@ describe 'ssh transport' do
       cls.new(conf).connection.method(:options).call[:user] == 'root'
     end
 
-    it 'doesnt like key and password == nil' do
+    it 'does not like key and password == nil' do
       conf.delete(:password)
       conf.delete(:key_files)
       proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
 
-    it 'wont connect if its not possible' do
+    it 'wont connect if it is not possible' do
       conf[:host] = 'localhost'
       conf[:port] = 1
       conn = cls.new(conf).connection

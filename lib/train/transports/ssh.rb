@@ -27,6 +27,7 @@ module Train::Transports
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class SSHFailed < Train::TransportError; end
+  class SSHPTYFailed < Train::TransportError; end
 
   # A Transport which uses the SSH protocol to execute commands and transfer
   # files.
@@ -55,6 +56,7 @@ module Train::Transports
     option :connection_retry_sleep, default: 1
     option :max_wait_until_ready, default: 600
     option :compression, default: false
+    option :pty, default: false
 
     option :compression_level do |opts|
       # on nil or false: set compression level to 0
@@ -96,6 +98,10 @@ module Train::Transports
 
       unless options[:password].nil?
         options[:auth_methods].push('password', 'keyboard-interactive')
+      end
+
+      if options[:pty]
+        logger.warn('[SSH] PTY requested: stderr will be merged into stdout')
       end
 
       super
