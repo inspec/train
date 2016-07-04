@@ -14,9 +14,13 @@ before_install:
   - gem install bundler
   - gem --version
 
+branches:
+  only:
+  - master
+
 matrix:
   include:
-  - rvm: 1.9.3
+  - rvm: 2.1
   - rvm: 2.0
   - rvm: 2.2
     script: bundle exec rake test test:docker config=test-travis-1.yaml
