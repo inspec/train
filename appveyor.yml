@@ -10,7 +10,7 @@ environment:
   bundler_url: https://rubygems.org/downloads/bundler-1.9.9.gem
 
   matrix:
-    - ruby_version: "193"
+    - ruby_version: "21"
       train_target: winrm://test_user@localhost:5985
 
     - ruby_version: "22"
@@ -22,6 +22,10 @@ environment:
 
 clone_folder: c:\projects\train
 clone_depth: 1
+
+branches:
+  only:
+    - master
 
 cache:
   - vendor/bundle -> appveyor.yml
