@@ -69,7 +69,7 @@ class Train::Transports::Local::Connection
 
       @stat = {
         type: Train::Extras::Stat.find_type(file_stat.mode),
-        mode: file_stat.mode & 00777,
+        mode: file_stat.mode & 07777,
         mtime: file_stat.mtime.to_i,
         size: file_stat.size,
         owner: pw_username(file_stat.uid),
