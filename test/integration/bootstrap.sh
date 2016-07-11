@@ -9,6 +9,9 @@ test ! -e /tmp/symlink && \
 chmod 0777 /tmp/symlink
 chmod 0765 /tmp/file
 
+echo -n 'hello suid/sgid/sticky' > /tmp/sfile
+chmod 7765 /tmp/sfile
+
 test ! -e /tmp/pipe && \
   mkfifo /tmp/pipe
 

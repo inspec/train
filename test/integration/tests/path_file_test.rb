@@ -82,4 +82,11 @@ describe 'file interface' do
       j['type'].must_equal :file
     end
   end
+
+  describe 'regular file' do
+    let(:file) { backend.file('/tmp/sfile') }
+    it 'has mode 7765' do
+      file.mode.must_equal(07765)
+    end
+  end
 end
