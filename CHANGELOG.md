@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.15.0](https://github.com/chef/train/tree/0.15.0) (2016-07-01)
-[Full Changelog](https://github.com/chef/train/compare/v0.14.2...0.15.0)
+## [0.15.1](https://github.com/chef/train/tree/0.15.1) (2016-07-10)
+[Full Changelog](https://github.com/chef/train/compare/v0.15.0...0.15.1)
+
+**Fixed bugs:**
+
+- bugfix: higher mode bits on local connection [\#125](https://github.com/chef/train/pull/125) ([arlimus](https://github.com/arlimus))
+
+**Merged pull requests:**
+
+- Test ruby 2.1 instead of 1.9.3 and only launch one test group per travis/appveyor [\#123](https://github.com/chef/train/pull/123) ([mwrock](https://github.com/mwrock))
+
+## [v0.15.0](https://github.com/chef/train/tree/v0.15.0) (2016-07-01)
+[Full Changelog](https://github.com/chef/train/compare/v0.14.2...v0.15.0)
 
 **Implemented enhancements:**
 
