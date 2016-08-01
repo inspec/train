@@ -14,6 +14,16 @@ end
 describe 'os_detect_linux' do
   let(:detector) { OsDetectLinuxTester.new }
 
+  describe '#detect_linux_architecture' do
+    it "sets the arch using uname" do
+      be = mock("Backend")
+      detector.stubs(:backend).returns(be)
+      be.stubs(:run_command).with("uname -m").returns(mock("Output", stdout: "x86_64\n"))
+      detector.detect_linux_architecture.must_equal(true)
+      detector.platform[:arch].must_equal("x84_64")
+    end
+  end
+
   describe '#detect_linux_via_config' do
 
     before do

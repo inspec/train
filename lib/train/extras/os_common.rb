@@ -22,6 +22,7 @@ module Train::Extras
     include Train::Extras::DetectWindows
     include Train::Extras::DetectEsx
 
+    attr_accessor :backend
     def initialize(backend, platform = nil)
       @backend = backend
       @platform = platform || {}

@@ -105,15 +105,19 @@ module Train::Extras
     end
 
     def uname_s
-      @uname_s ||= @backend.run_command('uname -s').stdout
+      @uname_s ||= backend.run_command('uname -s').stdout
     end
 
     def uname_r
       @uname_r ||= (
-        res = @backend.run_command('uname -r').stdout
+        res = backend.run_command('uname -r').stdout
         res.strip! unless res.nil?
         res
       )
+    end
+
+    def uname_m
+      @uname_m ||= backend.run_command('uname -m').stdout.chomp
     end
 
     def redhatish_platform(conf)
@@ -126,10 +130,20 @@ module Train::Extras
       conf[/release ([\d\.]+)/, 1]
     end
 
+    def detect_linux_architecture
+      if uname_m.nil? || uname_m.empty?
+        false
+      else
+        @platform[:arch] = uname_m
+        true
+      end
+    end
+
     def detect_linux
       # TODO: print an error in this step of the detection
       return false if uname_s.nil? || uname_s.empty?
       return false if uname_r.nil? || uname_r.empty?
+      return false if !detect_linux_architecture
 
       return true if detect_linux_via_config
       return true if detect_linux_via_lsb

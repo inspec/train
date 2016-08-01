@@ -18,6 +18,9 @@ module Train::Extras
       # TODO: ditto on error
       return false if cmd.stdout.empty?
 
+      uname_m = @backend.run_command("uname -m").stdout.chomp
+      return false if uname_m.empty?
+
       name = cmd.stdout[/^ProductName:\s+(.+)$/, 1]
       # TODO: ditto on error
       return false if name.nil?
@@ -26,6 +29,7 @@ module Train::Extras
       @platform[:build] = cmd.stdout[/^BuildVersion:\s+(.+)$/, 1]
       # TODO: keep for now due to backwards compatibility with serverspec
       @platform[:family] = 'darwin'
+      @platform[:arch] = uname_m
       true
     end
   end
