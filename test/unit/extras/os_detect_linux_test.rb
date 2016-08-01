@@ -32,6 +32,19 @@ describe 'os_detect_linux' do
       end
     end
 
+    describe "/etc/redhat-release" do
+      describe "and /etc/os-release" do
+        it "sets the correct family, name, and release on centos" do
+          detector.stubs(:get_config).with("/etc/redhat-release").returns("CentOS Linux release 7.2.1511 (Core) \n")
+          detector.stubs(:get_config).with("/etc/os-release").returns("NAME=\"CentOS Linux\"\nVERSION=\"7 (Core)\"\nID=\"centos\"\nID_LIKE=\"rhel fedora\"\n")
+          detector.detect_linux_via_config.must_equal(true)
+          detector.platform[:name].must_equal('centos')
+          detector.platform[:family].must_equal('redhat')
+          detector.platform[:release].must_equal('redhat-version')
+        end
+      end
+    end
+
     describe '/etc/debian_version' do
 
       before { detector.stubs(:get_config).with('/etc/debian_version').returns('deb-version') }
