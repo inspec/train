@@ -14,13 +14,13 @@ end
 describe 'os_detect_linux' do
   let(:detector) { OsDetectLinuxTester.new }
 
-  describe '#detect_linux_architecture' do
+  describe '#detect_linux_arch' do
     it "sets the arch using uname" do
       be = mock("Backend")
       detector.stubs(:backend).returns(be)
       be.stubs(:run_command).with("uname -m").returns(mock("Output", stdout: "x86_64\n"))
-      detector.detect_linux_architecture.must_equal(true)
-      detector.platform[:arch].must_equal("x84_64")
+      detector.detect_linux_arch
+      detector.platform[:arch].must_equal("x86_64")
     end
   end
 
@@ -37,7 +37,8 @@ describe 'os_detect_linux' do
         detector.stubs(:get_config).with('/etc/enterprise-release').returns('data')
 
         detector.detect_linux_via_config.must_equal(true)
-        detector.platform[:family].must_equal('oracle')
+        detector.platform[:name].must_equal('oracle')
+        detector.platform[:family].must_equal('redhat')
         detector.platform[:release].must_equal('redhat-version')
       end
     end
@@ -64,7 +65,8 @@ describe 'os_detect_linux' do
           detector.stubs(:lsb).returns({ id: 'ubuntu', release: 'ubuntu-release' })
 
           detector.detect_linux_via_config.must_equal(true)
-          detector.platform[:family].must_equal('ubuntu')
+          detector.platform[:name].must_equal('ubuntu')
+          detector.platform[:family].must_equal('debian')
           detector.platform[:release].must_equal('ubuntu-release')
         end
       end
@@ -74,7 +76,8 @@ describe 'os_detect_linux' do
           detector.stubs(:lsb).returns({ id: 'linuxmint', release: 'mint-release' })
 
           detector.detect_linux_via_config.must_equal(true)
-          detector.platform[:family].must_equal('linuxmint')
+          detector.platform[:name].must_equal('linuxmint')
+          detector.platform[:family].must_equal('debian')
           detector.platform[:release].must_equal('mint-release')
         end
       end
@@ -85,7 +88,8 @@ describe 'os_detect_linux' do
           detector.expects(:unix_file?).with('/usr/bin/raspi-config').returns(true)
 
           detector.detect_linux_via_config.must_equal(true)
-          detector.platform[:family].must_equal('raspbian')
+          detector.platform[:name].must_equal('raspbian')
+          detector.platform[:family].must_equal('debian')
           detector.platform[:release].must_equal('deb-version')
         end
       end
@@ -96,6 +100,7 @@ describe 'os_detect_linux' do
           detector.expects(:unix_file?).with('/usr/bin/raspi-config').returns(false)
 
           detector.detect_linux_via_config.must_equal(true)
+          detector.platform[:name].must_equal('debian')
           detector.platform[:family].must_equal('debian')
           detector.platform[:release].must_equal('deb-version')
         end
@@ -125,7 +130,8 @@ describe 'os_detect_linux' do
           detector.stubs(:fetch_os_release).returns(data)
 
           detector.detect_linux_via_config.must_equal(true)
-          detector.platform[:family].must_equal('wrlinux')
+          detector.platform[:name].must_equal('wrlinux')
+          detector.platform[:family].must_equal('redhat')
           detector.platform[:release].must_equal('cisco123')
         end
       end

@@ -9,10 +9,16 @@
 #
 
 require 'train/extras/linux_lsb'
+require 'train/extras/uname'
 
 module Train::Extras
   module DetectLinux # rubocop:disable Metrics/ModuleLength
+    DEBIAN_FAMILY = %w{debian ubuntu linuxmint raspbian}.freeze
+    REDHAT_FAMILY = %w{centos redhat oracle scientific enterpriseenterprise xenserver cloudlinux ibm_powerkvm nexus_centos wrlinux}.freeze
+    SUSE_FAMILY = %w{suse opensuse}.freeze
+
     include Train::Extras::LinuxLSB
+    include Train::Extras::Uname
 
     def detect_linux_via_config # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
       if !(raw = get_config('oracle-release')).nil?
@@ -85,7 +91,7 @@ module Train::Extras
         @platform[:release] = meta[:release]
       elsif !(os_info = fetch_os_release).nil?
         if os_info['ID_LIKE'] =~ /wrlinux/
-          @platform[:name]  = 'wrlinux'
+          @platform[:name] = 'wrlinux'
           @platform[:release] = os_info['VERSION']
         end
       end
@@ -96,28 +102,15 @@ module Train::Extras
     end
 
     def family_for_platform
-      case @platform[:name]
-      when 'centos'
+      if DEBIAN_FAMILY.include?(@platform[:name])
+        'debian'
+      elsif REDHAT_FAMILY.include?(@platform[:name])
         'redhat'
+      elsif SUSE_FAMILY.include?(@platform[:name])
+        'suse'
       else
         @platform[:name] || @platform[:family]
       end
-    end
-
-    def uname_s
-      @uname_s ||= backend.run_command('uname -s').stdout
-    end
-
-    def uname_r
-      @uname_r ||= (
-        res = backend.run_command('uname -r').stdout
-        res.strip! unless res.nil?
-        res
-      )
-    end
-
-    def uname_m
-      @uname_m ||= backend.run_command('uname -m').stdout.chomp
     end
 
     def redhatish_platform(conf)
@@ -130,21 +123,16 @@ module Train::Extras
       conf[/release ([\d\.]+)/, 1]
     end
 
-    def detect_linux_architecture
-      if uname_m.nil? || uname_m.empty?
-        false
-      else
-        @platform[:arch] = uname_m
-        true
-      end
+    def detect_linux_arch
+      @platform[:arch] = uname_m
     end
 
     def detect_linux
       # TODO: print an error in this step of the detection
       return false if uname_s.nil? || uname_s.empty?
       return false if uname_r.nil? || uname_r.empty?
-      return false if !detect_linux_architecture
 
+      detect_linux_arch
       return true if detect_linux_via_config
       return true if detect_linux_via_lsb
       # in all other cases we failed the detection
