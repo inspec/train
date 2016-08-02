@@ -65,6 +65,16 @@ describe 'os common plugin' do
     it { os.unix?.must_equal(true) }
   end
 
+  describe 'with platform set to amazon' do
+    let(:os) { mock_platform('amazon') }
+    it { os.fedora?.must_equal(false) }
+    it { os.redhat?.must_equal(false) }
+    it { os.debian?.must_equal(false) }
+    it { os.suse?.must_equal(false) }
+    it { os.linux?.must_equal(true) }
+    it { os.unix?.must_equal(true) }
+  end
+
   describe 'with platform set to debian' do
     let(:os) { mock_platform('debian') }
     it { os.redhat?.must_equal(false) }

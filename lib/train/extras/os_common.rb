@@ -62,7 +62,7 @@ module Train::Extras
       },
     }
 
-    OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware fedora} + OS['redhat'] + OS['debian'] + OS['suse']
+    OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware fedora amazon} + OS['redhat'] + OS['debian'] + OS['suse']
 
     OS['unix'] = %w{unix aix hpux} + OS['linux'] + OS['solaris'] + OS['bsd']
 
