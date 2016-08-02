@@ -22,6 +22,7 @@ module Train::Extras
     include Train::Extras::DetectWindows
     include Train::Extras::DetectEsx
 
+    attr_accessor :backend
     def initialize(backend, platform = nil)
       @backend = backend
       @platform = platform || {}
@@ -37,15 +38,10 @@ module Train::Extras
     end
 
     OS = { # rubocop:disable Style/MutableConstant
-      'redhat' => %w{
-        redhat oracle centos fedora amazon scientific xenserver wrlinux
-      },
-      'debian' => %w{
-        debian ubuntu linuxmint raspbian
-      },
-      'suse' => %w{
-        suse opensuse
-      },
+      'redhat' => REDHAT_FAMILY,
+      'debian' => DEBIAN_FAMILY,
+      'suse' => SUSE_FAMILY,
+      'fedora' => %w{fedora},
       'bsd' => %w{
         freebsd netbsd openbsd darwin
       },
@@ -66,7 +62,7 @@ module Train::Extras
       },
     }
 
-    OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware} + OS['redhat'] + OS['debian'] + OS['suse']
+    OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware fedora amazon} + OS['redhat'] + OS['debian'] + OS['suse']
 
     OS['unix'] = %w{unix aix hpux} + OS['linux'] + OS['solaris'] + OS['bsd']
 

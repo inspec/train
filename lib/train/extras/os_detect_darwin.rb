@@ -7,9 +7,12 @@
 #   OHAI https://github.com/chef/ohai
 #   by Adam Jacob, Chef Software Inc
 #
+require 'train/extras/uname'
 
 module Train::Extras
   module DetectDarwin
+    include Train::Extras::Uname
+
     def detect_darwin
       cmd = @backend.run_command('/usr/bin/sw_vers')
       # TODO: print an error in this step of the detection,
@@ -26,7 +29,12 @@ module Train::Extras
       @platform[:build] = cmd.stdout[/^BuildVersion:\s+(.+)$/, 1]
       # TODO: keep for now due to backwards compatibility with serverspec
       @platform[:family] = 'darwin'
+      detect_darwin_arch
       true
+    end
+
+    def detect_darwin_arch
+      @platform[:arch] = uname_m
     end
   end
 end
