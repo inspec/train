@@ -69,11 +69,13 @@ module Train::Extras
     end
 
     def product_version
-      nil
+      @product_version ||= @backend.run_command(
+        "[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\"#{@spath}\").ProductVersion").stdout.chomp
     end
 
     def file_version
-      nil
+      @file_version ||= @backend.run_command(
+        "[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\"#{@spath}\").FileVersion").stdout.chomp
     end
 
     def stat
