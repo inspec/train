@@ -1,7 +1,15 @@
 # Change Log
 
-## [0.15.1](https://github.com/chef/train/tree/0.15.1) (2016-07-10)
-[Full Changelog](https://github.com/chef/train/compare/v0.15.0...0.15.1)
+## [0.16.0](https://github.com/chef/train/tree/0.16.0) (2016-08-08)
+[Full Changelog](https://github.com/chef/train/compare/v0.15.1...0.16.0)
+
+**Merged pull requests:**
+
+- provide file\_version and product\_version for windows files [\#127](https://github.com/chef/train/pull/127) ([chris-rock](https://github.com/chris-rock))
+- Bring train platform data more in line with ohai's platform data [\#126](https://github.com/chef/train/pull/126) ([stevendanna](https://github.com/stevendanna))
+
+## [v0.15.1](https://github.com/chef/train/tree/v0.15.1) (2016-07-11)
+[Full Changelog](https://github.com/chef/train/compare/v0.15.0...v0.15.1)
 
 **Fixed bugs:**
 
