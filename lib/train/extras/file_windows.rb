@@ -51,6 +51,13 @@ module Train::Extras
       nil
     end
 
+    def owner
+      owner = @backend.run_command(
+        "Get-Acl '#{@spath}' | select -expand Owner").stdout.strip
+      return if owner.empty?
+      owner
+    end
+
     def type
       if attributes.include?('Archive')
         return :file
@@ -61,7 +68,7 @@ module Train::Extras
     end
 
     %w{
-      mode owner group uid gid mtime size selinux_label
+      mode group uid gid mtime size selinux_label
     }.each do |field|
       define_method field.to_sym do
         nil
