@@ -23,9 +23,12 @@ matrix:
   - rvm: 2.1
   - rvm: 2.0
   - rvm: 2.2
-    script: bundle exec rake test test:docker config=test-travis-1.yaml
+    script: bundle exec rake $SUITE
+    env: SUITE="test test:docker config=test-travis-1.yaml"
   - rvm: 2.2
-    script: bundle exec rake test:docker config=test-travis-2.yaml
+    script: bundle exec rake $SUITE
+    env: SUITE="test:docker config=test-travis-2.yaml"
+
 deploy:
   provider: rubygems
   gemspec: train.gemspec
