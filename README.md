@@ -1,6 +1,9 @@
 # Train - Transport Interface
 
-Train lets you talk to your local or remote operating systems with a unified interface.
+Train lets you talk to your local or remote operating systems with a
+unified interface.
+
+No-op change to test appveyor
 
 It allows you to:
 
@@ -112,7 +115,7 @@ bundle exec ruby -I .\test\windows\ .\test\windows\local_test.rb
 
 Train is heavily based on the work of:
 
-* [test-kitchen](https://github.com/test-kitchen/test-kitchen)  
+* [test-kitchen](https://github.com/test-kitchen/test-kitchen)
 
     by [Fletcher Nichol](fnichol@nichol.ca)
     and [a great community of contributors](https://github.com/test-kitchen/test-kitchen/graphs/contributors)
