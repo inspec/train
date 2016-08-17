@@ -136,6 +136,8 @@ class DockerRunner
     puts "--> killrm docker #{container.id}"
     container.kill
     container.delete(force: true)
+  rescue Exception => e
+    puts e.message
   end
 
   private
