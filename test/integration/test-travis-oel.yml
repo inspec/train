@@ -1,0 +1,6 @@
+images:
+- oraclelinux:5.11
+- oraclelinux:6.8
+- oraclelinux:7.2
+provision:
+- script: bootstrap.sh

@@ -1,0 +1,8 @@
+images:
+- fedora:20
+- fedora:21
+- fedora:22
+- fedora:23
+- fedora:24
+provision:
+- script: bootstrap.sh
