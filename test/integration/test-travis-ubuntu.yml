@@ -1,0 +1,8 @@
+images:
+- ubuntu:10.04
+- ubuntu:12.04
+- ubuntu:14.04
+- ubuntu:16.04
+- ubuntu:16.10
+provision:
+- script: bootstrap.sh

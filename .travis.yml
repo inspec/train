@@ -23,9 +23,24 @@ matrix:
   - rvm: 2.1
   - rvm: 2.0
   - rvm: 2.2
-    script: bundle exec rake test test:docker config=test-travis-1.yaml
+    script: bundle exec rake $SUITE
+    env: SUITE="test"
   - rvm: 2.2
-    script: bundle exec rake test:docker config=test-travis-2.yaml
+    script: bundle exec rake $SUITE
+    env: SUITE="test:docker config=test-travis-debian.yml"
+  - rvm: 2.2
+    script: bundle exec rake $SUITE
+    env: SUITE="test:docker config=test-travis-centos.yml"
+  - rvm: 2.2
+    script: bundle exec rake $SUITE
+    env: SUITE="test:docker config=test-travis-oel.yml"
+  - rvm: 2.2
+    script: bundle exec rake $SUITE
+    env: SUITE="test:docker config=test-travis-fedora.yml"
+  - rvm: 2.2
+    script: bundle exec rake $SUITE
+    env: SUITE="test:docker config=test-travis-ubuntu.yml"
+
 deploy:
   provider: rubygems
   gemspec: train.gemspec

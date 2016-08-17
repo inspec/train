@@ -1,0 +1,6 @@
+images:
+- centos:5.11
+- centos:6.8
+- centos:7.2.1511
+provision:
+- script: bootstrap.sh

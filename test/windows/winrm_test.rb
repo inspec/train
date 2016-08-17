@@ -7,7 +7,7 @@ require 'minitest/spec'
 require 'mocha/setup'
 require 'train'
 
-describe 'windows local command' do
+describe 'windows winrm command' do
   let(:conn) {
     # get final config
     target_config = Train.target_config({
