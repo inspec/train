@@ -1,7 +1,23 @@
 # Change Log
 
-## [0.16.0](https://github.com/chef/train/tree/0.16.0) (2016-08-08)
-[Full Changelog](https://github.com/chef/train/compare/v0.15.1...0.16.0)
+## [0.17.0](https://github.com/chef/train/tree/0.17.0) (2016-08-19)
+[Full Changelog](https://github.com/chef/train/compare/v0.16.0...0.17.0)
+
+**Implemented enhancements:**
+
+- return owner for files on windows [\#132](https://github.com/chef/train/pull/132) ([chris-rock](https://github.com/chris-rock))
+
+**Closed issues:**
+
+- prefix powershell commands with `$ProgressPreference = "SilentlyContinue"` [\#134](https://github.com/chef/train/issues/134)
+
+**Merged pull requests:**
+
+- CI improvements [\#133](https://github.com/chef/train/pull/133) ([chris-rock](https://github.com/chris-rock))
+- Rescue EPIPE on connect in ssh transport [\#130](https://github.com/chef/train/pull/130) ([stevendanna](https://github.com/stevendanna))
+
+## [v0.16.0](https://github.com/chef/train/tree/v0.16.0) (2016-08-08)
+[Full Changelog](https://github.com/chef/train/compare/v0.15.1...v0.16.0)
 
 **Merged pull requests:**
 
