@@ -18,8 +18,8 @@ group :test do
 end
 
 group :integration do
-  gem 'berkshelf', '~> 4.0'
-  gem 'test-kitchen', '~> 1.4'
+  gem 'berkshelf', '~> 4.3'
+  gem 'test-kitchen', '~> 1.11'
   gem 'kitchen-vagrant'
 end
 
