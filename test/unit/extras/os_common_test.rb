@@ -286,4 +286,14 @@ describe 'os common plugin' do
     it { os.esx?.must_equal(true) }
   end
 
+  describe 'with platform set to darwin' do
+    let(:os) { mock_platform('darwin') }
+    it { os.solaris?.must_equal(false) }
+    it { os.linux?.must_equal(false) }
+    it {os[:family].must_equal('darwin')}
+    it { os.unix?.must_equal(true) }
+    it { os.bsd?.must_equal(true) }
+    it { os.esx?.must_equal(false) }
+  end
+
 end
