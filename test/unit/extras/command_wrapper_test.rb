@@ -36,7 +36,7 @@ describe 'linux command' do
     pw = rand.to_s
     lc = cls.new(backend, { sudo: true, sudo_password: pw })
     bpw = Base64.strict_encode64(pw + "\n")
-    lc.run(cmd).must_equal "echo #{bpw} | base64 -d | sudo -S #{cmd}"
+    lc.run(cmd).must_equal "echo #{bpw} | base64 --decode | sudo -S #{cmd}"
   end
 
   it 'wraps commands in sudo_command instead of sudo' do
@@ -57,7 +57,7 @@ describe 'linux command' do
     sudo_command = rand.to_s
     lc = cls.new(backend, { sudo: true, sudo_command: sudo_command, sudo_password: pw })
     bpw = Base64.strict_encode64(pw + "\n")
-    lc.run(cmd).must_equal "echo #{bpw} | base64 -d | #{sudo_command} -S #{cmd}"
+    lc.run(cmd).must_equal "echo #{bpw} | base64 --decode | #{sudo_command} -S #{cmd}"
   end
 end
 

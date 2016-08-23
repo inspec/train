@@ -89,7 +89,7 @@ module Train::Extras
 
       unless @sudo_password.nil?
         b64pw = Base64.strict_encode64(@sudo_password + "\n")
-        res = "echo #{b64pw} | base64 -d | #{res}-S "
+        res = "echo #{b64pw} | base64 --decode | #{res}-S "
       end
 
       res << @sudo_options.to_s + ' ' unless @sudo_options.nil?
