@@ -12,6 +12,8 @@ class DockerRunner
       fail "Can't find configuration in #{@conf_path}"
     end
 
+    docker_run_concurrency = (ENV['N'] || 5).to_i
+
     @conf = YAML.load_file(@conf_path)
     if @conf.nil? or @conf.empty?
       fail "Can't read coniguration in #{@conf_path}"
@@ -22,7 +24,7 @@ class DockerRunner
 
     @images = docker_images_by_tag
     @image_pull_tickets = Concurrent::Semaphore.new(2)
-    @docker_run_tickets = Concurrent::Semaphore.new(5)
+    @docker_run_tickets = Concurrent::Semaphore.new(docker_run_concurrency)
   end
 
   def run_all(&block)
