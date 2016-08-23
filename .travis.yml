@@ -27,19 +27,19 @@ matrix:
     env: SUITE="test"
   - rvm: 2.2
     script: bundle exec rake $SUITE
-    env: SUITE="test:docker config=test-travis-debian.yml"
+    env: SUITE="test:docker config=test-travis-debian.yml N=2"
   - rvm: 2.2
     script: bundle exec rake $SUITE
-    env: SUITE="test:docker config=test-travis-centos.yml"
+    env: SUITE="test:docker config=test-travis-centos.yml N=2"
   - rvm: 2.2
     script: bundle exec rake $SUITE
-    env: SUITE="test:docker config=test-travis-oel.yml"
+    env: SUITE="test:docker config=test-travis-oel.yml N=2"
   - rvm: 2.2
     script: bundle exec rake $SUITE
-    env: SUITE="test:docker config=test-travis-fedora.yml"
+    env: SUITE="test:docker config=test-travis-fedora.yml N=2"
   - rvm: 2.2
     script: bundle exec rake $SUITE
-    env: SUITE="test:docker config=test-travis-ubuntu.yml"
+    env: SUITE="test:docker config=test-travis-ubuntu.yml N=2"
 
 deploy:
   provider: rubygems
