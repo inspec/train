@@ -5,9 +5,7 @@
 # Helper recipe to create create a few files in the operating
 # systems, which the runner will test against.
 
-gid = 'root'
-gid = 'wheel' if node['platform_family'] == 'freebsd'
-gid = 'system' if node['platform_family'] == 'aix'
+gid = node['platform_family'] == 'aix' ? 'system' : node['root_group']
 
 file '/tmp/file' do
   mode '0765'
