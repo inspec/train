@@ -114,7 +114,7 @@ module Train::Extras
       # especially in local mode, we cannot be sure that we get a Powershell
       # we may just get a `cmd`.
       # TODO: we may want to opt for powershell.exe -command instead of `encodeCommand`
-      "powershell -encodedCommand #{WinRM::PowershellScript.new(safe_script(script)).encoded}"
+      "powershell -NoProfile -encodedCommand #{WinRM::PowershellScript.new(safe_script(script)).encoded}"
     end
 
     # reused from https://github.com/WinRb/WinRM/blob/master/lib/winrm/command_executor.rb
