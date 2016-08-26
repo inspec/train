@@ -8,6 +8,11 @@ if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.3')
   gem 'net-ssh', '~> 2.9'
 end
 
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2')
+  gem 'json', '< 2.0'
+  gem 'rack', '< 2.0'
+end
+
 group :test do
   gem 'bundler', '~> 1.11'
   gem 'minitest', '~> 5.8'
