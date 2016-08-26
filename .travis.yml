@@ -20,24 +20,25 @@ branches:
 
 matrix:
   include:
-  - rvm: 2.1
-  - rvm: 2.0
-  - rvm: 2.2
+  - rvm: 2.2.5
+  - rvm: 2.1.9
+  - rvm: 2.0.0-p648
+  - rvm: 2.3.1
     script: bundle exec rake $SUITE
     env: SUITE="test"
-  - rvm: 2.2
+  - rvm: 2.3.1
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-debian.yml"
-  - rvm: 2.2
+  - rvm: 2.3.1
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-centos.yml"
-  - rvm: 2.2
+  - rvm: 2.3.1
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-oel.yml"
-  - rvm: 2.2
+  - rvm: 2.3.1
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-fedora.yml"
-  - rvm: 2.2
+  - rvm: 2.3.1
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-ubuntu.yml"
 

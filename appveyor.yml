@@ -16,10 +16,10 @@ environment:
     - ruby_version: "21"
       train_target: winrm://test_user@localhost:5985
 
-    - ruby_version: "22"
+    - ruby_version: "23"
       train_target: winrm://test_user@localhost:5985
 
-    - ruby_version: "22"
+    - ruby_version: "23"
       train_ssl: true
       train_target: winrm://test_user@localhost:5986
 
