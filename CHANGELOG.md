@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.17.0](https://github.com/chef/train/tree/0.17.0) (2016-08-19)
-[Full Changelog](https://github.com/chef/train/compare/v0.16.0...0.17.0)
+## [0.18.0](https://github.com/chef/train/tree/0.18.0) (2016-08-26)
+[Full Changelog](https://github.com/chef/train/compare/v0.17.0...0.18.0)
+
+**Merged pull requests:**
+
+- Allow JSON 2.0 on Ruby 2.2 and above [\#144](https://github.com/chef/train/pull/144) ([jkeiser](https://github.com/jkeiser))
+- Enable Ruby 2.3 in Travis, make it default suite [\#143](https://github.com/chef/train/pull/143) ([jkeiser](https://github.com/jkeiser))
+- Add the darwin platform family [\#141](https://github.com/chef/train/pull/141) ([tas50](https://github.com/tas50))
+- update integration test dependencies [\#139](https://github.com/chef/train/pull/139) ([tas50](https://github.com/tas50))
+- Add badges to the readme [\#138](https://github.com/chef/train/pull/138) ([tas50](https://github.com/tas50))
+- use --decode on base64 command to maintain compatibility with Darwin. [\#137](https://github.com/chef/train/pull/137) ([thomascate](https://github.com/thomascate))
+
+## [v0.17.0](https://github.com/chef/train/tree/v0.17.0) (2016-08-19)
+[Full Changelog](https://github.com/chef/train/compare/v0.16.0...v0.17.0)
 
 **Implemented enhancements:**
 
