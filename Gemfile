@@ -8,7 +8,7 @@ if Gem::Version.new(RUBY_VERSION) <= Gem::Version.new('1.9.3')
   gem 'net-ssh', '~> 2.9'
 end
 
-if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2')
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
   gem 'json', '< 2.0'
   gem 'rack', '< 2.0'
 end
