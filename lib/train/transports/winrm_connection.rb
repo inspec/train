@@ -30,9 +30,7 @@ class Train::Transports::WinRM
   class Connection < BaseConnection
     def initialize(options)
       super(options)
-      @endpoint               = @options.delete(:endpoint)
       @rdp_port               = @options.delete(:rdp_port)
-      @winrm_transport        = @options.delete(:winrm_transport)
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
@@ -59,11 +57,11 @@ class Train::Transports::WinRM
       logger.debug("[WinRM] #{self} (#{command})")
       out = ''
 
-      response = session.run_powershell_script(command) do |stdout, _|
+      response = session.run(command) do |stdout, _|
         out << stdout if stdout
       end
 
-      CommandResult.new(out, response.stderr, response[:exitcode])
+      CommandResult.new(out, response.stderr, response.exitcode)
     end
 
     # (see Base::Connection#login_command)
@@ -98,7 +96,7 @@ class Train::Transports::WinRM
     end
 
     def uri
-      "winrm://#{options[:user]}@#{@endpoint}:#{@rdp_port}"
+      "winrm://#{options[:user]}@#{options[:endpoint]}:#{@rdp_port}"
     end
 
     private
@@ -112,7 +110,7 @@ class Train::Transports::WinRM
     #   Mac system
     # @api private
     def rdp_doc(opts = {})
-      host = URI.parse(@endpoint).host
+      host = URI.parse(options[:endpoint]).host
       content = [
         "full address:s:#{host}:#{@rdp_port}",
         'prompt for credentials:i:1',
@@ -139,7 +137,7 @@ class Train::Transports::WinRM
     def login_command_for_linux
       args  = %W( -u #{options[:user]} )
       args += %W( -p #{options[:pass]} ) if options.key?(:pass)
-      args += %W( #{URI.parse(@endpoint).host}:#{@rdp_port} )
+      args += %W( #{URI.parse(options[:endpoint]).host}:#{@rdp_port} )
       LoginCommand.new('rdesktop', args)
     end
 
@@ -172,10 +170,9 @@ class Train::Transports::WinRM
           retry_delay: @connection_retry_sleep.to_i,
         }.merge(retry_options)
 
-        service_args = [@endpoint, @winrm_transport, options.merge(opts)]
-        @service = ::WinRM::WinRMWebService.new(*service_args)
+        @service = ::WinRM::Connection.new(options.merge(opts))
         @service.logger = logger
-        @service.create_executor
+        @service.shell(:powershell)
       end
     end
 
@@ -184,7 +181,7 @@ class Train::Transports::WinRM
     #
     # @api private
     def to_s
-      "#{@winrm_transport}::#{@endpoint}<#{options.inspect}>"
+      "<#{options.inspect}>"
     end
 
     class OS < OSCommon
