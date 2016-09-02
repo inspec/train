@@ -101,6 +101,12 @@ We perform `unit`, `integration` and `windows` tests.
 * `integration` tests run against VMs and docker containers
 * `windows` tests that run on appveyor for windows integration tests
 
+## Mac/Linux
+
+```
+bundle exec ruby -W -Ilib:test/unit test/unit/extras/stat_test.rb
+```
+
 ## Windows
 
 ```
