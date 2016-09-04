@@ -89,7 +89,7 @@ module Train::Transports
       opts[:endpoint] = "#{scheme}://#{opts[:host]}:#{port}/#{path}"
     end
 
-    WINRM_FS_SPEC_VERSION = '~> 0.3'.freeze
+    WINRM_FS_SPEC_VERSION = '~> 1.0'.freeze
 
     # Builds the hash of options needed by the Connection object on
     # construction.
@@ -100,12 +100,12 @@ module Train::Transports
     def connection_options(opts)
       {
         logger:                   logger,
-        winrm_transport:          :negotiate,
+        transport:                :negotiate,
         disable_sspi:             false,
         basic_auth_only:          false,
         endpoint:                 opts[:endpoint],
         user:                     opts[:user],
-        pass:                     opts[:password],
+        password:                 opts[:password],
         rdp_port:                 opts[:rdp_port],
         connection_retries:       opts[:connection_retries],
         connection_retry_sleep:   opts[:connection_retry_sleep],

@@ -3,7 +3,6 @@
 # author: Christoph Hartmann
 
 require 'base64'
-require 'winrm'
 require 'train/errors'
 
 module Train::Extras
@@ -114,13 +113,20 @@ module Train::Extras
       # especially in local mode, we cannot be sure that we get a Powershell
       # we may just get a `cmd`.
       # TODO: we may want to opt for powershell.exe -command instead of `encodeCommand`
-      "powershell -encodedCommand #{WinRM::PowershellScript.new(safe_script(script)).encoded}"
+      "powershell -encodedCommand #{encoded(safe_script(script))}"
     end
 
-    # reused from https://github.com/WinRb/WinRM/blob/master/lib/winrm/command_executor.rb
     # suppress the progress stream from leaking to stderr
     def safe_script(script)
       "$ProgressPreference='SilentlyContinue';" + script
+    end
+
+    # Encodes the script so that it can be passed to the PowerShell
+    # --EncodedCommand argument.
+    # @return [String] The UTF-16LE base64 encoded script
+    def encoded(script)
+      encoded_script = safe_script(script).encode('UTF-16LE', 'UTF-8')
+      Base64.strict_encode64(encoded_script)
     end
 
     def to_s
