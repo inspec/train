@@ -134,8 +134,7 @@ class DockerRunner
   def stop_container(container)
     @docker_run_tickets.release(1)
     puts "--> killrm docker #{container.id}"
-    container.kill
-    container.delete(force: true)
+    container.kill!.remove
   end
 
   private
