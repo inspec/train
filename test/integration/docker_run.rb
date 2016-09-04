@@ -124,8 +124,8 @@ class DockerRunner
     container.start
 
     scripts.each do |script|
-      container.exec(%w{chmod +x}.push(script))
-      container.exec(%w{sh -c}.push(script))
+      container.exec(%w{chmod +x}.push(script), wait: 240)
+      container.exec(%w{sh -c}.push(script), wait: 240)
     end
 
     container
