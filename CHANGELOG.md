@@ -1,7 +1,19 @@
 # Change Log
 
-## [0.18.0](https://github.com/chef/train/tree/0.18.0) (2016-08-26)
-[Full Changelog](https://github.com/chef/train/compare/v0.17.0...0.18.0)
+## [0.19.0](https://github.com/chef/train/tree/0.19.0) (2016-09-05)
+[Full Changelog](https://github.com/chef/train/compare/v0.18.0...0.19.0)
+
+**Fixed bugs:**
+
+- use stat -c for alpine linux [\#146](https://github.com/chef/train/pull/146) ([chris-rock](https://github.com/chris-rock))
+
+**Merged pull requests:**
+
+- support ruby 2.2.1 [\#145](https://github.com/chef/train/pull/145) ([chris-rock](https://github.com/chris-rock))
+- Use winrm v2 implementation [\#122](https://github.com/chef/train/pull/122) ([mwrock](https://github.com/mwrock))
+
+## [v0.18.0](https://github.com/chef/train/tree/v0.18.0) (2016-08-26)
+[Full Changelog](https://github.com/chef/train/compare/v0.17.0...v0.18.0)
 
 **Merged pull requests:**
 
