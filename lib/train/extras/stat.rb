@@ -34,9 +34,8 @@ module Train::Extras
 
     def self.linux_stat(shell_escaped_path, backend, follow_symlink)
       lstat = follow_symlink ? ' -L' : ''
-      format = backend.os.esx? ? '-c' : '--printf'
+      format = (backend.os.esx? || backend.os[:name] == 'alpine') ? '-c' : '--printf'
       res = backend.run_command("stat#{lstat} #{shell_escaped_path} 2>/dev/null #{format} '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
-
       # ignore the exit_code: it is != 0 if selinux labels are not supported
       # on the system.
 
