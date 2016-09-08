@@ -40,6 +40,7 @@ module Train::Extras
       validate_options(options)
 
       @sudo = options[:sudo]
+      @shell = options[:shell]
       @login = options[:login]
       @sudo_options = options[:sudo_options]
       @sudo_password = options[:sudo_password]
@@ -72,11 +73,15 @@ module Train::Extras
 
     # (see CommandWrapperBase::run)
     def run(command)
-      login_wrap(sudo_wrap(command))
+      shell_wrap(sudo_wrap(command))
     end
 
     def self.active?(options)
-      options.is_a?(Hash) && options[:sudo]
+      options.is_a?(Hash) && (
+        options[:sudo] ||
+        options[:shell] ||
+        options[:login]
+      )
     end
 
     private
@@ -97,9 +102,12 @@ module Train::Extras
       res + cmd
     end
 
-    def login_wrap(cmd)
-      return cmd unless @login
-      "$SHELL -l <<< \"#{cmd}\""
+    def shell_wrap(cmd)
+      return cmd unless @shell || @login
+      login_param = '--login ' if @login
+      shell = @shell.instance_of?(String) ? @shell : '$SHELL'
+
+      "#{shell} #{login_param}<<< \"#{cmd}\""
     end
   end
 

@@ -62,15 +62,40 @@ describe 'linux command' do
     end
   end
 
-  describe 'login wrapping' do
-    it 'wraps commands in login' do
+  describe 'shell wrapping' do
+    it 'wraps commands in a default shell with login' do
       lc = cls.new(backend, { login: true })
-      lc.run(cmd).must_equal "$SHELL -l <<< \"#{cmd}\""
+      lc.run(cmd).must_equal "$SHELL --login <<< \"#{cmd}\""
     end
 
-    it 'wraps sudo commands in a login shell' do
+    it 'wraps sudo commands in a default shell with login' do
       lc = cls.new(backend, { sudo: true, login: true })
-      lc.run(cmd).must_equal "$SHELL -l <<< \"sudo #{cmd}\""
+      lc.run(cmd).must_equal "$SHELL --login <<< \"sudo #{cmd}\""
+    end
+
+    it 'wraps commands in a default shell when shell is true' do
+      lc = cls.new(backend, { shell: true })
+      lc.run(cmd).must_equal "$SHELL <<< \"#{cmd}\""
+    end
+
+    it 'doesnt wrap commands in a shell when shell is false' do
+      lc = cls.new(backend, { shell: false })
+      lc.run(cmd).must_equal cmd
+    end
+
+    it 'wraps commands in a shell when shell is false, but login is true' do
+      lc = cls.new(backend, { shell: false, login: true })
+      lc.run(cmd).must_equal "$SHELL --login <<< \"#{cmd}\""
+    end
+
+    it 'wraps commands in a `shell` instead of default shell' do
+      lc = cls.new(backend, { shell: '/bin/bash' })
+      lc.run(cmd).must_equal "/bin/bash <<< \"#{cmd}\""
+    end
+
+    it 'wraps commands in a default shell with login' do
+      lc = cls.new(backend, { shell: '/bin/bash', login: true })
+      lc.run(cmd).must_equal "/bin/bash --login <<< \"#{cmd}\""
     end
   end
 end
