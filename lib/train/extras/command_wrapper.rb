@@ -29,6 +29,7 @@ module Train::Extras
     Train::Options.attach(self)
 
     option :sudo, default: false
+    option :login, default: false
     option :sudo_options, default: nil
     option :sudo_password, default: nil
     option :sudo_command, default: nil
@@ -39,11 +40,11 @@ module Train::Extras
       validate_options(options)
 
       @sudo = options[:sudo]
+      @login = options[:login]
       @sudo_options = options[:sudo_options]
       @sudo_password = options[:sudo_password]
       @sudo_command = options[:sudo_command]
       @user = options[:user]
-      @prefix = build_prefix
     end
 
     # (see CommandWrapperBase::verify)
@@ -71,7 +72,7 @@ module Train::Extras
 
     # (see CommandWrapperBase::run)
     def run(command)
-      @prefix + command
+      login_wrap(sudo_wrap(command))
     end
 
     def self.active?(options)
@@ -80,9 +81,9 @@ module Train::Extras
 
     private
 
-    def build_prefix
-      return '' unless @sudo
-      return '' if @user == 'root'
+    def sudo_wrap(cmd)
+      return cmd unless @sudo
+      return cmd if @user == 'root'
 
       res = (@sudo_command || 'sudo') + ' '
 
@@ -93,7 +94,12 @@ module Train::Extras
 
       res << @sudo_options.to_s + ' ' unless @sudo_options.nil?
 
-      res
+      res + cmd
+    end
+
+    def login_wrap(cmd)
+      return cmd unless @login
+      "$SHELL -l <<< \"#{cmd}\""
     end
   end
 
