@@ -30,6 +30,7 @@ class Train::Transports::WinRM
   class Connection < BaseConnection
     def initialize(options)
       super(options)
+      @hostname               = @options.delete(:hostname)
       @rdp_port               = @options.delete(:rdp_port)
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)

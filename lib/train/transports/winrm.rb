@@ -103,6 +103,7 @@ module Train::Transports
         transport:                :negotiate,
         disable_sspi:             false,
         basic_auth_only:          false,
+        hostname:                 opts[:host],
         endpoint:                 opts[:endpoint],
         user:                     opts[:user],
         password:                 opts[:password],
