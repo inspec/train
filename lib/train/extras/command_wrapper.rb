@@ -29,6 +29,7 @@ module Train::Extras
     Train::Options.attach(self)
 
     option :sudo, default: false
+    option :shell, default: false
     option :login, default: false
     option :sudo_options, default: nil
     option :sudo_password, default: nil
