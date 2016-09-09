@@ -28,6 +28,7 @@ class Train::Transports::WinRM
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection
+    attr_reader :hostname
     def initialize(options)
       super(options)
       @hostname               = @options.delete(:hostname)
