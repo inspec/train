@@ -28,8 +28,10 @@ class Train::Transports::WinRM
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection
+    attr_reader :hostname
     def initialize(options)
       super(options)
+      @hostname               = @options.delete(:hostname)
       @rdp_port               = @options.delete(:rdp_port)
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)

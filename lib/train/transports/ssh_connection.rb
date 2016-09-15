@@ -30,6 +30,7 @@ class Train::Transports::SSH
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
+    attr_reader :hostname
     def initialize(options)
       super(options)
       @username               = @options.delete(:username)
