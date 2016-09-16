@@ -1,7 +1,15 @@
 # Change Log
 
-## [0.19.0](https://github.com/chef/train/tree/0.19.0) (2016-09-05)
-[Full Changelog](https://github.com/chef/train/compare/v0.18.0...0.19.0)
+## [0.19.1](https://github.com/chef/train/tree/0.19.1) (2016-09-16)
+[Full Changelog](https://github.com/chef/train/compare/v0.19.0...0.19.1)
+
+**Implemented enhancements:**
+
+- hostname property for WinRM::Connection [\#128](https://github.com/chef/train/issues/128)
+- Return hostname from WinRM::Connection same as SSH::Connection [\#150](https://github.com/chef/train/pull/150) ([alexpop](https://github.com/alexpop))
+
+## [v0.19.0](https://github.com/chef/train/tree/v0.19.0) (2016-09-05)
+[Full Changelog](https://github.com/chef/train/compare/v0.18.0...v0.19.0)
 
 **Fixed bugs:**
 
