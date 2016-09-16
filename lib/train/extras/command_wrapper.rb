@@ -111,8 +111,8 @@ module Train::Extras
     def shell_wrap(cmd)
       return cmd unless @shell
       shell = @shell_command || '$SHELL'
-      options = @shell_options.to_s + ' ' unless @shell_options.nil?
-      "#{shell} #{options}<<< '#{cmd}'"
+      options = ' ' + @shell_options.to_s unless @shell_options.nil?
+      "echo '#{cmd}' > #{shell}#{options}"
     end
   end
 
