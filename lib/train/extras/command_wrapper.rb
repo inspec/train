@@ -28,9 +28,11 @@ module Train::Extras
   class LinuxCommand < CommandWrapperBase
     Train::Options.attach(self)
 
-    option :sudo, default: false
+
     option :shell, default: false
-    option :login, default: false
+    option :shell_options, default: nil
+    option :shell_command, default: nil
+    option :sudo, default: false
     option :sudo_options, default: nil
     option :sudo_password, default: nil
     option :sudo_command, default: nil
@@ -40,9 +42,10 @@ module Train::Extras
       @backend = backend
       validate_options(options)
 
-      @sudo = options[:sudo]
       @shell = options[:shell]
-      @login = options[:login]
+      @shell_options = options[:shell_options] # e.g. '--login'
+      @shell_command = options[:shell_command] # e.g. '/bin/sh'
+      @sudo = options[:sudo]
       @sudo_options = options[:sudo_options]
       @sudo_password = options[:sudo_password]
       @sudo_command = options[:sudo_command]
@@ -80,13 +83,13 @@ module Train::Extras
     def self.active?(options)
       options.is_a?(Hash) && (
         options[:sudo] ||
-        options[:shell] ||
-        options[:login]
+        options[:shell]
       )
     end
 
     private
 
+    # wrap the cmd in a sudo command
     def sudo_wrap(cmd)
       return cmd unless @sudo
       return cmd if @user == 'root'
@@ -103,12 +106,13 @@ module Train::Extras
       res + cmd
     end
 
+    # wrap the cmd in a subshell allowing for options to
+    # passed to the subshell
     def shell_wrap(cmd)
-      return cmd unless @shell || @login
-      login_param = '--login ' if @login
-      shell = @shell.instance_of?(String) ? @shell : '$SHELL'
-
-      "#{shell} #{login_param}<<< \"#{cmd}\""
+      return cmd unless @shell
+      shell = @shell_command || '$SHELL'
+      options = @shell_options.to_s + ' ' unless @shell_options.nil?
+      "#{shell} #{options}<<< '#{cmd}'"
     end
   end
 
