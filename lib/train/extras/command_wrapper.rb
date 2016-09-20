@@ -28,7 +28,6 @@ module Train::Extras
   class LinuxCommand < CommandWrapperBase
     Train::Options.attach(self)
 
-
     option :shell, default: false
     option :shell_options, default: nil
     option :shell_command, default: nil
