@@ -50,8 +50,37 @@ module Train::Extras
         @platform[:build] = sys_info[:BuildNumber]
         @platform[:name] = sys_info[:Caption]
         @platform[:name] = @platform[:name].gsub('Microsoft', '').strip unless @platform[:name].empty?
-        @platform[:arch] = sys_info[:OSArchitecture]
+        @platform[:arch] = read_wmic_cpu
       end
+    end
+
+    # `OSArchitecture` from `read_wmic` does not match a normal standard
+    # For example, `x86_64` shows as `64-bit`
+    def read_wmic_cpu
+      res = @backend.run_command('wmic cpu get architecture /format:list')
+      if res.exit_status == 0
+        sys_info = {}
+        res.stdout.lines.each { |line|
+          m = /^\s*([^=]*?)\s*=\s*(.*?)\s*$/.match(line)
+          sys_info[m[1].to_sym] = m[2] unless m.nil? || m[1].nil?
+        }
+      end
+
+      # This converts `wmic os get architecture` output to a normal standard
+      # https://msdn.microsoft.com/en-us/library/aa394373(VS.85).aspx
+      arch_map = {
+        0 => 'i386',
+        1 => 'mips',
+        2 => 'alpha',
+        3 => 'powerpc',
+        5 => 'arm',
+        6 => 'ia64',
+        9 => 'x86_64',
+      }
+
+      # The value of `wmic cpu get architecture` is always a number between 0-9
+      arch_number = sys_info[:Architecture].to_i
+      arch_map[arch_number]
     end
   end
 end
