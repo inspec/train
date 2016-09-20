@@ -96,10 +96,7 @@ module Train::Extras
 
       res = (@sudo_command || 'sudo') + ' '
 
-      unless @sudo_password.nil?
-        b64pw = Base64.strict_encode64(@sudo_password + "\n")
-        res = "echo #{b64pw} | base64 --decode | #{res}-S "
-      end
+      res = "#{safe_string(@sudo_password + "\n")} | #{res}-S " unless @sudo_password.nil?
 
       res << @sudo_options.to_s + ' ' unless @sudo_options.nil?
 
@@ -110,9 +107,18 @@ module Train::Extras
     # passed to the subshell
     def shell_wrap(cmd)
       return cmd unless @shell
+
       shell = @shell_command || '$SHELL'
       options = ' ' + @shell_options.to_s unless @shell_options.nil?
-      "echo '#{cmd}' > #{shell}#{options}"
+
+      "#{safe_string(cmd)} | #{shell}#{options}"
+    end
+
+    # encapsulates encoding the string into a safe form, and decoding for use.
+    # @return [String] A command line snippet that can be used as part of a pipeline.
+    def safe_string(str)
+      b64str = Base64.strict_encode64(str)
+      "echo #{b64str} | base64 --decode"
     end
   end
 

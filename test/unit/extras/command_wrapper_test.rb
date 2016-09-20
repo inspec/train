@@ -65,17 +65,29 @@ describe 'linux command' do
   describe 'shell wrapping' do
     it 'wraps commands in a default shell with login' do
       lc = cls.new(backend, { shell: true, shell_options: '--login' })
-      lc.run(cmd).must_equal "echo '#{cmd}' > $SHELL --login"
+      bcmd = Base64.strict_encode64(cmd)
+      lc.run(cmd).must_equal "echo #{bcmd} | base64 --decode | $SHELL --login"
     end
 
     it 'wraps sudo commands in a default shell with login' do
       lc = cls.new(backend, { sudo: true, shell: true, shell_options: '--login' })
-      lc.run(cmd).must_equal "echo 'sudo #{cmd}' > $SHELL --login"
+      bcmd = Base64.strict_encode64("sudo #{cmd}")
+      lc.run(cmd).must_equal "echo #{bcmd} | base64 --decode | $SHELL --login"
+    end
+
+    it 'wraps sudo commands and sudo passwords in a default shell with login' do
+      pw = rand.to_s
+      lc = cls.new(backend, { sudo: true, sudo_password: pw, shell: true, shell_options: '--login' })
+      bpw = Base64.strict_encode64(pw + "\n")
+      bcmd = Base64.strict_encode64("echo #{bpw} | base64 --decode | sudo -S #{cmd}")
+      lc.run(cmd).must_equal "echo #{bcmd} | base64 --decode | $SHELL --login"
+      p bcmd
     end
 
     it 'wraps commands in a default shell when shell is true' do
       lc = cls.new(backend, { shell: true })
-      lc.run(cmd).must_equal "echo '#{cmd}' > $SHELL"
+      bcmd = Base64.strict_encode64(cmd)
+      lc.run(cmd).must_equal "echo #{bcmd} | base64 --decode | $SHELL"
     end
 
     it 'doesnt wrap commands in a shell when shell is false' do
@@ -85,12 +97,14 @@ describe 'linux command' do
 
     it 'wraps commands in a `shell` instead of default shell' do
       lc = cls.new(backend, { shell: true, shell_command: '/bin/bash' })
-      lc.run(cmd).must_equal "echo '#{cmd}' > /bin/bash"
+      bcmd = Base64.strict_encode64(cmd)
+      lc.run(cmd).must_equal "echo #{bcmd} | base64 --decode | /bin/bash"
     end
 
     it 'wraps commands in a default shell with login' do
       lc = cls.new(backend, { shell: true, shell_command: '/bin/bash', shell_options: '--login' })
-      lc.run(cmd).must_equal "echo '#{cmd}' > /bin/bash --login"
+      bcmd = Base64.strict_encode64(cmd)
+      lc.run(cmd).must_equal "echo #{bcmd} | base64 --decode | /bin/bash --login"
     end
   end
 end
