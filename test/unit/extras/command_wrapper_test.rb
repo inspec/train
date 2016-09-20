@@ -70,7 +70,7 @@ describe 'linux command' do
 
     it 'wraps sudo commands in a default shell with login' do
       lc = cls.new(backend, { sudo: true, shell: true, shell_options: '--login' })
-      lc.run(cmd).must_equal "echo '#{cmd}' > $SHELL --login"
+      lc.run(cmd).must_equal "echo 'sudo #{cmd}' > $SHELL --login"
     end
 
     it 'wraps commands in a default shell when shell is true' do
