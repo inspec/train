@@ -1,9 +1,5 @@
 version: "master-{build}"
 
-# fix for retrieving progress information for local execution
-# see: http://help.appveyor.com/discussions/problems/5170-progresspreference-not-works-always-shown-preparing-modules-for-first-use-in-stderr
-image: Previous Visual Studio 2015
-
 platform:
   - x64
 

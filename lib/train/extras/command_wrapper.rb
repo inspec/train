@@ -137,7 +137,7 @@ module Train::Extras
       # especially in local mode, we cannot be sure that we get a Powershell
       # we may just get a `cmd`.
       # TODO: we may want to opt for powershell.exe -command instead of `encodeCommand`
-      "powershell -encodedCommand #{encoded(safe_script(script))}"
+      "powershell -NoProfile -encodedCommand #{encoded(safe_script(script))}"
     end
 
     # suppress the progress stream from leaking to stderr
