@@ -1,7 +1,20 @@
 # Change Log
 
-## [0.19.1](https://github.com/chef/train/tree/0.19.1) (2016-09-16)
-[Full Changelog](https://github.com/chef/train/compare/v0.19.0...0.19.1)
+## [0.20.0](https://github.com/chef/train/tree/0.20.0) (2016-09-21)
+[Full Changelog](https://github.com/chef/train/compare/v0.19.1...0.20.0)
+
+**Fixed bugs:**
+
+- get `Preparing modules for first use.` when I use train on Windows [\#153](https://github.com/chef/train/issues/153)
+
+**Merged pull requests:**
+
+- `Preparing modules for first use.` error message on Windows [\#152](https://github.com/chef/train/pull/152) ([chris-rock](https://github.com/chris-rock))
+- Convert `wmic` architecture to a normal standard [\#151](https://github.com/chef/train/pull/151) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Login shell [\#149](https://github.com/chef/train/pull/149) ([jonathanmorley](https://github.com/jonathanmorley))
+
+## [v0.19.1](https://github.com/chef/train/tree/v0.19.1) (2016-09-16)
+[Full Changelog](https://github.com/chef/train/compare/v0.19.0...v0.19.1)
 
 **Implemented enhancements:**
 
