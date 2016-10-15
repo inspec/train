@@ -128,6 +128,35 @@ describe Train do
       res = Train.target_config(org)
       res.must_equal nu
     end
+
+    it 'supports empty URIs with schema://' do
+      org = { target: 'mock://' }
+      res = Train.target_config(org)
+      res[:backend].must_equal 'mock'
+      res[:host].must_be_nil
+      res[:user].must_be_nil
+      res[:password].must_be_nil
+      res[:port].must_be_nil
+      res[:path].must_be_nil
+      res[:target].must_equal org[:target]
+    end
+
+    it 'supports empty URIs with schema:' do
+      org = { target: 'mock:' }
+      res = Train.target_config(org)
+      res[:backend].must_equal 'mock'
+      res[:host].must_be_nil
+      res[:user].must_be_nil
+      res[:password].must_be_nil
+      res[:port].must_be_nil
+      res[:path].must_be_nil
+      res[:target].must_equal org[:target]
+    end
+
+    it 'it raises UserError on invalid URIs' do
+      org = { target: 'mock world' }
+      proc { Train.target_config(org) }.must_raise Train::UserError
+    end
   end
 
   describe '#validate_backend' do
