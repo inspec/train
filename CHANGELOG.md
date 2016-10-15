@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.20.0](https://github.com/chef/train/tree/0.20.0) (2016-09-21)
-[Full Changelog](https://github.com/chef/train/compare/v0.19.1...0.20.0)
+## [0.20.1](https://github.com/chef/train/tree/0.20.1) (2016-10-15)
+[Full Changelog](https://github.com/chef/train/compare/v0.20.0...0.20.1)
+
+**Fixed bugs:**
+
+- support empty URIs [\#154](https://github.com/chef/train/pull/154) ([arlimus](https://github.com/arlimus))
+
+## [v0.20.0](https://github.com/chef/train/tree/v0.20.0) (2016-09-21)
+[Full Changelog](https://github.com/chef/train/compare/v0.19.1...v0.20.0)
 
 **Fixed bugs:**
 
