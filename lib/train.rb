@@ -51,19 +51,14 @@ module Train
   # e.g. ssh://bob@remote  =>  backend: ssh, user: bob, host: remote
   def self.target_config(config = nil) # rubocop:disable Metrics/AbcSize
     conf = config.nil? ? {} : config.dup
-
-    # symbolize keys
-    conf = conf.each_with_object({}) do |(k, v), acc|
-      acc[k.to_sym] = v
-      acc
-    end
+    conf = symbolize_keys(conf)
 
     group_keys_and_keyfiles(conf)
 
     return conf if conf[:target].to_s.empty?
 
     # split up the target's host/scheme configuration
-    uri = URI.parse(conf[:target].to_s)
+    uri = parse_uri(conf[:target].to_s)
     unless uri.host.nil? and uri.scheme.nil?
       conf[:backend]  ||= uri.scheme
       conf[:host]     ||= uri.host
@@ -79,6 +74,44 @@ module Train
     # return the updated config
     conf
   end
+
+  # Takes a map of key-value pairs and turns all keys into symbols. For this
+  # to work, only keys are supported that can be turned into symbols.
+  # Example: { 'a' => 123 }  ==>  { a: 123 }
+  #
+  # @param map [Hash]
+  # @return [Hash] new map with all keys being symbols
+  def self.symbolize_keys(map)
+    map.each_with_object({}) do |(k, v), acc|
+      acc[k.to_sym] = v
+      acc
+    end
+  end
+  private_class_method :symbolize_keys
+
+  # Parse a URI. Supports empty URI's with paths, e.g. `mock://`
+  #
+  # @param string [string] URI string, e.g. `schema://domain.com`
+  # @return [URI::Generic] parsed URI object
+  def self.parse_uri(string)
+    URI.parse(string)
+  rescue URI::InvalidURIError => e
+    # A use-case we want to catch is parsing empty URIs with a schema
+    # e.g. mock://. To do this, we match it manually and fake the hostname
+    case string
+    when %r{^([a-z]+)://$}
+      string += 'dummy'
+    when /^([a-z]+):$/
+      string += '//dummy'
+    else
+      raise Train::UserError, e
+    end
+
+    u = URI.parse(string)
+    u.host = nil
+    u
+  end
+  private_class_method :parse_uri
 
   def self.validate_backend(conf, default = :local)
     return default if conf.nil?
