@@ -9,7 +9,12 @@
 # Finally (for now), it actually executes the all tests with
 # the local execution backend
 
-apt_update 'update' if platform_family?('debian')
+case node['platform_family']
+when 'debian'
+  apt_update 'update'
+when 'freebsd'
+  package 'base64'
+end
 
 include_recipe 'build-essential'
 include_recipe 'test::prep_files'

@@ -14,11 +14,12 @@
 
 # FIXME
 user = ENV['TRAIN_SUDO_USER'] || 'todo-some-clever-default-maybe-current-user'
-sudoer = "/etc/sudoers.d/#{user}"
+sudo_conf_prefix = node['platform_family'] == 'freebsd' ? '/usr/local/etc' : '/etc'
+sudoer = "#{sudo_conf_prefix}/sudoers.d/#{user}"
 
 log "Warning: a sudoers configuration for user #{user} already exists, "\
     'doing nothing (override with TRAIN_SUDO_VERY_MUCH=yes)' do
-  only_if "test -f #{sudoer} || grep #{user} /etc/sudoers"
+  only_if "test -f #{sudoer} || grep #{user} #{sudo_conf_prefix}/sudoers"
 end
 
 file sudoer do
@@ -28,7 +29,7 @@ file sudoer do
   action ENV['TRAIN_SUDO_VERY_MUCH'] == 'yes' ? :create : :create_if_missing
 
   # Do not add something here if the user is mentioned explicitly in /etc/sudoers
-  not_if "grep #{user} /etc/sudoers"
+  not_if "grep #{user} #{sudo_conf_prefix}/sudoers"
 end
 
 # /!\ broken files in /etc/sudoers.d/ will break sudo for ALL USERS /!\

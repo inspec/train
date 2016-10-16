@@ -35,7 +35,7 @@ link '/tmp/symlink' do
 end
 
 link '/usr/bin/allyourbase' do
-  to '/usr/bin/sudo'
+  to node['platform_family'] == 'freebsd' ? '/usr/local/bin/sudo' : '/usr/bin/sudo'
   owner 'root'
   group gid
   mode '0777'
