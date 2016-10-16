@@ -49,7 +49,7 @@ end
 
 %w{nopasswd vagrant}.each do |name|
   sudo name do
-    user '%'+name
+    user name
     nopasswd true
     defaults ['!requiretty']
   end
