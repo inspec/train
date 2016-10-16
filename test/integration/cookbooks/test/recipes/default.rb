@@ -9,7 +9,8 @@
 # Finally (for now), it actually executes the all tests with
 # the local execution backend
 
-include_recipe('test::prep_files')
+include_recipe 'build-essential'
+include_recipe 'test::prep_files'
 
 # prepare ssh for backend
 execute 'create ssh key' do
