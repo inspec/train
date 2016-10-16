@@ -9,6 +9,8 @@
 # Finally (for now), it actually executes the all tests with
 # the local execution backend
 
+apt_update 'update' if platform_family?('debian')
+
 include_recipe 'build-essential'
 include_recipe 'test::prep_files'
 
