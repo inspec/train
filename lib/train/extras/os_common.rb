@@ -13,7 +13,7 @@ require 'train/extras/os_detect_linux'
 require 'train/extras/os_detect_unix'
 require 'train/extras/os_detect_windows'
 require 'train/extras/os_detect_esx'
-require 'train/extras/os_detect_eos'
+require 'train/extras/os_detect_arista_eos'
 
 module Train::Extras
   class OSCommon
@@ -22,7 +22,7 @@ module Train::Extras
     include Train::Extras::DetectUnix
     include Train::Extras::DetectWindows
     include Train::Extras::DetectEsx
-    include Train::Extras::DetectEos
+    include Train::Extras::DetectAristaEos
 
     attr_accessor :backend
     def initialize(backend, platform = nil)
@@ -61,9 +61,6 @@ module Train::Extras
       },
       'esx' => %w{
         esx
-      },
-      'eos' => %w{
-        eos
       },
       'darwin' => %w{
         darwin
@@ -119,7 +116,6 @@ module Train::Extras
       return detect_windows if pf == 'windows'
       return detect_darwin if pf == 'darwin'
       return detect_esx if pf == 'esx'
-      return detect_eos if pf == 'eos'
 
       if %w{freebsd netbsd openbsd aix solaris2 hpux}.include?(pf)
         return detect_via_uname
@@ -128,7 +124,7 @@ module Train::Extras
       # unix based systems combine the above
       return true if pf == 'unix' and detect_darwin
       return true if pf == 'unix' and detect_esx
-      return true if pf == 'unix' and detect_eos
+      return true if pf == 'unix' and detect_arista_eos
       return true if pf == 'unix' and detect_via_uname
 
       # if we arrive here, we most likey have a regular linux
