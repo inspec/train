@@ -14,6 +14,7 @@ require 'train/extras/os_detect_unix'
 require 'train/extras/os_detect_windows'
 require 'train/extras/os_detect_esx'
 require 'train/extras/os_detect_arista_eos'
+require 'train/extras/os_detect_openvms'
 
 module Train::Extras
   class OSCommon
@@ -23,6 +24,7 @@ module Train::Extras
     include Train::Extras::DetectWindows
     include Train::Extras::DetectEsx
     include Train::Extras::DetectAristaEos
+    include Train::Extras::DetectOpenVMS
 
     attr_accessor :backend
     def initialize(backend, platform = nil)
@@ -96,6 +98,8 @@ module Train::Extras
       # TODO: extend base implementation for detecting the family type
       # to Windows and others
       case uname_s
+      when /unrecognized command verb/
+        @platform[:family] = 'openvms'  
       when /linux/i
         @platform[:family] = 'linux'
       when /./
@@ -105,8 +109,8 @@ module Train::Extras
         @platform[:family] = nil
       end
 
-      # try to detect the platform
-      return nil unless @platform[:family].nil?
+      # try to detect the platform if the platform is set to nil, otherwise this code will never work
+      return nil if @platform[:family].nil?
       detect_family_type
     end
 
@@ -116,6 +120,7 @@ module Train::Extras
       return detect_windows if pf == 'windows'
       return detect_darwin if pf == 'darwin'
       return detect_esx if pf == 'esx'
+      return detect_openvms if pf =="openvms"
 
       if %w{freebsd netbsd openbsd aix solaris2 hpux}.include?(pf)
         return detect_via_uname
@@ -124,6 +129,7 @@ module Train::Extras
       # unix based systems combine the above
       return true if pf == 'unix' and detect_darwin
       return true if pf == 'unix' and detect_esx
+      #This is assuming that pf is set to unix, this should be if pf == 'linux'
       return true if pf == 'unix' and detect_arista_eos
       return true if pf == 'unix' and detect_via_uname
 
