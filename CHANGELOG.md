@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.20.1](https://github.com/chef/train/tree/0.20.1) (2016-10-15)
-[Full Changelog](https://github.com/chef/train/compare/v0.20.0...0.20.1)
+## [0.21.0](https://github.com/chef/train/tree/0.21.0) (2016-11-04)
+[Full Changelog](https://github.com/chef/train/compare/v0.20.1...0.21.0)
+
+**Implemented enhancements:**
+
+- Train doesn't create a login shell [\#148](https://github.com/chef/train/issues/148)
+
+**Merged pull requests:**
+
+- Add detection for Arista EOS [\#158](https://github.com/chef/train/pull/158) ([jerearista](https://github.com/jerearista))
+
+## [v0.20.1](https://github.com/chef/train/tree/v0.20.1) (2016-10-15)
+[Full Changelog](https://github.com/chef/train/compare/v0.20.0...v0.20.1)
 
 **Fixed bugs:**
 
