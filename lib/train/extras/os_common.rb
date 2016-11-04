@@ -99,7 +99,7 @@ module Train::Extras
       # to Windows and others
       case uname_s
       when /unrecognized command verb/
-        @platform[:family] = 'openvms'  
+        @platform[:family] = 'openvms'
       when /linux/i
         @platform[:family] = 'linux'
       when /./
@@ -120,7 +120,7 @@ module Train::Extras
       return detect_windows if pf == 'windows'
       return detect_darwin if pf == 'darwin'
       return detect_esx if pf == 'esx'
-      return detect_openvms if pf =="openvms"
+      return detect_openvms if pf =='openvms'
 
       if %w{freebsd netbsd openbsd aix solaris2 hpux}.include?(pf)
         return detect_via_uname
@@ -129,7 +129,7 @@ module Train::Extras
       # unix based systems combine the above
       return true if pf == 'unix' and detect_darwin
       return true if pf == 'unix' and detect_esx
-      #This is assuming that pf is set to unix, this should be if pf == 'linux'
+      # This is assuming that pf is set to unix, this should be if pf == 'linux'
       return true if pf == 'unix' and detect_arista_eos
       return true if pf == 'unix' and detect_via_uname
 
