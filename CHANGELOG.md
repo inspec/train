@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.21.0](https://github.com/chef/train/tree/0.21.0) (2016-11-04)
-[Full Changelog](https://github.com/chef/train/compare/v0.20.1...0.21.0)
+## [0.21.1](https://github.com/chef/train/tree/0.21.1) (2016-11-04)
+[Full Changelog](https://github.com/chef/train/compare/v0.21.0...0.21.1)
+
+**Closed issues:**
+
+- detect\_arista\_eos raises exception against unix host [\#160](https://github.com/chef/train/issues/160)
+
+**Merged pull requests:**
+
+- ensure the os detection works in pty mode [\#161](https://github.com/chef/train/pull/161) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.21.0](https://github.com/chef/train/tree/v0.21.0) (2016-11-04)
+[Full Changelog](https://github.com/chef/train/compare/v0.20.1...v0.21.0)
 
 **Implemented enhancements:**
 
