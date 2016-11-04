@@ -9,14 +9,16 @@ module Train::Extras
   module DetectAristaEos
     def detect_arista_eos
       if unix_file?('/usr/bin/FastCli')
-        output = @backend.run_command('FastCli -p 15 -c "show version | json"').stdout
+        cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
         @platform[:name] = 'arista_eos_bash'
         family = 'fedora'
       else
-        output = @backend.run_command('show version | json').stdout
+        cmd = @backend.run_command('show version | json')
       end
 
-      unless output.empty?
+      # in PTY mode, stderr is matched with stdout, therefore it may not be empty
+      output = cmd.stdout
+      if cmd.exit_status == 0 && !output.empty?
         eos_ver = JSON.parse(output)
         @platform[:name] = @platform[:name] || 'arista_eos'
         family ||= 'arista_eos'
@@ -24,6 +26,8 @@ module Train::Extras
         @platform[:release] = eos_ver['version']
         @platform[:arch] = eos_ver['architecture']
         true
+      else
+        false
       end
     end
   end
