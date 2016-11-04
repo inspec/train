@@ -13,18 +13,17 @@ module Train::Extras
 
     def detect_openvms
       cmd = @backend.run_command('show system/noprocess')
- 
+
       return false if cmd.exit_status != 0
       return false if cmd.stdout.empty?
 
-      @platform[:name] =  cmd.stdout.downcase.split(" ")[0]
+      @platform[:name] = cmd.stdout.downcase.split(' ')[0]
       cmd = @backend.run_command('write sys$output f$getsyi("VERSION")')
-      @platform[:release] = cmd.stdout.downcase.split("\n")[1][1..-1]      
+      @platform[:release] = cmd.stdout.downcase.split("\n")[1][1..-1]
       cmd = @backend.run_command('write sys$output f$getsyi("ARCH_NAME")')
       @platform[:arch] = cmd.stdout.downcase.split("\n")[1]
 
       true
-  
     end
   end
 end
