@@ -230,7 +230,7 @@ class Train::Transports::SSH
 
     class OS < OSCommon
       def initialize(backend)
-        super(backend, { family: 'unix' })
+        super(backend)
       end
     end
   end
