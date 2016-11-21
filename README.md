@@ -39,6 +39,13 @@ train = Train.create('ssh',
   host: '1.2.3.4', port: 22, user: 'root', key_files: '/vagrant')
 ```
 
+If you don't specify the `key_files` and `password` options, SSH agent authentication will be attempted. For example:
+
+```ruby
+require 'train'
+train = Train.create('ssh', host: '1.2.3.4', port: 22, user: 'root')
+```
+
 **WinRM**
 
 ```ruby

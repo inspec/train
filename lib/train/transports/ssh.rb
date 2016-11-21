@@ -82,12 +82,6 @@ module Train::Transports
       super(options)
 
       key_files = Array(options[:key_files])
-      if key_files.empty? and options[:password].nil?
-        fail Train::ClientError,
-             'You must configure at least one authentication method for SSH:'\
-             ' Password or key.'
-      end
-
       options[:auth_methods] ||= ['none']
 
       unless key_files.empty?
@@ -100,12 +94,34 @@ module Train::Transports
         options[:auth_methods].push('password', 'keyboard-interactive')
       end
 
+      if options[:auth_methods] == ['none']
+        if ssh_known_identities.empty?
+          fail Train::ClientError,
+               'You must configure at least one authentication method for SSH:'\
+               ' Agent, Key or Password.'
+        else
+          logger.debug('[SSH] Using Agent keys as no password or key file have been specified')
+          options[:auth_methods].push('publickey')
+        end
+      end
+
       if options[:pty]
         logger.warn('[SSH] PTY requested: stderr will be merged into stdout')
       end
 
       super
       self
+    end
+
+    # Creates an SSH Authentication KeyManager instance and saves it for
+    # potential future reuse.
+    #
+    # @return [Hash] hash of SSH Known Identities
+    # @api private
+    def ssh_known_identities
+      # Force KeyManager to load the key(s)
+      @manager ||= Net::SSH::Authentication::KeyManager.new(nil).each_identity {}
+      @manager.known_identities
     end
 
     # Builds the hash of options needed by the Connection object on
