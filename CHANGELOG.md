@@ -1,7 +1,18 @@
 # Change Log
 
-## [0.21.1](https://github.com/chef/train/tree/0.21.1) (2016-11-04)
-[Full Changelog](https://github.com/chef/train/compare/v0.21.0...0.21.1)
+## [0.22.0](https://github.com/chef/train/tree/0.22.0) (2016-11-29)
+[Full Changelog](https://github.com/chef/train/compare/v0.21.1...0.22.0)
+
+**Implemented enhancements:**
+
+- Try to use ssh agent if no password or key files have been specified [\#165](https://github.com/chef/train/pull/165) ([alexpop](https://github.com/alexpop))
+
+**Merged pull requests:**
+
+- Add openvms detection [\#159](https://github.com/chef/train/pull/159) ([briandoodyie](https://github.com/briandoodyie))
+
+## [v0.21.1](https://github.com/chef/train/tree/v0.21.1) (2016-11-04)
+[Full Changelog](https://github.com/chef/train/compare/v0.21.0...v0.21.1)
 
 **Closed issues:**
 
