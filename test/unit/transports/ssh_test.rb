@@ -23,6 +23,7 @@ describe 'ssh transport' do
     password: rand.to_s,
     key_files: rand.to_s,
   }}
+  let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
   describe 'default options' do
     let(:ssh) { cls.new({ host: 'dummy' }) }
@@ -84,6 +85,26 @@ describe 'ssh transport' do
         "root@#{conf[:host]}",
       ])
     end
+
+    it 'sets the right auth_methods when password is specified' do
+      conf[:key_files] = nil
+      cls.new(conf).connection.method(:options).call[:auth_methods].must_equal ["none", "password", "keyboard-interactive"]
+    end
+
+    it 'sets the right auth_methods when keys are specified' do
+      conf[:password] = nil
+      cls.new(conf).connection.method(:options).call[:auth_methods].must_equal ["none", "publickey"]
+    end
+
+    it 'sets the right auth_methods for agent auth' do
+      cls_agent.stubs(:ssh_known_identities).returns({:some => 'rsa_key'})
+      cls_agent.connection.method(:options).call[:auth_methods].must_equal ['none', 'publickey']
+    end
+
+    it 'works with ssh agent auth' do
+      cls_agent.stubs(:ssh_known_identities).returns({:some => 'rsa_key'})
+      cls_agent.connection
+    end
   end
 
   describe 'converting connection to string for logging' do
@@ -111,9 +132,8 @@ describe 'ssh transport' do
     end
 
     it 'does not like key and password == nil' do
-      conf.delete(:password)
-      conf.delete(:key_files)
-      proc { cls.new(conf).connection }.must_raise Train::ClientError
+      cls_agent.stubs(:ssh_known_identities).returns({})
+      proc { cls_agent.connection }.must_raise Train::ClientError
     end
 
     it 'wont connect if it is not possible' do
