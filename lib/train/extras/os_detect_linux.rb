@@ -14,7 +14,7 @@ require 'train/extras/uname'
 module Train::Extras
   module DetectLinux # rubocop:disable Metrics/ModuleLength
     DEBIAN_FAMILY = %w{debian ubuntu linuxmint raspbian}.freeze
-    REDHAT_FAMILY = %w{centos redhat oracle scientific enterpriseenterprise xenserver cloudlinux ibm_powerkvm nexus_centos wrlinux}.freeze
+    REDHAT_FAMILY = %w{centos redhat oracle scientific enterpriseenterprise xenserver cloudlinux ibm_powerkvm nexus_centos wrlinux virtuozzo parallels}.freeze
     SUSE_FAMILY = %w{suse opensuse}.freeze
 
     include Train::Extras::LinuxLSB
