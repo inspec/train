@@ -21,7 +21,7 @@ module Train::Extras
     include Train::Extras::Uname
 
     def detect_linux_via_config # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
-      if !(raw = get_config('oracle-release')).nil?
+      if !(raw = get_config('/etc/oracle-release')).nil?
         @platform[:name] = 'oracle'
         @platform[:release] = redhatish_version(raw)
       elsif !(raw = get_config('/etc/enterprise-release')).nil?
