@@ -1,7 +1,16 @@
 # Change Log
 
-## [0.22.0](https://github.com/chef/train/tree/0.22.0) (2016-11-29)
-[Full Changelog](https://github.com/chef/train/compare/v0.21.1...0.22.0)
+## [0.22.1](https://github.com/chef/train/tree/0.22.1) (2017-01-17)
+[Full Changelog](https://github.com/chef/train/compare/v0.22.0...0.22.1)
+
+**Merged pull requests:**
+
+- Relax net-ssh dep to allow 4.0 [\#168](https://github.com/chef/train/pull/168) ([tduffield](https://github.com/tduffield))
+- Fix Oracle Linux detection [\#167](https://github.com/chef/train/pull/167) ([carldjohnston](https://github.com/carldjohnston))
+- Add support for parallels & virtuozzo linux [\#166](https://github.com/chef/train/pull/166) ([jaxxstorm](https://github.com/jaxxstorm))
+
+## [v0.22.0](https://github.com/chef/train/tree/v0.22.0) (2016-11-29)
+[Full Changelog](https://github.com/chef/train/compare/v0.21.1...v0.22.0)
 
 **Implemented enhancements:**
 
