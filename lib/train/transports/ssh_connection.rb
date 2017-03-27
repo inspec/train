@@ -185,7 +185,7 @@ class Train::Transports::SSH
     # @api private
     def establish_connection(opts)
       logger.debug("[SSH] opening connection to #{self}")
-      Net::SSH.start(@hostname, @username, @options)
+      Net::SSH.start(@hostname, @username, @options.clone.delete_if { |_key, value| value.nil? })
     rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH => e
       if (opts[:retries] -= 1) <= 0
         logger.warn("[SSH] connection failed, terminating (#{e.inspect})")
