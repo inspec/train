@@ -27,7 +27,7 @@ class Train::Transports::WinRM
   # host such as executing commands, transferring files, etc.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class Connection < BaseConnection
+  class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     attr_reader :hostname
     def initialize(options)
       super(options)
@@ -183,7 +183,9 @@ class Train::Transports::WinRM
     #
     # @api private
     def to_s
-      "<#{options.inspect}>"
+      options_to_print = @options.clone
+      options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
+      "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
     end
 
     class OS < OSCommon
