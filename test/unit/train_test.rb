@@ -129,6 +129,30 @@ describe Train do
       res.must_equal nu
     end
 
+    it 'supports IPv4 URIs' do
+      org = { target: 'mock://1.2.3.4:123' }
+      res = Train.target_config(org)
+      res[:backend].must_equal 'mock'
+      res[:host].must_equal '1.2.3.4'
+      res[:user].must_be_nil
+      res[:password].must_be_nil
+      res[:port].must_equal 123
+      res[:path].must_be_nil
+      res[:target].must_equal org[:target]
+    end
+
+    it 'supports IPv6 URIs' do
+      org = { target: 'mock://[abc::def]:123' }
+      res = Train.target_config(org)
+      res[:backend].must_equal 'mock'
+      res[:host].must_equal 'abc::def'
+      res[:user].must_be_nil
+      res[:password].must_be_nil
+      res[:port].must_equal 123
+      res[:path].must_be_nil
+      res[:target].must_equal org[:target]
+    end
+
     it 'supports empty URIs with schema://' do
       org = { target: 'mock://' }
       res = Train.target_config(org)

@@ -61,7 +61,7 @@ module Train
     uri = parse_uri(conf[:target].to_s)
     unless uri.host.nil? and uri.scheme.nil?
       conf[:backend]  ||= uri.scheme
-      conf[:host]     ||= uri.host
+      conf[:host]     ||= uri.hostname
       conf[:port]     ||= uri.port
       conf[:user]     ||= uri.user
       conf[:password] ||= uri.password
