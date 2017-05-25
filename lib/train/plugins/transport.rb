@@ -13,7 +13,7 @@ class Train::Plugins
     include Train::Extras
     Train::Options.attach(self)
 
-    autoload :BaseConnection, 'train/plugins/base_connection'
+    require 'train/plugins/base_connection'
 
     # Initialize a new Transport object
     #

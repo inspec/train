@@ -38,7 +38,7 @@ module Train::Transports
   class WinRM < Train.plugin(1)
     name 'winrm'
 
-    autoload :Connection, 'train/transports/winrm_connection'
+    require 'train/transports/winrm_connection'
 
     # common target configuration
     option :host, required: true

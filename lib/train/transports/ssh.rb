@@ -36,7 +36,7 @@ module Train::Transports
   class SSH < Train.plugin(1)
     name 'ssh'
 
-    autoload :Connection, 'train/transports/ssh_connection'
+    require 'train/transports/ssh_connection'
 
     # add options for submodules
     include_options Train::Extras::CommandWrapper
