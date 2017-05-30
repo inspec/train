@@ -1,10 +1,18 @@
 # Change Log
 
+## [0.24.0](https://github.com/chef/train/tree/0.24.0) (2017-05-30)
+[Full Changelog](https://github.com/chef/train/compare/v0.23.0...0.24.0)
+
+**Merged pull requests:**
+
+- prevent sudo on localhost targets [\#179](https://github.com/chef/train/pull/179) ([arlimus](https://github.com/arlimus))
+
 ## [v0.23.0](https://github.com/chef/train/tree/v0.23.0) (2017-03-29)
 [Full Changelog](https://github.com/chef/train/compare/v0.22.1...v0.23.0)
 
 **Merged pull requests:**
 
+- Release 0.23.0 [\#173](https://github.com/chef/train/pull/173) ([adamleff](https://github.com/adamleff))
 - Fix Net::SSH warning when passing nil option values [\#172](https://github.com/chef/train/pull/172) ([tylercloke](https://github.com/tylercloke))
 - winrm: hide password [\#171](https://github.com/chef/train/pull/171) ([crepetl](https://github.com/crepetl))
 
