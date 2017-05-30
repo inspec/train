@@ -116,6 +116,12 @@ module Train
   def self.validate_backend(conf, default = :local)
     return default if conf.nil?
     res = conf[:backend]
+
+    if (res.nil? || res == 'localhost') && conf[:sudo]
+      fail Train::UserError, 'Sudo is only valid when running against a remote host. '\
+        'To run this locally with elevated privileges, run the command with `sudo ...`.'
+    end
+
     return res if !res.nil?
 
     if !conf[:target].nil?
