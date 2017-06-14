@@ -85,10 +85,9 @@ module Train::Extras
       elsif !(raw = get_config('/etc/alpine-release')).nil?
         @platform[:name] = 'alpine'
         @platform[:release] = raw.strip
-      elsif !(raw = get_config('/etc/coreos/update.conf')).nil?
+      elsif !get_config('/etc/coreos/update.conf').nil?
         @platform[:name] = 'coreos'
-        meta = lsb_config(raw)
-        @platform[:release] = meta[:release]
+        @platform[:release] = lsb[:release]
       elsif !(os_info = fetch_os_release).nil?
         if os_info['ID_LIKE'] =~ /wrlinux/
           @platform[:name] = 'wrlinux'

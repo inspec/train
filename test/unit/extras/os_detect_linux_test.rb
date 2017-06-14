@@ -107,6 +107,18 @@ describe 'os_detect_linux' do
       end
     end
 
+    describe '/etc/coreos/update.conf' do
+      it 'sets the correct family/release for coreos' do
+        detector.stubs(:get_config).with('/etc/coreos/update.conf').returns('data')
+        detector.stubs(:lsb).returns({ id: 'Container Linux by CoreOS', release: 'coreos-version' })
+
+        detector.detect_linux_via_config.must_equal(true)
+        detector.platform[:name].must_equal('coreos')
+        detector.platform[:family].must_equal('coreos')
+        detector.platform[:release].must_equal('coreos-version')
+      end
+    end
+
     describe '/etc/os-release' do
       describe 'when not on a wrlinux build' do
         it 'does not set a platform family/release' do
