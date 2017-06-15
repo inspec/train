@@ -1,7 +1,16 @@
 # Change Log
 
-## [0.24.0](https://github.com/chef/train/tree/0.24.0) (2017-05-30)
-[Full Changelog](https://github.com/chef/train/compare/v0.23.0...0.24.0)
+## [0.25.0](https://github.com/chef/train/tree/0.25.0) (2017-06-15)
+[Full Changelog](https://github.com/chef/train/compare/v0.24.0...0.25.0)
+
+**Merged pull requests:**
+
+- Fix CoreOS platform detection [\#180](https://github.com/chef/train/pull/180) ([rarenerd](https://github.com/rarenerd))
+- Remove autoloads in favor of eager loading [\#178](https://github.com/chef/train/pull/178) ([Sharpie](https://github.com/Sharpie))
+- Fixed IPv6 URI parsing [\#176](https://github.com/chef/train/pull/176) ([zfjagann](https://github.com/zfjagann))
+
+## [v0.24.0](https://github.com/chef/train/tree/v0.24.0) (2017-05-30)
+[Full Changelog](https://github.com/chef/train/compare/v0.23.0...v0.24.0)
 
 **Merged pull requests:**
 
