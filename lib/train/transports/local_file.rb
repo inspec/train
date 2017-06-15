@@ -6,7 +6,7 @@
 require 'train/extras'
 
 class Train::Transports::Local::Connection
-  class File < LinuxFile
+  class File < Train::Extras::LinuxFile
     def content
       @content ||= ::File.read(@path, encoding: 'UTF-8')
     rescue StandardError => _

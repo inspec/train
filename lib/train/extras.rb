@@ -3,14 +3,14 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
 module Train::Extras
-  autoload :CommandWrapper, 'train/extras/command_wrapper'
-  autoload :FileCommon,     'train/extras/file_common'
-  autoload :AixFile,        'train/extras/file_aix'
-  autoload :UnixFile,       'train/extras/file_unix'
-  autoload :LinuxFile,      'train/extras/file_linux'
-  autoload :WindowsFile,    'train/extras/file_windows'
-  autoload :OSCommon,       'train/extras/os_common'
-  autoload :Stat,           'train/extras/stat'
+  require 'train/extras/command_wrapper'
+  require 'train/extras/file_common'
+  require 'train/extras/file_unix'
+  require 'train/extras/file_aix'
+  require 'train/extras/file_linux'
+  require 'train/extras/file_windows'
+  require 'train/extras/os_common'
+  require 'train/extras/stat'
 
   CommandResult = Struct.new(:stdout, :stderr, :exit_status)
   LoginCommand = Struct.new(:command, :arguments)

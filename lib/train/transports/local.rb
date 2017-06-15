@@ -12,14 +12,14 @@ module Train::Transports
 
     include_options Train::Extras::CommandWrapper
 
-    autoload :File, 'train/transports/local_file'
-    autoload :OS,   'train/transports/local_os'
-
     def connection(_ = nil)
       @connection ||= Connection.new(@options)
     end
 
     class Connection < BaseConnection
+      require 'train/transports/local_file'
+      require 'train/transports/local_os'
+
       def initialize(options)
         super(options)
         @cmd_wrapper = nil

@@ -3,6 +3,7 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
 require 'train/version'
+require 'train/options'
 require 'train/plugins'
 require 'train/errors'
 require 'uri'
