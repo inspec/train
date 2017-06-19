@@ -14,6 +14,7 @@ module Train::Extras
       case uname_s.downcase
       when /aix/
         @platform[:family] = 'aix'
+        @platform[:name] = uname_s.lines[0].chomp
         out = @backend.run_command('uname -rvp').stdout
         m = out.match(/(\d+)\s+(\d+)\s+(.*)/)
         unless m.nil?
