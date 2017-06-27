@@ -102,6 +102,7 @@ module Train::Transports
         else
           logger.debug('[SSH] Using Agent keys as no password or key file have been specified')
           options[:auth_methods].push('publickey')
+          options[:keys_only] = false # set keys_only to false to ensure agent keys are actually used
         end
       end
 
