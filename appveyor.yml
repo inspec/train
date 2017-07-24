@@ -9,10 +9,10 @@ environment:
   bundler_url: https://rubygems.org/downloads/bundler-1.9.9.gem
 
   matrix:
-    - ruby_version: "21"
+    - ruby_version: "22"
       train_target: winrm://test_user@localhost:5985
 
-    - ruby_version: "23"
+    - ruby_version: "24"
       train_target: winrm://test_user@localhost:5985
 
     - ruby_version: "23"
