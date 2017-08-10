@@ -1,7 +1,24 @@
 # Change Log
 
-## [0.25.0](https://github.com/chef/train/tree/0.25.0) (2017-06-15)
-[Full Changelog](https://github.com/chef/train/compare/v0.24.0...0.25.0)
+## [0.26.0](https://github.com/chef/train/tree/0.26.0) (2017-08-10)
+[Full Changelog](https://github.com/chef/train/compare/v0.25.0...0.26.0)
+
+**Fixed bugs:**
+
+- AIX operating system name is not detected properly [\#181](https://github.com/chef/train/issues/181)
+
+**Closed issues:**
+
+- Add support for ssh-agent to ssh transport [\#129](https://github.com/chef/train/issues/129)
+
+**Merged pull requests:**
+
+- typo - should $g for group instead of doulbe $u [\#185](https://github.com/chef/train/pull/185) ([aklyachkin](https://github.com/aklyachkin))
+- update ruby requirements to 2.2 - 2.4 range [\#184](https://github.com/chef/train/pull/184) ([arlimus](https://github.com/arlimus))
+- detect operating system name for AIX [\#182](https://github.com/chef/train/pull/182) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.25.0](https://github.com/chef/train/tree/v0.25.0) (2017-06-15)
+[Full Changelog](https://github.com/chef/train/compare/v0.24.0...v0.25.0)
 
 **Merged pull requests:**
 
