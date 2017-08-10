@@ -107,7 +107,7 @@ module Train::Extras
       @a = #{lstat}(shift) or exit 2;
       $u = getpwuid($a[4]);
       $g = getgrgid($a[5]);
-      printf("0%o\\n%s\\n%d\\n%s\\n%d\\n%d\\n%d\\n", $a[2], $u, $a[4], $u, $a[5], $a[9], $a[7])
+      printf("0%o\\n%s\\n%d\\n%s\\n%d\\n%d\\n%d\\n", $a[2], $u, $a[4], $g, $a[5], $a[9], $a[7])
       ' #{shell_escaped_path}
       EOP
 
