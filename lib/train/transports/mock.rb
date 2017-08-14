@@ -87,7 +87,8 @@ class Train::Transports::Mock
         STDERR.puts('    '+cmd.to_s.split("\n").join("\n    "))
         STDERR.puts('    SHA: ' + Digest::SHA256.hexdigest(cmd.to_s))
       end
-      mock_command(cmd)
+      # return a non-zero exit code
+      mock_command(cmd, nil, nil, 1)
     end
 
     def run_command(cmd)
