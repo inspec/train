@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.26.0](https://github.com/chef/train/tree/0.26.0) (2017-08-10)
-[Full Changelog](https://github.com/chef/train/compare/v0.25.0...0.26.0)
+## [0.26.1](https://github.com/chef/train/tree/0.26.1) (2017-08-14)
+[Full Changelog](https://github.com/chef/train/compare/v0.26.0...0.26.1)
+
+**Merged pull requests:**
+
+- Return non-zero exit code for unknown mock command [\#187](https://github.com/chef/train/pull/187) ([chris-rock](https://github.com/chris-rock))
+
+## [v0.26.0](https://github.com/chef/train/tree/v0.26.0) (2017-08-10)
+[Full Changelog](https://github.com/chef/train/compare/v0.25.0...v0.26.0)
 
 **Fixed bugs:**
 
@@ -13,6 +20,7 @@
 
 **Merged pull requests:**
 
+- Release v0.26.0 [\#186](https://github.com/chef/train/pull/186) ([adamleff](https://github.com/adamleff))
 - typo - should $g for group instead of doulbe $u [\#185](https://github.com/chef/train/pull/185) ([aklyachkin](https://github.com/aklyachkin))
 - update ruby requirements to 2.2 - 2.4 range [\#184](https://github.com/chef/train/pull/184) ([arlimus](https://github.com/arlimus))
 - detect operating system name for AIX [\#182](https://github.com/chef/train/pull/182) ([chris-rock](https://github.com/chris-rock))
