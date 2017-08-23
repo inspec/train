@@ -39,6 +39,74 @@ describe 'windows local command' do
     cmd.stderr.must_equal ''
   end
 
+  describe 'verify file' do
+    let(:file) { conn.file('C:\\train_test_file') }
+
+    it 'exists' do
+      file.exist?.must_equal(true)
+    end
+
+    it 'is a file' do
+      file.file?.must_equal(true)
+    end
+
+    it 'has type :file' do
+      file.type.must_equal(:file)
+    end
+
+    it 'has content' do
+      # TODO: this shouldn't include newlines that aren't in the original file
+      file.content.must_equal("hello world\r\n\r\n")
+    end
+
+    it 'has owner name' do
+      file.owner.wont_be_nil
+    end
+
+    it 'has no group name' do
+      file.group.must_be_nil
+    end
+
+    it 'has no mode' do
+      file.mode.must_be_nil
+    end
+
+    it 'has an md5sum' do
+      file.md5sum.wont_be_nil
+    end
+
+    it 'has an sha256sum' do
+      file.sha256sum.wont_be_nil
+    end
+
+    it 'has no modified time' do
+      file.mtime.must_be_nil
+    end
+
+    it 'has no size' do
+      # TODO: this really ought to be implemented
+      file.size.must_be_nil
+    end
+
+    it 'has no selinux label handling' do
+      file.selinux_label.must_be_nil
+    end
+
+    it 'has product_version' do
+      file.product_version.wont_be_nil
+    end
+
+    it 'has file_version' do
+      file.file_version.wont_be_nil
+    end
+
+    it 'provides a json representation' do
+      j = file.to_json
+      j.must_be_kind_of Hash
+      j['type'].must_equal :file
+    end
+  end
+
   after do
     # close the connection
     conn.close

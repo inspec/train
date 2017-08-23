@@ -38,6 +38,7 @@ install:
   - ps: winrm create winrm/config/Listener?Address=*+Transport=HTTPS "@{Hostname=`"localhost`";CertificateThumbprint=`"$($env:winrm_cert)`"}"
   - ps: $env:PATH="C:\Ruby$env:ruby_version\bin;$env:PATH"
   - ps: Write-Host $env:PATH
+  - ps: Set-Content -Value "hello world" -NoNewLine -Path C:\train_test_file
   - ruby --version
   - gem --version
   - appveyor DownloadFile -Url %bundler_url% -FileName bundler.gem
