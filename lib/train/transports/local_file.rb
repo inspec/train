@@ -21,6 +21,14 @@ class Train::Transports::Local::Connection
       end
     end
 
+    def path
+      if symlink? && @follow_symlink
+        link_path
+      else
+        @path
+      end
+    end
+
     def link_path
       return nil unless symlink?
       begin
