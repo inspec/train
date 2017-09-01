@@ -49,6 +49,24 @@ describe 'local file transport' do
     end
   end
 
+  describe '#path' do
+    it 'returns the path if it is not a symlink' do
+      File.stub :symlink?, false do
+        filename = rand.to_s
+        connection.file(filename).path.must_equal filename
+      end
+    end
+
+    it 'returns the link_path if it is a symlink' do
+      File.stub :symlink?, true do
+        file_obj = connection.file(rand.to_s)
+        file_obj.stub :link_path, '/path/to/resolved_link' do
+          file_obj.path.must_equal '/path/to/resolved_link'
+        end
+      end
+    end
+  end
+
   describe 'file metadata' do
     let(:stat) { Struct.new(:mode, :size, :mtime, :uid, :gid) }
     let(:uid) { rand }
