@@ -49,6 +49,19 @@ describe 'ssh transport' do
     end
   end
 
+  describe 'connection options' do
+    let(:ssh) { cls.new({ host: 'dummy' }) }
+    let(:connection_options) { ssh.send(:connection_options, {}) }
+
+    it 'does not set a paranoid option - deprecated in net-ssh 4.2' do
+      connection_options.key?(:paranoid).must_equal false
+    end
+
+    it 'sets a verify_host_key option, replacement for paranoid' do
+      connection_options[:verify_host_key].must_equal false
+    end
+  end
+
   describe 'opening a connection' do
     let(:ssh) { cls.new(conf) }
     let(:connection) { ssh.connection }
