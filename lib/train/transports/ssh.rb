@@ -33,7 +33,7 @@ module Train::Transports
   # files.
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class SSH < Train.plugin(1)
+  class SSH < Train.plugin(1) # rubocop:disable Metrics/ClassLength
     name 'ssh'
 
     require 'train/transports/ssh_connection'
@@ -131,10 +131,9 @@ module Train::Transports
     # @return [Hash] hash of connection options
     # @api private
     def connection_options(opts)
-      {
+      connection_options = {
         logger:                 logger,
         user_known_hosts_file:  '/dev/null',
-        verify_host_key:        false,
         hostname:               opts[:host],
         port:                   opts[:port],
         username:               opts[:user],
@@ -153,6 +152,31 @@ module Train::Transports
         forward_agent:          opts[:forward_agent],
         transport_options:      opts,
       }
+
+      # disable host key verification. The hash key to use
+      # depends on the version of net-ssh in use.
+      connection_options[verify_host_key_option] = false
+
+      connection_options
+    end
+
+    #
+    # Returns the correct host-key-verification option key to use depending
+    # on what version of net-ssh is in use. In net-ssh <= 4.1, the supported
+    # parameter is `paranoid` but in 4.2, it became `verify_host_key`
+    #
+    # `verify_host_key` does not work in <= 4.1, and `paranoid` throws
+    # deprecation warnings in >= 4.2.
+    #
+    # While the "right thing" to do would be to pin train's dependency on
+    # net-ssh to ~> 4.2, this will prevent InSpec from being used in
+    # Chef v12 because of it pinning to a v3 of net-ssh.
+    #
+    def verify_host_key_option
+      current_net_ssh = Net::SSH::Version::CURRENT
+      new_option_version = Net::SSH::Version[4, 2, 0]
+
+      current_net_ssh >= new_option_version ? :verify_host_key : :paranoid
     end
 
     # Creates a new SSH Connection instance and save it for potential future
