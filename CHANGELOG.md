@@ -1,10 +1,18 @@
 # Change Log
 
-## [0.27.0](https://github.com/chef/train/tree/0.27.0) (2017-09-25)
-[Full Changelog](https://github.com/chef/train/compare/v0.26.2...0.27.0)
+## [0.28.0](https://github.com/chef/train/tree/0.28.0) (2017-09-25)
+[Full Changelog](https://github.com/chef/train/compare/v0.27.0...0.28.0)
 
 **Merged pull requests:**
 
+- Continue to support older net-ssh while fixing 4.2 deprecation [\#199](https://github.com/chef/train/pull/199) ([adamleff](https://github.com/adamleff))
+
+## [v0.27.0](https://github.com/chef/train/tree/v0.27.0) (2017-09-25)
+[Full Changelog](https://github.com/chef/train/compare/v0.26.2...v0.27.0)
+
+**Merged pull requests:**
+
+- Release v0.27.0 [\#198](https://github.com/chef/train/pull/198) ([adamleff](https://github.com/adamleff))
 - Bump to net-ssh 4.2, fix bad net-ssh deprecation [\#197](https://github.com/chef/train/pull/197) ([adamleff](https://github.com/adamleff))
 
 ## [v0.26.2](https://github.com/chef/train/tree/v0.26.2) (2017-09-05)
