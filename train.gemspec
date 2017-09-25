@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mixlib-shellout', '~> 2.0'
   # net-ssh 3.x drops Ruby 1.9 support, so this constraint could be raised when
   # 1.9 support is no longer needed here or for Inspec
-  spec.add_dependency 'net-ssh', '~> 4.2'
+  spec.add_dependency 'net-ssh', '>= 2.9', '< 5.0'
   spec.add_dependency 'net-scp', '~> 1.2'
   spec.add_dependency 'winrm', '~> 2.0'
   spec.add_dependency 'winrm-fs', '~> 1.0'
