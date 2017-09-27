@@ -17,7 +17,6 @@ module Train::Transports
     end
 
     class Connection < BaseConnection
-      require 'train/transports/local_file'
       require 'train/transports/local_os'
 
       def initialize(options)
@@ -40,7 +39,12 @@ module Train::Transports
       end
 
       def file(path)
-        @files[path] ||= File.new(self, path)
+        @files[path] ||= \
+          if os.windows?
+            Train::File::Local::Windows.new(self, path)
+          else
+            Train::File::Local::Unix.new(self, path)
+          end
       end
 
       def login_command

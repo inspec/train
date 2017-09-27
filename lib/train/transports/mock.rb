@@ -129,20 +129,20 @@ class Train::Transports::Mock::Connection
 end
 
 class Train::Transports::Mock::Connection
-  class File < FileCommon
+  class File < Train::File
     def self.from_json(json)
       res = new(json['backend'],
                 json['path'],
                 json['follow_symlink'])
       res.type = json['type']
-      Train::Extras::FileCommon::DATA_FIELDS.each do |f|
+      Train::File::DATA_FIELDS.each do |f|
         m = (f.tr('?', '') + '=').to_sym
         res.method(m).call(json[f])
       end
       res
     end
 
-    Train::Extras::FileCommon::DATA_FIELDS.each do |m|
+    Train::File::DATA_FIELDS.each do |m|
       attr_accessor m.tr('?', '').to_sym
       next unless m.include?('?')
 

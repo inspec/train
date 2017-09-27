@@ -125,8 +125,8 @@ describe 'os_detect_linux' do
           detector.stubs(:fetch_os_release).returns({ 'ID_LIKE' => 'something_else' })
 
           detector.detect_linux_via_config.must_equal(false)
-          detector.platform[:family].must_equal(nil)
-          detector.platform[:release].must_equal(nil)
+          detector.platform[:family].must_be_nil
+          detector.platform[:release].must_be_nil
         end
       end
 
@@ -154,7 +154,7 @@ describe 'os_detect_linux' do
     describe 'when no os-release data is available' do
       it 'returns nil' do
         detector.expects(:get_config).with('/etc/os-release').returns(nil)
-        detector.fetch_os_release.must_equal(nil)
+        detector.fetch_os_release.must_be_nil
       end
     end
 

@@ -69,11 +69,11 @@ describe 'file interface' do
     end
 
     it 'has no product_version' do
-      file.product_version.must_equal(nil)
+      file.product_version.must_be_nil
     end
 
-    it 'has no file_version' do
-      file.file_version.must_equal(nil)
+    it 'has no product_version' do
+      file.file_version.must_be_nil
     end
 
     it 'provides a json representation' do
