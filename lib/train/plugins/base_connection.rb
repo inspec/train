@@ -78,7 +78,7 @@ class Train::Plugins::Transport
     #
     # @return [LoginCommand] array of command line tokens
     def login_command
-      fail Train::ClientError, "#{self.class} does not implement #run_command()"
+      fail Train::ClientError, "#{self.class} does not implement #login_command()"
     end
 
     # Block and return only when the remote host is prepared and ready to

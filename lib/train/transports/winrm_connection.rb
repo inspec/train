@@ -84,7 +84,13 @@ class Train::Transports::WinRM
 
     # (see Base::Connection#upload)
     def upload(locals, remote)
-      file_transporter.upload(locals, remote)
+      file_manager.upload(locals, remote)
+    end
+
+    def download(remotes, local)
+      Array(remotes).each do |remote|
+        file_manager.download(remote, local)
+      end
     end
 
     # (see Base::Connection#wait_until_ready)
@@ -124,10 +130,10 @@ class Train::Transports::WinRM
       content
     end
 
-    # @return [Winrm::FileTransporter] a file transporter
+    # @return [Winrm::FileManager] a file transporter
     # @api private
-    def file_transporter
-      @file_transporter ||= WinRM::FS::Core::FileTransporter.new(session)
+    def file_manager
+      @file_manager ||= WinRM::FS::FileManager.new(session)
     end
 
     # Builds a `LoginCommand` for use by Linux-based platforms.

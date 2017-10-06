@@ -39,6 +39,7 @@ class Train::Transports::SSH
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
+      @max_ssh_sessions       = @options.delete(:max_ssh_connections) { 9 }
       @session                = nil
       @transport_options      = @options.delete(:transport_options)
       @cmd_wrapper            = nil
@@ -134,15 +135,32 @@ class Train::Transports::SSH
 
     # (see Base::Connection#upload)
     def upload(locals, remote)
+      waits = []
       Array(locals).each do |local|
         opts = File.directory?(local) ? { recursive: true } : {}
 
-        session.scp.upload!(local, remote, opts) do |_ch, name, sent, total|
+        waits.push session.scp.upload(local, remote, opts) do |_ch, name, sent, total|
           logger.debug("Uploaded #{name} (#{total} bytes)") if sent == total
         end
+        waits.shift.wait while waits.length >= @max_ssh_sessions
       end
+      waits.each(&:wait)
     rescue Net::SSH::Exception => ex
       raise Train::Transports::SSHFailed, "SCP upload failed (#{ex.message})"
+    end
+
+    def download(remotes, local)
+      waits = []
+      Array(remotes).map do |remote|
+        opts = file(remote).directory? ? { recursive: true } : {}
+        waits.push session.scp.download(remote, local, opts) do |_ch, name, recv, total|
+          logger.debug("Downloaded #{name} (#{total} bytes)") if recv == total
+        end
+        waits.shift.wait while waits.length >= @max_ssh_sessions
+      end
+      waits.each(&:wait)
+    rescue Net::SSH::Exception => ex
+      raise Train::Transports::SSHFailed, "SCP download failed (#{ex.message})"
     end
 
     # (see Base::Connection#wait_until_ready)
