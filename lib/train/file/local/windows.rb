@@ -30,7 +30,7 @@ module Train
         end
 
         def stat
-          return @stat if defined? @stat
+          return @stat if defined?(@stat)
 
           begin
             file_stat =

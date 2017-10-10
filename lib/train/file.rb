@@ -79,14 +79,16 @@ module Train
       @path
     end
 
-    # TODO: This methods needs to raise error if not implemented currently it set to nil since conversion
-    # to json currently breaks if raise error for non implementation of these mehtods by every backend file
+    # product_version is primarily used by Windows operating systems only and will be overwritten
+    # in Windows-related classes. Since this field is returned for all file objects, the acceptable
+    # default value is nil
     def product_version
       nil
     end
 
-    # TODO: This methods needs to raise error if not implemented currently it set to nil since conversion
-    # to json currently breaks if raise error for non implementation of these mehtods by every backend file
+    # file_version is primarily used by Windows operating systems only and will be overwritten
+    # in Windows-related classes. Since this field is returned for all file objects, the acceptable
+    # default value is nil
     def file_version
       nil
     end
