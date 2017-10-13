@@ -55,8 +55,8 @@ class Train::Transports::SSH
       @session = nil
     end
 
-    def os
-      @os ||= OS.new(self)
+    def platform
+      @platform ||= Train::Platform.detect(self)
     end
 
     def file(path)

@@ -60,8 +60,8 @@ class Train::Plugins::Transport
     # Get information on the operating system which this transport connects to.
     #
     # @return [OSCommon] operating system information
-    def os
-      fail Train::ClientError, "#{self.class} does not implement #os()"
+    def platform
+      fail Train::ClientError, "#{self.class} does not implement #platform()"
     end
 
     # Interact with files on the target. Read, write, and get metadata
