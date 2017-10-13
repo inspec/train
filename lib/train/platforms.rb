@@ -78,13 +78,4 @@ module Train::Platforms
       print_children(obj, pad + 2) unless !defined?(obj.children) || obj.children.nil?
     end
   end
-
-  require 'train/platforms/specs/os'
-  def self.detect(backend)
-    @backend = backend
-    instance_eval(&Train::Platforms.family('linux').detect)
-    Train::Platforms.name('ubuntu').backend = @backend
-    Train::Platforms.name('ubuntu').arch = 'unix'
-    Train::Platforms.name('ubuntu')
-  end
 end

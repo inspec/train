@@ -62,7 +62,7 @@ class Train::Transports::SSH
     end
 
     def platform
-      @platform ||= Train::Platforms.detect(self)
+      @platform ||= Train::Platforms::Detect.scan(self)
     end
 
     def file(path)

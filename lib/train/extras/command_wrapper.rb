@@ -162,7 +162,7 @@ module Train::Extras
     include_options LinuxCommand
 
     def self.load(transport, options)
-      if transport.os.arch == 'unix'
+      if transport.os.type == 'unix'
         return nil unless LinuxCommand.active?(options)
         res = LinuxCommand.new(transport, options)
         msg = res.verify
@@ -170,7 +170,7 @@ module Train::Extras
         res
       # only use powershell command for local transport. winrm transport
       # uses powershell as default
-      elsif transport.os.windows? && transport.class == Train::Transports::Local::Connection
+      elsif transport.os.type == 'windows' && transport.class == Train::Transports::Local::Connection
         PowerShellCommand.new(transport, options)
       end
     end
