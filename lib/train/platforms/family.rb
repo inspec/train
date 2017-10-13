@@ -2,23 +2,24 @@
 #
 # Author:: Jared Quick
 
-module Train
-  class Platform
+module Train::Platforms
+  class Family
     include Train::Platforms::Common
-    attr_accessor :name, :condition, :families
+    attr_accessor :name, :condition, :families, :children
 
-    def initialize(name, condition = {})
-      @condition = condition
+    def initialize(name, condition)
       @name = name
+      @condition = {}
       @families = {}
+      @children = {}
 
-      # add itself to the platform list
-      Train::Platforms.list[name] = self
+      # add itself to the families list
+      Train::Platforms.families[@name.to_s] = self
     end
 
     def title(title = nil)
       if @title.nil? && title.nil?
-        name.capitalize
+        "#{name.capitalize} Family"
       elsif title.nil?
         @title
       else

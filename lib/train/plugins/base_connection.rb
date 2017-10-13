@@ -60,6 +60,13 @@ class Train::Plugins::Transport
     # Get information on the operating system which this transport connects to.
     #
     # @return [OSCommon] operating system information
+    def os
+      fail Train::ClientError, "#{self.class} does not implement #os()"
+    end
+
+    # Get information on the operating system which this transport connects to.
+    #
+    # @return [Platform] system information
     def platform
       fail Train::ClientError, "#{self.class} does not implement #platform()"
     end

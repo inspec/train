@@ -55,8 +55,14 @@ class Train::Transports::SSH
       @session = nil
     end
 
+    def os
+      warn '[DEPRECATION] `os` is being deprecated. ' \
+           'Please use `platform` instead.'
+      platform
+    end
+
     def platform
-      @platform ||= Train::Platform.detect(self)
+      @platform ||= Train::Platforms.detect(self)
     end
 
     def file(path)
@@ -244,12 +250,6 @@ class Train::Transports::SSH
       options_to_print = @options.clone
       options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
       "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
-    end
-
-    class OS < OSCommon
-      def initialize(backend)
-        super(backend)
-      end
     end
   end
 end

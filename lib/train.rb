@@ -6,7 +6,7 @@ require 'train/version'
 require 'train/options'
 require 'train/plugins'
 require 'train/errors'
-require 'train/platform'
+require 'train/platforms'
 require 'uri'
 
 module Train
