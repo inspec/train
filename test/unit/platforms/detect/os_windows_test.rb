@@ -1,8 +1,11 @@
-require 'train/extras'
+# encoding: utf-8
+
+require 'helper'
+require 'train/transports/mock'
 
 class OsDetectWindowsTester
   attr_reader :platform, :backend
-  include Train::Extras::DetectWindows
+  include Train::Platforms::Detect::Helpers::Windows
 
   def initialize
     @platform = {}
