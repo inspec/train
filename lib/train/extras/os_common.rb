@@ -66,7 +66,7 @@ module Train::Extras
       },
       'darwin' => %w{
         darwin
-      }
+      },
     }
 
     OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware fedora amazon} + OS['redhat'] + OS['debian'] + OS['suse']

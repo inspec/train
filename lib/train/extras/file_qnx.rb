@@ -16,7 +16,7 @@ module Train::Extras
     end
 
     def type
-      if @backend.run_command("file #{@spath}").stdout.include?("directory")
+      if @backend.run_command("file #{@spath}").stdout.include?('directory')
         return :directory
       else
         return :file
