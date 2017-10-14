@@ -7,6 +7,7 @@ module Train::Extras
   require 'train/extras/file_common'
   require 'train/extras/file_unix'
   require 'train/extras/file_aix'
+  require 'train/extras/file_qnx'
   require 'train/extras/file_linux'
   require 'train/extras/file_windows'
   require 'train/extras/os_common'
