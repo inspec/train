@@ -41,6 +41,12 @@ module Train::Extras
         @platform[:name] = uname_s.lines[0].chomp
         @platform[:release] = uname_r.lines[0].chomp
 
+      when /qnx/
+        @platform[:family] = 'qnx'
+        @platform[:name] = uname_s.lines[0].chomp.downcase
+        @platform[:release] = uname_r.lines[0].chomp
+        @platform[:arch] = uname_m
+
       when /sunos/
         detect_solaris
       else

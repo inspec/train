@@ -66,12 +66,12 @@ module Train::Extras
       },
       'darwin' => %w{
         darwin
-      },
+      }
     }
 
     OS['linux'] = %w{linux alpine arch coreos exherbo gentoo slackware fedora amazon} + OS['redhat'] + OS['debian'] + OS['suse']
 
-    OS['unix'] = %w{unix aix hpux} + OS['linux'] + OS['solaris'] + OS['bsd']
+    OS['unix'] = %w{unix aix hpux qnx} + OS['linux'] + OS['solaris'] + OS['bsd']
 
     # Helper methods to check the OS type
     # Provides methods in the form of: linux?, unix?, solaris? ...
