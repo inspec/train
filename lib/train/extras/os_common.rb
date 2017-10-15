@@ -27,10 +27,13 @@ module Train::Extras
     include Train::Extras::DetectOpenVMS
 
     attr_accessor :backend
+
+    # @backend connection
+    # @platfrom options inticate a platform familiy
     def initialize(backend, platform = nil)
       @backend = backend
       @platform = platform || {}
-      detect_family
+      detect_os
     end
 
     def [](key)
@@ -41,6 +44,7 @@ module Train::Extras
       @platform
     end
 
+    # define helper methods on top of os family
     OS = { # rubocop:disable Style/MutableConstant
       'redhat' => REDHAT_FAMILY,
       'debian' => DEBIAN_FAMILY,
@@ -83,58 +87,46 @@ module Train::Extras
 
     private
 
+    # TODO: extend base implementation for detecting the family type
+    # to Windows and others
     def detect_family
-      # if some information is already defined, try to verify it
-      # with the remaining detection
-      unless @platform[:family].nil?
-        # return ok if the preconfigured family yielded a good result
-        return true if detect_family_type
-        # if not, reset the platform to presets and run the full detection
-        # TODO: print an error message in this case, as the instantiating
-        # backend is doing something wrong
-        @platform = {}
-      end
-
-      # TODO: extend base implementation for detecting the family type
-      # to Windows and others
+      # may be initialized by connection
+      return @platform[:family] unless @platform[:family].nil?
       case uname_s
       when /unrecognized command verb/
-        @platform[:family] = 'openvms'
+        # uname is not available
+        family = nil
       when /linux/i
-        @platform[:family] = 'linux'
+        family = 'linux'
       when /./
-        @platform[:family] = 'unix'
+        family = 'unix'
       else
         # Don't know what this is
-        @platform[:family] = nil
+        family = nil
       end
-
-      # try to detect the platform if the platform is set to nil, otherwise this code will never work
-      return nil if @platform[:family].nil?
-      detect_family_type
+      family
     end
 
-    def detect_family_type # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      pf = @platform[:family]
+    def detect_os # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      pf = detect_family
 
+      # shortcut for systems with uname_s
       return detect_windows if pf == 'windows'
-      return detect_darwin if pf == 'darwin'
-      return detect_esx if pf == 'esx'
-      return detect_openvms if pf =='openvms'
+      return if detect_linux
 
-      if %w{freebsd netbsd openbsd aix solaris2 hpux}.include?(pf)
-        return detect_via_uname
+      return if (pf == 'unix' || pf == 'darwin') and detect_darwin
+      return if (pf == 'unix' || pf == 'esx') and detect_esx
+
+      # detect system based on uname
+      if %w{unix freebsd netbsd openbsd aix solaris2 hpux}.include?(pf)
+        return if detect_via_uname
       end
 
-      # unix based systems combine the above
-      return true if pf == 'unix' and detect_darwin
-      return true if pf == 'unix' and detect_esx
-      # This is assuming that pf is set to unix, this should be if pf == 'linux'
-      return true if pf == 'unix' and detect_arista_eos
-      return true if pf == 'unix' and detect_via_uname
+      return if pf == 'linux' and detect_arista_eos
+      return if detect_openvms
 
       # if we arrive here, we most likey have a regular linux
-      detect_linux
+      @platform[:family] = 'unknown'
     end
 
     def get_config(path)

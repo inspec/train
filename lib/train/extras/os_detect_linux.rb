@@ -135,7 +135,6 @@ module Train::Extras
       return true if detect_linux_via_config
       return true if detect_linux_via_lsb
       # in all other cases we failed the detection
-      @platform[:family] = 'unknown'
     end
 
     def fetch_os_release
