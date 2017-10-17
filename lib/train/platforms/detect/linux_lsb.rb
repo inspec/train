@@ -36,15 +36,15 @@ module Train::Platforms::Detect
       id = @lsb[:id].downcase
       case id
       when /redhat/
-        @platform[:family] = 'redhat'
+        @platform[:name] = 'redhat'
       when /amazon/
-        @platform[:family] = 'amazon'
+        @platform[:name] = 'amazon'
       when /scientificsl/
-        @platform[:family] = 'scientific'
+        @platform[:name] = 'scientific'
       when /xenserver/
-        @platform[:family] = 'xenserver'
+        @platform[:name] = 'xenserver'
       else
-        @platform[:family] = id
+        @platform[:name] = id
       end
       @platform[:release] = @lsb[:release]
       true

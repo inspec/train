@@ -3,11 +3,13 @@
 module Train::Platforms::Detect
   module Uname
     def uname_s
-      @uname_s ||= @backend.run_command('uname -s').stdout
+      return @uname_s unless @uname_s.nil?
+      @uname_s = @backend.run_command('uname -s').stdout
     end
 
     def uname_r
-      @uname_r ||= begin
+      return @uname_r unless @uname_r.nil?
+      @uname_r = begin
                      res = @backend.run_command('uname -r').stdout
                      res.strip! unless res.nil?
                      res
@@ -15,7 +17,8 @@ module Train::Platforms::Detect
     end
 
     def uname_m
-      @uname_m ||= @backend.run_command('uname -m').stdout.chomp
+      return @uname_m unless @uname_m.nil?
+      @uname_m = @backend.run_command('uname -m').stdout.chomp
     end
   end
 end

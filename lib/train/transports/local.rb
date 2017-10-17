@@ -18,7 +18,6 @@ module Train::Transports
 
     class Connection < BaseConnection
       require 'train/transports/local_file'
-      require 'train/transports/local_os'
 
       def initialize(options)
         super(options)
@@ -36,8 +35,15 @@ module Train::Transports
       end
 
       def os
-        @os ||= OS.new(self)
+        warn '[DEPRECATION] `os` is being deprecated. ' \
+             'Please use `platform` instead.'
+        platform
       end
+
+      def platform
+        @platform ||= Train::Platforms::Detect.scan(self, true)
+      end
+
 
       def file(path)
         @files[path] ||= File.new(self, path)

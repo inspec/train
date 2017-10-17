@@ -21,6 +21,9 @@ module Train::Platforms::Detect
         @platform[:family] = nil
       end
 
+      detect_via_uname if @platform[:family] == 'unix'
+
+
     end
 
     # def detect_family_type # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity

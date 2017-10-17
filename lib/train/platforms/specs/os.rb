@@ -1,15 +1,20 @@
 plat = Train::Platforms
 
-# unix
-plat.family('unix')
+# windows platform
+plat.name('windows')
     .detect {
-      if @platform.empty? || @platform[:family] == 'unix'
-        detect_family
-        true
-      end
+      return true if @platform[:name] =~ /windows|microsoft/i
     }
 
-# linux
+# unix master family
+plat.family('unix')
+    .detect {
+      # must be unix. keep this at the end
+      detect_family
+      true
+    }
+
+# linux master family
 plat.family('linux').is_a('unix')
     .detect {
       if @platform[:family] == 'linux'
@@ -19,7 +24,7 @@ plat.family('linux').is_a('unix')
       end
     }
 
-# debian
+# debian family
 plat.family('debian').is_a('linux')
     .detect {
       if !(raw = get_config('/etc/debian_version')).nil?
@@ -61,7 +66,7 @@ plat.name('debian').title('Debian Linux').is_a('debian')
       end
     }
 
-# redhat
+# redhat family
 plat.family('redhat').is_a('linux')
     .detect {
       if !(raw = get_config('/etc/redhat-release')).nil?
@@ -82,13 +87,13 @@ plat.family('redhat').is_a('linux')
       # will detect all redhats at the platform level
       true
     }
+plat.name('redhat').title('Red Hat Enterplat.ise Linux').is_a('redhat')
+    .detect {
+      # for now this is detected at the start during the lsb/family call
+    }
 plat.name('centos').title('Centos Linux').is_a('redhat')
     .detect {
-      true if @plaform[:name] == 'centos'
-    }
-plat.name('rhel').title('Red Hat Enterplat.ise Linux').is_a('redhat')
-    .detect {
-      true if @plaform[:name] == 'rhel'
+      # for now this is detected at the start during the lsb/family call
     }
 plat.name('oracle').title('Oracle Linux').is_a('redhat')
     .detect {
@@ -111,6 +116,14 @@ plat.name('amazon').title('Amazon Linux').is_a('redhat')
         true
       end
     }
+plat.name('scientific').title('Scientific Linux').is_a('redhat')
+    .detect {
+      # for now this is detected at the start during the lsb call
+    }
+plat.name('xenserver').title('Xenserer Linux').is_a('redhat')
+    .detect {
+      # for now this is detected at the start during the lsb call
+    }
 plat.name('parallels-release').title('Parallels Linux').is_a('redhat')
     .detect {
       if !(raw = get_config('/etc/parallels-release')).nil?
@@ -130,7 +143,7 @@ plat.name('wrlinux').title('Wind River Linux').is_a('redhat')
       end
     }
 
-# suse
+# suse family
 plat.family('suse').is_a('linux')
     .detect {
       if !(suse = get_config('/etc/SuSE-release')).nil?
@@ -147,11 +160,60 @@ plat.family('suse').is_a('linux')
     }
 plat.name('suse').title('Suse Linux').is_a('suse')
     .detect {
-      true if @plaform[:name] == 'suse'
     }
 plat.name('opensuse').title('OpenSUSE Linux').is_a('suse')
     .detect {
-      true if @plaform[:name] == 'opensuse'
+    }
+
+# bsd family
+plat.family('bsd')
+    .detect {
+      # we need a better way to determin this family
+      true
+    }
+plat.name('darwin').title('Darwin').is_a('bsd')
+    .detect {
+      if uname_s =~ /darwin/
+        @platform[:name] = uname_s.lines[0].chomp
+        @platform[:release] = uname_r.lines[0].chomp
+        true
+      end
+    }
+plat.name('freebsd').title('Freebsd').is_a('bsd')
+    .detect {
+      if uname_s =~ /freebsd/
+        @platform[:name] = uname_s.lines[0].chomp
+        @platform[:release] = uname_r.lines[0].chomp
+        true
+      end
+    }
+plat.name('openbsd').title('Openbsd').is_a('bsd')
+    .detect {
+      if uname_s =~ /openbsd/
+        @platform[:name] = uname_s.lines[0].chomp
+        @platform[:release] = uname_r.lines[0].chomp
+        true
+      end
+    }
+plat.name('netbsd').title('Netbsd').is_a('bsd')
+    .detect {
+      if uname_s =~ /netbsd/
+        @platform[:name] = uname_s.lines[0].chomp
+        @platform[:release] = uname_r.lines[0].chomp
+        true
+      end
+    }
+
+# solaris family
+plat.family('solaris')
+    .detect {
+      # we need a better way to determin this family
+      true
+    }
+# solaris (local only as of now)
+plat.name('solaris').title('Solaris').is_a('solaris')
+    .detect {
+      true if @platform[:name] =~ /solaris/
     }
 
 # arch
@@ -220,6 +282,37 @@ plat.name('coreos').title('CoreOS Linux').is_a('linux')
         @platform[:release] = lsb[:release]
         true
       end
+    }
+
+# aix
+plat.name('aix').title('Aix').is_a('linux')
+    .detect {
+      if uname_s =~ /aix/
+        @platform[:name] = uname_s.lines[0].chomp
+        out = @backend.run_command('uname -rvp').stdout
+        m = out.match(/(\d+)\s+(\d+)\s+(.*)/)
+        unless m.nil?
+          @platform[:release] = "#{m[2]}.#{m[1]}"
+          @platform[:arch] = m[3].to_s
+        end
+        true
+      end
+    }
+
+# hpux
+plat.name('hpux').title('Hpux').is_a('linux')
+    .detect {
+      if uname_s =~ /hp-ux/
+        @platform[:name] = uname_s.lines[0].chomp
+        @platform[:release] = uname_r.lines[0].chomp
+        true
+      end
+    }
+
+# solaris (local only as of now)
+plat.name('solaris').title('Solaris').is_a('solaris')
+    .detect {
+      true if @platform[:name] =~ /solaris/
     }
 
 # genaric linux
