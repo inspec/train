@@ -1,4 +1,7 @@
 # encoding: utf-8
+#
+# author: Christoph Hartmann
+# author: Dominik Richter
 
 require 'train/file/local'
 require 'train/file/local/unix'
