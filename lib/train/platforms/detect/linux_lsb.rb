@@ -30,24 +30,9 @@ module Train::Platforms::Detect
       @lsb
     end
 
-    def detect_linux_via_lsb
+    def detect_linux_lsb
       lsb if @lsb.nil?
-      return false if @lsb[:id].nil?
-      id = @lsb[:id].downcase
-      case id
-      when /redhat/
-        @platform[:name] = 'redhat'
-      when /amazon/
-        @platform[:name] = 'amazon'
-      when /scientificsl/
-        @platform[:name] = 'scientific'
-      when /xenserver/
-        @platform[:name] = 'xenserver'
-      else
-        @platform[:name] = id
-      end
-      @platform[:release] = @lsb[:release]
-      true
+      return @lsb unless @lsb[:id].nil?
     end
   end
 end

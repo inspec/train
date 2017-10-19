@@ -34,14 +34,16 @@ module Train::Transports
         CommandResult.new('', '', 1)
       end
 
+      def local?
+        true
+      end
+
       def os
-        warn '[DEPRECATION] `os` is being deprecated. ' \
-             'Please use `platform` instead.'
         platform
       end
 
       def platform
-        @platform ||= Train::Platforms::Detect.scan(self, true)
+        @platform ||= Train::Platforms::Detect.scan(self)
       end
 
 

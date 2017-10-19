@@ -7,9 +7,9 @@ module Train::Platforms
 
     # Add a family connection. This will create a family
     # if it does not exist and add a child relationship.
-    def is_a(family)
+    def in_family(family)
       if self.class == Train::Platforms::Family && @name == family
-        raise "Sorry you can not add a family inside itself '#{@name}.is_a(#{family})'"
+        raise "Sorry you can not add a family inside itself '#{@name}.in_family(#{family})'"
       end
 
       # add family to the family list
@@ -22,19 +22,9 @@ module Train::Platforms
     end
 
     def detect(&block)
-      return @detect if block.nil?
+      return @detect unless block_given?
       @detect = block
       self
-    end
-
-    def method_missing(m, *args, &block)
-      unless args.empty?
-        args = args.first if args.size == 1
-        instance_variable_set("@#{m.to_s.chomp('=')}", args)
-        self
-      else
-        instance_variable_get("@#{m}")
-      end
     end
   end
 end

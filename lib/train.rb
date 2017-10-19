@@ -7,7 +7,7 @@ require 'train/options'
 require 'train/plugins'
 require 'train/errors'
 require 'train/platforms'
-require 'train/platforms/detect'
+require 'train/exceptions'
 require 'uri'
 
 module Train
@@ -18,6 +18,9 @@ module Train
   # @param [Array] *args list of arguments for the plugin
   # @return [Transport] instance of the new transport or nil
   def self.create(name, *args)
+    # require built in detect platforms at this level so any manual ones will be at the top
+    require 'train/platforms/detect'
+
     cls = load_transport(name)
     cls.new(*args) unless cls.nil?
   end

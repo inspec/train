@@ -1,6 +1,4 @@
 # encoding: utf-8
-#
-# Author:: Jared Quick
 
 require 'train/platforms/common'
 require 'train/platforms/family'

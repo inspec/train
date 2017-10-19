@@ -56,8 +56,6 @@ class Train::Transports::SSH
     end
 
     def os
-      warn '[DEPRECATION] `os` is being deprecated. ' \
-           'Please use `platform` instead.'
       platform
     end
 

@@ -28,6 +28,7 @@ class Train::Plugins::Transport
     def initialize(options = nil)
       @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
+      @logger.level = Logger::WARN
       @files = {}
     end
 
@@ -47,6 +48,11 @@ class Train::Plugins::Transport
       j['files'].each do |path, jf|
         @files[path] = Train::Transports::Mock::Connection::File.from_json(jf)
       end
+    end
+
+    # Is this a local transport?
+    def local?
+      false
     end
 
     # Execute a command using this connection.
