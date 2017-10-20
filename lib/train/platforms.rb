@@ -55,8 +55,8 @@ module Train::Platforms
   #
   # @return [Hash] with top level family and platforms
   def self.top_platforms
-    top_platforms = families.select { |_key, value| value.families.empty? }
-    top_platforms.merge!(list.select { |_key, value| value.families.empty? })
+    top_platforms = list.select { |_key, value| value.families.empty? }
+    top_platforms.merge!(families.select { |_key, value| value.families.empty? })
     top_platforms
   end
 

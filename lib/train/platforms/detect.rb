@@ -46,9 +46,13 @@ module Train::Platforms::Detect
       unless plat.detect.nil?
         puts "---> Testing: #{plat.name} - #{plat.class}"
         result = instance_eval(&plat.detect)
-        return get_platform(plat) if result == true && plat.class == Train::Platform
-        child_result = scan_children(plat) if plat.respond_to?(:children) && !plat.children.nil?
-        return child_result unless child_result.nil?
+        if result == true && plat.class == Train::Platform
+          return get_platform(plat)
+        elsif result == true && plat.class == Train::Platforms::Family
+          @platform[:family] = plat.name
+          child_result = scan_children(plat) if plat.respond_to?(:children) && !plat.children.nil?
+          return child_result unless child_result.nil?
+        end
       end
     end
     nil

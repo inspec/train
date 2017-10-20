@@ -70,7 +70,11 @@ class Train::Transports::Docker
     end
 
     def os
-      @os ||= OS.new(self)
+      platform
+    end
+
+    def platform
+      @platform ||= Train::Platforms::Detect.scan(self)
     end
 
     def file(path)

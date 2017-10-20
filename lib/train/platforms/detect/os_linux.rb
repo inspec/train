@@ -18,18 +18,6 @@ module Train::Platforms::Detect
       conf[/release ([\d\.]+)/, 1]
     end
 
-    def detect_linux_arch
-      @platform[:arch] = uname_m
-    end
-
-    def detect_linux
-      # TODO: print an error in this step of the detection
-      return false if uname_s.nil? || uname_s.empty?
-      return false if uname_r.nil? || uname_r.empty?
-
-      detect_linux_arch
-    end
-
     def fetch_os_release
       data = get_config('/etc/os-release')
       return if data.nil?
