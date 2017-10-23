@@ -83,7 +83,7 @@ describe 'file interface' do
       file.product_version.must_be_nil
     end
 
-    it 'has no product_version' do
+    it 'has no file_version' do
       file.file_version.must_be_nil
     end
   end
