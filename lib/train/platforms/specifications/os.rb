@@ -1,43 +1,39 @@
 plat = Train::Platforms
 
-# windows platform
-plat.name('windows')
+plat.family('windows')
     .detect {
-      if winrm?
-        return true if detect_windows == true
+      require 'rbconfig'
+      if winrm? || ::RbConfig::CONFIG['host_os'] =~ /mswin|mingw32|windows/
+        @platform[:type] = 'windows'
+        true
       end
+    }
+# windows platform
+plat.name('windows').in_family('windows')
+    .detect {
+      true if detect_windows == true
     }
 
 # unix master family
 plat.family('unix')
     .detect {
-      if uname_s =~ /linux/i
-        @platform[:family] = 'linux'
-        @platform[:type] = 'unix'
-        true
-      elsif uname_s =~ /./
-        @platform[:type] = 'unix'
-        true
-      end
+      true if uname_s =~ /./
     }
 
 # linux master family
 plat.family('linux').in_family('unix')
     .detect {
-      if @platform[:family] == 'linux'
-        @platform[:arch] = uname_m
-        true
-      end
+      true if uname_s =~ /linux/i
     }
 
 # debian family
 plat.family('debian').in_family('linux')
     .detect {
-      true unless get_config('/etc/debian_version').nil?
+      true unless read_file('/etc/debian_version').nil?
     }
 plat.name('debian').title('Debian Linux').in_family('debian')
     .detect {
-      lsb = detect_linux_lsb
+      lsb = read_linux_lsb
       if lsb && lsb[:id] =~ /debian/i
         @platform[:release] = lsb[:release]
         true
@@ -45,7 +41,7 @@ plat.name('debian').title('Debian Linux').in_family('debian')
     }
 plat.name('ubuntu').title('Ubuntu Linux').in_family('debian')
     .detect {
-      lsb = detect_linux_lsb
+      lsb = read_linux_lsb
       if lsb && lsb[:id] =~ /ubuntu/i
         @platform[:release] = lsb[:release]
         true
@@ -53,7 +49,7 @@ plat.name('ubuntu').title('Ubuntu Linux').in_family('debian')
     }
 plat.name('linuxmint').title('LinuxMint').in_family('debian')
     .detect {
-      lsb = detect_linux_lsb
+      lsb = read_linux_lsb
       if lsb && lsb[:id] =~ /linuxmint/i
         @platform[:release] = lsb[:release]
         true
@@ -61,8 +57,8 @@ plat.name('linuxmint').title('LinuxMint').in_family('debian')
     }
 plat.name('raspbian').title('Raspbian Linux').in_family('debian')
     .detect {
-      if unix_file?('/usr/bin/raspi-config')
-        @platform[:release] = get_config('/etc/debian_version').chomp
+      if file_exist?('/usr/bin/raspi-config')
+        @platform[:release] = read_file('/etc/debian_version').chomp
         true
       end
     }
@@ -72,29 +68,29 @@ plat.family('redhat').in_family('linux')
     .detect {
       # I am not sure this returns true for all redhats in this family
       # for now we are going to just try each platform
-      # return true unless get_config('/etc/redhat-release').nil?
+      # return true unless read_file('/etc/redhat-release').nil?
 
       true
     }
 plat.name('centos').title('Centos Linux').in_family('redhat')
     .detect {
-      lsb = detect_linux_lsb
+      lsb = read_linux_lsb
       if lsb && lsb[:id] =~ /centos/i
         @platform[:release] = lsb[:release]
         true
-      elsif get_config('/etc/os-release') =~ /centos/i
-        @platform[:release] = redhatish_version(get_config('/etc/redhat-release'))
+      elsif read_file('/etc/os-release') =~ /centos/i
+        @platform[:release] = redhatish_version(read_file('/etc/redhat-release'))
         true
       end
     }
 # keep redhat after centos as a catchall for redhat base
 plat.name('redhat').title('Red Hat Enterplat.ise Linux').in_family('redhat')
     .detect {
-      lsb = detect_linux_lsb
+      lsb = read_linux_lsb
       if lsb && lsb[:id] =~ /redhat/i
         @platform[:release] = lsb[:release]
         true
-      elsif !(raw = get_config('/etc/redhat-release')).nil?
+      elsif !(raw = read_file('/etc/redhat-release')).nil?
         # must be some type of redhat
         @platform[:name] = redhatish_platform(raw)
         @platform[:release] = redhatish_version(raw)
@@ -103,17 +99,17 @@ plat.name('redhat').title('Red Hat Enterplat.ise Linux').in_family('redhat')
     }
 plat.name('oracle').title('Oracle Linux').in_family('redhat')
     .detect {
-      if !(raw = get_config('/etc/oracle-release')).nil?
+      if !(raw = read_file('/etc/oracle-release')).nil?
         @platform[:release] = redhatish_version(raw)
         true
-      elsif !(raw = get_config('/etc/enterprise-release')).nil?
+      elsif !(raw = read_file('/etc/enterprise-release')).nil?
         @platform[:release] = redhatish_version(raw)
         true
       end
     }
 plat.name('scientific').title('Scientific Linux').in_family('redhat')
     .detect {
-      lsb = detect_linux_lsb
+      lsb = read_linux_lsb
       if lsb && lsb[:id] =~ /scientificsl/i
         @platform[:release] = lsb[:release]
         true
@@ -121,7 +117,7 @@ plat.name('scientific').title('Scientific Linux').in_family('redhat')
     }
 plat.name('xenserver').title('Xenserer Linux').in_family('redhat')
     .detect {
-      lsb = detect_linux_lsb
+      lsb = read_linux_lsb
       if lsb && lsb[:id] =~ /xenserver/i
         @platform[:release] = lsb[:release]
         true
@@ -129,7 +125,7 @@ plat.name('xenserver').title('Xenserer Linux').in_family('redhat')
     }
 plat.name('parallels-release').title('Parallels Linux').in_family('redhat')
     .detect {
-      if !(raw = get_config('/etc/parallels-release')).nil?
+      if !(raw = read_file('/etc/parallels-release')).nil?
         @platform[:name] = redhatish_platform(raw)
         @platform[:release] = raw[/(\d\.\d\.\d)/, 1]
         true
@@ -137,21 +133,21 @@ plat.name('parallels-release').title('Parallels Linux').in_family('redhat')
     }
 plat.name('wrlinux').title('Wind River Linux').in_family('redhat')
     .detect {
-      if !(os_info = get_config('/etc/os-release')).nil?
+      if !(os_info = read_file('/etc/os-release')).nil?
         if os_info =~ /wrlinux/
           @platform[:name] = 'wrlinux'
-          @platform[:release] = os_info(/VERSION(.*)/)
+          @platform[:release] = os_info[/VERSION\s?=\s?([\d\.]*)/, 1]
           true
         end
       end
     }
 plat.name('amazon').title('Amazon Linux').in_family('redhat')
     .detect {
-      lsb = detect_linux_lsb
+      lsb = read_linux_lsb
       if lsb && lsb[:id] =~ /amazon/i
         @platform[:release] = lsb[:release]
         true
-      elsif !(raw = get_config('/etc/system-release')).nil?
+      elsif !(raw = read_file('/etc/system-release')).nil?
         @platform[:name] = redhatish_platform(raw)
         @platform[:release] = redhatish_version(raw)
         true
@@ -161,7 +157,7 @@ plat.name('amazon').title('Amazon Linux').in_family('redhat')
 # suse family
 plat.family('suse').in_family('linux')
     .detect {
-      if !(suse = get_config('/etc/SuSE-release')).nil?
+      if !(suse = read_file('/etc/SuSE-release')).nil?
         puts suse.inspect
         version = suse.scan(/VERSION = (\d+)\nPATCHLEVEL = (\d+)/).flatten.join('.')
         version = suse[/VERSION = ([\d\.]{2,})/, 1] if version == ''
@@ -171,17 +167,17 @@ plat.family('suse').in_family('linux')
     }
 plat.name('opensuse').title('OpenSUSE Linux').in_family('suse')
     .detect {
-      return true if get_config('/etc/SuSE-release') =~ /^openSUSE/
+      true if read_file('/etc/SuSE-release') =~ /^openSUSE/
     }
 plat.name('suse').title('Suse Linux').in_family('suse')
     .detect {
-      return true if get_config('/etc/SuSE-release') =~ /suse/
+      true if read_file('/etc/SuSE-release') =~ /suse/
     }
 
 # arch
 plat.name('arch').title('Arch Linux').in_family('linux')
     .detect {
-      if !get_config('/etc/arch-release').nil?
+      if !read_file('/etc/arch-release').nil?
         # Because this is a rolling release distribution,
         # use the kernel release, ex. 4.1.6-1-ARCH
         @platform[:release] = uname_r
@@ -192,7 +188,7 @@ plat.name('arch').title('Arch Linux').in_family('linux')
 # slackware
 plat.name('slackware').title('Slackware Linux').in_family('linux')
     .detect {
-      if !(raw = get_config('/etc/slackware-version')).nil?
+      if !(raw = read_file('/etc/slackware-version')).nil?
         @platform[:release] = raw.scan(/(\d+|\.+)/).join
         true
       end
@@ -201,7 +197,7 @@ plat.name('slackware').title('Slackware Linux').in_family('linux')
 # gentoo
 plat.name('gentoo').title('Gentoo Linux').in_family('linux')
     .detect {
-      if !(raw = get_config('/etc/gentoo-release')).nil?
+      if !(raw = read_file('/etc/gentoo-release')).nil?
         @platform[:release] = raw.scan(/(\d+|\.+)/).join
         true
       end
@@ -210,7 +206,7 @@ plat.name('gentoo').title('Gentoo Linux').in_family('linux')
 # exherbo
 plat.name('exherbo').title('Exherbo Linux').in_family('linux')
     .detect {
-      if !(raw = get_config('/etc/exherbo-release')).nil?
+      if !(raw = read_file('/etc/exherbo-release')).nil?
         # Because this is a rolling release distribution,
         # use the kernel release, ex. 4.1.6
         @platform[:release] = uname_r
@@ -221,7 +217,7 @@ plat.name('exherbo').title('Exherbo Linux').in_family('linux')
 # alpine
 plat.name('alpine').title('Alpine Linux').in_family('linux')
     .detect {
-      if !(raw = get_config('/etc/alpine-release')).nil?
+      if !(raw = read_file('/etc/alpine-release')).nil?
         @platform[:release] = raw.strip
         true
       end
@@ -230,7 +226,7 @@ plat.name('alpine').title('Alpine Linux').in_family('linux')
 # coreos
 plat.name('coreos').title('CoreOS Linux').in_family('linux')
     .detect {
-      if !get_config('/etc/coreos/update.conf').nil?
+      if !read_file('/etc/coreos/update.conf').nil?
         @platform[:release] = lsb[:release]
         true
       end
@@ -278,7 +274,7 @@ plat.name('arista_eos').title('Arista EOS').in_family('arista_eos')
     }
 plat.name('arista_eos_bash').title('Arista EOS Bash Shell').in_family('arista_eos')
     .detect {
-      if unix_file?('/usr/bin/FastCli')
+      if file_exist?('/usr/bin/FastCli')
         cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
         if cmd.exit_status == 0 && !cmd.stdout.empty?
           require 'json'
@@ -329,14 +325,14 @@ plat.family('solaris').in_family('unix')
     }
 plat.name('smartos').title('SmartOS').in_family('solaris')
     .detect {
-      rel = get_config('/etc/release')
+      rel = read_file('/etc/release')
       if /^.*(SmartOS).*$/ =~ rel
         true
       end
     }
 plat.name('omnios').title('Omnios').in_family('solaris')
     .detect {
-      rel = get_config('/etc/release')
+      rel = read_file('/etc/release')
       if !(m = /^\s*(OmniOS).*r(\d+).*$/.match(rel)).nil?
         @platform[:release] = m[2]
         true
@@ -344,7 +340,7 @@ plat.name('omnios').title('Omnios').in_family('solaris')
     }
 plat.name('openindiana').title('Openindiana').in_family('solaris')
     .detect {
-      rel = get_config('/etc/release')
+      rel = read_file('/etc/release')
       if !(m = /^\s*(OpenIndiana).*oi_(\d+).*$/.match(rel)).nil?
         @platform[:release] = m[2]
         true
@@ -352,7 +348,7 @@ plat.name('openindiana').title('Openindiana').in_family('solaris')
     }
 plat.name('opensolaris').title('Open Solaris').in_family('solaris')
     .detect {
-      rel = get_config('/etc/release')
+      rel = read_file('/etc/release')
       if /^\s*(OpenSolaris).*snv_(\d+).*$/ =~ rel
         @platform[:release] = m[2]
         true
@@ -360,14 +356,14 @@ plat.name('opensolaris').title('Open Solaris').in_family('solaris')
     }
 plat.name('nexentacore').title('Nexentacore').in_family('solaris')
     .detect {
-      rel = get_config('/etc/release')
+      rel = read_file('/etc/release')
       if /^\s*(NexentaCore)\s.*$/ =~ rel
         true
       end
     }
 plat.name('solaris').title('Solaris').in_family('solaris')
     .detect {
-      rel = get_config('/etc/release')
+      rel = read_file('/etc/release')
       if !(m = /Oracle Solaris (\d+)/.match(rel)).nil?
         # TODO: should be string!
         @platform[:release] = m[1]

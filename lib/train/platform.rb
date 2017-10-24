@@ -3,21 +3,26 @@
 module Train
   class Platform
     include Train::Platforms::Common
-    attr_accessor :name, :condition, :families, :backend, :platform
+    attr_accessor :name, :condition, :families, :backend, :platform, :family_hierarchy
 
     def initialize(name, condition = {})
       @condition = condition
       @name = name
       @families = {}
+      @family_hierarchy = []
 
       # add itself to the platform list
       Train::Platforms.list[name] = self
     end
 
-    %w{unix? windows?}.each do |m|
-      define_method m do |_arg = nil|
-        @platform[:type] == m
-      end
+    def direct_families
+      @families.collect { |k, _v| k.name }
+    end
+
+    # This is for backwords compatability with
+    # the current inspec os resource.
+    def[](name)
+      send(name)
     end
 
     define_method "#{name}?" do |_arg = nil|

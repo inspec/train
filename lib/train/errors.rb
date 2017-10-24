@@ -20,4 +20,7 @@ module Train
   # Base exception class for all exceptions that are caused by other failures
   # in the transport layer.
   class TransportError < ::StandardError; end
+
+  # Exception for when no platform can be detected
+  class PlatformDetectionFailed < ::StandardError; end
 end

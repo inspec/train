@@ -9,7 +9,6 @@ module Train::Extras
   require 'train/extras/file_aix'
   require 'train/extras/file_linux'
   require 'train/extras/file_windows'
-  require 'train/extras/os_common'
   require 'train/extras/stat'
 
   CommandResult = Struct.new(:stdout, :stderr, :exit_status)

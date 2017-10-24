@@ -47,7 +47,11 @@ class Train::Transports::WinRM
     end
 
     def os
-      @os ||= OS.new(self)
+      platform
+    end
+
+    def platform
+      @platform ||= Train::Platforms::Detect.scan(self)
     end
 
     def file(path)
@@ -192,12 +196,6 @@ class Train::Transports::WinRM
       options_to_print = @options.clone
       options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
       "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
-    end
-
-    class OS < OSCommon
-      def initialize(backend)
-        super(backend, { family: 'windows' })
-      end
     end
   end
 end

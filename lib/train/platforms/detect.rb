@@ -2,68 +2,77 @@
 
 require 'train/platforms/specifications/os'
 require 'train/platforms/detect/os_common'
-require 'train/platforms/detect/os_local'
 
 module Train::Platforms::Detect
   extend Train::Platforms::Detect::OSCommon
-  extend Train::Platforms::Detect::OSLocal
 
+  # Main detect method to scan all platforms for a match
+  #
+  # @return Train::Platform instance or error if none found
   def self.scan(backend)
     @backend = backend
     @platform = {}
+    @family_hierarchy = []
 
-    # grab local platform info if we are running local
-    if @backend.local?
-      plat = detect_local_os
-      return get_platform(plat) if plat
-    end
-
-    # Start at the top
+    # start with the platform/families who have no families (the top levels)
     top = Train::Platforms.top_platforms
     top.each do |name, plat|
       puts "---> Testing-TOP: #{name} - #{plat.class}"
-      if plat.detect
-        result = instance_eval(&plat.detect)
-        # if we have a match start looking at the children
-        if result
-          child_result = scan_children(plat)
-          return child_result unless child_result.nil?
-        end
-      end
+      next unless plat.detect
+      result = instance_eval(&plat.detect)
+      next unless result == true
+
+      # if we have a match start looking at the children
+      plat_result = scan_children(plat)
+      next if plat_result.nil?
+
+      # return platform to backend
+      @family_hierarchy << plat.name
+      plat_result.family_hierarchy = @family_hierarchy
+      return plat_result
     end
 
-    # raise Train::Exceptions::PlatformDetectionFailed 'Sorry we did not find your platform'
-    raise 'Sorry we did not find your platform'
+    raise Train::PlatformDetectionFailed, 'Sorry we did not find your platform'
   end
 
   def self.scan_children(parent)
     parent.children.each do |plat, condition|
-      if condition
-        condition.each do |k, v|
-          return nil if @platform[k] != v
-        end
-      end
-      unless plat.detect.nil?
-        puts "---> Testing: #{plat.name} - #{plat.class}"
-        result = instance_eval(&plat.detect)
-        if result == true && plat.class == Train::Platform
-          return get_platform(plat)
-        elsif result == true && plat.class == Train::Platforms::Family
-          @platform[:family] = plat.name
-          child_result = scan_children(plat) if plat.respond_to?(:children) && !plat.children.nil?
-          return child_result unless child_result.nil?
-        end
+      next if plat.detect.nil?
+      puts "---> Testing: #{plat.name} - #{plat.class}"
+      result = instance_eval(&plat.detect)
+      next unless result == true
+
+      if plat.class == Train::Platform
+        @platform[:family] = parent.name
+        return get_platform(plat) if condition.empty? || condition_check(condition)
+      elsif plat.class == Train::Platforms::Family
+        plat = scan_family_children(plat)
+        return plat unless plat.nil?
       end
     end
+
     nil
+  end
+
+  def self.scan_family_children(plat)
+    child_result = scan_children(plat) if !plat.children.nil?
+    return if child_result.nil?
+    @family_hierarchy << plat.name
+    child_result
+  end
+
+  def self.check_condition(condition)
+    condition.each do |k, v|
+      return false unless instance_eval("#{@platform[k]} #{v}")
+    end
+
+    true
   end
 
   def self.get_platform(plat)
     plat.backend = @backend
     plat.platform = @platform
-    puts "---"
-    puts plat.name
-    puts plat.platform.inspect
+    Train::Platforms.add_platform_methods(plat)
     plat
   end
 end

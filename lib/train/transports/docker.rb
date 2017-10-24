@@ -102,13 +102,5 @@ class Train::Transports::Docker
         "docker://#{@container.id}"
       end
     end
-
-    class OS < OSCommon
-      def initialize(backend)
-        # hardcoded to unix/linux for now, until other operating systems
-        # are supported
-        super(backend, { family: 'unix' })
-      end
-    end
   end
 end

@@ -22,15 +22,15 @@ module Train::Platforms::Detect
     def lsb
       return @lsb if defined?(@lsb)
       @lsb = {}
-      if !(raw = get_config('/etc/lsb-release')).nil?
+      if !(raw = read_file('/etc/lsb-release')).nil?
         @lsb = lsb_config(raw)
-      elsif unix_file?('/usr/bin/lsb_release')
+      elsif file_exist?('/usr/bin/lsb_release')
         @lsb = lsb_release
       end
       @lsb
     end
 
-    def detect_linux_lsb
+    def read_linux_lsb
       lsb if @lsb.nil?
       return @lsb unless @lsb[:id].nil?
     end

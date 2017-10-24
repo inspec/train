@@ -65,7 +65,7 @@ class Train::Transports::Mock
 
     def initialize(conf = nil)
       super(conf)
-      @os = OS.new(self, family: 'unknown')
+      @os = Train::Platforms::Detect.scan(self)
       @commands = {}
     end
 
@@ -74,7 +74,15 @@ class Train::Transports::Mock
     end
 
     def mock_os(value)
-      @os = OS.new(self, value)
+      platform
+    end
+
+    def os
+      platform
+    end
+
+    def platform
+      @platform ||= Train::Platforms::Detect.scan(self)
     end
 
     def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
@@ -116,17 +124,17 @@ class Train::Transports::Mock::Connection
   Command = Struct.new(:stdout, :stderr, :exit_status)
 end
 
-class Train::Transports::Mock::Connection
-  class OS < OSCommon
-    def initialize(backend, desc)
-      super(backend, desc)
-    end
-
-    def detect_family
-      # no op, we do not need to detect the os
-    end
-  end
-end
+# class Train::Transports::Mock::Connection
+#   class OS < OSCommon
+#     def initialize(backend, desc)
+#       super(backend, desc)
+#     end
+#
+#     def detect_family
+#       # no op, we do not need to detect the os
+#     end
+#   end
+# end
 
 class Train::Transports::Mock::Connection
   class File < FileCommon
