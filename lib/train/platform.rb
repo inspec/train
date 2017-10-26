@@ -31,7 +31,11 @@ module Train
     # This is for backwords compatability with
     # the current inspec os resource.
     def[](name)
-      send(name)
+      if respond_to?(name)
+        send(name)
+      else
+        'unknown'
+      end
     end
 
     def title(title = nil)

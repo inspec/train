@@ -67,6 +67,11 @@ describe 'platform' do
     plat.to_hash.must_equal({ family: "mock" })
   end
 
+  it 'return unknown release' do
+    plat = mock_platform_family('mock')
+    plat[:release].must_equal('unknown')
+  end
+
   it 'return name?' do
     plat = Train::Platforms.name('windows_rc1')
     defined?(plat.windows_rc1?).must_be_nil
