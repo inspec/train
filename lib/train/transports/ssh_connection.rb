@@ -69,6 +69,8 @@ class Train::Transports::SSH
           AixFile.new(self, path)
         elsif os.solaris?
           UnixFile.new(self, path)
+        elsif os[:name] == 'qnx'
+          QnxFile.new(self, path)
         else
           LinuxFile.new(self, path)
         end
