@@ -46,7 +46,6 @@ module Train::Transports
         @platform ||= Train::Platforms::Detect.scan(self)
       end
 
-
       def file(path)
         @files[path] ||= File.new(self, path)
       end

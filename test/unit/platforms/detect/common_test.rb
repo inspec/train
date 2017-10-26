@@ -38,7 +38,6 @@ describe 'os_common' do
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@files, {})
       detector.unix_file_contents('/etc/fstab').must_equal('test')
-      # puts detector.instance_variable_get(:@files).inspect
     end
 
     it 'return new file contents cached' do

@@ -24,7 +24,7 @@ module Train::Platforms::Detect
     def scan
       # start with the platform/families who have no families (the top levels)
       top = Train::Platforms.top_platforms
-      top.each do |name, plat|
+      top.each do |_name, plat|
         next unless plat.detect
         result = instance_eval(&plat.detect)
         next unless result == true
@@ -38,7 +38,7 @@ module Train::Platforms::Detect
         return get_platform(plat_result)
       end
 
-      raise Train::PlatformDetectionFailed, 'Sorry we did not find your platform'
+      fail Train::PlatformDetectionFailed, 'Sorry, we are unable to detect your platform'
     end
 
     def scan_children(parent)
@@ -68,9 +68,9 @@ module Train::Platforms::Detect
 
     def check_condition(condition)
       condition.each do |k, v|
-        opp, expected = v.strip.split(' ')
-        opp = '==' if opp == '='
-        return false if @platform[k].nil? || !instance_eval("'#{@platform[k]}' #{opp} '#{expected}'")
+        op, expected = v.strip.split(' ')
+        op = '==' if op == '='
+        return false if @platform[k].nil? || !instance_eval("'#{@platform[k]}' #{op} '#{expected}'")
       end
 
       true

@@ -65,7 +65,8 @@ module Train::Platforms
     top_platforms = self.top_platforms
     top_platforms.each_value do |platform|
       puts platform.title
-      print_children(platform) if defined?(platform.children) end
+      print_children(platform) if defined?(platform.children)
+    end
   end
 
   def self.print_children(parent, pad = 2)

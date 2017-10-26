@@ -1,3 +1,7 @@
+# encoding: utf-8
+
+# rubocop:disable Style/Next
+
 plat = Train::Platforms
 
 plat.family('windows')
@@ -99,7 +103,7 @@ plat.name('centos').title('Centos Linux').in_family('redhat')
         true
       end
     }
-# keep redhat after centos as a catchall for redhat base
+# keep redhat after centos as a fallback for redhat base
 plat.name('redhat').title('Red Hat Enterplat.ise Linux').in_family('redhat')
     .detect {
       lsb = read_linux_lsb
@@ -149,11 +153,9 @@ plat.name('parallels-release').title('Parallels Linux').in_family('redhat')
     }
 plat.name('wrlinux').title('Wind River Linux').in_family('redhat')
     .detect {
-      unless linux_os_release.nil?
-        if linux_os_release['ID_LIKE'] =~ /wrlinux/i
-          @platform[:release] = linux_os_release['VERSION']
-          true
-        end
+      if linux_os_release && linux_os_release['ID_LIKE'] =~ /wrlinux/i
+        @platform[:release] = linux_os_release['VERSION']
+        true
       end
     }
 plat.name('amazon').title('Amazon Linux').in_family('redhat')
@@ -173,7 +175,6 @@ plat.name('amazon').title('Amazon Linux').in_family('redhat')
 plat.family('suse').in_family('linux')
     .detect {
       if !(suse = unix_file_contents('/etc/SuSE-release')).nil?
-        puts suse.inspect
         version = suse.scan(/VERSION = (\d+)\nPATCHLEVEL = (\d+)/).flatten.join('.')
         version = suse[/VERSION = ([\d\.]{2,})/, 1] if version == ''
         @platform[:release] = version
@@ -241,7 +242,7 @@ plat.name('alpine').title('Alpine Linux').in_family('linux')
 # coreos
 plat.name('coreos').title('CoreOS Linux').in_family('linux')
     .detect {
-      if !unix_file_contents('/etc/coreos/update.conf').nil?
+      unless unix_file_contents('/etc/coreos/update.conf').nil?
         lsb = read_linux_lsb
         @platform[:release] = lsb[:release]
         true
@@ -275,6 +276,7 @@ plat.name('openvms').title('OpenVMS').in_family('unix')
 plat.family('arista_eos').title('Arista EOS Family').in_family('unix')
     .detect {
       # we need a better way to determin this family
+      # for now we are going to just try each platform
       true
     }
 plat.name('arista_eos').title('Arista EOS').in_family('arista_eos')
@@ -390,10 +392,10 @@ plat.name('solaris').title('Solaris').in_family('solaris')
         true
       elsif /^\s*(Solaris)\s.*$/ =~ rel
         true
-      else
-        # must be some unknown solaris
-        true
       end
+
+      # must be some unknown solaris
+      true
     }
 
 # hpux
@@ -403,13 +405,15 @@ plat.family('hpux').in_family('unix')
     }
 plat.name('hpux').title('Hpux').in_family('hpux')
     .detect {
-        @platform[:release] = unix_uname_r.lines[0].chomp
-        true
+      @platform[:release] = unix_uname_r.lines[0].chomp
+      true
     }
 
 # bsd family
 plat.family('bsd').in_family('unix')
     .detect {
+      # we need a better way to determin this family
+      # for now we are going to just try each platform
       true
     }
 plat.name('darwin').title('Darwin').in_family('bsd')

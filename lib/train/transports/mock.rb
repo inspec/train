@@ -77,7 +77,6 @@ class Train::Transports::Mock
       platform.platform[:family] = platform.family_hierarchy[0]
       platform.add_platform_methods
       @os = platform
-      @os
     end
 
     def mock_os_hierarchy(plat)
