@@ -7,23 +7,20 @@ module Train::Platforms
 
     def initialize(name, condition)
       @name = name
-      @condition = {}
+      @condition = condition
       @families = {}
       @children = {}
+      @detect = nil
+      @title = name =~ /^[[:alpha:]]+$/ ? "#{name.capitalize} Family" : name
 
       # add itself to the families list
       Train::Platforms.families[@name.to_s] = self
     end
 
     def title(title = nil)
-      if @title.nil? && title.nil?
-        "#{name.capitalize} Family"
-      elsif title.nil?
-        @title
-      else
-        @title = title
-        self
-      end
+      return @title if title.nil?
+      @title = title
+      self
     end
   end
 end

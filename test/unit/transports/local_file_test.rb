@@ -6,8 +6,12 @@
 require 'helper'
 require 'train/transports/local'
 
+$transport = nil
 describe 'local file transport' do
-  let(:transport) { Train::Transports::Local.new }
+  let(:transport) do
+    $transport = Train::Transports::Local.new if $transport.nil?
+    $transport
+  end
   let(:connection) { transport.connection }
 
   it 'gets file contents' do

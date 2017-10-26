@@ -60,32 +60,11 @@ module Train::Platforms
     top_platforms
   end
 
-  # Add genaric family? and platform methods to an existing platform
-  #
-  # This is done later to add any custom
-  # families/properties that were created
-  def self.add_platform_methods(plat)
-    families.each_value do |k|
-      plat.class.send(:define_method, k.name + '?') {
-        plat.family_hierarchy.include?(k.name)
-      }
-    end
-
-    # Helper methods for direct platform info
-    # Note: this can override platform.name if a
-    # custom one was found during detect block
-    plat.platform.each_key do |m|
-      plat.class.send(:define_method, m) {
-        @platform[m]
-      }
-    end
-  end
-
   # List all platforms and families in a readable output
   def self.list_all
     top_platforms = self.top_platforms
     top_platforms.each_value do |platform|
-      puts "#{platform.title} (#{platform.class})"
+      puts platform.title
       print_children(platform) if defined?(platform.children) end
   end
 

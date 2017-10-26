@@ -5,3 +5,4 @@ require 'minitest/spec'
 require 'mocha/setup'
 
 require 'train'
+require 'train/platforms/detect'

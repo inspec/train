@@ -28,7 +28,6 @@ class Train::Plugins::Transport
     def initialize(options = nil)
       @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
-      @logger.level = Logger::WARN
       @files = {}
     end
 

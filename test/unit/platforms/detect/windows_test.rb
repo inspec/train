@@ -1,8 +1,11 @@
-require 'train/extras'
+# encoding: utf-8
+
+require 'helper'
+require 'train/transports/mock'
 
 class OsDetectWindowsTester
   attr_reader :platform, :backend
-  include Train::Extras::DetectWindows
+  include Train::Platforms::Detect::Windows
 
   def initialize
     @platform = {}
@@ -97,7 +100,7 @@ describe 'os_detect_windows' do
       detector.detect_windows
       detector.platform[:family].must_equal('windows')
       detector.platform[:name].must_equal('Windows 4.10.1998')
-      detector.platform[:arch].must_equal(nil)
+      detector.platform[:arch].must_be_nil
       detector.platform[:release].must_equal('4.10.1998')
     end
   end
