@@ -7,7 +7,6 @@ plat = Train::Platforms
 plat.family('windows')
     .detect {
       if winrm? || (@backend.local? && rbconfig(/mswin|mingw32|windows/))
-        @platform[:type] = 'windows'
         true
       end
     }

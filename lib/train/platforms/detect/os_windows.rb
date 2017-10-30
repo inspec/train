@@ -23,7 +23,6 @@ module Train::Platforms::Detect
       # try to use wmic, but lets keep it optional
       read_wmic
 
-      @platform[:type] = 'windows'
       true
     end
 
