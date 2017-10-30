@@ -17,7 +17,6 @@ module Train::Transports
     end
 
     class Connection < BaseConnection
-
       def initialize(options)
         super(options)
         @cmd_wrapper = nil
