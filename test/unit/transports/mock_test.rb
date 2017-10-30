@@ -94,11 +94,11 @@ describe 'mock transport' do
 
     # tests if all fields between the local json and resulting mock file
     # are equal
-    JSON = Train.create('local').connection.file(__FILE__).to_json
-    RES = Train::Transports::Mock::Connection::File.from_json(JSON)
+    JSON_DATA = Train.create('local').connection.file(__FILE__).to_json
+    RES = Train::Transports::Mock::Connection::File.from_json(JSON_DATA)
     %w{ content mode owner group }.each do |f|
       it "can be initialized from json (field #{f})" do
-        RES.method(f).call.must_equal JSON[f]
+        RES.method(f).call.must_equal JSON_DATA[f]
       end
     end
   end

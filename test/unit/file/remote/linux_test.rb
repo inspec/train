@@ -1,15 +1,15 @@
-# encoding: utf-8
 require 'helper'
+require 'train/transports/local'
+require 'train/file/remote/linux'
 require 'train/transports/mock'
-require 'train/extras'
 
-describe 'file common' do
-  let(:cls) { Train::Extras::LinuxFile }
+describe Train::File::Remote::Linux do
+  let(:cls) { Train::File::Remote::Linux }
   let(:backend) {
     backend = Train::Transports::Mock.new.connection
     backend.mock_os({ name: 'linux', family: 'unix' })
     backend
-  }
+  }  
 
   def mock_stat(args, out, err = '', code = 0)
     backend.mock_command(
@@ -39,7 +39,7 @@ describe 'file common' do
   it 'reads file contents' do
     backend.mock_command('cat path || echo -n', '')
     mock_stat('-L path', '', 'some error...', 1)
-    cls.new(backend, 'path').content.must_equal nil
+    cls.new(backend, 'path').content.must_be_nil
   end
 
   it 'checks for file existance' do

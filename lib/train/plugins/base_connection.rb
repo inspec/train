@@ -6,6 +6,7 @@
 
 require 'train/errors'
 require 'train/extras'
+require 'train/file'
 require 'logger'
 
 class Train::Plugins::Transport

@@ -66,13 +66,13 @@ class Train::Transports::SSH
     def file(path)
       @files[path] ||= \
         if os.aix?
-          AixFile.new(self, path)
+          Train::File::Remote::Aix.new(self, path)
         elsif os.solaris?
-          UnixFile.new(self, path)
+          Train::File::Remote::Unix.new(self, path)
         elsif os[:name] == 'qnx'
-          QnxFile.new(self, path)
+          Train::File::Remote::Qnx.new(self, path)
         else
-          LinuxFile.new(self, path)
+          Train::File::Remote::Linux.new(self, path)
         end
     end
 
