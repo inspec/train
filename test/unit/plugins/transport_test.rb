@@ -86,7 +86,7 @@ describe 'v1 Transport Plugin' do
 
     it 'default option must not be required' do
       name, plugin = train_class
-      plugin.default_options[name][:required].must_equal nil
+      plugin.default_options[name][:required].must_be_nil
     end
 
     it 'can include options from another module' do

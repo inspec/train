@@ -72,6 +72,5 @@ describe 'file interface' do
     it 'has no file_version' do
       file.file_version.must_be_nil
     end
-
   end
 end

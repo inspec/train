@@ -66,13 +66,12 @@ describe 'file interface' do
       file.selinux_label.must_equal(res)
     end
 
-
     it 'has no product_version' do
-      file.product_version.must_equal(nil)
+      file.product_version.must_be_nil
     end
 
     it 'has no file_version' do
-      file.file_version.must_equal(nil)
+      file.file_version.must_be_nil
     end
   end
 end

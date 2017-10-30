@@ -34,15 +34,15 @@ describe 'file interface' do
 
     else
       it 'has no content' do
-        file.content.must_equal(nil)
+        file.content.must_be_nil
       end
 
       it 'has an md5sum' do
-        file.md5sum.must_equal(nil)
+        file.md5sum.must_be_nil
       end
 
       it 'has an sha256sum' do
-        file.sha256sum.must_equal(nil)
+        file.sha256sum.must_be_nil
       end
     end
 
@@ -80,11 +80,11 @@ describe 'file interface' do
     end
 
     it 'has no product_version' do
-      file.product_version.must_equal(nil)
+      file.product_version.must_be_nil
     end
 
     it 'has no file_version' do
-      file.file_version.must_equal(nil)
+      file.file_version.must_be_nil
     end
   end
 end
