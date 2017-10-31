@@ -46,13 +46,12 @@ class Train::Transports::WinRM
       @session = nil
     end
 
-    def os
-      platform
-    end
-
     def platform
       @platform ||= Train::Platforms::Detect.scan(self)
     end
+
+    # we need to keep os as a method for backwards compatibility with inspec
+    alias os platform
 
     def file(path)
       @files[path] ||= Train::File::Remote::Windows.new(self, path)

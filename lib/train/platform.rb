@@ -3,7 +3,7 @@
 module Train
   class Platform
     include Train::Platforms::Common
-    attr_accessor :condition, :families, :backend, :platform, :family_hierarchy
+    attr_accessor :backend, :condition, :families, :family_hierarchy, :platform
 
     def initialize(name, condition = {})
       @name = name
@@ -12,7 +12,7 @@ module Train
       @family_hierarchy = []
       @platform = {}
       @detect = nil
-      @title = name =~ /^[[:alpha:]]+$/ ? name.capitalize : name
+      @title = name.to_s.capitalize
 
       # add itself to the platform list
       Train::Platforms.list[name] = self
@@ -48,7 +48,7 @@ module Train
       @platform
     end
 
-    # Add genaric family? and platform methods to an existing platform
+    # Add generic family? and platform methods to an existing platform
     #
     # This is done later to add any custom
     # families/properties that were created
@@ -56,25 +56,25 @@ module Train
       family_list = Train::Platforms.families
       family_list.each_value do |k|
         next if respond_to?(k.name + '?')
-        define_singleton_method(k.name + '?') {
+        define_singleton_method(k.name + '?') do
           family_hierarchy.include?(k.name)
-        }
+        end
       end
 
       # Helper methods for direct platform info
       @platform.each_key do |m|
         next if respond_to?(m)
-        define_singleton_method(m) {
+        define_singleton_method(m) do
           @platform[m]
-        }
+        end
       end
 
       # Create method for name if its not already true
       plat_name = name.downcase.tr(' ', '_') + '?'
       return if respond_to?(plat_name)
-      define_singleton_method(plat_name) {
+      define_singleton_method(plat_name) do
         true
-      }
+      end
     end
   end
 end

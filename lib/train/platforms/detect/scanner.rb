@@ -26,8 +26,7 @@ module Train::Platforms::Detect
       top = Train::Platforms.top_platforms
       top.each do |_name, plat|
         next unless plat.detect
-        result = instance_eval(&plat.detect)
-        next unless result == true
+        next unless instance_eval(&plat.detect) == true
 
         # if we have a match start looking at the children
         plat_result = scan_children(plat)
@@ -44,8 +43,7 @@ module Train::Platforms::Detect
     def scan_children(parent)
       parent.children.each do |plat, condition|
         next if plat.detect.nil?
-        result = instance_eval(&plat.detect)
-        next unless result == true
+        next unless instance_eval(&plat.detect) == true
 
         if plat.class == Train::Platform
           @platform[:family] = parent.name
@@ -60,7 +58,7 @@ module Train::Platforms::Detect
     end
 
     def scan_family_children(plat)
-      child_result = scan_children(plat) if !plat.children.nil?
+      child_result = scan_children(plat) unless plat.children.nil?
       return if child_result.nil?
       @family_hierarchy << plat.name
       child_result

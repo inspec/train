@@ -33,7 +33,7 @@ describe 'os_common' do
     it 'return new file contents' do
       be = mock('Backend')
       output = mock('Output', exit_status: 0)
-      output.expects(:stdout).twice.returns('test')
+      output.expects(:stdout).returns('test')
       be.stubs(:run_command).with('test -f /etc/fstab && cat /etc/fstab').returns(output)
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@files, {})

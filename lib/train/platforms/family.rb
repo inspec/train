@@ -3,7 +3,7 @@
 module Train::Platforms
   class Family
     include Train::Platforms::Common
-    attr_accessor :name, :condition, :families, :children
+    attr_accessor :children, :condition, :families, :name
 
     def initialize(name, condition)
       @name = name
@@ -11,7 +11,7 @@ module Train::Platforms
       @families = {}
       @children = {}
       @detect = nil
-      @title = name =~ /^[[:alpha:]]+$/ ? "#{name.capitalize} Family" : name
+      @title = "#{name.to_s.capitalize} Family"
 
       # add itself to the families list
       Train::Platforms.families[@name.to_s] = self
