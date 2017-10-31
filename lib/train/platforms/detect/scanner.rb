@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'train/platforms/specifications/os'
 require 'train/platforms/detect/os_common'
 
 module Train::Platforms::Detect

@@ -18,6 +18,7 @@ module Train::Transports
 
     class Connection < BaseConnection
       def initialize(options)
+        Train::Platforms::Specifications::OS.load_specifications
         super(options)
         @cmd_wrapper = nil
         @cmd_wrapper = CommandWrapper.load(self, options)

@@ -56,6 +56,7 @@ end
 class Train::Transports::Docker
   class Connection < BaseConnection
     def initialize(conf)
+      Train::Platforms::Specifications::OS.load_specifications
       super(conf)
       @id = options[:host]
       @container = ::Docker::Container.get(@id) ||

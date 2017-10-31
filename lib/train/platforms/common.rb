@@ -6,7 +6,7 @@ module Train::Platforms
     # if it does not exist and add a child relationship.
     def in_family(family)
       if self.class == Train::Platforms::Family && @name == family
-        fail "Sorry you can not add a family inside itself '#{@name}.in_family(#{family})'"
+        fail "Unable to add family #{@name} to itself: '#{@name}.in_family(#{family})'"
       end
 
       # add family to the family list

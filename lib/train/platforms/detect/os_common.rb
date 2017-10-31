@@ -9,7 +9,7 @@ module Train::Platforms::Detect
     include Train::Platforms::Detect::Linux
     include Train::Platforms::Detect::Windows
 
-    def rbconfig(regex)
+    def ruby_host_os(regex)
       ::RbConfig::CONFIG['host_os'] =~ regex
     end
 
@@ -32,7 +32,7 @@ module Train::Platforms::Detect
       @backend.run_command("test -f #{path}").exit_status.zero?
     end
 
-    def uname_call(cmd)
+    def command_output(cmd)
       res = @backend.run_command(cmd).stdout
       res.strip! unless res.nil?
       res
@@ -40,17 +40,17 @@ module Train::Platforms::Detect
 
     def unix_uname_s
       return @uname[:s] if @uname.key?(:s)
-      @uname[:s] = uname_call('uname -s')
+      @uname[:s] = command_output('uname -s')
     end
 
     def unix_uname_r
       return @uname[:r] if @uname.key?(:r)
-      @uname[:r] = uname_call('uname -r')
+      @uname[:r] = command_output('uname -r')
     end
 
     def unix_uname_m
       return @uname[:m] if @uname.key?(:m)
-      @uname[:m] = uname_call('uname -m')
+      @uname[:m] = command_output('uname -m')
     end
   end
 end

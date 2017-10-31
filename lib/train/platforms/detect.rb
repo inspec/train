@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'train/platforms/specifications/os'
 require 'train/platforms/detect/scanner'
 
 module Train::Platforms

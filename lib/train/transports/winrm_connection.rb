@@ -30,6 +30,7 @@ class Train::Transports::WinRM
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     attr_reader :hostname
     def initialize(options)
+      Train::Platforms::Specifications::OS.load_specifications
       super(options)
       @hostname               = @options.delete(:hostname)
       @rdp_port               = @options.delete(:rdp_port)

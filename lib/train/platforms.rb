@@ -3,6 +3,7 @@
 require 'train/platforms/common'
 require 'train/platforms/family'
 require 'train/platform'
+require 'train/platforms/detect'
 
 module Train::Platforms
   class << self

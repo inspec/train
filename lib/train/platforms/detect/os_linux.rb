@@ -3,13 +3,18 @@
 module Train::Platforms::Detect
   module Linux
     def redhatish_platform(conf)
-      conf[/^red hat/i] ? 'redhat' : conf[/(\w+)/i, 1].downcase
+      conf =~ /^red hat/i ? 'redhat' : /(\w+)/i.match(conf)[1].downcase
     end
 
     def redhatish_version(conf)
-      return conf[/((\d+) \(Rawhide\))/i, 1].downcase if conf[/rawhide/i]
-      return conf[/Linux ((\d+|\.)+)/i, 1] if conf[/derived from .*linux/i]
-      conf[/release ([\d\.]+)/, 1]
+      case conf
+      when /rawhide/i
+        /((\d+) \(Rawhide\))/i.match(conf)[1].downcase
+      when /derived from .*linux/i
+        /Linux ((\d+|\.)+)/i.match(conf)[1]
+      else
+        /release ([\d\.]+)/.match(conf)[1]
+      end
     end
 
     def linux_os_release
@@ -37,18 +42,24 @@ module Train::Platforms::Detect
     end
 
     def lsb_config(content)
+      id = /^DISTRIB_ID=["']?(.+?)["']?$/.match(content)
+      release = /^DISTRIB_RELEASE=["']?(.+?)["']?$/.match(content)
+      codename = /^DISTRIB_CODENAME=["']?(.+?)["']?$/.match(content)
       {
-        id:       content[/^DISTRIB_ID=["']?(.+?)["']?$/, 1],
-        release:  content[/^DISTRIB_RELEASE=["']?(.+?)["']?$/, 1],
-        codename: content[/^DISTRIB_CODENAME=["']?(.+?)["']?$/, 1],
+        id:       id.nil? ? nil : id[1],
+        release:  release.nil? ? nil : release[1],
+        codename: codename.nil? ? nil : codename[1],
       }
     end
 
     def lsb_release(content)
+      id = /^Distributor ID:\s+(.+)$/.match(content)
+      release = /^Release:\s+(.+)$/.match(content)
+      codename = /^Codename:\s+(.+)$/.match(content)
       {
-        id:       content[/^Distributor ID:\s+(.+)$/, 1],
-        release:  content[/^Release:\s+(.+)$/, 1],
-        codename: content[/^Codename:\s+(.+)$/, 1],
+        id:       id.nil? ? nil : id[1],
+        release:  release.nil? ? nil : release[1],
+        codename: codename.nil? ? nil : codename[1],
       }
     end
 
