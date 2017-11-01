@@ -24,6 +24,8 @@ module Train::Platforms::Detect
       # start with the platform/families who have no families (the top levels)
       top = Train::Platforms.top_platforms
       top.each do |_name, plat|
+        # we are doing a instance_eval here to make sure we have the proper
+        # context with all the detect helper methods
         next unless instance_eval(&plat.detect) == true
 
         # if we have a match start looking at the children

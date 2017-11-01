@@ -3,18 +3,20 @@
 require 'helper'
 require 'train/transports/local'
 
-$transport = nil
-describe 'local transport' do
-  let(:transport) do
-    if $transport.nil?
-      plat = Train::Platforms.name('mock').in_family('linux')
-      plat.add_platform_methods
-      Train::Platforms::Detect.stubs(:scan).returns(plat)
-      $transport = Train::Transports::Local.new
-    end
+class TransportHelper
+  attr_accessor :transport
 
-    $transport
+  def initialize
+    Train::Platforms::Detect::Specifications::OS.load
+    plat = Train::Platforms.name('mock').in_family('linux')
+    plat.add_platform_methods
+    Train::Platforms::Detect.stubs(:scan).returns(plat)
+    @transport = Train::Transports::Local.new
   end
+end
+
+describe 'local transport' do
+  let(:transport) { TransportHelper.new.transport }
   let(:connection) { transport.connection }
 
   it 'can be instantiated' do
@@ -26,7 +28,7 @@ describe 'local transport' do
   end
 
   it 'provides a uri' do
-    connection.uri.must_equal "local://"
+    connection.uri.must_equal 'local://'
   end
 
   it 'doesnt wait to be read' do

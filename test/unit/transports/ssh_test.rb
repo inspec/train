@@ -4,12 +4,12 @@ require 'helper'
 require 'train/transports/ssh'
 
 describe 'ssh transport' do
-  let(:cls) {
+  let(:cls) do
       plat = Train::Platforms.name('mock').in_family('linux')
       plat.add_platform_methods
       Train::Platforms::Detect.stubs(:scan).returns(plat)
       Train::Transports::SSH
-  }
+  end
   let(:conf) {{
     host: rand.to_s,
     password: rand.to_s,

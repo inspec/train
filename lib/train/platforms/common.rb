@@ -23,6 +23,8 @@ module Train::Platforms
         @detect = block
         self
       elsif @detect.nil?
+        # we are returning a block that just returns false here
+        # to skip the family/platform evaluation if detect is not set
         ->(_) { false }
       else
         @detect
