@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module Train::Platforms::Detect
+module Train::Platforms::Detect::Helpers
   module Windows
     def detect_windows
       res = @backend.run_command('cmd /c ver')

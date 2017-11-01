@@ -1,10 +1,10 @@
 # encoding: utf-8
 
-require 'train/platforms/detect/os_common'
+require 'train/platforms/detect/helpers/os_common'
 
 module Train::Platforms::Detect
   class Scanner
-    include Train::Platforms::Detect::OSCommon
+    include Train::Platforms::Detect::Helpers::OSCommon
 
     def initialize(backend)
       @backend = backend
@@ -24,7 +24,6 @@ module Train::Platforms::Detect
       # start with the platform/families who have no families (the top levels)
       top = Train::Platforms.top_platforms
       top.each do |_name, plat|
-        next unless plat.detect
         next unless instance_eval(&plat.detect) == true
 
         # if we have a match start looking at the children
@@ -41,10 +40,9 @@ module Train::Platforms::Detect
 
     def scan_children(parent)
       parent.children.each do |plat, condition|
-        next if plat.detect.nil?
         next unless instance_eval(&plat.detect) == true
 
-        if plat.class == Train::Platform
+        if plat.class == Train::Platforms::Platform
           @platform[:family] = parent.name
           return plat if condition.empty? || check_condition(condition)
         elsif plat.class == Train::Platforms::Family

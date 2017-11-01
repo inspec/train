@@ -61,7 +61,6 @@ class Train::Transports::Mock
     attr_reader :os
 
     def initialize(conf = nil)
-      Train::Platforms::Specifications::OS.load_specifications
       super(conf)
       @os = mock_os({})
       @commands = {}

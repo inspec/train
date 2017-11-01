@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module Train
+module Train::Platforms
   class Platform
     include Train::Platforms::Common
     attr_accessor :backend, :condition, :families, :family_hierarchy, :platform

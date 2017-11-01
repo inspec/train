@@ -19,9 +19,14 @@ module Train::Platforms
     end
 
     def detect(&block)
-      return @detect unless block_given?
-      @detect = block
-      self
+      if block_given?
+        @detect = block
+        self
+      elsif @detect.nil?
+        ->(_) { false }
+      else
+        @detect
+      end
     end
   end
 end

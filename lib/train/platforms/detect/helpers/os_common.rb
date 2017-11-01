@@ -1,13 +1,13 @@
 # encoding: utf-8
 
-require 'train/platforms/detect/os_linux'
-require 'train/platforms/detect/os_windows'
+require 'train/platforms/detect/helpers/os_linux'
+require 'train/platforms/detect/helpers/os_windows'
 require 'rbconfig'
 
-module Train::Platforms::Detect
+module Train::Platforms::Detect::Helpers
   module OSCommon
-    include Train::Platforms::Detect::Linux
-    include Train::Platforms::Detect::Windows
+    include Train::Platforms::Detect::Helpers::Linux
+    include Train::Platforms::Detect::Helpers::Windows
 
     def ruby_host_os(regex)
       ::RbConfig::CONFIG['host_os'] =~ regex

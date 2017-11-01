@@ -4,7 +4,7 @@ require 'helper'
 require 'train/transports/mock'
 
 class OsDetectLinuxTester
-  include Train::Platforms::Detect::OSCommon
+  include Train::Platforms::Detect::Helpers::OSCommon
 end
 
 describe 'os_linux' do

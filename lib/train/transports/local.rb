@@ -18,7 +18,6 @@ module Train::Transports
 
     class Connection < BaseConnection
       def initialize(options)
-        Train::Platforms::Specifications::OS.load_specifications
         super(options)
         @cmd_wrapper = nil
         @cmd_wrapper = CommandWrapper.load(self, options)
@@ -36,13 +35,6 @@ module Train::Transports
       def local?
         true
       end
-
-      def platform
-        @platform ||= Train::Platforms::Detect.scan(self)
-      end
-
-      # we need to keep os as a method for backwards compatibility with inspec
-      alias os platform
 
       def file(path)
         @files[path] ||= \

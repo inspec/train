@@ -56,7 +56,6 @@ end
 class Train::Transports::Docker
   class Connection < BaseConnection
     def initialize(conf)
-      Train::Platforms::Specifications::OS.load_specifications
       super(conf)
       @id = options[:host]
       @container = ::Docker::Container.get(@id) ||
@@ -69,13 +68,6 @@ class Train::Transports::Docker
     def close
       # nothing to do at the moment
     end
-
-    def platform
-      @platform ||= Train::Platforms::Detect.scan(self)
-    end
-
-    # we need to keep os as a method for backwards compatibility with inspec
-    alias os platform
 
     def file(path)
       @files[path] ||=\

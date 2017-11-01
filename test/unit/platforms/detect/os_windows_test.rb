@@ -5,7 +5,7 @@ require 'train/transports/mock'
 
 class OsDetectWindowsTester
   attr_reader :platform, :backend
-  include Train::Platforms::Detect::Windows
+  include Train::Platforms::Detect::Helpers::Windows
 
   def initialize
     @platform = {}

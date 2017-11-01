@@ -2,8 +2,10 @@
 
 require 'train/platforms/common'
 require 'train/platforms/family'
-require 'train/platform'
+require 'train/platforms/platform'
 require 'train/platforms/detect'
+require 'train/platforms/detect/scanner'
+require 'train/platforms/detect/specifications/os'
 
 module Train::Platforms
   class << self
@@ -34,7 +36,7 @@ module Train::Platforms
       return plat
     end
 
-    Train::Platform.new(name, condition)
+    Train::Platforms::Platform.new(name, condition)
   end
 
   # Create or update a family

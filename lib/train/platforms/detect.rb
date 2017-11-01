@@ -1,8 +1,5 @@
 # encoding: utf-8
 
-require 'train/platforms/specifications/os'
-require 'train/platforms/detect/scanner'
-
 module Train::Platforms
   module Detect
     # Main detect method to scan all platforms for a match

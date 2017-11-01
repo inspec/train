@@ -32,7 +32,6 @@ class Train::Transports::SSH
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     attr_reader :hostname
     def initialize(options)
-      Train::Platforms::Specifications::OS.load_specifications
       super(options)
       @username               = @options.delete(:username)
       @hostname               = @options.delete(:hostname)
@@ -55,13 +54,6 @@ class Train::Transports::SSH
     ensure
       @session = nil
     end
-
-    def platform
-      @platform ||= Train::Platforms::Detect.scan(self)
-    end
-
-    # we need to keep os as a method for backwards compatibility with inspec
-    alias os platform
 
     def file(path)
       @files[path] ||= \

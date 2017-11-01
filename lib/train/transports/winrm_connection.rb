@@ -30,7 +30,6 @@ class Train::Transports::WinRM
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     attr_reader :hostname
     def initialize(options)
-      Train::Platforms::Specifications::OS.load_specifications
       super(options)
       @hostname               = @options.delete(:hostname)
       @rdp_port               = @options.delete(:rdp_port)
@@ -46,13 +45,6 @@ class Train::Transports::WinRM
     ensure
       @session = nil
     end
-
-    def platform
-      @platform ||= Train::Platforms::Detect.scan(self)
-    end
-
-    # we need to keep os as a method for backwards compatibility with inspec
-    alias os platform
 
     def file(path)
       @files[path] ||= Train::File::Remote::Windows.new(self, path)

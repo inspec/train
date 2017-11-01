@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-module Train::Platforms::Detect
+module Train::Platforms::Detect::Helpers
   module Linux
     def redhatish_platform(conf)
       conf =~ /^red hat/i ? 'redhat' : /(\w+)/i.match(conf)[1].downcase

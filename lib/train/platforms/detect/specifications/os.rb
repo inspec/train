@@ -7,9 +7,9 @@
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/PerceivedComplexity
 
-module Train::Platforms::Specifications
+module Train::Platforms::Detect::Specifications
   class OS
-    def self.load_specifications
+    def self.load
       plat = Train::Platforms
 
       plat.family('windows')
@@ -111,7 +111,7 @@ module Train::Platforms::Specifications
             end
           }
       # keep redhat after centos as a fallback for redhat base
-      plat.name('redhat').title('Red Hat Enterplat.ise Linux').in_family('redhat')
+      plat.name('redhat').title('Red Hat Linux').in_family('redhat')
           .detect {
             lsb = read_linux_lsb
             if lsb && lsb[:id] =~ /redhat/i

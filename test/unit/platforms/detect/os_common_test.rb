@@ -4,7 +4,7 @@ require 'helper'
 
 class OsDetectLinuxTester
   attr_reader :platform
-  include Train::Platforms::Detect::OSCommon
+  include Train::Platforms::Detect::Helpers::OSCommon
 
   def initialize
     @platform = {}
