@@ -110,20 +110,6 @@ module Train::Platforms::Detect::Specifications
               true
             end
           }
-      # keep redhat after centos as a fallback for redhat base
-      plat.name('redhat').title('Red Hat Linux').in_family('redhat')
-          .detect {
-            lsb = read_linux_lsb
-            if lsb && lsb[:id] =~ /redhat/i
-              @platform[:release] = lsb[:release]
-              true
-            elsif !(raw = unix_file_contents('/etc/redhat-release')).nil?
-              # must be some type of redhat
-              @platform[:name] = redhatish_platform(raw)
-              @platform[:release] = redhatish_version(raw)
-              true
-            end
-          }
       plat.name('oracle').title('Oracle Linux').in_family('redhat')
           .detect {
             if !(raw = unix_file_contents('/etc/oracle-release')).nil?
@@ -172,6 +158,20 @@ module Train::Platforms::Detect::Specifications
               @platform[:release] = lsb[:release]
               true
             elsif !(raw = unix_file_contents('/etc/system-release')).nil?
+              @platform[:name] = redhatish_platform(raw)
+              @platform[:release] = redhatish_version(raw)
+              true
+            end
+          }
+      # keep redhat at the end as a fallback for anything with a redhat-release
+      plat.name('redhat').title('Red Hat Linux').in_family('redhat')
+          .detect {
+            lsb = read_linux_lsb
+            if lsb && lsb[:id] =~ /redhat/i
+              @platform[:release] = lsb[:release]
+              true
+            elsif !(raw = unix_file_contents('/etc/redhat-release')).nil?
+              # must be some type of redhat
               @platform[:name] = redhatish_platform(raw)
               @platform[:release] = redhatish_version(raw)
               true
