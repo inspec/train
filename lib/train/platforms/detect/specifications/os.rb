@@ -191,11 +191,11 @@ module Train::Platforms::Detect::Specifications
           }
       plat.name('opensuse').title('OpenSUSE Linux').in_family('suse')
           .detect {
-            true if unix_file_contents('/etc/SuSE-release') =~ /^openSUSE/
+            true if unix_file_contents('/etc/SuSE-release') =~ /^opensuse/i
           }
       plat.name('suse').title('Suse Linux').in_family('suse')
           .detect {
-            true if unix_file_contents('/etc/SuSE-release') =~ /suse/
+            true if unix_file_contents('/etc/SuSE-release') =~ /suse/i
           }
 
       # arch
