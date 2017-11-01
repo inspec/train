@@ -62,7 +62,8 @@ module Train::Platforms::Detect::Specifications
           }
       plat.name('raspbian').title('Raspbian Linux').in_family('debian')
           .detect {
-            if unix_file_exist?('/usr/bin/raspi-config')
+            if (linux_os_release && linux_os_release['NAME'] =~ /raspbian/i) || \
+               unix_file_exist?('/usr/bin/raspi-config')
               @platform[:release] = unix_file_contents('/etc/debian_version').chomp
               true
             end
