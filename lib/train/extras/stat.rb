@@ -45,7 +45,7 @@ module Train::Extras
       tmask = fields[1].to_i(16)
       selinux = fields[8]
       ## selinux security context string not available on esxi
-      selinux = nil if selinux == '?' or selinux == '(null)' or selinux == 'C'
+      selinux = nil if selinux == '?' or selinux == '(null)' or selinux == 'C' or selinux == 'unlabeled'
       {
         type:  find_type(tmask),
         mode:  tmask & 07777,

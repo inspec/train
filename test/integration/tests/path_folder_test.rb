@@ -72,7 +72,11 @@ describe 'file interface' do
 
     it 'has selinux label handling' do
       res = Test.selinux_label(backend, file.path)
-      file.selinux_label.must_equal(res)
+      if res.nil?
+        file.selinux_label.must_be_nil
+      else
+        file.selinux_label.must_equal(res)
+      end
     end
 
     it 'has no product_version' do

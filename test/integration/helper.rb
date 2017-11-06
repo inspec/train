@@ -31,7 +31,7 @@ module Test
     end
 
     def selinux_label(backend, path = nil)
-      return nil if backend.class.to_s =~ /docker/i
+      return nil if backend.class.to_s =~ /docker|kubernetes/i
 
       os = backend.os
       labels = {}
