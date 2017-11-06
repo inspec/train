@@ -70,4 +70,3 @@ module Train::Transports
     end
   end
 end
-
