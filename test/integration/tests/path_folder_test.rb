@@ -18,30 +18,26 @@ describe 'file interface' do
       file.type.must_equal(:directory)
     end
 
-    case get_backend.call.os[:family]
-    when 'freebsd'
-      it 'has freebsd folder content behavior' do
+    it 'has the correct content for the platform' do
+      if backend.os[:family] == 'freebsd'
         file.content.must_equal("\u0003\u0000")
-      end
-
-      it 'has an md5sum' do
-        file.md5sum.must_equal('598f4fe64aefab8f00bcbea4c9239abf')
-      end
-
-      it 'has an sha256sum' do
-        file.sha256sum.must_equal('9b4fb24edd6d1d8830e272398263cdbf026b97392cc35387b991dc0248a628f9')
-      end
-
-    else
-      it 'has no content' do
+      else
         file.content.must_be_nil
       end
+    end
 
-      it 'has an md5sum' do
+    it 'has the correct md5sum for the platform' do
+      if backend.os[:family] == 'freebsd'
+        file.md5sum.must_equal('598f4fe64aefab8f00bcbea4c9239abf')
+      else
         file.md5sum.must_be_nil
       end
+    end
 
-      it 'has an sha256sum' do
+    it 'has the correct sha256sum for the platform' do
+      if backend.os[:family] == 'freebsd'
+        file.sha256sum.must_equal('9b4fb24edd6d1d8830e272398263cdbf026b97392cc35387b991dc0248a628f9')
+      else
         file.sha256sum.must_be_nil
       end
     end
