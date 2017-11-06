@@ -33,6 +33,11 @@ namespace :test do
     sh('sh', '-c', "cd #{path} && ruby -I ../../lib docker_test.rb tests/*")
   end
 
+  task :kubernetes do
+    path = File.join(File.dirname(__FILE__), 'test', 'integration')
+    sh('sh', '-c', "cd #{path} && ruby -I ../../lib kubernetes_test.rb tests/*")
+  end
+
   task :windows do
     Dir.glob('test/windows/*_test.rb').all? do |file|
       sh(Gem.ruby, '-w', '-I .\test\windows', file)
