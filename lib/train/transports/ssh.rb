@@ -97,8 +97,7 @@ module Train::Transports
       if options[:auth_methods] == ['none']
         if ssh_known_identities.empty?
           fail Train::ClientError,
-               'You must configure at least one authentication method for SSH:'\
-               ' Agent, Key or Password.'
+               'Your SSH Agent has no keys added, and you have not specified a password or a key file'
         else
           logger.debug('[SSH] Using Agent keys as no password or key file have been specified')
           options[:auth_methods].push('publickey')
