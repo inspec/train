@@ -65,7 +65,7 @@ class Train::Transports::Mock
 
     def initialize(conf = nil)
       super(conf)
-      @os = OS.new(self, family: 'unknown')
+      mock_os
       @commands = {}
     end
 
@@ -73,8 +73,9 @@ class Train::Transports::Mock
       'mock://'
     end
 
-    def mock_os(value)
-      @os = OS.new(self, value)
+    def mock_os(value = {})
+      os_params = { name: 'unknown', family: 'unknown', release: 'unknown', arch: 'unknown' }.merge(value)
+      @os = OS.new(self, os_params)
     end
 
     def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
