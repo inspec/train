@@ -33,6 +33,39 @@ module Train::Platforms::Detect::Specifications
             end
           }
 
+      # arista_eos family
+      # this has to be before redhat as EOS is based off fedora
+      plat.family('arista_eos').title('Arista EOS Family').in_family('unix')
+          .detect {
+            # we need a better way to determin this family
+            # for now we are going to just try each platform
+            true
+          }
+      plat.name('arista_eos').title('Arista EOS').in_family('arista_eos')
+          .detect {
+            cmd = @backend.run_command('show version | json')
+            if cmd.exit_status == 0 && !cmd.stdout.empty?
+              require 'json'
+              eos_ver = JSON.parse(cmd.stdout)
+              @platform[:release] = eos_ver['version']
+              @platform[:arch] = eos_ver['architecture']
+              true
+            end
+          }
+      plat.name('arista_eos_bash').title('Arista EOS Bash Shell').in_family('arista_eos')
+          .detect {
+            if unix_file_exist?('/usr/bin/FastCli')
+              cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
+              if cmd.exit_status == 0 && !cmd.stdout.empty?
+                require 'json'
+                eos_ver = JSON.parse(cmd.stdout)
+                @platform[:release] = eos_ver['version']
+                @platform[:arch] = eos_ver['architecture']
+                true
+              end
+            end
+          }
+
       # linux master family
       plat.family('linux').in_family('unix')
           .detect {
@@ -106,7 +139,7 @@ module Train::Platforms::Detect::Specifications
             if lsb && lsb[:id] =~ /centos/i
               @platform[:release] = lsb[:release]
               true
-            elsif unix_file_contents('/etc/os-release') =~ /centos/i
+            elsif linux_os_release && linux_os_release['NAME'] =~ /centos/i
               @platform[:release] = redhatish_version(unix_file_contents('/etc/redhat-release'))
               true
             end
@@ -158,7 +191,7 @@ module Train::Platforms::Detect::Specifications
             if lsb && lsb[:id] =~ /amazon/i
               @platform[:release] = lsb[:release]
               true
-            elsif !(raw = unix_file_contents('/etc/system-release')).nil?
+            elsif (raw = unix_file_contents('/etc/system-release')) =~ /amazon/i
               @platform[:name] = redhatish_platform(raw)
               @platform[:release] = redhatish_version(raw)
               true
@@ -280,37 +313,6 @@ module Train::Platforms::Detect::Specifications
             end
           }
 
-      # arista_eos family
-      plat.family('arista_eos').title('Arista EOS Family').in_family('unix')
-          .detect {
-            # we need a better way to determin this family
-            # for now we are going to just try each platform
-            true
-          }
-      plat.name('arista_eos').title('Arista EOS').in_family('arista_eos')
-          .detect {
-            cmd = @backend.run_command('show version | json')
-            if cmd.exit_status == 0 && !cmd.stdout.empty?
-              require 'json'
-              eos_ver = JSON.parse(cmd.stdout)
-              @platform[:release] = eos_ver['version']
-              @platform[:arch] = eos_ver['architecture']
-              true
-            end
-          }
-      plat.name('arista_eos_bash').title('Arista EOS Bash Shell').in_family('arista_eos')
-          .detect {
-            if unix_file_exist?('/usr/bin/FastCli')
-              cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
-              if cmd.exit_status == 0 && !cmd.stdout.empty?
-                require 'json'
-                eos_ver = JSON.parse(cmd.stdout)
-                @platform[:release] = eos_ver['version']
-                @platform[:arch] = eos_ver['architecture']
-                true
-              end
-            end
-          }
 
       # esx
       plat.family('esx').title('ESXi Family')
@@ -327,7 +329,7 @@ module Train::Platforms::Detect::Specifications
       # aix
       plat.family('aix').in_family('unix')
           .detect {
-            true if unix_uname_s =~ /aix/
+            true if unix_uname_s =~ /aix/i
           }
       plat.name('aix').title('Aix').in_family('aix')
           .detect {
@@ -344,7 +346,7 @@ module Train::Platforms::Detect::Specifications
       plat.family('solaris').in_family('unix')
           .detect {
             if unix_uname_s =~ /sunos/i
-              unless (version = /^5\.(?<release>\d+)$/.match(uname_r)).nil?
+              unless (version = /^5\.(?<release>\d+)$/.match(unix_uname_r)).nil?
                 @platform[:release] = version['release']
               end
 
@@ -379,7 +381,7 @@ module Train::Platforms::Detect::Specifications
       plat.name('opensolaris').title('Open Solaris').in_family('solaris')
           .detect {
             rel = unix_file_contents('/etc/release')
-            if /^\s*(OpenSolaris).*snv_(\d+).*$/ =~ rel
+            if !(m = /^\s*(OpenSolaris).*snv_(\d+).*$/.match(rel)).nil?
               @platform[:release] = m[2]
               true
             end
@@ -409,7 +411,7 @@ module Train::Platforms::Detect::Specifications
       # hpux
       plat.family('hpux').in_family('unix')
           .detect {
-            true if unix_uname_s =~ /hp-ux/
+            true if unix_uname_s =~ /hp-ux/i
           }
       plat.name('hpux').title('Hpux').in_family('hpux')
           .detect {
@@ -426,22 +428,18 @@ module Train::Platforms::Detect::Specifications
           }
       plat.name('darwin').title('Darwin').in_family('bsd')
           .detect {
-            if unix_uname_s =~ /darwin/
+            cmd = unix_file_contents('/usr/bin/sw_vers')
+            if unix_uname_s =~ /darwin/i || !cmd.nil?
               @platform[:name] = unix_uname_s.lines[0].chomp
-              @platform[:release] = unix_uname_r.lines[0].chomp
+              @platform[:release] = cmd[/^ProductVersion:\s+(.+)$/, 1] || unix_uname_r.lines[0].chomp
+              @platform[:build] = cmd[/^BuildVersion:\s+(.+)$/, 1]
+              @platform[:arch] = unix_uname_m
               true
             end
-            cmd = @backend.run_command('/usr/bin/sw_vers')
-            return nil if cmd.exit_status != 0 || cmd.stdout.empty?
-
-            @platform[:release] = cmd.stdout[/^ProductVersion:\s+(.+)$/, 1]
-            @platform[:build] = cmd.stdout[/^BuildVersion:\s+(.+)$/, 1]
-            @platform[:arch] = unix_uname_m
-            true
           }
       plat.name('freebsd').title('Freebsd').in_family('bsd')
           .detect {
-            if unix_uname_s =~ /freebsd/
+            if unix_uname_s =~ /freebsd/i
               @platform[:name] = unix_uname_s.lines[0].chomp
               @platform[:release] = unix_uname_r.lines[0].chomp
               true
@@ -449,7 +447,7 @@ module Train::Platforms::Detect::Specifications
           }
       plat.name('openbsd').title('Openbsd').in_family('bsd')
           .detect {
-            if unix_uname_s =~ /openbsd/
+            if unix_uname_s =~ /openbsd/i
               @platform[:name] = unix_uname_s.lines[0].chomp
               @platform[:release] = unix_uname_r.lines[0].chomp
               true
@@ -457,7 +455,7 @@ module Train::Platforms::Detect::Specifications
           }
       plat.name('netbsd').title('Netbsd').in_family('bsd')
           .detect {
-            if unix_uname_s =~ /netbsd/
+            if unix_uname_s =~ /netbsd/i
               @platform[:name] = unix_uname_s.lines[0].chomp
               @platform[:release] = unix_uname_r.lines[0].chomp
               true
