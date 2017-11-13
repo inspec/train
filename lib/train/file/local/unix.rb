@@ -50,10 +50,6 @@ module Train
             @backend.run_command("mount | grep -- ' on #{@spath} '")
         end
 
-        def mounted?
-          !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.empty?
-        end
-
         def grouped_into?(sth)
           group == sth
         end
