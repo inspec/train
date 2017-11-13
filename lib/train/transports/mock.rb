@@ -1,7 +1,4 @@
 # encoding: utf-8
-#
-# author: Dominik Richter
-# author: Christoph Hartmann
 
 require 'train/plugins'
 require 'digest'
@@ -34,7 +31,7 @@ module Train::Transports
         'Train::Transports::Mock::Connection::File' =>
           Connection::FileCommon.instance_methods(false),
         'Train::Transports::Mock::Connection::OS' =>
-          Connection::OSCommon.instance_methods(false),
+          Train::Platform.instance_methods(false),
       }
 
       # rubocop:disable Metrics/ParameterLists
@@ -74,8 +71,19 @@ class Train::Transports::Mock
     end
 
     def mock_os(value = {})
-      os_params = { name: 'unknown', family: 'unknown', release: 'unknown', arch: 'unknown' }.merge(value)
-      @os = OS.new(self, os_params)
+      value[:name] = 'unknown' unless value[:name]
+      platform = Train::Platforms.name(value[:name])
+      platform.family_hierarchy = mock_os_hierarchy(platform).flatten
+      platform.platform[:family] = platform.family_hierarchy[0]
+      platform.add_platform_methods
+      @os = platform
+    end
+
+    def mock_os_hierarchy(plat)
+      plat.families.each_with_object([]) do |(k, _v), memo|
+        memo << k.name
+        memo << mock_os_hierarchy(k) unless k.families.empty?
+      end
     end
 
     def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
@@ -115,18 +123,6 @@ end
 
 class Train::Transports::Mock::Connection
   Command = Struct.new(:stdout, :stderr, :exit_status)
-end
-
-class Train::Transports::Mock::Connection
-  class OS < OSCommon
-    def initialize(backend, desc)
-      super(backend, desc)
-    end
-
-    def detect_family
-      # no op, we do not need to detect the os
-    end
-  end
 end
 
 class Train::Transports::Mock::Connection

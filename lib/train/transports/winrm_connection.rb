@@ -46,10 +46,6 @@ class Train::Transports::WinRM
       @session = nil
     end
 
-    def os
-      @os ||= OS.new(self)
-    end
-
     def file(path)
       @files[path] ||= Train::File::Remote::Windows.new(self, path)
     end
@@ -192,12 +188,6 @@ class Train::Transports::WinRM
       options_to_print = @options.clone
       options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
       "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
-    end
-
-    class OS < OSCommon
-      def initialize(backend)
-        super(backend, { family: 'windows' })
-      end
     end
   end
 end

@@ -1,14 +1,7 @@
 # encoding: utf-8
-# author: Dominik Richter
-# author: Christoph Hartmann
-#
-# This is heavily based on:
-#
-#   OHAI https://github.com/chef/ohai
-#   by Adam Jacob, Chef Software Inc
-#
-module Train::Extras
-  module DetectWindows
+
+module Train::Platforms::Detect::Helpers
+  module Windows
     def detect_windows
       res = @backend.run_command('cmd /c ver')
       return false if res.exit_status != 0 or res.stdout.empty?
