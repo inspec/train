@@ -55,6 +55,10 @@ class Train::Transports::SSH
       @session = nil
     end
 
+    def os
+      @os ||= OS.new(self)
+    end
+
     def file(path)
       @files[path] ||= \
         if os.aix?
@@ -242,6 +246,12 @@ class Train::Transports::SSH
       options_to_print = @options.clone
       options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
       "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
+    end
+
+    class OS < OSCommon
+      def initialize(backend)
+        super(backend)
+      end
     end
   end
 end

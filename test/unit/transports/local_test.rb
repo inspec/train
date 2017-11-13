@@ -1,22 +1,27 @@
 # encoding: utf-8
+#
+# author: Dominik Richter
+# author: Christoph Hartmann
 
 require 'helper'
 require 'train/transports/local'
 
-class TransportHelper
-  attr_accessor :transport
+# overwrite os detection to simplify mock tests, otherwise run_command tries to
+# determine the OS first and fails the tests
+class Train::Transports::Local::Connection
+  class OS < OSCommon
+    def initialize(backend)
+      super(backend, { family: 'train_mock_os' })
+    end
 
-  def initialize
-    Train::Platforms::Detect::Specifications::OS.load
-    plat = Train::Platforms.name('mock').in_family('linux')
-    plat.add_platform_methods
-    Train::Platforms::Detect.stubs(:scan).returns(plat)
-    @transport = Train::Transports::Local.new
+    def detect_family
+      # no op, we do not need to detect the os
+    end
   end
 end
 
 describe 'local transport' do
-  let(:transport) { TransportHelper.new.transport }
+  let(:transport) { Train::Transports::Local.new }
   let(:connection) { transport.connection }
 
   it 'can be instantiated' do
@@ -28,7 +33,7 @@ describe 'local transport' do
   end
 
   it 'provides a uri' do
-    connection.uri.must_equal 'local://'
+    connection.uri.must_equal "local://"
   end
 
   it 'doesnt wait to be read' do

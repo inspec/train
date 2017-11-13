@@ -4,6 +4,7 @@
 
 module Train::Extras
   require 'train/extras/command_wrapper'
+  require 'train/extras/os_common'
   require 'train/extras/stat'
 
   CommandResult = Struct.new(:stdout, :stderr, :exit_status)

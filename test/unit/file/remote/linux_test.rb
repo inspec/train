@@ -7,14 +7,14 @@ describe Train::File::Remote::Linux do
   let(:cls) { Train::File::Remote::Linux }
   let(:backend) {
     backend = Train::Transports::Mock.new.connection
-    backend.mock_os({ name: 'linux', family: 'unix' })
+    backend.mock_os({ family: 'linux' })
     backend
   }  
 
   def mock_stat(args, out, err = '', code = 0)
     backend.mock_command(
       "stat #{args} 2>/dev/null --printf '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'",
-      out, err, code
+      out, err, code,
     )
   end
 

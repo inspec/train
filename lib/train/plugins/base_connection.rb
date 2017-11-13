@@ -1,4 +1,8 @@
 # encoding: utf-8
+#
+# Author:: Salim Afiune (<salim@afiunemaya.com.mx>)
+# Author:: Fletcher Nichol (<fnichol@nichol.ca>)
+# Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
 require 'train/errors'
 require 'train/extras'
@@ -26,7 +30,6 @@ class Train::Plugins::Transport
       @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
       @files = {}
-      Train::Platforms::Detect::Specifications::OS.load
     end
 
     # Closes the session connection, if it is still active.
@@ -47,11 +50,6 @@ class Train::Plugins::Transport
       end
     end
 
-    # Is this a local transport?
-    def local?
-      false
-    end
-
     # Execute a command using this connection.
     #
     # @param command [String] command string to execute
@@ -62,13 +60,10 @@ class Train::Plugins::Transport
 
     # Get information on the operating system which this transport connects to.
     #
-    # @return [Platform] system information
-    def platform
-      @platform ||= Train::Platforms::Detect.scan(self)
+    # @return [OSCommon] operating system information
+    def os
+      fail Train::ClientError, "#{self.class} does not implement #os()"
     end
-
-    # we need to keep os as a method for backwards compatibility with inspec
-    alias os platform
 
     # Interact with files on the target. Read, write, and get metadata
     # from files via the transport.
