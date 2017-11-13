@@ -1,10 +1,19 @@
 # Change Log
 
-## [0.29.0](https://github.com/chef/train/tree/0.29.0) (2017-11-13)
-[Full Changelog](https://github.com/chef/train/compare/v0.28.0...0.29.0)
+## [0.29.1](https://github.com/chef/train/tree/0.29.1) (2017-11-13)
+[Full Changelog](https://github.com/chef/train/compare/v0.29.0...0.29.1)
 
 **Merged pull requests:**
 
+- Allow for a nil value when mocking OS [\#212](https://github.com/chef/train/pull/212) ([adamleff](https://github.com/adamleff))
+- Ensure a `mounted?` method exists for all File classes, including Mock [\#211](https://github.com/chef/train/pull/211) ([adamleff](https://github.com/adamleff))
+
+## [v0.29.0](https://github.com/chef/train/tree/v0.29.0) (2017-11-13)
+[Full Changelog](https://github.com/chef/train/compare/v0.28.0...v0.29.0)
+
+**Merged pull requests:**
+
+- Release 0.29.0 [\#210](https://github.com/chef/train/pull/210) ([adamleff](https://github.com/adamleff))
 - Reverting accidental push to master re: \#204 [\#208](https://github.com/chef/train/pull/208) ([adamleff](https://github.com/adamleff))
 - clearer error if no auth methods are available [\#207](https://github.com/chef/train/pull/207) ([thommay](https://github.com/thommay))
 - Build a complete mock OS object [\#206](https://github.com/chef/train/pull/206) ([adamleff](https://github.com/adamleff))
