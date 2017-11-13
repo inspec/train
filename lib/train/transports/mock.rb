@@ -74,6 +74,9 @@ class Train::Transports::Mock
     end
 
     def mock_os(value = {})
+      # if a user passes a nil value, set to an empty hash so the merge still succeeds
+      value ||= {}
+
       os_params = { name: 'unknown', family: 'unknown', release: 'unknown', arch: 'unknown' }.merge(value)
       @os = OS.new(self, os_params)
     end

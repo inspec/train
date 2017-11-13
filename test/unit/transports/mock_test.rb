@@ -81,6 +81,40 @@ describe 'mock transport' do
       connection.os.redhat?.must_equal true
       connection.os[:family].must_equal 'centos'
     end
+
+    it 'allows the setting of the name' do
+      connection.mock_os({ name: 'foo' })
+      connection.os[:name].must_equal 'foo'
+    end
+
+    it 'allows setting of the family' do
+      connection.mock_os({ family: 'foo' })
+      connection.os[:family].must_equal 'foo'
+    end
+
+    it 'allows setting of the release' do
+      connection.mock_os({ release: '1.2.3' })
+      connection.os[:release].must_equal '1.2.3'
+    end
+
+    it 'allows setting of the arch' do
+      connection.mock_os({ arch: 'amd123' })
+      connection.os[:arch].must_equal 'amd123'
+    end
+
+    it 'allow setting of multiple values' do
+      connection.mock_os({ name: 'foo', family: 'bar' })
+      connection.os[:name].must_equal 'foo'
+      connection.os[:family].must_equal 'bar'
+      connection.os[:arch].must_equal 'unknown'
+      connection.os[:release].must_equal 'unknown'
+    end
+
+    it 'properly handles a nil value' do
+      connection.mock_os(nil)
+      connection.os[:name].must_equal 'unknown'
+      connection.os[:family].must_equal 'unknown'
+    end
   end
 
   describe 'when accessing a mocked file' do
