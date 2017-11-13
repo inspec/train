@@ -140,5 +140,18 @@ module Train
         @path
       end
     end
+
+    # if the OS-specific file class supports inquirying as to whether the
+    # file/device is mounted, the #mounted method should return a command
+    # object whose stdout will not be nil if indeed the device is mounted.
+    #
+    # if the OS-specific file class does not support checking for mount
+    # status, the method should not be implemented and this method will
+    # return false.
+    def mounted?
+      return false unless respond_to?(:mounted)
+
+      !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.empty?
+    end
   end
 end

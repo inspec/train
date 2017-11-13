@@ -31,10 +31,6 @@ module Train
           )
         end
 
-        def mounted?
-          !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.empty?
-        end
-
         def mounted
           @mounted ||=
             @backend.run_command("mount | grep -- ' on #{@spath} '")
