@@ -72,14 +72,14 @@ describe 'mock transport' do
 
   describe 'when accessing a mocked os' do
     it 'has the default mock os faily set to unknown' do
-      connection.os[:name].must_equal 'unknown'
+      connection.os[:family].must_equal 'unknown'
     end
 
     it 'sets the OS to the mocked value' do
-      connection.mock_os({ name: 'centos' })
+      connection.mock_os({ family: 'centos' })
       connection.os.linux?.must_equal true
       connection.os.redhat?.must_equal true
-      connection.os[:family].must_equal 'redhat'
+      connection.os[:family].must_equal 'centos'
     end
   end
 

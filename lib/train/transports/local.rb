@@ -17,6 +17,8 @@ module Train::Transports
     end
 
     class Connection < BaseConnection
+      require 'train/transports/local_os'
+
       def initialize(options)
         super(options)
         @cmd_wrapper = nil
@@ -32,8 +34,8 @@ module Train::Transports
         CommandResult.new('', '', 1)
       end
 
-      def local?
-        true
+      def os
+        @os ||= OS.new(self)
       end
 
       def file(path)
