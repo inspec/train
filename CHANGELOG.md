@@ -1,10 +1,25 @@
 # Change Log
 
-## [0.28.0](https://github.com/chef/train/tree/0.28.0) (2017-09-25)
-[Full Changelog](https://github.com/chef/train/compare/v0.27.0...0.28.0)
+## [0.29.0](https://github.com/chef/train/tree/0.29.0) (2017-11-13)
+[Full Changelog](https://github.com/chef/train/compare/v0.28.0...0.29.0)
 
 **Merged pull requests:**
 
+- Reverting accidental push to master re: \#204 [\#208](https://github.com/chef/train/pull/208) ([adamleff](https://github.com/adamleff))
+- clearer error if no auth methods are available [\#207](https://github.com/chef/train/pull/207) ([thommay](https://github.com/thommay))
+- Build a complete mock OS object [\#206](https://github.com/chef/train/pull/206) ([adamleff](https://github.com/adamleff))
+- Platform framework and detect DSL [\#204](https://github.com/chef/train/pull/204) ([jquick](https://github.com/jquick))
+- add basic qnx support for train [\#203](https://github.com/chef/train/pull/203) ([chris-rock](https://github.com/chris-rock))
+- Add CODEOWNERS for train [\#202](https://github.com/chef/train/pull/202) ([adamleff](https://github.com/adamleff))
+- implement uploads and downloads for ssh and winrm [\#201](https://github.com/chef/train/pull/201) ([thommay](https://github.com/thommay))
+- \[MSYS-649\] Fix InSpec file size in Windows, refactor File classes [\#193](https://github.com/chef/train/pull/193) ([Vasu1105](https://github.com/Vasu1105))
+
+## [v0.28.0](https://github.com/chef/train/tree/v0.28.0) (2017-09-25)
+[Full Changelog](https://github.com/chef/train/compare/v0.27.0...v0.28.0)
+
+**Merged pull requests:**
+
+- Release 0.28.0 [\#200](https://github.com/chef/train/pull/200) ([adamleff](https://github.com/adamleff))
 - Continue to support older net-ssh while fixing 4.2 deprecation [\#199](https://github.com/chef/train/pull/199) ([adamleff](https://github.com/adamleff))
 
 ## [v0.27.0](https://github.com/chef/train/tree/v0.27.0) (2017-09-25)
