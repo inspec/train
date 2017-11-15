@@ -76,7 +76,7 @@ describe 'mock transport' do
     end
 
     it 'sets the OS to the mocked value' do
-      connection.mock_os({ name: 'centos' })
+      connection.mock_os({ name: 'centos', family: 'redhat' })
       connection.os.linux?.must_equal true
       connection.os.redhat?.must_equal true
       connection.os[:family].must_equal 'redhat'

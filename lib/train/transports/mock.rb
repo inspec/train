@@ -73,12 +73,11 @@ class Train::Transports::Mock
     def mock_os(value = {})
       # if a user passes a nil value, set to an empty hash so the merge still succeeds
       value ||= {}
+      value = { name: 'unknown', family: 'unknown', release: 'unknown', arch: 'unknown' }.merge(value)
 
-      value[:name] = 'unknown' unless value[:name]
       platform = Train::Platforms.name(value[:name])
       platform.family_hierarchy = mock_os_hierarchy(platform).flatten
       platform.platform = value
-      platform.platform[:family] = value[:family] || platform.family_hierarchy[0] || 'unknown'
       platform.add_platform_methods
       @os = platform
     end
