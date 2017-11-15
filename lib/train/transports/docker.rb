@@ -69,10 +69,6 @@ class Train::Transports::Docker
       # nothing to do at the moment
     end
 
-    def os
-      @os ||= OS.new(self)
-    end
-
     def file(path)
       @files[path] ||=\
         if os.aix?
@@ -103,14 +99,6 @@ class Train::Transports::Docker
         "docker://#{@id}"
       else
         "docker://#{@container.id}"
-      end
-    end
-
-    class OS < OSCommon
-      def initialize(backend)
-        # hardcoded to unix/linux for now, until other operating systems
-        # are supported
-        super(backend, { family: 'unix' })
       end
     end
   end
