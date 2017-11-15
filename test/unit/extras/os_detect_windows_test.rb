@@ -24,7 +24,7 @@ describe 'os_detect_windows' do
     it 'sets the correct family/release for windows' do
       detector.detect_windows
       detector.platform[:family].must_equal('windows')
-      detector.platform[:name].must_equal('Windows Server 2012 R2 Standard')
+      detector.platform[:name].must_equal('windows_server_2012_r2_standard')
       detector.platform[:arch].must_equal('x86_64')
       detector.platform[:release].must_equal('6.3.9600')
     end
@@ -42,7 +42,7 @@ describe 'os_detect_windows' do
     it 'sets the correct family/release for windows' do
       detector.detect_windows
       detector.platform[:family].must_equal('windows')
-      detector.platform[:name].must_equal('Windows Server 2008 R2 Standard')
+      detector.platform[:name].must_equal('windows_server_2008_r2_standard')
       detector.platform[:arch].must_equal('x86_64')
       detector.platform[:release].must_equal('6.1.7601')
     end
@@ -60,7 +60,7 @@ describe 'os_detect_windows' do
     it 'sets the correct family/release for windows' do
       detector.detect_windows
       detector.platform[:family].must_equal('windows')
-      detector.platform[:name].must_equal('Windows 7 Enterprise')
+      detector.platform[:name].must_equal('windows_7_enterprise')
       detector.platform[:arch].must_equal('i386')
       detector.platform[:release].must_equal('6.1.7601')
     end
@@ -78,7 +78,7 @@ describe 'os_detect_windows' do
     it 'sets the correct family/release for windows' do
       detector.detect_windows
       detector.platform[:family].must_equal('windows')
-      detector.platform[:name].must_equal('Windows 10 Pro')
+      detector.platform[:name].must_equal('windows_10_pro')
       detector.platform[:arch].must_equal('x86_64')
       detector.platform[:release].must_equal('10.0.10240')
     end

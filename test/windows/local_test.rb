@@ -22,7 +22,7 @@ describe 'windows local command' do
 
   it 'verify os' do
     os = conn.os
-    os[:name].must_equal 'Windows Server 2012 R2 Datacenter'
+    os[:name].must_equal 'windows_server_2012_r2_datacenter'
     os[:family].must_equal "windows"
     os[:release].must_equal '6.3.9600'
     os[:arch].must_equal 'x86_64'

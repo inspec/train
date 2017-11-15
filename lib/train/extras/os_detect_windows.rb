@@ -50,6 +50,9 @@ module Train::Extras
         @platform[:build] = sys_info[:BuildNumber]
         @platform[:name] = sys_info[:Caption]
         @platform[:name] = @platform[:name].gsub('Microsoft', '').strip unless @platform[:name].empty?
+        # make sure the name is lowercase stipped
+        # "Windows Server 2012 R2 Standard" becomes "windows_server_2012_r2_standard"
+        @platform[:name] = @platform[:name].downcase.strip.tr(' ', '_').gsub(/[^\w-]/, '')
         @platform[:arch] = read_wmic_cpu
       end
     end

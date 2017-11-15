@@ -10,11 +10,11 @@
 
 module Train::Extras
   module DetectUnix
-    def detect_via_uname # rubocop:disable Metrics/AbcSize
+    def detect_via_uname
       case uname_s.downcase
       when /aix/
         @platform[:family] = 'aix'
-        @platform[:name] = uname_s.lines[0].chomp
+        @platform[:name] = uname_name
         out = @backend.run_command('uname -rvp').stdout
         m = out.match(/(\d+)\s+(\d+)\s+(.*)/)
         unless m.nil?
@@ -23,23 +23,23 @@ module Train::Extras
         end
       when /hp-ux/
         @platform[:family] = 'hpux'
-        @platform[:name] = uname_s.lines[0].chomp
-        @platform[:release] = uname_r.lines[0].chomp
+        @platform[:name] = uname_name
+        @platform[:release] = uname_release
 
       when /freebsd/
         @platform[:family] = 'freebsd'
-        @platform[:name] = uname_s.lines[0].chomp
-        @platform[:release] = uname_r.lines[0].chomp
+        @platform[:name] = uname_name
+        @platform[:release] = uname_release
 
       when /netbsd/
         @platform[:family] = 'netbsd'
-        @platform[:name] = uname_s.lines[0].chomp
-        @platform[:release] = uname_r.lines[0].chomp
+        @platform[:name] = uname_name
+        @platform[:release] = uname_release
 
       when /openbsd/
         @platform[:family] = 'openbsd'
-        @platform[:name] = uname_s.lines[0].chomp
-        @platform[:release] = uname_r.lines[0].chomp
+        @platform[:name] = uname_name
+        @platform[:release] = uname_release
 
       when /qnx/
         @platform[:family] = 'qnx'
@@ -101,6 +101,16 @@ module Train::Extras
       # read architecture
       arch = @backend.run_command('uname -p')
       @platform[:arch] = arch.stdout.chomp if arch.exit_status == 0
+    end
+
+    private
+
+    def uname_name
+      uname_s.lines[0].downcase.chomp
+    end
+
+    def uname_release
+      uname_r.lines[0].chomp
     end
   end
 end
