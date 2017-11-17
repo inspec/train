@@ -37,12 +37,11 @@ module Train::Transports
       end
 
       def file(path)
-        @files[path] ||= \
-          if os.windows?
-            Train::File::Local::Windows.new(self, path)
-          else
-            Train::File::Local::Unix.new(self, path)
-          end
+        if os.windows?
+          Train::File::Local::Windows.new(self, path)
+        else
+          Train::File::Local::Unix.new(self, path)
+        end
       end
 
       def login_command

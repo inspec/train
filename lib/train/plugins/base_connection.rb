@@ -15,9 +15,6 @@ class Train::Plugins::Transport
   class BaseConnection
     include Train::Extras
 
-    # Provide access to the files cache.
-    attr_reader :files
-
     # Create a new Connection instance.
     #
     # @param options [Hash] connection options
@@ -25,7 +22,6 @@ class Train::Plugins::Transport
     def initialize(options = nil)
       @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
-      @files = {}
       Train::Platforms::Detect::Specifications::OS.load
     end
 

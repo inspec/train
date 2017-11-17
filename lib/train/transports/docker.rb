@@ -70,14 +70,13 @@ class Train::Transports::Docker
     end
 
     def file(path)
-      @files[path] ||=\
-        if os.aix?
-          Train::File::Remote::Aix.new(self, path)
-        elsif os.solaris?
-          Train::File::Remote::Unix.new(self, path)
-        else
-          Train::File::Remote::Linux.new(self, path)
-        end
+      if os.aix?
+        Train::File::Remote::Aix.new(self, path)
+      elsif os.solaris?
+        Train::File::Remote::Unix.new(self, path)
+      else
+        Train::File::Remote::Linux.new(self, path)
+      end
     end
 
     def run_command(cmd)

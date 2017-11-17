@@ -56,16 +56,15 @@ class Train::Transports::SSH
     end
 
     def file(path)
-      @files[path] ||= \
-        if os.aix?
-          Train::File::Remote::Aix.new(self, path)
-        elsif os.solaris?
-          Train::File::Remote::Unix.new(self, path)
-        elsif os[:name] == 'qnx'
-          Train::File::Remote::Qnx.new(self, path)
-        else
-          Train::File::Remote::Linux.new(self, path)
-        end
+      if os.aix?
+        Train::File::Remote::Aix.new(self, path)
+      elsif os.solaris?
+        Train::File::Remote::Unix.new(self, path)
+      elsif os[:name] == 'qnx'
+        Train::File::Remote::Qnx.new(self, path)
+      else
+        Train::File::Remote::Linux.new(self, path)
+      end
     end
 
     # (see Base::Connection#run_command)

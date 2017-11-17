@@ -64,6 +64,7 @@ class Train::Transports::Mock
       super(conf)
       mock_os
       @commands = {}
+      @files = {}
     end
 
     def uri

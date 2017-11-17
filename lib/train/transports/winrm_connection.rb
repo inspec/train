@@ -47,7 +47,7 @@ class Train::Transports::WinRM
     end
 
     def file(path)
-      @files[path] ||= Train::File::Remote::Windows.new(self, path)
+      Train::File::Remote::Windows.new(self, path)
     end
 
     def run_command(command)

@@ -1,7 +1,4 @@
 # encoding: utf-8
-#
-# Author:: Dominik Richter (<dominik.richter@gmail.com>)
-# Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
 require 'logger'
 require 'train/errors'
@@ -14,6 +11,7 @@ class Train::Plugins
     Train::Options.attach(self)
 
     require 'train/plugins/base_connection'
+    require 'train/plugins/cache_connection'
 
     # Initialize a new Transport object
     #
@@ -39,6 +37,13 @@ class Train::Plugins
     # @param [String] name of the plugin, by which it will be found
     def self.name(name)
       Train::Plugins.registry[name] = self
+    end
+
+    # Create a cache connection to the target.
+    #
+    # @return [CacheConnection]
+    def cache_connection
+      CacheConnection.new(connection)
     end
 
     private
