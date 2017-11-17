@@ -113,7 +113,9 @@ describe Train::File::Local::Unix do
   describe '#unix_mode_mask' do
     let(:file_tester) do
       Class.new(cls) do
-        define_method :type { :file }
+        define_method :type do
+          :file
+        end
       end.new(nil, nil, false)
     end
 
