@@ -54,6 +54,16 @@ module Train
           group == sth
         end
 
+        def unix_mode_mask(owner, type)
+          o = UNIX_MODE_OWNERS[owner.to_sym]
+          return nil if o.nil?
+
+          t = UNIX_MODE_TYPES[type.to_sym]
+          return nil if t.nil?
+
+          t & o
+        end
+
         private
 
         def pw_username(uid)
@@ -67,6 +77,19 @@ module Train
         rescue ArgumentError => _
           nil
         end
+
+        UNIX_MODE_OWNERS = {
+          all:   00777,
+          owner: 00700,
+          group: 00070,
+          other: 00007,
+        }.freeze
+
+        UNIX_MODE_TYPES = {
+          r: 00444,
+          w: 00222,
+          x: 00111,
+        }.freeze
       end
     end
   end
