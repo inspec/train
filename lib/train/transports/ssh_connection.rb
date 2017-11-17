@@ -55,7 +55,7 @@ class Train::Transports::SSH
       @session = nil
     end
 
-    def file(path)
+    def file_via_connection(path)
       if os.aix?
         Train::File::Remote::Aix.new(self, path)
       elsif os.solaris?
@@ -68,7 +68,7 @@ class Train::Transports::SSH
     end
 
     # (see Base::Connection#run_command)
-    def run_command(cmd)
+    def run_command_via_connection(cmd)
       stdout = stderr = ''
       exit_status = nil
       cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)

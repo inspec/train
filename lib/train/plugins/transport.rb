@@ -39,13 +39,6 @@ class Train::Plugins
       Train::Plugins.registry[name] = self
     end
 
-    # Create a cache connection to the target.
-    #
-    # @return [CacheConnection]
-    def cache_connection
-      CacheConnection.new(connection)
-    end
-
     private
 
     # @return [Logger] logger for reporting information

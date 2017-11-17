@@ -23,7 +23,7 @@ module Train::Transports
         @cmd_wrapper = CommandWrapper.load(self, options)
       end
 
-      def run_command(cmd)
+      def run_command_via_connection(cmd)
         cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
         res = Mixlib::ShellOut.new(cmd)
         res.run_command
@@ -36,7 +36,7 @@ module Train::Transports
         true
       end
 
-      def file(path)
+      def file_via_connection(path)
         if os.windows?
           Train::File::Local::Windows.new(self, path)
         else

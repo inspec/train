@@ -105,7 +105,7 @@ class Train::Transports::Mock
       mock_command(cmd, nil, nil, 1)
     end
 
-    def run_command(cmd)
+    def run_command_via_connection(cmd)
       @commands[cmd] ||
         @commands[Digest::SHA256.hexdigest cmd.to_s] ||
         command_not_found(cmd)
@@ -116,7 +116,7 @@ class Train::Transports::Mock
       File.new(self, path)
     end
 
-    def file(path)
+    def file_via_connection(path)
       @files[path] ||= file_not_found(path)
     end
 

@@ -69,7 +69,7 @@ class Train::Transports::Docker
       # nothing to do at the moment
     end
 
-    def file(path)
+    def file_via_connection(path)
       if os.aix?
         Train::File::Remote::Aix.new(self, path)
       elsif os.solaris?
@@ -79,7 +79,7 @@ class Train::Transports::Docker
       end
     end
 
-    def run_command(cmd)
+    def run_command_via_connection(cmd)
       cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
       stdout, stderr, exit_status = @container.exec(
         [

@@ -22,7 +22,17 @@ class Train::Plugins::Transport
     def initialize(options = nil)
       @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
+      @cacher = CacheConnection.new(self)
       Train::Platforms::Detect::Specifications::OS.load
+    end
+
+    def enable_cache(type)
+      @cacher.cache_enabled[type.to_sym] = true
+    end
+
+    def disable_cache(type)
+      @cacher.cache_enabled[type.to_sym] = false
+      @cacher.clear_cache(type.to_sym)
     end
 
     # Closes the session connection, if it is still active.
@@ -48,31 +58,44 @@ class Train::Plugins::Transport
       false
     end
 
-    # Execute a command using this connection.
-    #
-    # @param command [String] command string to execute
-    # @return [CommandResult] contains the result of running the command
-    def run_command(_command)
-      fail Train::ClientError, "#{self.class} does not implement #run_command()"
-    end
-
     # Get information on the operating system which this transport connects to.
     #
     # @return [Platform] system information
     def platform
       @platform ||= Train::Platforms::Detect.scan(self)
     end
-
     # we need to keep os as a method for backwards compatibility with inspec
     alias os platform
+
+    # Execute a command using this connection.
+    #
+    # @param command [String] command string to execute
+    # @return [CommandResult] contains the result of running the command
+    def run_command_via_connection(_command)
+      fail Train::ClientError, "#{self.class} does not implement #run_command_via_connection()"
+    end
+
+    # run command with optional caching
+    def run_command(command)
+      return @cacher.run_command(command) if @cacher.cache_enabled[:command] == true
+
+      run_command_via_connection(command)
+    end
 
     # Interact with files on the target. Read, write, and get metadata
     # from files via the transport.
     #
     # @param [String] path which is being inspected
     # @return [FileCommon] file object that allows for interaction
-    def file(_path, *_args)
-      fail Train::ClientError, "#{self.class} does not implement #file(...)"
+    def file_via_connection(_path, *_args)
+      fail Train::ClientError, "#{self.class} does not implement #file_via_connection(...)"
+    end
+
+    # file with optional caching
+    def file(path, *args)
+      return @cacher.file(path, *args) if @cacher.cache_enabled[:file] == true
+
+      file_via_connection(path, *args)
     end
 
     # Builds a LoginCommand which can be used to open an interactive

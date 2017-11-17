@@ -46,11 +46,11 @@ class Train::Transports::WinRM
       @session = nil
     end
 
-    def file(path)
+    def file_via_connection(path)
       Train::File::Remote::Windows.new(self, path)
     end
 
-    def run_command(command)
+    def run_command_via_connection(command)
       return if command.nil?
       logger.debug("[WinRM] #{self} (#{command})")
       out = ''

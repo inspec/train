@@ -1,37 +1,44 @@
 # encoding: utf-8
 
 class Train::Plugins::Transport
-  class CacheConnection < BaseConnection
+  class CacheConnection
+    attr_accessor :cache_enabled
     # Create a new CacheConnection instance. This instance will cache
     # file and command operations on the underline connection.
     #
     # @param connection [Connection] connection object
     def initialize(connection)
       @connection = connection
-      @file_cache = {}
-      @cmd_cache = {}
+      @cache = {}
 
-      @connection.class.instance_methods(false).each do |m|
-        next if %i(run_command file).include?(m)
-        define_singleton_method m do |*args|
-          @connection.send(m, *args)
-        end
+      # default caching options
+      @cache_enabled = {
+        file: true,
+        command: false,
+      }
+
+      @cache_enabled.each_key do |type|
+        @cache[type] = {}
       end
     end
 
+    def clear_cache(type)
+      @cache[type.to_sym] = {}
+    end
+
     def file(path)
-      if @file_cache.key?(path)
-        @file_cache[path]
+      if @cache[:file].key?(path)
+        @cache[:file][path]
       else
-        @file_cache[path] = @connection.file(path)
+        @cache[:file][path] = @connection.file_via_connection(path)
       end
     end
 
     def run_command(cmd)
-      if @cmd_cache.key?(cmd)
-        @cmd_cache[cmd]
+      if @cache[:command].key?(cmd)
+        @cache[:command][cmd]
       else
-        @cmd_cache[cmd] = @connection.run_command(cmd)
+        @cache[:command][cmd] = @connection.run_command_via_connection(cmd)
       end
     end
   end

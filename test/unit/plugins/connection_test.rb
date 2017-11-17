@@ -14,12 +14,20 @@ describe 'v1 Connection Plugin' do
       proc { connection.run_command('') }.must_raise Train::ClientError
     end
 
+    it 'provides a run_command_via_connection method' do
+      proc { connection.run_command_via_connection('') }.must_raise Train::ClientError
+    end
+
     it 'provides an os method' do
       proc { connection.os }.must_raise Train::ClientError
     end
 
     it 'provides a file method' do
       proc { connection.file('') }.must_raise Train::ClientError
+    end
+
+    it 'provides a file_via_connection method' do
+      proc { connection.file_via_connection('') }.must_raise Train::ClientError
     end
 
     it 'provides a login command method' do
