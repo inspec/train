@@ -42,6 +42,12 @@ describe Train::File::Remote::Linux do
     cls.new(backend, 'path').content.must_be_nil
   end
 
+  it 'reads file contents' do
+    out = rand.to_s
+    backend.mock_command('cat /spaced\\ path || echo -n', out)
+    cls.new(backend, '/spaced path').content.must_equal out
+  end
+
   it 'checks for file existance' do
     backend.mock_command('test -e path', true)
     cls.new(backend, 'path').exist?.must_equal true
