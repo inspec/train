@@ -362,7 +362,21 @@ describe 'platform' do
     let(:os) { mock_platform('darwin') }
     it { os.solaris?.must_equal(false) }
     it { os.linux?.must_equal(false) }
-    it { os[:family].must_equal('bsd') }
+    it { os[:family].must_equal('darwin') }
+    it { os.bsd?.must_equal(true) }
+    it { os.darwin?.must_equal(true) }
+    it { os.unix?.must_equal(true) }
+    it { os.bsd?.must_equal(true) }
+    it { os.esx?.must_equal(false) }
+  end
+
+  describe 'with platform set to mac_os_x' do
+    let(:os) { mock_platform('mac_os_x') }
+    it { os.solaris?.must_equal(false) }
+    it { os.linux?.must_equal(false) }
+    it { os[:family].must_equal('darwin') }
+    it { os.bsd?.must_equal(true) }
+    it { os.darwin?.must_equal(true) }
     it { os.unix?.must_equal(true) }
     it { os.bsd?.must_equal(true) }
     it { os.esx?.must_equal(false) }
