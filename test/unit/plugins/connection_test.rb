@@ -10,28 +10,28 @@ describe 'v1 Connection Plugin' do
       connection.close # wont raise
     end
 
-    it 'provides a run_command method' do
-      proc { connection.run_command('') }.must_raise Train::ClientError
+    it 'raises an exception for run_command' do
+      proc { connection.run_command('') }.must_raise NotImplementedError
     end
 
-    it 'provides a run_command_via_connection method' do
-      proc { connection.run_command_via_connection('') }.must_raise Train::ClientError
+    it 'raises an exception for run_command_via_connection' do
+      proc { connection.run_command_via_connection('') }.must_raise NotImplementedError
     end
 
-    it 'provides an os method' do
-      proc { connection.os }.must_raise Train::ClientError
+    it 'raises an exception for os method' do
+      proc { connection.os }.must_raise NotImplementedError
     end
 
-    it 'provides a file method' do
-      proc { connection.file('') }.must_raise Train::ClientError
+    it 'raises an exception for file method' do
+      proc { connection.file('') }.must_raise NotImplementedError
     end
 
-    it 'provides a file_via_connection method' do
-      proc { connection.file_via_connection('') }.must_raise Train::ClientError
+    it 'raises an exception for file_via_connection method' do
+      proc { connection.file_via_connection('') }.must_raise NotImplementedError
     end
 
-    it 'provides a login command method' do
-      proc { connection.login_command }.must_raise Train::ClientError
+    it 'raises an exception for login command method' do
+      proc { connection.login_command }.must_raise NotImplementedError
     end
 
     it 'can wait until ready' do

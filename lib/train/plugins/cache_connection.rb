@@ -2,7 +2,6 @@
 
 class Train::Plugins::Transport
   class CacheConnection
-    attr_accessor :cache_enabled
     # Create a new CacheConnection instance. This instance will cache
     # file and command operations on the underline connection.
     #
@@ -18,8 +17,16 @@ class Train::Plugins::Transport
       }
 
       @cache_enabled.each_key do |type|
-        @cache[type] = {}
+        clear_cache(type)
       end
+    end
+
+    def set_cache_status(type, status)
+      @cache_enabled[type.to_sym] = status
+    end
+
+    def cache_enabled?(type)
+      @cache_enabled[type.to_sym]
     end
 
     def clear_cache(type)
@@ -27,19 +34,11 @@ class Train::Plugins::Transport
     end
 
     def file(path)
-      if @cache[:file].key?(path)
-        @cache[:file][path]
-      else
-        @cache[:file][path] = @connection.file_via_connection(path)
-      end
+      @cache[:file][path] ||= @connection.file_via_connection(path)
     end
 
     def run_command(cmd)
-      if @cache[:command].key?(cmd)
-        @cache[:command][cmd]
-      else
-        @cache[:command][cmd] = @connection.run_command_via_connection(cmd)
-      end
+      @cache[:command][cmd] ||= @connection.run_command_via_connection(cmd)
     end
   end
 end

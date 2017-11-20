@@ -58,6 +58,16 @@ describe 'ssh transport' do
     let(:ssh) { cls.new(conf) }
     let(:connection) { ssh.connection }
 
+    it 'provides a run_command_via_connection method' do
+      methods = connection.class.instance_methods(false)
+      methods.include?(:run_command_via_connection).must_equal true
+    end
+
+    it 'provides a file_via_connection method' do
+      methods = connection.class.instance_methods(false)
+      methods.include?(:file_via_connection).must_equal true
+    end
+
     it 'gets the connection' do
       connection.must_be_kind_of Train::Transports::SSH::Connection
     end

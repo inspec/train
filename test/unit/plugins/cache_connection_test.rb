@@ -15,15 +15,21 @@ describe 'train cache connection' do
 
     it 'default connection cache settings' do
       cacher = connection.instance_variable_get(:@cacher)
-      cacher.cache_enabled[:file].must_equal true
-      cacher.cache_enabled[:command].must_equal false
+      cacher.cache_enabled?(:file).must_equal true
+      cacher.cache_enabled?(:command).must_equal false
     end
   end
 
   describe 'disable/enable caching' do
-    it 'enable file cache' do
-      connection.enable_cache(:file)
-      cache_connection.cache_enabled[:file].must_equal true
+    it 'disable file cache via connection' do
+      connection.disable_cache(:file)
+      cacher = connection.instance_variable_get(:@cacher)
+      cacher.cache_enabled?(:file).must_equal false
+    end
+
+    it 'disable file cache via cache_connection' do
+      cache_connection.set_cache_status(:file, false)
+      cache_connection.cache_enabled?(:file).must_equal false
     end
   end
 

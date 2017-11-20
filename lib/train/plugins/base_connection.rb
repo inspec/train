@@ -27,11 +27,11 @@ class Train::Plugins::Transport
     end
 
     def enable_cache(type)
-      @cacher.cache_enabled[type.to_sym] = true
+      @cacher.set_cache_status(type, true)
     end
 
     def disable_cache(type)
-      @cacher.cache_enabled[type.to_sym] = false
+      @cacher.set_cache_status(type, false)
       @cacher.clear_cache(type.to_sym)
     end
 
@@ -72,12 +72,12 @@ class Train::Plugins::Transport
     # @param command [String] command string to execute
     # @return [CommandResult] contains the result of running the command
     def run_command_via_connection(_command)
-      fail Train::ClientError, "#{self.class} does not implement #run_command_via_connection()"
+      fail NotImplementedError, "#{self.class} does not implement #run_command_via_connection()"
     end
 
     # run command with optional caching
     def run_command(command)
-      return @cacher.run_command(command) if @cacher.cache_enabled[:command] == true
+      return @cacher.run_command(command) if @cacher.cache_enabled?(:command)
 
       run_command_via_connection(command)
     end
@@ -88,12 +88,12 @@ class Train::Plugins::Transport
     # @param [String] path which is being inspected
     # @return [FileCommon] file object that allows for interaction
     def file_via_connection(_path, *_args)
-      fail Train::ClientError, "#{self.class} does not implement #file_via_connection(...)"
+      fail NotImplementedError, "#{self.class} does not implement #file_via_connection(...)"
     end
 
     # file with optional caching
     def file(path, *args)
-      return @cacher.file(path, *args) if @cacher.cache_enabled[:file] == true
+      return @cacher.file(path, *args) if @cacher.cache_enabled?(:file)
 
       file_via_connection(path, *args)
     end
@@ -103,7 +103,7 @@ class Train::Plugins::Transport
     #
     # @return [LoginCommand] array of command line tokens
     def login_command
-      fail Train::ClientError, "#{self.class} does not implement #login_command()"
+      fail NotImplementedError, "#{self.class} does not implement #login_command()"
     end
 
     # Block and return only when the remote host is prepared and ready to
