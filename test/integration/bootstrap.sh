@@ -12,6 +12,8 @@ chmod 0765 /tmp/file
 echo -n 'hello suid/sgid/sticky' > /tmp/sfile
 chmod 7765 /tmp/sfile
 
+echo -n 'hello space' > /tmp/spaced\ file
+
 test ! -e /tmp/pipe && \
   mkfifo /tmp/pipe
 

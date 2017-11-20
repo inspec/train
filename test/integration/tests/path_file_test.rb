@@ -89,4 +89,11 @@ describe 'file interface' do
       file.mode.must_equal(07765)
     end
   end
+
+  describe 'regular file' do
+    let(:file) { backend.file('/tmp/spaced file') }
+    it 'has content' do
+      file.content.must_equal('hello space')
+    end
+  end
 end
