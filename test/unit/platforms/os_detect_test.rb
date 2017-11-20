@@ -6,12 +6,13 @@ class OsDetectLinuxTester
   include Train::Platforms::Detect::Helpers::OSCommon
 end
 
-describe 'os_detect_linux' do
+describe 'os_detect' do
   let(:detector) { OsDetectLinuxTester.new }
 
   def scan_with_files(uname, files)
     mock = Train::Transports::Mock::Connection.new
     mock.mock_command('uname -s', uname)
+    mock.mock_command('uname -r', 'test-release')
     files.each do |path, data|
       mock.mock_command("test -f #{path}")
       mock.mock_command("test -f #{path} && cat #{path}", data)
@@ -42,6 +43,33 @@ describe 'os_detect_linux' do
         platform[:name].must_equal('centos')
         platform[:family].must_equal('redhat')
         platform[:release].must_equal('7.2.1511')
+      end
+    end
+  end
+
+  describe 'darwin' do
+    describe 'mac_os_x' do
+      it 'sets the correct family, name, and release on os_x' do
+        files = {
+          '/System/Library/CoreServices/SystemVersion.plist' => '<string>Mac OS X</string>',
+        }
+        platform = scan_with_files('darwin', files)
+        platform[:name].must_equal('mac_os_x')
+        platform[:family].must_equal('darwin')
+        platform[:release].must_equal('test-release')
+      end
+    end
+
+    describe 'generic darwin' do
+      it 'sets the correct family, name, and release on darwin' do
+        files = {
+          '/usr/bin/sw_vers' => "ProductVersion: 17.0.1\nBuildVersion: alpha.x1",
+        }
+        platform = scan_with_files('darwin', files)
+        platform[:name].must_equal('darwin')
+        platform[:family].must_equal('darwin')
+        platform[:release].must_equal('17.0.1')
+        platform[:build].must_equal('alpha.x1')
       end
     end
   end
