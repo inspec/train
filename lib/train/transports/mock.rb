@@ -73,6 +73,7 @@ class Train::Transports::Mock
     def mock_os(value = {})
       # if a user passes a nil value, set to an empty hash so the merge still succeeds
       value ||= {}
+      value.each { |k, v| value[k] = 'unknown' if v.nil? }
       value = { name: 'unknown', family: 'unknown', release: 'unknown', arch: 'unknown' }.merge(value)
 
       platform = Train::Platforms.name(value[:name])
