@@ -6,7 +6,6 @@ platform:
 environment:
   winrm_user: test_user
   winrm_pass: Pass@word1
-  bundler_url: https://rubygems.org/downloads/bundler-1.9.9.gem
 
   matrix:
     - ruby_version: "22"
@@ -41,8 +40,6 @@ install:
   - ps: Write-Host $env:PATH
   - ruby --version
   - gem --version
-  - appveyor DownloadFile -Url %bundler_url% -FileName bundler.gem
-  - gem install --local bundler --quiet --no-document
   - bundler --version
   - ruby -r rubygems -e "p Gem.path"
 
