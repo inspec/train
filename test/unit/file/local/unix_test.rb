@@ -5,7 +5,7 @@ require 'train/transports/local'
 
 describe Train::File::Local::Unix do
   let(:cls) { Train::File::Local::Unix }
-  
+
   let(:backend) {
     backend = Train::Transports::Mock.new.connection
     backend.mock_os({ family: 'linux' })
@@ -86,8 +86,8 @@ describe Train::File::Local::Unix do
     it 'grouped_into' do
       meta_stub :stat, statres do
         connection.file(rand.to_s).grouped_into?('group').must_equal true
-      end  
-    end  
+      end
+    end
 
     it 'recognizes selinux label' do
       meta_stub :stat, statres do
@@ -107,6 +107,40 @@ describe Train::File::Local::Unix do
           connection.file(rand.to_s).source.selinux_label.must_equal label
         end
       end
+    end
+  end
+
+  describe '#unix_mode_mask' do
+    let(:file_tester) do
+      Class.new(cls) do
+        define_method :type do
+          :file
+        end
+      end.new(nil, nil, false)
+    end
+
+    it 'check owner mode calculation' do
+      file_tester.unix_mode_mask('owner', 'x').must_equal 0100
+      file_tester.unix_mode_mask('owner', 'w').must_equal 0200
+      file_tester.unix_mode_mask('owner', 'r').must_equal 0400
+    end
+
+    it 'check group mode calculation' do
+      file_tester.unix_mode_mask('group', 'x').must_equal 0010
+      file_tester.unix_mode_mask('group', 'w').must_equal 0020
+      file_tester.unix_mode_mask('group', 'r').must_equal 0040
+    end
+
+    it 'check other mode calculation' do
+      file_tester.unix_mode_mask('other', 'x').must_equal 0001
+      file_tester.unix_mode_mask('other', 'w').must_equal 0002
+      file_tester.unix_mode_mask('other', 'r').must_equal 0004
+    end
+
+    it 'check all mode calculation' do
+      file_tester.unix_mode_mask('all', 'x').must_equal 0111
+      file_tester.unix_mode_mask('all', 'w').must_equal 0222
+      file_tester.unix_mode_mask('all', 'r').must_equal 0444
     end
   end
 end
