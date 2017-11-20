@@ -440,7 +440,7 @@ module Train::Platforms::Detect::Specifications
               true
             end
           }
-      plat.name('mac_os_x').title('MAC OS X').in_family('darwin')
+      plat.name('mac_os_x').title('macOS X').in_family('darwin')
           .detect {
             cmd = unix_file_contents('/System/Library/CoreServices/SystemVersion.plist')
             true if cmd =~ /Mac OS X/i
