@@ -425,16 +425,31 @@ module Train::Platforms::Detect::Specifications
             # for now we are going to just try each platform
             true
           }
-      plat.name('darwin').title('Darwin').in_family('bsd')
+      plat.family('darwin').in_family('bsd')
           .detect {
             cmd = unix_file_contents('/usr/bin/sw_vers')
             if unix_uname_s =~ /darwin/i || !cmd.nil?
-              @platform[:name] = unix_uname_s.lines[0].chomp
-              @platform[:release] = cmd[/^ProductVersion:\s+(.+)$/, 1] || unix_uname_r.lines[0].chomp
-              @platform[:build] = cmd[/^BuildVersion:\s+(.+)$/, 1]
+              unless cmd.nil?
+                m = cmd.match(/^ProductVersion:\s+(.+)$/)
+                @platform[:release] = m.nil? ? nil : m[1]
+                m = cmd.match(/^BuildVersion:\s+(.+)$/)
+                @platform[:build] = m.nil? ? nil : m[1]
+              end
+              @platform[:release] = unix_uname_r.lines[0].chomp if @platform[:release].nil?
               @platform[:arch] = unix_uname_m
               true
             end
+          }
+      plat.name('mac_os_x').title('macOS X').in_family('darwin')
+          .detect {
+            cmd = unix_file_contents('/System/Library/CoreServices/SystemVersion.plist')
+            true if cmd =~ /Mac OS X/i
+          }
+      plat.name('darwin').title('Darwin').in_family('darwin')
+          .detect {
+            # must be some other type of darwin
+            @platform[:name] = unix_uname_s.lines[0].chomp
+            true
           }
       plat.name('freebsd').title('Freebsd').in_family('bsd')
           .detect {
