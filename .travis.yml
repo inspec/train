@@ -17,6 +17,7 @@ before_install:
 branches:
   only:
   - master
+  - release-0.29.2
 
 matrix:
   include:

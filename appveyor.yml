@@ -25,6 +25,7 @@ clone_depth: 1
 branches:
   only:
     - master
+    - release-0.29.2
 
 cache:
   - vendor/bundle -> appveyor.yml
