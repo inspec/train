@@ -105,23 +105,25 @@ class Train::Transports::Mock
       mock_command(cmd, nil, nil, 1)
     end
 
+    def file_not_found(path)
+      STDERR.puts('File not mocked: '+path.to_s) if @options[:verbose]
+      File.new(self, path)
+    end
+
+    def to_s
+      'Mock Connection'
+    end
+
+    private
+
     def run_command_via_connection(cmd)
       @commands[cmd] ||
         @commands[Digest::SHA256.hexdigest cmd.to_s] ||
         command_not_found(cmd)
     end
 
-    def file_not_found(path)
-      STDERR.puts('File not mocked: '+path.to_s) if @options[:verbose]
-      File.new(self, path)
-    end
-
     def file_via_connection(path)
       @files[path] ||= file_not_found(path)
-    end
-
-    def to_s
-      'Mock Connection'
     end
   end
 end

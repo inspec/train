@@ -22,17 +22,31 @@ class Train::Plugins::Transport
     def initialize(options = nil)
       @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
-      @cacher = CacheConnection.new(self)
       Train::Platforms::Detect::Specifications::OS.load
+
+      # default caching options
+      @cache_enabled = {
+        file: true,
+        command: false,
+      }
+
+      @cache = {}
+      @cache_enabled.each_key do |type|
+        clear_cache(type)
+      end
+    end
+
+    def cache_enabled?(type)
+      @cache_enabled[type.to_sym]
     end
 
     def enable_cache(type)
-      @cacher.set_cache_status(type, true)
+      @cache_enabled[type.to_sym] = true
     end
 
     def disable_cache(type)
-      @cacher.set_cache_status(type, false)
-      @cacher.clear_cache(type.to_sym)
+      @cache_enabled[type.to_sym] = false
+      clear_cache(type.to_sym)
     end
 
     # Closes the session connection, if it is still active.
@@ -67,33 +81,18 @@ class Train::Plugins::Transport
     # we need to keep os as a method for backwards compatibility with inspec
     alias os platform
 
-    # Execute a command using this connection.
-    #
-    # @param command [String] command string to execute
-    # @return [CommandResult] contains the result of running the command
-    def run_command_via_connection(_command)
-      fail NotImplementedError, "#{self.class} does not implement #run_command_via_connection()"
+    # This is the main command call for all connections. This will call the private
+    # run_command_via_connection on the connection with optional caching
+    def run_command(cmd)
+      return @cache[:command][cmd] ||= run_command_via_connection(cmd) if cache_enabled?(:command)
+
+      run_command_via_connection(cmd)
     end
 
-    # run command with optional caching
-    def run_command(command)
-      return @cacher.run_command(command) if @cacher.cache_enabled?(:command)
-
-      run_command_via_connection(command)
-    end
-
-    # Interact with files on the target. Read, write, and get metadata
-    # from files via the transport.
-    #
-    # @param [String] path which is being inspected
-    # @return [FileCommon] file object that allows for interaction
-    def file_via_connection(_path, *_args)
-      fail NotImplementedError, "#{self.class} does not implement #file_via_connection(...)"
-    end
-
-    # file with optional caching
+    # This is the main file call for all connections. This will call the private
+    # file_via_connection on the connection with optional caching
     def file(path, *args)
-      return @cacher.file(path, *args) if @cacher.cache_enabled?(:file)
+      return @cache[:file][path] ||= file_via_connection(path) if cache_enabled?(:file)
 
       file_via_connection(path, *args)
     end
@@ -106,6 +105,23 @@ class Train::Plugins::Transport
       fail NotImplementedError, "#{self.class} does not implement #login_command()"
     end
 
+    # Execute a command using this connection.
+    #
+    # @param command [String] command string to execute
+    # @return [CommandResult] contains the result of running the command
+    def run_command_via_connection(_command)
+      fail NotImplementedError, "#{self.class} does not implement #run_command_via_connection()"
+    end
+
+    # Interact with files on the target. Read, write, and get metadata
+    # from files via the transport.
+    #
+    # @param [String] path which is being inspected
+    # @return [FileCommon] file object that allows for interaction
+    def file_via_connection(_path, *_args)
+      fail NotImplementedError, "#{self.class} does not implement #file_via_connection(...)"
+    end
+
     # Block and return only when the remote host is prepared and ready to
     # execute command and upload files. The semantics and details will
     # vary by implementation, but a round trip through the hosted
@@ -116,6 +132,10 @@ class Train::Plugins::Transport
     end
 
     private
+
+    def clear_cache(type)
+      @cache[type.to_sym] = {}
+    end
 
     # @return [Logger] logger for reporting information
     # @api private

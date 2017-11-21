@@ -11,7 +11,6 @@ class Train::Plugins
     Train::Options.attach(self)
 
     require 'train/plugins/base_connection'
-    require 'train/plugins/cache_connection'
 
     # Initialize a new Transport object
     #

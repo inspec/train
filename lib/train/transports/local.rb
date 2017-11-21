@@ -23,6 +23,20 @@ module Train::Transports
         @cmd_wrapper = CommandWrapper.load(self, options)
       end
 
+      def login_command
+        nil # none, open your shell
+      end
+
+      def uri
+        'local://'
+      end
+
+      def local?
+        true
+      end
+
+      private
+
       def run_command_via_connection(cmd)
         cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
         res = Mixlib::ShellOut.new(cmd)
@@ -32,24 +46,12 @@ module Train::Transports
         CommandResult.new('', '', 1)
       end
 
-      def local?
-        true
-      end
-
       def file_via_connection(path)
         if os.windows?
           Train::File::Local::Windows.new(self, path)
         else
           Train::File::Local::Unix.new(self, path)
         end
-      end
-
-      def login_command
-        nil # none, open your shell
-      end
-
-      def uri
-        'local://'
       end
     end
   end
