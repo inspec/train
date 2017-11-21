@@ -21,6 +21,10 @@ file '/tmp/sfile' do
   content 'hello suid/sgid/sticky'
 end
 
+file '/tmp/spaced file' do
+  content 'hello space'
+end
+
 directory '/tmp/folder' do
   mode '0567'
   owner 'root'
