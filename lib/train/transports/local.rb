@@ -70,7 +70,6 @@ module Train::Transports
         require 'win32/process'
 
         script = <<-EOF
-          $ProgressPreference = 'SilentlyContinue'
           $ErrorActionPreference = 'Stop'
 
           Function Execute-UserCommand($userInput) {
