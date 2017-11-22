@@ -16,7 +16,7 @@ module Train::Transports
       @connection ||= Connection.new(@options)
     end
 
-    class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
+    class Connection < BaseConnection
       require 'json'
       require 'base64'
       require 'securerandom'
@@ -25,7 +25,28 @@ module Train::Transports
         super(options)
         @cmd_wrapper = nil
         @cmd_wrapper = CommandWrapper.load(self, options)
-        @pipe_location = "//localhost/pipe/inspec_#{SecureRandom.hex}"
+        @pipe = acquire_named_pipe if @platform.windows?
+      end
+
+      def acquire_named_pipe
+        pipe_name = "inspec_#{SecureRandom.hex}"
+        pipe_location = "//localhost/pipe/#{pipe_name}"
+        start_named_pipe_server(pipe_name) unless File.exist?(pipe_location)
+
+        # Try to acquire pipe for 10 seconds with 0.1 second intervals.
+        # This allows time for PowerShell to start the pipe
+        pipe = nil
+        100.times do
+          begin
+            pipe = open(pipe_location, 'r+')
+            break
+          rescue
+            sleep 0.1
+          end
+        end
+        fail "Could not open named pipe #{pipe_location}" if pipe.nil?
+
+        pipe
       end
 
       def login_command
@@ -42,38 +63,33 @@ module Train::Transports
 
       private
 
-      def run_powershell_using_named_pipe(pipe_location, script)
-        pipe = nil
-        # Try to acquire pipe for 10 seconds with 0.1 second intervals.
-        # Removing this can result in instability due to the pipe being
-        # temporarily unavailable.
-        100.times do
-          begin
-            pipe = open(pipe_location, 'r+')
-            break
-          rescue
-            sleep 0.1
-          end
-        end
-        fail "Could not open pipe `#{pipe_location}`" if pipe.nil?
-        # Prevent progress stream from leaking to stderr
+      def run_powershell_using_named_pipe(script)
         script = "$ProgressPreference='SilentlyContinue';" + script
         encoded_script = Base64.strict_encode64(script)
-        pipe.puts(encoded_script)
-        pipe.flush
-        result = JSON.parse(Base64.decode64(pipe.readline))
-        pipe.close
-        result
+        @pipe.puts(encoded_script)
+        @pipe.flush
+        JSON.parse(Base64.decode64(@pipe.readline))
       end
 
-      def start_named_pipe_server(pipe_name) # rubocop:disable Metrics/MethodLength
+      def start_named_pipe_server(pipe_name)
         require 'win32/process'
 
         script = <<-EOF
           $ErrorActionPreference = 'Stop'
 
-          Function Execute-UserCommand($userInput) {
-            $command = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($userInput))
+          $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut)
+          $pipeReader = New-Object System.IO.StreamReader($pipeServer)
+          $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
+
+          $pipeServer.WaitForConnection()
+
+          # Create loop to receive and process user commands/scripts
+          $clientConnected = $true
+          while($clientConnected) {
+            $input = $pipeReader.ReadLine()
+            $command = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($input))
+
+            # Execute user command/script and convert result to JSON
             $scriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
             try {
               $stdout = & $scriptBlock | Out-String
@@ -82,43 +98,13 @@ module Train::Transports
               $stderr = $_ | Out-String
               $result = @{ 'stdout' = ''; 'stderr' = $_; 'exitstatus' = 1 }
             }
-            return $result | ConvertTo-JSON
+            $resultJSON = $result | ConvertTo-JSON
+
+            # Encode JSON in Base64 and write to pipe
+            $encodedResult = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($resultJSON))
+            $pipeWriter.WriteLine($encodedResult)
+            $pipeWriter.Flush()
           }
-
-          Function Start-PipeServer {
-            while($true) {
-              # Attempt to acquire a pipe for 10 seconds, trying every 100 milliseconds
-              for($i=1; $i -le 100; $i++) {
-                try {
-                  $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut)
-                  break
-                } catch {
-                  Start-Sleep -m 100
-                  if($i -eq 100) { throw }
-                }
-              }
-              $pipeReader = New-Object System.IO.StreamReader($pipeServer)
-              $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
-
-              $pipeServer.WaitForConnection()
-              $pipeWriter.AutoFlush = $true
-
-              $clientConnected = $true
-              while($clientConnected) {
-                $input = $pipeReader.ReadLine()
-
-                if($input -eq $null) {
-                  $clientConnected = $false
-                  $pipeServer.Dispose()
-                } else {
-                  $result = Execute-UserCommand($input)
-                  $encodedResult = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($result))
-                  $pipeWriter.WriteLine($encodedResult)
-                }
-              }
-            }
-          }
-          Start-PipeServer
         EOF
 
         utf8_script = script.encode('UTF-16LE', 'UTF-8')
