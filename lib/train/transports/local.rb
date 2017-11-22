@@ -19,11 +19,13 @@ module Train::Transports
     class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
       require 'json'
       require 'base64'
+      require 'securerandom'
 
       def initialize(options)
         super(options)
         @cmd_wrapper = nil
         @cmd_wrapper = CommandWrapper.load(self, options)
+        @pipe_location = "//localhost/pipe/inspec_#{SecureRandom.hex}"
       end
 
       def login_command
@@ -40,20 +42,20 @@ module Train::Transports
 
       private
 
-      def run_powershell_using_named_pipe(script)
+      def run_powershell_using_named_pipe(pipe_location, script)
         pipe = nil
         # Try to acquire pipe for 10 seconds with 0.1 second intervals.
         # Removing this can result in instability due to the pipe being
         # temporarily unavailable.
         100.times do
           begin
-            pipe = open('//localhost/pipe/InSpec', 'r+')
+            pipe = open(pipe_location, 'r+')
             break
           rescue
             sleep 0.1
           end
         end
-        fail 'Could not open pipe `//localhost/pipe/InSpec`' if pipe.nil?
+        fail "Could not open pipe `#{pipe_location}`" if pipe.nil?
         # Prevent progress stream from leaking to stderr
         script = "$ProgressPreference='SilentlyContinue';" + script
         encoded_script = Base64.strict_encode64(script)
@@ -64,7 +66,7 @@ module Train::Transports
         result
       end
 
-      def start_named_pipe_server # rubocop:disable Metrics/MethodLength
+      def start_named_pipe_server(pipe_name) # rubocop:disable Metrics/MethodLength
         require 'win32/process'
 
         script = <<-EOF
@@ -73,7 +75,6 @@ module Train::Transports
 
           Function Execute-UserCommand($userInput) {
             $command = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($userInput))
-
             $scriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
             try {
               $stdout = & $scriptBlock | Out-String
@@ -90,7 +91,7 @@ module Train::Transports
               # Attempt to acquire a pipe for 10 seconds, trying every 100 milliseconds
               for($i=1; $i -le 100; $i++) {
                 try {
-                  $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('InSpec', [System.IO.Pipes.PipeDirection]::InOut)
+                  $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut)
                   break
                 } catch {
                   Start-Sleep -m 100
