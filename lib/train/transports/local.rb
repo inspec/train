@@ -77,7 +77,7 @@ module Train::Transports
         script = <<-EOF
           $ErrorActionPreference = 'Stop'
 
-          $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut)
+          $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}')
           $pipeReader = New-Object System.IO.StreamReader($pipeServer)
           $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
 
