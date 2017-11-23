@@ -16,7 +16,7 @@ module Train::Transports
       @connection ||= Connection.new(@options)
     end
 
-    class Connection < BaseConnection
+    class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
       require 'json'
       require 'base64'
       require 'securerandom'
@@ -25,11 +25,17 @@ module Train::Transports
         super(options)
         @cmd_wrapper = nil
         @cmd_wrapper = CommandWrapper.load(self, options)
-        @pipe = acquire_named_pipe if @platform.windows?
+        if @platform.windows?
+          begin
+            @pipe = acquire_named_pipe
+          rescue
+            @pipe = false
+          end
+        end
       end
 
       def run_command(cmd)
-        if defined?(@pipe)
+        if defined?(@pipe) && @pipe
           res = run_powershell_using_named_pipe(cmd)
           CommandResult.new(res['stdout'], res['stderr'], res['exitstatus'])
         else

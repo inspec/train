@@ -121,6 +121,43 @@ module Train::Extras
     end
   end
 
+  # this is required if you run locally on windows,
+  # winrm connections provide a PowerShell shell automatically
+  # TODO: only activate in local mode
+  class PowerShellCommand < CommandWrapperBase
+    Train::Options.attach(self)
+
+    def initialize(backend, options)
+      @backend = backend
+      validate_options(options)
+    end
+
+    def run(script)
+      # wrap the script to ensure we always run it via powershell
+      # especially in local mode, we cannot be sure that we get a Powershell
+      # we may just get a `cmd`.
+      # TODO: we may want to opt for powershell.exe -command instead of `encodeCommand`
+      "powershell -NoProfile -encodedCommand #{encoded(safe_script(script))}"
+    end
+
+    # suppress the progress stream from leaking to stderr
+    def safe_script(script)
+      "$ProgressPreference='SilentlyContinue';" + script
+    end
+
+    # Encodes the script so that it can be passed to the PowerShell
+    # --EncodedCommand argument.
+    # @return [String] The UTF-16LE base64 encoded script
+    def encoded(script)
+      encoded_script = safe_script(script).encode('UTF-16LE', 'UTF-8')
+      Base64.strict_encode64(encoded_script)
+    end
+
+    def to_s
+      'PowerShell CommandWrapper'
+    end
+  end
+
   class CommandWrapper
     include_options LinuxCommand
 
@@ -131,6 +168,10 @@ module Train::Extras
         msg = res.verify
         fail Train::UserError, "Sudo failed: #{msg}" unless msg.nil?
         res
+      # only use powershell command for local transport. winrm transport
+      # uses powershell as default
+      elsif transport.os.windows? && transport.class == Train::Transports::Local::Connection
+        PowerShellCommand.new(transport, options)
       end
     end
   end
