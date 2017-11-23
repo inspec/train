@@ -28,6 +28,43 @@ module Train::Transports
         @pipe = acquire_named_pipe if @platform.windows?
       end
 
+      def run_command(cmd)
+        if defined?(@pipe)
+          res = run_powershell_using_named_pipe(cmd)
+          CommandResult.new(res['stdout'], res['stderr'], res['exitstatus'])
+        else
+          cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
+          res = Mixlib::ShellOut.new(cmd)
+          res.run_command
+          CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+        end
+      rescue Errno::ENOENT => _
+        CommandResult.new('', '', 1)
+      end
+
+      def local?
+        true
+      end
+
+      def file(path)
+        @files[path] ||= \
+          if os.windows?
+            Train::File::Local::Windows.new(self, path)
+          else
+            Train::File::Local::Unix.new(self, path)
+          end
+      end
+
+      def login_command
+        nil # none, open your shell
+      end
+
+      def uri
+        'local://'
+      end
+
+      private
+
       def acquire_named_pipe
         pipe_name = "inspec_#{SecureRandom.hex}"
         pipe_location = "//localhost/pipe/#{pipe_name}"
@@ -48,20 +85,6 @@ module Train::Transports
 
         pipe
       end
-
-      def login_command
-        nil # none, open your shell
-      end
-
-      def uri
-        'local://'
-      end
-
-      def local?
-        true
-      end
-
-      private
 
       def run_powershell_using_named_pipe(script)
         script = "$ProgressPreference='SilentlyContinue';" + script
