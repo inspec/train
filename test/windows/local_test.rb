@@ -40,6 +40,23 @@ describe 'windows local command' do
     cmd.stderr.must_equal ''
   end
 
+  it 'when named pipe is not available it runs `Mixlib::Shellout`' do
+    # Must call `:conn` early so we can stub `:acquire_pipe`
+    connection = conn
+
+    # Prevent named pipe from being created
+    Train::Transports::Local::Connection::WindowsRunner
+      .any_instance
+      .stubs(:acquire_pipe)
+      .returns(false)
+
+    # Verify pipe was not created
+    SecureRandom.stubs(:hex).returns('minitest')
+    cmd = connection.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_minitest" }')
+    cmd.stdout.must_equal ''
+    cmd.stderr.must_equal ''
+  end
+
   describe 'file' do
     before do
       @temp = Tempfile.new('foo')
