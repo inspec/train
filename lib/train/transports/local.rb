@@ -120,27 +120,8 @@ module Train::Transports
         private
 
         def acquire_pipe
-          current_pipe = Dir.entries('//./pipe/').find { |f| f =~ /inspec_/ }
+          pipe_name = "inspec_#{SecureRandom.hex}"
 
-          pipe = nil
-          if current_pipe.nil?
-            pipe = create_pipe("inspec_#{SecureRandom.hex}")
-          else
-            begin
-              pipe = open("//./pipe/#{current_pipe}", 'r+')
-            rescue
-              # Pipes are closed when a Train connection ends. When running
-              # multiple independent scans (e.g. Unit tests) the pipe will be
-              # unavailable because the previous process is closing it.
-              # This creates a new pipe in that case
-              pipe = create_pipe("inspec_#{SecureRandom.hex}")
-            end
-          end
-
-          pipe
-        end
-
-        def create_pipe(pipe_name)
           start_pipe_server(pipe_name)
 
           pipe = nil
