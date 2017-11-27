@@ -43,10 +43,12 @@ class Train::Plugins::Transport
     # Enable caching types for Train. Currently we support
     # :file and :command types
     def enable_cache(type)
+      fail Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
       @cache_enabled[type.to_sym] = true
     end
 
     def disable_cache(type)
+      fail Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
       @cache_enabled[type.to_sym] = false
       clear_cache(type.to_sym)
     end
@@ -86,17 +88,17 @@ class Train::Plugins::Transport
     # This is the main command call for all connections. This will call the private
     # run_command_via_connection on the connection with optional caching
     def run_command(cmd)
-      return @cache[:command][cmd] ||= run_command_via_connection(cmd) if cache_enabled?(:command)
+      return run_command_via_connection(cmd) unless cache_enabled?(:command)
 
-      run_command_via_connection(cmd)
+      @cache[:command][cmd] ||= run_command_via_connection(cmd)
     end
 
     # This is the main file call for all connections. This will call the private
     # file_via_connection on the connection with optional caching
     def file(path, *args)
-      return @cache[:file][path] ||= file_via_connection(path) if cache_enabled?(:file)
+      return file_via_connection(path, *args) unless cache_enabled?(:file)
 
-      file_via_connection(path, *args)
+      @cache[:file][path] ||= file_via_connection(path, *args)
     end
 
     # Builds a LoginCommand which can be used to open an interactive

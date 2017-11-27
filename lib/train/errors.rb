@@ -21,6 +21,9 @@ module Train
   # in the transport layer.
   class TransportError < ::StandardError; end
 
-  # Exception for when no platform can be detected
+  # Exception for when no platform can be detected.
   class PlatformDetectionFailed < ::StandardError; end
+
+  # Exception for when a invalid cache type is passed.
+  class UnknownCacheType < ::StandardError; end
 end

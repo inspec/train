@@ -66,6 +66,11 @@ describe 'v1 Connection Plugin' do
         connection.enable_cache(:command)
         connection.cache_enabled?(:command).must_equal true
       end
+
+      it 'raises an exception for unknown cache type' do
+        proc { connection.enable_cache(:fake) }.must_raise Train::UnknownCacheType
+        proc { connection.disable_cache(:fake) }.must_raise Train::UnknownCacheType
+      end
     end
 
     describe 'cache enable check' do
