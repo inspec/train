@@ -19,6 +19,16 @@ describe 'mock transport' do
     connection.uri.must_equal 'mock://'
   end
 
+  it 'provides a run_command_via_connection method' do
+    methods = connection.class.private_instance_methods(false)
+    methods.include?(:run_command_via_connection).must_equal true
+  end
+
+  it 'provides a file_via_connection method' do
+    methods = connection.class.private_instance_methods(false)
+    methods.include?(:file_via_connection).must_equal true
+  end
+
   describe 'when running a mocked command' do
     let(:mock_cmd) {  }
 

@@ -43,6 +43,16 @@ describe 'local transport' do
     connection.login_command.must_be_nil
   end
 
+  it 'provides a run_command_via_connection method' do
+    methods = connection.class.private_instance_methods(false)
+    methods.include?(:run_command_via_connection).must_equal true
+  end
+
+  it 'provides a file_via_connection method' do
+    methods = connection.class.private_instance_methods(false)
+    methods.include?(:file_via_connection).must_equal true
+  end
+
   describe 'when running a local command' do
     let(:cmd_runner) { Minitest::Mock.new }
 

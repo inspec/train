@@ -57,13 +57,13 @@ end
 
 class Train::Transports::Mock
   class Connection < BaseConnection
-    attr_accessor :files, :commands
     attr_reader :os
 
     def initialize(conf = nil)
       super(conf)
       mock_os
-      @commands = {}
+      enable_cache(:file)
+      enable_cache(:command)
     end
 
     def uri
@@ -90,8 +90,24 @@ class Train::Transports::Mock
       end
     end
 
+    def commands=(commands)
+      @cache[:command] = commands
+    end
+
+    def commands
+      @cache[:command]
+    end
+
+    def files=(files)
+      @cache[:file] = files
+    end
+
+    def files
+      @cache[:file]
+    end
+
     def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
-      @commands[cmd] = Command.new(stdout || '', stderr || '', exit_status)
+      @cache[:command][cmd] = Command.new(stdout || '', stderr || '', exit_status)
     end
 
     def command_not_found(cmd)
@@ -104,23 +120,24 @@ class Train::Transports::Mock
       mock_command(cmd, nil, nil, 1)
     end
 
-    def run_command(cmd)
-      @commands[cmd] ||
-        @commands[Digest::SHA256.hexdigest cmd.to_s] ||
-        command_not_found(cmd)
-    end
-
     def file_not_found(path)
       STDERR.puts('File not mocked: '+path.to_s) if @options[:verbose]
       File.new(self, path)
     end
 
-    def file(path)
-      @files[path] ||= file_not_found(path)
-    end
-
     def to_s
       'Mock Connection'
+    end
+
+    private
+
+    def run_command_via_connection(cmd)
+      @cache[:command][Digest::SHA256.hexdigest cmd.to_s] ||
+        command_not_found(cmd)
+    end
+
+    def file_via_connection(path)
+      file_not_found(path)
     end
   end
 end

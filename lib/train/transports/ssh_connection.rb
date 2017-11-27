@@ -55,63 +55,6 @@ class Train::Transports::SSH
       @session = nil
     end
 
-    def file(path)
-      @files[path] ||= \
-        if os.aix?
-          Train::File::Remote::Aix.new(self, path)
-        elsif os.solaris?
-          Train::File::Remote::Unix.new(self, path)
-        elsif os[:name] == 'qnx'
-          Train::File::Remote::Qnx.new(self, path)
-        else
-          Train::File::Remote::Linux.new(self, path)
-        end
-    end
-
-    # (see Base::Connection#run_command)
-    def run_command(cmd)
-      stdout = stderr = ''
-      exit_status = nil
-      cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
-      logger.debug("[SSH] #{self} (#{cmd})")
-
-      session.open_channel do |channel|
-        # wrap commands if that is configured
-        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
-
-        if @transport_options[:pty]
-          channel.request_pty do |_ch, success|
-            fail Train::Transports::SSHPTYFailed, 'Requesting PTY failed' unless success
-          end
-        end
-
-        channel.exec(cmd) do |_, success|
-          abort 'Couldn\'t execute command on SSH.' unless success
-
-          channel.on_data do |_, data|
-            stdout += data
-          end
-
-          channel.on_extended_data do |_, _type, data|
-            stderr += data
-          end
-
-          channel.on_request('exit-status') do |_, data|
-            exit_status = data.read_long
-          end
-
-          channel.on_request('exit-signal') do |_, data|
-            exit_status = data.read_long
-          end
-        end
-      end
-      @session.loop
-
-      CommandResult.new(stdout, stderr, exit_status)
-    rescue Net::SSH::Exception => ex
-      raise Train::Transports::SSHFailed, "SSH command failed (#{ex.message})"
-    end
-
     # (see Base::Connection#login_command)
     def login_command
       level = logger.debug? ? 'VERBOSE' : 'ERROR'
@@ -219,6 +162,61 @@ class Train::Transports::SSH
 
       sleep(opts[:delay])
       retry
+    end
+
+    def file_via_connection(path)
+      if os.aix?
+        Train::File::Remote::Aix.new(self, path)
+      elsif os.solaris?
+        Train::File::Remote::Unix.new(self, path)
+      elsif os[:name] == 'qnx'
+        Train::File::Remote::Qnx.new(self, path)
+      else
+        Train::File::Remote::Linux.new(self, path)
+      end
+    end
+
+    def run_command_via_connection(cmd)
+      stdout = stderr = ''
+      exit_status = nil
+      cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
+      logger.debug("[SSH] #{self} (#{cmd})")
+
+      session.open_channel do |channel|
+        # wrap commands if that is configured
+        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
+
+        if @transport_options[:pty]
+          channel.request_pty do |_ch, success|
+            fail Train::Transports::SSHPTYFailed, 'Requesting PTY failed' unless success
+          end
+        end
+
+        channel.exec(cmd) do |_, success|
+          abort 'Couldn\'t execute command on SSH.' unless success
+
+          channel.on_data do |_, data|
+            stdout += data
+          end
+
+          channel.on_extended_data do |_, _type, data|
+            stderr += data
+          end
+
+          channel.on_request('exit-status') do |_, data|
+            exit_status = data.read_long
+          end
+
+          channel.on_request('exit-signal') do |_, data|
+            exit_status = data.read_long
+          end
+        end
+      end
+      @session.loop
+
+      CommandResult.new(stdout, stderr, exit_status)
+    rescue Net::SSH::Exception => ex
+      raise Train::Transports::SSHFailed, "SSH command failed (#{ex.message})"
     end
 
     # Returns a connection session, or establishes one when invoked the

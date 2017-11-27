@@ -69,18 +69,27 @@ class Train::Transports::Docker
       # nothing to do at the moment
     end
 
-    def file(path)
-      @files[path] ||=\
-        if os.aix?
-          Train::File::Remote::Aix.new(self, path)
-        elsif os.solaris?
-          Train::File::Remote::Unix.new(self, path)
-        else
-          Train::File::Remote::Linux.new(self, path)
-        end
+    def uri
+      if @container.nil?
+        "docker://#{@id}"
+      else
+        "docker://#{@container.id}"
+      end
     end
 
-    def run_command(cmd)
+    private
+
+    def file_via_connection(path)
+      if os.aix?
+        Train::File::Remote::Aix.new(self, path)
+      elsif os.solaris?
+        Train::File::Remote::Unix.new(self, path)
+      else
+        Train::File::Remote::Linux.new(self, path)
+      end
+    end
+
+    def run_command_via_connection(cmd)
       cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
       stdout, stderr, exit_status = @container.exec(
         [
@@ -92,14 +101,6 @@ class Train::Transports::Docker
     rescue => _
       # @TODO: differentiate any other error
       raise
-    end
-
-    def uri
-      if @container.nil?
-        "docker://#{@id}"
-      else
-        "docker://#{@container.id}"
-      end
     end
   end
 end

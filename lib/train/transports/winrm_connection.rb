@@ -46,22 +46,6 @@ class Train::Transports::WinRM
       @session = nil
     end
 
-    def file(path)
-      @files[path] ||= Train::File::Remote::Windows.new(self, path)
-    end
-
-    def run_command(command)
-      return if command.nil?
-      logger.debug("[WinRM] #{self} (#{command})")
-      out = ''
-
-      response = session.run(command) do |stdout, _|
-        out << stdout if stdout
-      end
-
-      CommandResult.new(out, response.stderr, response.exitcode)
-    end
-
     # (see Base::Connection#login_command)
     def login_command
       case RbConfig::CONFIG['host_os']
@@ -106,6 +90,22 @@ class Train::Transports::WinRM
     private
 
     PING_COMMAND = "Write-Host '[WinRM] Established\n'".freeze
+
+    def file_via_connection(path)
+      Train::File::Remote::Windows.new(self, path)
+    end
+
+    def run_command_via_connection(command)
+      return if command.nil?
+      logger.debug("[WinRM] #{self} (#{command})")
+      out = ''
+
+      response = session.run(command) do |stdout, _|
+        out << stdout if stdout
+      end
+
+      CommandResult.new(out, response.stderr, response.exitcode)
+    end
 
     # Create a local RDP document and return it
     #
