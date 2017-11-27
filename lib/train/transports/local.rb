@@ -12,6 +12,8 @@ module Train::Transports
 
     include_options Train::Extras::CommandWrapper
 
+    class PipeError < ::StandardError; end
+
     def connection(_ = nil)
       @connection ||= Connection.new(@options)
     end
@@ -30,9 +32,8 @@ module Train::Transports
           @windows_runner.run_command(cmd)
         else
           cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
-          res = Mixlib::ShellOut.new(cmd)
-          res.run_command
-          CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+          @generic_runner ||= GenericRunner.new
+          @generic_runner.run_command(cmd)
         end
       rescue Errno::ENOENT => _
         CommandResult.new('', '', 1)
@@ -59,40 +60,85 @@ module Train::Transports
         'local://'
       end
 
+      class GenericRunner
+        def run_command(cmd)
+          res = Mixlib::ShellOut.new(cmd)
+          res.run_command
+          Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+        end
+      end
+
       class WindowsRunner
+        # Attempt to use a named pipe but fallback to ShellOut if that fails
+        def initialize
+          @runner = WindowsPipeRunner.new
+        rescue PipeError
+          @runner = WindowsShellRunner.new
+        end
+
+        def run_command(cmd)
+          @runner.run_command(cmd)
+        end
+      end
+
+      class WindowsShellRunner
+        require 'json'
+        require 'base64'
+
+        def run_command(script)
+          # Prevent progress stream from leaking into stderr
+          script = "$ProgressPreference='SilentlyContinue';" + script
+
+          # Encode script so PowerShell can use it
+          script = script.encode('UTF-16LE', 'UTF-8')
+          base64_script = Base64.strict_encode64(script)
+
+          cmd = "powershell -NoProfile -EncodedCommand #{base64_script}"
+
+          res = Mixlib::ShellOut.new(cmd)
+          res.run_command
+          Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+        end
+      end
+
+      class WindowsPipeRunner
         require 'json'
         require 'base64'
         require 'securerandom'
 
         def initialize
           @pipe = acquire_pipe
+          fail PipeError if @pipe.nil?
         end
 
         def run_command(cmd)
-          res = @pipe ? run_via_pipe(cmd) : run_via_shellout(cmd)
+          script = "$ProgressPreference='SilentlyContinue';" + cmd
+          encoded_script = Base64.strict_encode64(script)
+          @pipe.puts(encoded_script)
+          @pipe.flush
+          res = OpenStruct.new(JSON.parse(Base64.decode64(@pipe.readline)))
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
-        rescue Errno::ENOENT => _
-          CommandResult.new('', '', 1)
         end
 
         private
 
         def acquire_pipe
-          pipe_name = Dir.entries('//./pipe/').find { |f| f =~ /inspec_/ }
+          current_pipe = Dir.entries('//./pipe/').find { |f| f =~ /inspec_/ }
 
-          return create_pipe("inspec_#{SecureRandom.hex}") if pipe_name.nil?
-
-          begin
-            pipe = open("//./pipe/#{pipe_name}", 'r+')
-          rescue
-            # Pipes are closed when a Train connection ends. When running
-            # multiple independent scans (e.g. Unit tests) the pipe will be
-            # unavailable because the previous process is closing it.
-            # This creates a new pipe in that case
+          pipe = nil
+          if current_pipe.nil?
             pipe = create_pipe("inspec_#{SecureRandom.hex}")
+          else
+            begin
+              pipe = open("//./pipe/#{current_pipe}", 'r+')
+            rescue
+              # Pipes are closed when a Train connection ends. When running
+              # multiple independent scans (e.g. Unit tests) the pipe will be
+              # unavailable because the previous process is closing it.
+              # This creates a new pipe in that case
+              pipe = create_pipe("inspec_#{SecureRandom.hex}")
+            end
           end
-
-          return false if pipe.nil?
 
           pipe
         end
@@ -112,31 +158,7 @@ module Train::Transports
             end
           end
 
-          return false if pipe.nil?
-
           pipe
-        end
-
-        def run_via_shellout(script)
-          # Prevent progress stream from leaking into stderr
-          script = "$ProgressPreference='SilentlyContinue';" + script
-
-          # Encode script so PowerShell can use it
-          script = script.encode('UTF-16LE', 'UTF-8')
-          base64_script = Base64.strict_encode64(script)
-
-          cmd = "powershell -NoProfile -EncodedCommand #{base64_script}"
-
-          res = Mixlib::ShellOut.new(cmd)
-          res.run_command
-        end
-
-        def run_via_pipe(script)
-          script = "$ProgressPreference='SilentlyContinue';" + script
-          encoded_script = Base64.strict_encode64(script)
-          @pipe.puts(encoded_script)
-          @pipe.flush
-          OpenStruct.new(JSON.parse(Base64.decode64(@pipe.readline)))
         end
 
         def start_pipe_server(pipe_name)

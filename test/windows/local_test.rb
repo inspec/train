@@ -45,10 +45,10 @@ describe 'windows local command' do
     connection = conn
 
     # Prevent named pipe from being created
-    Train::Transports::Local::Connection::WindowsRunner
+    Train::Transports::Local::Connection::WindowsPipeRunner
       .any_instance
       .stubs(:acquire_pipe)
-      .returns(false)
+      .returns(nil)
 
     # Verify pipe was not created
     SecureRandom.stubs(:hex).returns('minitest')
