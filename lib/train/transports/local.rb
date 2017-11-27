@@ -24,7 +24,7 @@ module Train::Transports
 
         # While OS is being discovered, use the GenericRunner
         @runner = GenericRunner.new
-        @runner.cmd_wrapper = Local::CommandWrapper.load(self, options)
+        @runner.cmd_wrapper = CommandWrapper.load(self, options)
 
         if os.windows?
           # Attempt to use a named pipe but fallback to ShellOut if that fails
