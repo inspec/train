@@ -40,6 +40,14 @@ describe 'windows local command' do
     cmd.stderr.must_equal ''
   end
 
+  it 'uses a named pipe if available' do
+    # Verify pipe is created by stubbing the random parts of the name
+    SecureRandom.stubs(:hex).returns('with_pipe')
+    cmd = conn.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_with_pipe" }')
+    cmd.stdout.wont_be_nil
+    cmd.stderr.must_equal ''
+  end
+
   it 'when named pipe is not available it runs `Mixlib::Shellout`' do
     # Must call `:conn` early so we can stub `:acquire_pipe`
     connection = conn
