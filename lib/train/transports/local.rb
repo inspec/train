@@ -36,23 +36,8 @@ module Train::Transports
         end
       end
 
-      def run_command(cmd)
-        @runner.run_command(cmd)
-      rescue Errno::ENOENT => _
-        CommandResult.new('', '', 1)
-      end
-
       def local?
         true
-      end
-
-      def file(path)
-        @files[path] ||= \
-          if os.windows?
-            Train::File::Local::Windows.new(self, path)
-          else
-            Train::File::Local::Unix.new(self, path)
-          end
       end
 
       def login_command
@@ -61,6 +46,22 @@ module Train::Transports
 
       def uri
         'local://'
+      end
+
+      private
+
+      def run_command_via_connection(cmd)
+        @runner.run_command(cmd)
+      rescue Errno::ENOENT => _
+        CommandResult.new('', '', 1)
+      end
+
+      def file_via_connection(path)
+        if os.windows?
+          Train::File::Local::Windows.new(self, path)
+        else
+          Train::File::Local::Unix.new(self, path)
+        end
       end
 
       class GenericRunner
@@ -201,29 +202,6 @@ module Train::Transports
 
           # Ensure process is killed when the Train process exits
           at_exit { Process.kill('KILL', server_pid) }
-        end
-      end
-
-      def run_command_via_connection(cmd)
-        if defined?(@platform) && @platform.windows?
-          start_named_pipe_server unless File.exist?('//localhost/pipe/InSpec')
-          res = run_powershell_using_named_pipe(cmd)
-          CommandResult.new(res['stdout'], res['stderr'], res['exitstatus'])
-        else
-          cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
-          res = Mixlib::ShellOut.new(cmd)
-          res.run_command
-          CommandResult.new(res.stdout, res.stderr, res.exitstatus)
-        end
-      rescue Errno::ENOENT => _
-        CommandResult.new('', '', 1)
-      end
-
-      def file_via_connection(path)
-        if os.windows?
-          Train::File::Local::Windows.new(self, path)
-        else
-          Train::File::Local::Unix.new(self, path)
         end
       end
     end
