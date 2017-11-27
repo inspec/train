@@ -21,11 +21,11 @@ module Train::Transports
         super(options)
         @cmd_wrapper = nil
         @cmd_wrapper = CommandWrapper.load(self, options)
-        @platform = platform
+        @os = os
       end
 
       def run_command(cmd)
-        if defined?(@platform) && @platform.windows?
+        if defined?(@os) && @os.windows?
           @windows_runner ||= WindowsRunner.new
           @windows_runner.run_command(cmd)
         else
