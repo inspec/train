@@ -21,20 +21,23 @@ module Train::Transports
     class Connection < BaseConnection
       def initialize(options)
         super(options)
-        @cmd_wrapper = nil
-        @cmd_wrapper = CommandWrapper.load(self, options)
-        @os = os
+
+        # While OS is being discovered, use the GenericRunner
+        @runner = GenericRunner.new
+        @runner.cmd_wrapper = Local::CommandWrapper.load(self, options)
+
+        if os.windows?
+          # Attempt to use a named pipe but fallback to ShellOut if that fails
+          begin
+            @runner = WindowsPipeRunner.new
+          rescue PipeError
+            @runner = WindowsShellRunner.new
+          end
+        end
       end
 
       def run_command(cmd)
-        if defined?(@os) && @os.windows?
-          @windows_runner ||= WindowsRunner.new
-          @windows_runner.run_command(cmd)
-        else
-          cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
-          @generic_runner ||= GenericRunner.new
-          @generic_runner.run_command(cmd)
-        end
+        @runner.run_command(cmd)
       rescue Errno::ENOENT => _
         CommandResult.new('', '', 1)
       end
@@ -61,23 +64,16 @@ module Train::Transports
       end
 
       class GenericRunner
+        attr_writer :cmd_wrapper
+
         def run_command(cmd)
+          if defined?(@cmd_wrapper) && !@cmd_wrapper.nil?
+            cmd = @cmd_wrapper.run(cmd)
+          end
+
           res = Mixlib::ShellOut.new(cmd)
           res.run_command
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
-        end
-      end
-
-      class WindowsRunner
-        # Attempt to use a named pipe but fallback to ShellOut if that fails
-        def initialize
-          @runner = WindowsPipeRunner.new
-        rescue PipeError
-          @runner = WindowsShellRunner.new
-        end
-
-        def run_command(cmd)
-          @runner.run_command(cmd)
         end
       end
 
