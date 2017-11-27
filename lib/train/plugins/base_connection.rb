@@ -40,6 +40,8 @@ class Train::Plugins::Transport
       @cache_enabled[type.to_sym]
     end
 
+    # Enable caching types for Train. Currently we support
+    # :file and :command types
     def enable_cache(type)
       @cache_enabled[type.to_sym] = true
     end

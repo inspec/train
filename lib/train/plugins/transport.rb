@@ -1,4 +1,7 @@
 # encoding: utf-8
+#
+# Author:: Dominik Richter (<dominik.richter@gmail.com>)
+# Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
 require 'logger'
 require 'train/errors'
