@@ -57,14 +57,13 @@ end
 
 class Train::Transports::Mock
   class Connection < BaseConnection
-    attr_accessor :files, :commands
     attr_reader :os
 
     def initialize(conf = nil)
       super(conf)
       mock_os
-      @commands = {}
-      @files = {}
+      enable_cache(:file)
+      enable_cache(:command)
     end
 
     def uri
@@ -91,8 +90,24 @@ class Train::Transports::Mock
       end
     end
 
+    def commands=(commands)
+      @cache[:command] = commands
+    end
+
+    def commands
+      @cache[:command]
+    end
+
+    def files=(files)
+      @cache[:file] = files
+    end
+
+    def files
+      @cache[:file]
+    end
+
     def mock_command(cmd, stdout = nil, stderr = nil, exit_status = 0)
-      @commands[cmd] = Command.new(stdout || '', stderr || '', exit_status)
+      @cache[:command][cmd] = Command.new(stdout || '', stderr || '', exit_status)
     end
 
     def command_not_found(cmd)
@@ -117,13 +132,12 @@ class Train::Transports::Mock
     private
 
     def run_command_via_connection(cmd)
-      @commands[cmd] ||
-        @commands[Digest::SHA256.hexdigest cmd.to_s] ||
+      @cache[:command][Digest::SHA256.hexdigest cmd.to_s] ||
         command_not_found(cmd)
     end
 
     def file_via_connection(path)
-      @files[path] ||= file_not_found(path)
+      file_not_found(path)
     end
   end
 end

@@ -56,14 +56,14 @@ class Train::Plugins::Transport
 
     def to_json
       {
-        'files' => Hash[@files.map { |x, y| [x, y.to_json] }],
+        'files' => Hash[@cache[:file].map { |x, y| [x, y.to_json] }],
       }
     end
 
     def load_json(j)
       require 'train/transports/mock'
       j['files'].each do |path, jf|
-        @files[path] = Train::Transports::Mock::Connection::File.from_json(jf)
+        @cache[:file][path] = Train::Transports::Mock::Connection::File.from_json(jf)
       end
     end
 
@@ -105,6 +105,17 @@ class Train::Plugins::Transport
       fail NotImplementedError, "#{self.class} does not implement #login_command()"
     end
 
+    # Block and return only when the remote host is prepared and ready to
+    # execute command and upload files. The semantics and details will
+    # vary by implementation, but a round trip through the hosted
+    # service is preferred to simply waiting on a socket to become
+    # available.
+    def wait_until_ready
+      # this method may be left unimplemented if that is applicablelog
+    end
+
+    private
+
     # Execute a command using this connection.
     #
     # @param command [String] command string to execute
@@ -121,17 +132,6 @@ class Train::Plugins::Transport
     def file_via_connection(_path, *_args)
       fail NotImplementedError, "#{self.class} does not implement #file_via_connection(...)"
     end
-
-    # Block and return only when the remote host is prepared and ready to
-    # execute command and upload files. The semantics and details will
-    # vary by implementation, but a round trip through the hosted
-    # service is preferred to simply waiting on a socket to become
-    # available.
-    def wait_until_ready
-      # this method may be left unimplemented if that is applicablelog
-    end
-
-    private
 
     def clear_cache(type)
       @cache[type.to_sym] = {}

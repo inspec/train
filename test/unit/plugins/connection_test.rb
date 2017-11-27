@@ -15,7 +15,7 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'raises an exception for run_command_via_connection' do
-      proc { connection.run_command_via_connection('') }.must_raise NotImplementedError
+      proc { connection.send(:run_command_via_connection, '') }.must_raise NotImplementedError
     end
 
     it 'raises an exception for os method' do
@@ -27,7 +27,7 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'raises an exception for file_via_connection method' do
-      proc { connection.file_via_connection('') }.must_raise NotImplementedError
+      proc { connection.send(:file_via_connection, '') }.must_raise NotImplementedError
     end
 
     it 'raises an exception for login command method' do
