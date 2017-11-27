@@ -41,9 +41,11 @@ describe 'windows local command' do
   end
 
   it 'uses a named pipe if available' do
-    # Verify pipe is created by stubbing the random parts of the name
+    # Must call `:conn` early so we can stub `SecureRandom`
+    connection = conn
+
     SecureRandom.stubs(:hex).returns('with_pipe')
-    cmd = conn.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_with_pipe" }')
+    cmd = connection.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_with_pipe" }')
     cmd.stdout.wont_be_nil
     cmd.stderr.must_equal ''
   end
