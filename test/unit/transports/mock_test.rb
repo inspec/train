@@ -81,8 +81,8 @@ describe 'mock transport' do
   end
 
   describe 'when accessing a mocked os' do
-    it 'has the default mock os faily set to unknown' do
-      connection.os[:name].must_equal 'unknown'
+    it 'has the default mock os faily set to mock' do
+      connection.os[:name].must_equal 'mock'
     end
 
     it 'sets the OS to the mocked value' do
@@ -122,7 +122,7 @@ describe 'mock transport' do
 
     it 'properly handles a nil value' do
       connection.mock_os(nil)
-      connection.os[:name].must_equal 'unknown'
+      connection.os[:name].must_equal 'mock'
       connection.os[:family].must_equal 'unknown'
     end
   end
