@@ -8,6 +8,9 @@ require 'mocha/setup'
 require 'train'
 require 'tempfile'
 
+# Loading here to ensure methods exist to be stubbed
+require 'train/transports/local'
+
 describe 'windows local command' do
   let(:conn) {
     # get final config
@@ -40,32 +43,31 @@ describe 'windows local command' do
     cmd.stderr.must_equal ''
   end
 
-  it 'uses a named pipe if available' do
-    # Must call `:conn` early so we can stub `SecureRandom`
-    connection = conn
-
-    # Verify pipe is created by using PowerShell to check pipe location
+  # Verify pipe is created by using PowerShell to check pipe location. This
+  # works by intercepting the `SecureRandom` call which controls the pipe
+  # name. If this command uses a pipe, then the `stdout` of this command will
+  # contain the pipe name.
+  it 'can execute a command using a named pipe' do
     SecureRandom.expects(:hex).returns('with_pipe')
-    cmd = connection.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_with_pipe" }')
-    cmd.stdout.wont_be_nil
+
+    cmd = conn.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_with_pipe" }')
+    cmd.stdout.must_match /inspec_with_pipe/
     cmd.stderr.must_equal ''
   end
 
-  it 'when named pipe is not available it runs `Mixlib::ShellOut`' do
-    # Must call `:conn` early so we can stub `:acquire_pipe`
-    connection = conn
-
+  it 'when named pipe is not available it uses `WindowsShellRunner`' do
     # Prevent named pipe from being created
     Train::Transports::Local::Connection::WindowsPipeRunner
       .any_instance
       .expects(:acquire_pipe)
       .returns(nil)
 
-    # Verify pipe was not created by using PowerShell to check pipe location
-    SecureRandom.stubs(:hex).returns('minitest')
-    cmd = connection.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_minitest" }')
-    cmd.stdout.must_equal ''
-    cmd.stderr.must_equal ''
+    Train::Transports::Local::Connection::WindowsShellRunner
+      .any_instance
+      .expects(:run_command)
+
+    # Run command to trigger our stubs/expects
+    conn.run_command('Write-Host "using ShellOut"')
   end
 
   describe 'file' do
