@@ -51,7 +51,7 @@ describe 'windows local command' do
     cmd.stderr.must_equal ''
   end
 
-  it 'when named pipe is not available it runs `Mixlib::Shellout`' do
+  it 'when named pipe is not available it runs `Mixlib::ShellOut`' do
     # Must call `:conn` early so we can stub `:acquire_pipe`
     connection = conn
 
