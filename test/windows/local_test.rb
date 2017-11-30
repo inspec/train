@@ -44,7 +44,8 @@ describe 'windows local command' do
     # Must call `:conn` early so we can stub `SecureRandom`
     connection = conn
 
-    SecureRandom.stubs(:hex).returns('with_pipe')
+    # Verify pipe is created by using PowerShell to check pipe location
+    SecureRandom.stubwass(:hex).returns('with_pipe')
     cmd = connection.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_with_pipe" }')
     cmd.stdout.wont_be_nil
     cmd.stderr.must_equal ''
@@ -60,7 +61,7 @@ describe 'windows local command' do
       .stubs(:acquire_pipe)
       .returns(nil)
 
-    # Verify pipe was not created
+    # Verify pipe was not created by using PowerShell to check pipe location
     SecureRandom.stubs(:hex).returns('minitest')
     cmd = connection.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_minitest" }')
     cmd.stdout.must_equal ''
