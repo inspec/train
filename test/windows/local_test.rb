@@ -45,7 +45,7 @@ describe 'windows local command' do
     connection = conn
 
     # Verify pipe is created by using PowerShell to check pipe location
-    SecureRandom.stubwass(:hex).returns('with_pipe')
+    SecureRandom.expects(:hex).returns('with_pipe')
     cmd = connection.run_command('Get-ChildItem //./pipe/ | Where-Object { $_.Name -Match "inspec_with_pipe" }')
     cmd.stdout.wont_be_nil
     cmd.stderr.must_equal ''
@@ -58,7 +58,7 @@ describe 'windows local command' do
     # Prevent named pipe from being created
     Train::Transports::Local::Connection::WindowsPipeRunner
       .any_instance
-      .stubs(:acquire_pipe)
+      .expects(:acquire_pipe)
       .returns(nil)
 
     # Verify pipe was not created by using PowerShell to check pipe location
