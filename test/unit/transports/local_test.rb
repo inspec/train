@@ -93,4 +93,39 @@ describe 'local transport' do
       end
     end
   end
+
+  describe 'when running on Windows' do
+    let(:conn) do
+      Train::Platforms::Platform.any_instance.stubs(:windows?).returns(true)
+      Train::Transports::Local.new.connection
+    end
+
+    let(:runner) { mock }
+
+    it 'uses `WindowsPipeRunner` by default' do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .expects(:new)
+        .returns(runner)
+
+      Train::Transports::Local::Connection::WindowsShellRunner
+        .expects(:new)
+        .never
+
+      runner.expects(:run_command).with('not actually executed')
+      conn.run_command('not actually executed')
+    end
+
+    it 'uses `WindowsShellRunner` when a named pipe is not available' do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .expects(:new)
+        .raises(Train::Transports::Local::PipeError)
+
+      Train::Transports::Local::Connection::WindowsShellRunner
+        .expects(:new)
+        .returns(runner)
+
+      runner.expects(:run_command).with('not actually executed')
+      conn.run_command('not actually executed')
+    end
+  end
 end
