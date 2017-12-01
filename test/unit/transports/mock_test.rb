@@ -123,7 +123,7 @@ describe 'mock transport' do
     it 'properly handles a nil value' do
       connection.mock_os(nil)
       connection.os[:name].must_equal 'mock'
-      connection.os[:family].must_equal 'unknown'
+      connection.os[:family].must_equal 'mock'
     end
   end
 
