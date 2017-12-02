@@ -6,10 +6,11 @@ require 'train/transports/local'
 class TransportHelper
   attr_accessor :transport
 
-  def initialize
+  def initialize(type = :mock)
     Train::Platforms::Detect::Specifications::OS.load
     plat = Train::Platforms.name('mock').in_family('linux')
     plat.add_platform_methods
+    plat.stubs(:windows?).returns(true) if type == :windows
     Train::Platforms::Detect.stubs(:scan).returns(plat)
     @transport = Train::Transports::Local.new
   end
@@ -96,8 +97,8 @@ describe 'local transport' do
 
   describe 'when running on Windows' do
     let(:conn) do
-      Train::Platforms::Platform.any_instance.stubs(:windows?).returns(true)
-      Train::Transports::Local.new.connection
+      TransportHelper.new(:windows).transport
+      transport.connection
     end
 
     let(:runner) { mock }
