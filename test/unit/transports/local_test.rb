@@ -8,7 +8,7 @@ class TransportHelper
 
   def initialize(type = :mock)
     Train::Platforms::Detect::Specifications::OS.load
-    plat = Train::Platforms.name('mock').in_family('linux')
+    plat = Train::Platforms.name('mock')
     plat.add_platform_methods
     plat.stubs(:windows?).returns(true) if type == :windows
     Train::Platforms::Detect.stubs(:scan).returns(plat)
@@ -96,10 +96,7 @@ describe 'local transport' do
   end
 
   describe 'when running on Windows' do
-    let(:conn) do
-      TransportHelper.new(:windows).transport
-      transport.connection
-    end
+    let(:connection) { TransportHelper.new(:windows).transport.connection }
 
     let(:runner) { mock }
 
@@ -113,7 +110,7 @@ describe 'local transport' do
         .never
 
       runner.expects(:run_command).with('not actually executed')
-      conn.run_command('not actually executed')
+      connection.run_command('not actually executed')
     end
 
     it 'uses `WindowsShellRunner` when a named pipe is not available' do
@@ -126,7 +123,7 @@ describe 'local transport' do
         .returns(runner)
 
       runner.expects(:run_command).with('not actually executed')
-      conn.run_command('not actually executed')
+      connection.run_command('not actually executed')
     end
   end
 end
