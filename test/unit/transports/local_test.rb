@@ -6,11 +6,12 @@ require 'train/transports/local'
 class TransportHelper
   attr_accessor :transport
 
-  def initialize(type = :mock)
+  def initialize(user_opts = {})
+    opts = {platform_name: 'mock', family_hierarchy: ['mock']}.merge(user_opts)
     Train::Platforms::Detect::Specifications::OS.load
-    plat = Train::Platforms.name('mock')
+    plat = Train::Platforms.name(opts[:platform_name])
+    plat.family_hierarchy = opts[:family_hierarchy]
     plat.add_platform_methods
-    plat.stubs(:windows?).returns(true) if type == :windows
     Train::Platforms::Detect.stubs(:scan).returns(plat)
     @transport = Train::Transports::Local.new
   end
@@ -96,7 +97,9 @@ describe 'local transport' do
   end
 
   describe 'when running on Windows' do
-    let(:connection) { TransportHelper.new(:windows).transport.connection }
+    let(:connection) do
+      TransportHelper.new(family_hierarchy: ['windows']).transport.connection
+    end
     let(:runner) { mock }
 
     it 'uses `WindowsPipeRunner` by default' do
