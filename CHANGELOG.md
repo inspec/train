@@ -1,10 +1,34 @@
 # Change Log
 
-## [0.29.1](https://github.com/chef/train/tree/0.29.1) (2017-11-13)
-[Full Changelog](https://github.com/chef/train/compare/v0.29.0...0.29.1)
+## [0.30.0](https://github.com/chef/train/tree/0.30.0) (2017-12-04)
+[Full Changelog](https://github.com/chef/train/compare/v0.29.2...0.30.0)
 
 **Merged pull requests:**
 
+- Change the mock transport name to be 'mock' [\#221](https://github.com/chef/train/pull/221) ([jquick](https://github.com/jquick))
+- Enable caching on connections [\#214](https://github.com/chef/train/pull/214) ([jquick](https://github.com/jquick))
+
+## [v0.29.2](https://github.com/chef/train/tree/v0.29.2) (2017-11-21)
+[Full Changelog](https://github.com/chef/train/compare/v0.29.1...v0.29.2)
+
+**Fixed bugs:**
+
+- Add unix\_mode\_mask method to Train::File::Local::Unix [\#215](https://github.com/chef/train/pull/215) ([adamleff](https://github.com/adamleff))
+
+**Merged pull requests:**
+
+- Fix regressions in 0.29.1 [\#219](https://github.com/chef/train/pull/219) ([adamleff](https://github.com/adamleff))
+- Use the sanitized file path for remote linux files [\#218](https://github.com/chef/train/pull/218) ([RoboticCheese](https://github.com/RoboticCheese))
+- Remove bundler install during Appveyor tests [\#217](https://github.com/chef/train/pull/217) ([adamleff](https://github.com/adamleff))
+- Fix inspec mock tests [\#216](https://github.com/chef/train/pull/216) ([jquick](https://github.com/jquick))
+- Platform framework and detect DSL [\#209](https://github.com/chef/train/pull/209) ([jquick](https://github.com/jquick))
+
+## [v0.29.1](https://github.com/chef/train/tree/v0.29.1) (2017-11-13)
+[Full Changelog](https://github.com/chef/train/compare/v0.29.0...v0.29.1)
+
+**Merged pull requests:**
+
+- Release 0.29.1 [\#213](https://github.com/chef/train/pull/213) ([adamleff](https://github.com/adamleff))
 - Allow for a nil value when mocking OS [\#212](https://github.com/chef/train/pull/212) ([adamleff](https://github.com/adamleff))
 - Ensure a `mounted?` method exists for all File classes, including Mock [\#211](https://github.com/chef/train/pull/211) ([adamleff](https://github.com/adamleff))
 
