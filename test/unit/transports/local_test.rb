@@ -97,7 +97,6 @@ describe 'local transport' do
 
   describe 'when running on Windows' do
     let(:connection) { TransportHelper.new(:windows).transport.connection }
-
     let(:runner) { mock }
 
     it 'uses `WindowsPipeRunner` by default' do
