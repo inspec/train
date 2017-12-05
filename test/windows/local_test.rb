@@ -8,6 +8,9 @@ require 'mocha/setup'
 require 'train'
 require 'tempfile'
 
+# Loading here to ensure methods exist to be stubbed
+require 'train/transports/local'
+
 describe 'windows local command' do
   let(:conn) {
     # get final config
@@ -37,6 +40,38 @@ describe 'windows local command' do
   it 'use powershell piping' do
     cmd = conn.run_command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name A -Value (Write-Output 'PropertyA') -PassThru | Add-Member -MemberType NoteProperty -Name B -Value (Write-Output 'PropertyB') -PassThru | ConvertTo-Json")
     cmd.stdout.must_equal "{\r\n    \"A\":  \"PropertyA\",\r\n    \"B\":  \"PropertyB\"\r\n}\r\n"
+    cmd.stderr.must_equal ''
+  end
+
+  it 'can execute a command using a named pipe' do
+    SecureRandom.expects(:hex).returns('via_pipe')
+
+    Train::Transports::Local::Connection::WindowsShellRunner
+      .any_instance
+      .expects(:new)
+      .never
+
+    cmd = conn.run_command('Write-Output "Create pipe"')
+    File.exist?('//./pipe/inspec_via_pipe').must_equal true
+    cmd.stdout.must_equal "Create pipe\r\n"
+    cmd.stderr.must_equal ''
+  end
+
+  it 'can execute a command via ShellRunner if pipe creation fails' do
+    # By forcing `acquire_pipe` to fail to return a pipe, any attempts to create
+    # a `WindowsPipeRunner` object should fail. If we can still run a command,
+    # then we know that it was successfully executed by `Mixlib::ShellOut`.
+    Train::Transports::Local::Connection::WindowsPipeRunner
+      .any_instance
+      .expects(:acquire_pipe)
+      .at_least_once
+      .returns(nil)
+
+    proc { Train::Transports::Local::Connection::WindowsPipeRunner.new }
+      .must_raise(Train::Transports::Local::PipeError)
+
+    cmd = conn.run_command('Write-Output "test"')
+    cmd.stdout.must_equal "test\r\n"
     cmd.stderr.must_equal ''
   end
 

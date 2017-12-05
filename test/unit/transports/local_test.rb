@@ -6,9 +6,11 @@ require 'train/transports/local'
 class TransportHelper
   attr_accessor :transport
 
-  def initialize
+  def initialize(user_opts = {})
+    opts = {platform_name: 'mock', family_hierarchy: ['mock']}.merge(user_opts)
     Train::Platforms::Detect::Specifications::OS.load
-    plat = Train::Platforms.name('mock').in_family('linux')
+    plat = Train::Platforms.name(opts[:platform_name])
+    plat.family_hierarchy = opts[:family_hierarchy]
     plat.add_platform_methods
     Train::Platforms::Detect.stubs(:scan).returns(plat)
     @transport = Train::Transports::Local.new
@@ -91,6 +93,39 @@ describe 'local transport' do
         cmd_runner.expect :exitstatus, x
         connection.run_command(rand).exit_status.must_equal x
       end
+    end
+  end
+
+  describe 'when running on Windows' do
+    let(:connection) do
+      TransportHelper.new(family_hierarchy: ['windows']).transport.connection
+    end
+    let(:runner) { mock }
+
+    it 'uses `WindowsPipeRunner` by default' do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .expects(:new)
+        .returns(runner)
+
+      Train::Transports::Local::Connection::WindowsShellRunner
+        .expects(:new)
+        .never
+
+      runner.expects(:run_command).with('not actually executed')
+      connection.run_command('not actually executed')
+    end
+
+    it 'uses `WindowsShellRunner` when a named pipe is not available' do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .expects(:new)
+        .raises(Train::Transports::Local::PipeError)
+
+      Train::Transports::Local::Connection::WindowsShellRunner
+        .expects(:new)
+        .returns(runner)
+
+      runner.expects(:run_command).with('not actually executed')
+      connection.run_command('not actually executed')
     end
   end
 end
