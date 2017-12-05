@@ -1,10 +1,22 @@
 # Change Log
 
-## [0.30.0](https://github.com/chef/train/tree/0.30.0) (2017-12-04)
-[Full Changelog](https://github.com/chef/train/compare/v0.29.2...0.30.0)
+## [0.31.0](https://github.com/chef/train/tree/0.31.0) (2017-12-05)
+[Full Changelog](https://github.com/chef/train/compare/v0.30.0...0.31.0)
+
+**Fixed bugs:**
+
+- Add release detect for failback debian [\#223](https://github.com/chef/train/pull/223) ([jquick](https://github.com/jquick))
 
 **Merged pull requests:**
 
+- Use named pipe to decrease local Windows runtime [\#220](https://github.com/chef/train/pull/220) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+## [v0.30.0](https://github.com/chef/train/tree/v0.30.0) (2017-12-04)
+[Full Changelog](https://github.com/chef/train/compare/v0.29.2...v0.30.0)
+
+**Merged pull requests:**
+
+- Release 0.30.0 [\#222](https://github.com/chef/train/pull/222) ([adamleff](https://github.com/adamleff))
 - Change the mock transport name to be 'mock' [\#221](https://github.com/chef/train/pull/221) ([jquick](https://github.com/jquick))
 - Enable caching on connections [\#214](https://github.com/chef/train/pull/214) ([jquick](https://github.com/jquick))
 
