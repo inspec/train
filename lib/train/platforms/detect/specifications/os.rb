@@ -110,6 +110,7 @@ module Train::Platforms::Detect::Specifications
             end
 
             # if we get this far we have to be some type of debian
+            @platform[:release] = unix_file_contents('/etc/debian_version').chomp
             true
           }
 

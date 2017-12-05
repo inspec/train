@@ -79,7 +79,7 @@ describe 'os_detect' do
       lsb_release = "DISTRIB_ID=#{id}\nDISTRIB_RELEASE=#{version}"
       files = {
         '/etc/lsb-release' => lsb_release,
-        '/etc/debian_version' => 'data',
+        '/etc/debian_version' => '11',
       }
       scan_with_files('linux', files)
     end
@@ -124,7 +124,7 @@ describe 'os_detect' do
 
         platform[:name].must_equal('debian')
         platform[:family].must_equal('debian')
-        platform[:release].must_equal('12.99')
+        platform[:release].must_equal('11')
       end
     end
   end
