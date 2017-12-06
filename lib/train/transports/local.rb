@@ -62,6 +62,8 @@ module Train::Transports
           WindowsPipeRunner.new
         when 'windows_shell'
           WindowsShellRunner.new
+        else
+          fail "Runner type \'#{runner}\' not supported"
         end
       end
 

@@ -100,6 +100,11 @@ describe 'local transport' do
 
       Train::Transports::Local::Connection.new(runner: 'windows_shell')
     end
+
+    it 'throws a RuntimeError when an invalid runner type is passed' do
+      err = proc { Train::Transports::Local::Connection.new(runner: 'invalid') }
+      err.must_raise(RuntimeError, "Runner type 'invalid' not supported")
+    end
   end
 
   describe 'when running a local command' do
