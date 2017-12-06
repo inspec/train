@@ -10,8 +10,6 @@ module Train::Transports
   class Local < Train.plugin(1)
     name 'local'
 
-    include_options Train::Extras::CommandWrapper
-
     class PipeError < ::StandardError; end
 
     def connection(_ = nil)
@@ -22,18 +20,11 @@ module Train::Transports
       def initialize(options)
         super(options)
 
-        # While OS is being discovered, use the GenericRunner
-        @runner = GenericRunner.new
-        @runner.cmd_wrapper = CommandWrapper.load(self, options)
-
-        if os.windows?
-          # Attempt to use a named pipe but fallback to ShellOut if that fails
-          begin
-            @runner = WindowsPipeRunner.new
-          rescue PipeError
-            @runner = WindowsShellRunner.new
-          end
-        end
+        @runner = if options[:command_runner]
+                    force_runner(options[:command_runner])
+                  else
+                    select_runner(options)
+                  end
       end
 
       def local?
@@ -50,8 +41,42 @@ module Train::Transports
 
       private
 
+      def select_runner(options)
+        if os.windows?
+          # Attempt to use a named pipe but fallback to ShellOut if that fails
+          begin
+            WindowsPipeRunner.new
+          rescue PipeError
+            WindowsShellRunner.new
+          end
+        else
+          GenericRunner.new(self, options)
+        end
+      end
+
+      def force_runner(command_runner)
+        case command_runner
+        when :generic
+          GenericRunner.new(self, options)
+        when :windows_pipe
+          WindowsPipeRunner.new
+        when :windows_shell
+          WindowsShellRunner.new
+        else
+          fail "Runner type `#{command_runner}` not supported"
+        end
+      end
+
       def run_command_via_connection(cmd)
-        @runner.run_command(cmd)
+        # Use the runner if it is available
+        return @runner.run_command(cmd) if defined?(@runner)
+
+        # If we don't have a runner, such as at the beginning of setting up the
+        # transport and performing the first few steps of OS detection, fall
+        # back to shelling out.
+        res = Mixlib::ShellOut.new(cmd)
+        res.run_command
+        Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
       rescue Errno::ENOENT => _
         CommandResult.new('', '', 1)
       end
@@ -65,7 +90,11 @@ module Train::Transports
       end
 
       class GenericRunner
-        attr_writer :cmd_wrapper
+        include_options Train::Extras::CommandWrapper
+
+        def initialize(connection, options)
+          @cmd_wrapper = Local::CommandWrapper.load(connection, options)
+        end
 
         def run_command(cmd)
           if defined?(@cmd_wrapper) && !@cmd_wrapper.nil?
