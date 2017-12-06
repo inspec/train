@@ -68,14 +68,15 @@ module Train::Transports
       end
 
       def run_command_via_connection(cmd)
-        if defined?(@runner)
-          @runner.run_command(cmd)
-        else
-          # The initial commands to determine OS will be ran without a runner
-          res = Mixlib::ShellOut.new(cmd)
-          res.run_command
-          Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
-        end
+        # Use the runner if it is available
+        return @runner.run_command(cmd) if defined?(@runner)
+
+        # If we don't have a runner, such as at the beginning of setting up the
+        # transport and performing the first few steps of OS detection, fall
+        # back to shelling out.
+        res = Mixlib::ShellOut.new(cmd)
+        res.run_command
+        Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
       rescue Errno::ENOENT => _
         CommandResult.new('', '', 1)
       end
