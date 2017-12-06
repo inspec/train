@@ -13,7 +13,7 @@ class TransportHelper
     plat.family_hierarchy = opts[:family_hierarchy]
     plat.add_platform_methods
     Train::Platforms::Detect.stubs(:scan).returns(plat)
-    @transport = Train::Transports::Local.new
+    @transport = Train::Transports::Local.new(user_opts)
   end
 end
 
@@ -53,6 +53,53 @@ describe 'local transport' do
   it 'provides a file_via_connection method' do
     methods = connection.class.private_instance_methods(false)
     methods.include?(:file_via_connection).must_equal true
+  end
+
+  describe 'when overriding runner selection' do
+    it 'can select the `GenericRunner`' do
+      Train::Transports::Local::Connection::GenericRunner
+        .expects(:new)
+
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .expects(:new)
+        .never
+
+      Train::Transports::Local::Connection::WindowsShellRunner
+        .expects(:new)
+        .never
+
+      Train::Transports::Local::Connection.new(runner: 'generic')
+    end
+
+    it 'can select the `WindowsPipeRunner`' do
+      Train::Transports::Local::Connection::GenericRunner
+        .expects(:new)
+        .never
+
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .expects(:new)
+
+      Train::Transports::Local::Connection::WindowsShellRunner
+        .expects(:new)
+        .never
+
+      Train::Transports::Local::Connection.new(runner: 'windows_pipe')
+    end
+
+    it 'can select the `WindowsShellRunner`' do
+      Train::Transports::Local::Connection::GenericRunner
+        .expects(:new)
+        .never
+
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .expects(:new)
+        .never
+
+      Train::Transports::Local::Connection::WindowsShellRunner
+        .expects(:new)
+
+      Train::Transports::Local::Connection.new(runner: 'windows_shell')
+    end
   end
 
   describe 'when running a local command' do
