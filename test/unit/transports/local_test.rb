@@ -68,7 +68,7 @@ describe 'local transport' do
         .expects(:new)
         .never
 
-      Train::Transports::Local::Connection.new(runner: 'generic')
+      Train::Transports::Local::Connection.new(command_runner: :generic)
     end
 
     it 'can select the `WindowsPipeRunner`' do
@@ -83,7 +83,7 @@ describe 'local transport' do
         .expects(:new)
         .never
 
-      Train::Transports::Local::Connection.new(runner: 'windows_pipe')
+      Train::Transports::Local::Connection.new(command_runner: :windows_pipe)
     end
 
     it 'can select the `WindowsShellRunner`' do
@@ -98,12 +98,12 @@ describe 'local transport' do
       Train::Transports::Local::Connection::WindowsShellRunner
         .expects(:new)
 
-      Train::Transports::Local::Connection.new(runner: 'windows_shell')
+      Train::Transports::Local::Connection.new(command_runner: :windows_shell)
     end
 
     it 'throws a RuntimeError when an invalid runner type is passed' do
-      err = proc { Train::Transports::Local::Connection.new(runner: 'invalid') }
-      err.must_raise(RuntimeError, "Runner type 'invalid' not supported")
+      proc { Train::Transports::Local::Connection.new(command_runner: :nope ) }
+        .must_raise(RuntimeError, "Runner type `:nope` not supported")
     end
   end
 

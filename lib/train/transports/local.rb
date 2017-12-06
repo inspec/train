@@ -20,8 +20,8 @@ module Train::Transports
       def initialize(options)
         super(options)
 
-        @runner = if options[:runner]
-                    force_runner(options[:runner])
+        @runner = if options[:command_runner]
+                    force_runner(options[:command_runner])
                   else
                     select_runner(options)
                   end
@@ -54,16 +54,16 @@ module Train::Transports
         end
       end
 
-      def force_runner(runner)
-        case runner
-        when 'generic'
+      def force_runner(command_runner)
+        case command_runner
+        when :generic
           GenericRunner.new(self, options)
-        when 'windows_pipe'
+        when :windows_pipe
           WindowsPipeRunner.new
-        when 'windows_shell'
+        when :windows_shell
           WindowsShellRunner.new
         else
-          fail "Runner type \'#{runner}\' not supported"
+          fail "Runner type `#{command_runner}` not supported"
         end
       end
 
