@@ -1,7 +1,14 @@
 # Change Log
 
-## [0.31.0](https://github.com/chef/train/tree/0.31.0) (2017-12-05)
-[Full Changelog](https://github.com/chef/train/compare/v0.30.0...0.31.0)
+## [0.31.1](https://github.com/chef/train/tree/0.31.1) (2017-12-06)
+[Full Changelog](https://github.com/chef/train/compare/v0.31.0...0.31.1)
+
+**Merged pull requests:**
+
+- Allow runner specifications for local connections [\#225](https://github.com/chef/train/pull/225) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+## [v0.31.0](https://github.com/chef/train/tree/v0.31.0) (2017-12-05)
+[Full Changelog](https://github.com/chef/train/compare/v0.30.0...v0.31.0)
 
 **Fixed bugs:**
 
@@ -9,6 +16,7 @@
 
 **Merged pull requests:**
 
+- Release 0.31.0 [\#224](https://github.com/chef/train/pull/224) ([adamleff](https://github.com/adamleff))
 - Use named pipe to decrease local Windows runtime [\#220](https://github.com/chef/train/pull/220) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 
 ## [v0.30.0](https://github.com/chef/train/tree/v0.30.0) (2017-12-04)
