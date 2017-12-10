@@ -149,6 +149,7 @@ module Train::Transports
         keys:                   opts[:key_files],
         password:               opts[:password],
         forward_agent:          opts[:forward_agent],
+        proxy_command:          opts[:proxy_command],
         transport_options:      opts,
       }
 

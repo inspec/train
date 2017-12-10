@@ -65,6 +65,7 @@ class Train::Transports::SSH
       args += %w{ -o IdentitiesOnly=yes } if options[:keys]
       args += %W( -o LogLevel=#{level} )
       args += %W( -o ForwardAgent=#{fwd_agent} ) if options.key?(:forward_agent)
+      args += %W( -o ProxyCommand='#{options[:proxy_command]}' ) unless options[:proxy_command].nil?
       Array(options[:keys]).each do |ssh_key|
         args += %W( -i #{ssh_key} )
       end
@@ -144,6 +145,11 @@ class Train::Transports::SSH
     # @api private
     def establish_connection(opts)
       logger.debug("[SSH] opening connection to #{self}")
+      if @options[:proxy_command]
+        require 'net/ssh/proxy/command'
+        @options[:proxy] = Net::SSH::Proxy::Command.new(@options[:proxy_command])
+        @options.delete(:proxy_command)
+      end
       Net::SSH.start(@hostname, @username, @options.clone.delete_if { |_key, value| value.nil? })
     rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH => e
       if (opts[:retries] -= 1) <= 0
