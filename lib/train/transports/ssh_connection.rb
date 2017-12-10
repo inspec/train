@@ -113,7 +113,7 @@ class Train::Transports::SSH
         message: "Waiting for SSH service on #{@hostname}:#{@port}, " \
                  "retrying in #{delay} seconds",
       )
-      execute(PING_COMMAND.dup)
+      run_command(PING_COMMAND.dup)
     end
 
     def uri
