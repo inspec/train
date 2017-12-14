@@ -3,7 +3,7 @@
 module Train::Platforms
   class Platform
     include Train::Platforms::Common
-    attr_accessor :backend, :condition, :families, :family_hierarchy, :platform
+    attr_accessor :backend, :condition, :families, :family_hierarchy, :name_updated, :platform
 
     def initialize(name, condition = {})
       @name = name
@@ -13,6 +13,7 @@ module Train::Platforms
       @platform = {}
       @detect = nil
       @title = name.to_s.capitalize
+      clean_name
 
       # add itself to the platform list
       Train::Platforms.list[name] = self
@@ -25,7 +26,18 @@ module Train::Platforms
     def name
       # Override here incase a updated name was set
       # during the detect logic
-      @platform[:name] || @name
+      @clean_name
+    end
+
+    def clean_name
+      name = (@platform[:name] || @name)
+      # This is a history of name change being used upstream in inspec
+      if name =~ /[A-Z ]/
+        @name_updated = [name]
+        name = name.downcase.tr(' ', '_')
+        @name_updated << name
+      end
+      @clean_name = name
     end
 
     # This is for backwords compatability with
@@ -53,6 +65,10 @@ module Train::Platforms
     # This is done later to add any custom
     # families/properties that were created
     def add_platform_methods
+      # Clean name up and add in any detect overrides
+      clean_name
+
+      # Add in family methods
       family_list = Train::Platforms.families
       family_list.each_value do |k|
         next if respond_to?(k.name + '?')
@@ -70,9 +86,9 @@ module Train::Platforms
       end
 
       # Create method for name if its not already true
-      plat_name = name.downcase.tr(' ', '_') + '?'
-      return if respond_to?(plat_name)
-      define_singleton_method(plat_name) do
+      m = name + '?'
+      return if respond_to?(m)
+      define_singleton_method(m) do
         true
       end
     end

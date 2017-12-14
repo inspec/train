@@ -34,13 +34,19 @@ describe 'platform' do
     plat.title.must_equal('The Best Mock')
   end
 
+  it 'clean init name' do
+    plat = mock_platform_family('Mo ck')
+    plat.name.must_equal('mo_ck')
+  end
+
   it 'set name and name override' do
     plat = mock_platform_family('mock')
     plat.name.must_equal('mock')
     plat[:name].must_equal('mock')
-    plat.platform[:name] = 'mock2020'
-    plat.name.must_equal('mock2020')
-    plat[:name].must_equal('mock2020')
+    plat.platform[:name] = 'Mock 2020'
+    plat.add_platform_methods
+    plat.name.must_equal('mock_2020')
+    plat[:name].must_equal('mock_2020')
   end
 
   it 'check families' do
