@@ -3,7 +3,7 @@
 module Train::Platforms
   class Platform
     include Train::Platforms::Common
-    attr_accessor :backend, :condition, :families, :family_hierarchy, :name_updated, :platform
+    attr_accessor :backend, :condition, :families, :family_hierarchy, :platform
 
     def initialize(name, condition = {})
       @name = name
@@ -13,7 +13,6 @@ module Train::Platforms
       @platform = {}
       @detect = nil
       @title = name.to_s.capitalize
-      clean_name
 
       # add itself to the platform list
       Train::Platforms.list[name] = self
@@ -26,18 +25,16 @@ module Train::Platforms
     def name
       # Override here incase a updated name was set
       # during the detect logic
-      @clean_name
+      clean_name
     end
 
-    def clean_name
-      name = (@platform[:name] || @name)
-      # This is a history of name change being used upstream in inspec
-      if name =~ /[A-Z ]/
-        @name_updated = [name]
-        name = name.downcase.tr(' ', '_')
-        @name_updated << name
-      end
-      @clean_name = name
+    def clean_name(force: false)
+      @cleaned_name = nil if force
+      @cleaned_name ||= begin
+                          name = (@platform[:name] || @name)
+                          name.downcase!.tr!(' ', '_') if name =~ /[A-Z ]/
+                          name
+                        end
     end
 
     # This is for backwords compatability with
@@ -65,8 +62,8 @@ module Train::Platforms
     # This is done later to add any custom
     # families/properties that were created
     def add_platform_methods
-      # Clean name up and add in any detect overrides
-      clean_name
+      # Redo clean name if there is a detect override
+      clean_name(force: true) unless @platform[:name].nil?
 
       # Add in family methods
       family_list = Train::Platforms.families
