@@ -83,6 +83,7 @@ describe 'mock transport' do
   describe 'when accessing a mocked os' do
     it 'has the default mock os faily set to mock' do
       connection.os[:name].must_equal 'mock'
+      connection.platform[:name].must_equal 'mock'
     end
 
     it 'sets the OS to the mocked value' do

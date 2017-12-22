@@ -57,8 +57,6 @@ end
 
 class Train::Transports::Mock
   class Connection < BaseConnection
-    attr_reader :os
-
     def initialize(conf = nil)
       super(conf)
       mock_os
@@ -80,7 +78,7 @@ class Train::Transports::Mock
       platform.family_hierarchy = mock_os_hierarchy(platform).flatten
       platform.platform = value
       platform.add_platform_methods
-      @os = platform
+      @platform = platform
     end
 
     def mock_os_hierarchy(plat)
