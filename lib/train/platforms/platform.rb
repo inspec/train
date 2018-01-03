@@ -25,7 +25,16 @@ module Train::Platforms
     def name
       # Override here incase a updated name was set
       # during the detect logic
-      @platform[:name] || @name
+      clean_name
+    end
+
+    def clean_name(force: false)
+      @cleaned_name = nil if force
+      @cleaned_name ||= begin
+                          name = (@platform[:name] || @name)
+                          name.downcase!.tr!(' ', '_') if name =~ /[A-Z ]/
+                          name
+                        end
     end
 
     # This is for backwords compatability with
@@ -53,6 +62,10 @@ module Train::Platforms
     # This is done later to add any custom
     # families/properties that were created
     def add_platform_methods
+      # Redo clean name if there is a detect override
+      clean_name(force: true) unless @platform[:name].nil?
+
+      # Add in family methods
       family_list = Train::Platforms.families
       family_list.each_value do |k|
         next if respond_to?(k.name + '?')
@@ -70,9 +83,9 @@ module Train::Platforms
       end
 
       # Create method for name if its not already true
-      plat_name = name.downcase.tr(' ', '_') + '?'
-      return if respond_to?(plat_name)
-      define_singleton_method(plat_name) do
+      m = name + '?'
+      return if respond_to?(m)
+      define_singleton_method(m) do
         true
       end
     end
