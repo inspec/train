@@ -1,10 +1,23 @@
 # Change Log
 
-## [0.31.1](https://github.com/chef/train/tree/0.31.1) (2017-12-06)
-[Full Changelog](https://github.com/chef/train/compare/v0.31.0...0.31.1)
+## [0.32.0](https://github.com/chef/train/tree/0.32.0) (2018-01-04)
+[Full Changelog](https://github.com/chef/train/compare/v0.31.1...0.32.0)
+
+**Fixed bugs:**
+
+- platform names should be lower case [\#191](https://github.com/chef/train/issues/191)
+- Return platform name that is lower case and underscored [\#228](https://github.com/chef/train/pull/228) ([jquick](https://github.com/jquick))
 
 **Merged pull requests:**
 
+- Set mock transport to use the platform instance variable [\#230](https://github.com/chef/train/pull/230) ([jquick](https://github.com/jquick))
+
+## [v0.31.1](https://github.com/chef/train/tree/v0.31.1) (2017-12-06)
+[Full Changelog](https://github.com/chef/train/compare/v0.31.0...v0.31.1)
+
+**Merged pull requests:**
+
+- Release 0.31.1 [\#226](https://github.com/chef/train/pull/226) ([adamleff](https://github.com/adamleff))
 - Allow runner specifications for local connections [\#225](https://github.com/chef/train/pull/225) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 
 ## [v0.31.0](https://github.com/chef/train/tree/v0.31.0) (2017-12-05)
