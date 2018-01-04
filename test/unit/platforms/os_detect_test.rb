@@ -29,6 +29,7 @@ describe 'os_detect' do
       platform[:name].must_equal('oracle')
       platform[:family].must_equal('redhat')
       platform[:release].must_equal('7')
+      platform.family_hierarchy.include?('oracle').must_equal true
     end
   end
 
@@ -91,6 +92,7 @@ describe 'os_detect' do
         platform[:name].must_equal('ubuntu')
         platform[:family].must_equal('debian')
         platform[:release].must_equal('16.04')
+        platform.family_hierarchy.include?('ubuntu').must_equal true
       end
     end
 

@@ -12,7 +12,7 @@ describe 'scanner' do
     it 'return child' do
       family = Train::Platforms.family('linux')
       scanner.scan_family_children(family).name.must_equal('linux')
-      scanner.instance_variable_get(:@family_hierarchy).must_equal(['linux'])
+      scanner.instance_variable_get(:@family_hierarchy).must_equal(['linux', 'linux'])
     end
 
     it 'return nil' do
