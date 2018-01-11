@@ -24,7 +24,7 @@ class Train::Plugins::Transport
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
       Train::Platforms::Detect::Specifications::OS.load
       Train::Platforms::Detect::Specifications::Api.load
-      
+
       # default caching options
       @cache_enabled = {
         file: true,
