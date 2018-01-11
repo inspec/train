@@ -43,6 +43,18 @@ describe 'v1 Connection Plugin' do
                 .must_be_instance_of(Logger)
     end
 
+    it 'provides direct platform' do
+      plat = connection.direct_platform('linux')
+      plat.name.must_equal 'linux'
+      plat.family_hierarchy.must_equal ['linux', 'unix']
+    end
+
+    it 'provides family hierarchy' do
+      plat = Train::Platforms.name('linux')
+      family = connection.family_hierarchy(plat)
+      family.flatten.must_equal ['linux', 'unix']
+    end
+
     it 'must use the user-provided logger' do
       l = rand
       cls.new({logger: l})

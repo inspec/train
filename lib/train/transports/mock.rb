@@ -75,17 +75,10 @@ class Train::Transports::Mock
       value = { name: 'mock', family: 'mock', release: 'unknown', arch: 'unknown' }.merge(value)
 
       platform = Train::Platforms.name(value[:name])
-      platform.family_hierarchy = mock_os_hierarchy(platform).flatten
+      platform.family_hierarchy = family_hierarchy(platform).flatten
       platform.platform = value
       platform.add_platform_methods
       @platform = platform
-    end
-
-    def mock_os_hierarchy(plat)
-      plat.families.each_with_object([]) do |(k, _v), memo|
-        memo << k.name
-        memo << mock_os_hierarchy(k) unless k.families.empty?
-      end
     end
 
     def commands=(commands)

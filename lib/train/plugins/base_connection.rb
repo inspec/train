@@ -23,6 +23,7 @@ class Train::Plugins::Transport
       @options = options || {}
       @logger = @options.delete(:logger) || Logger.new(STDOUT)
       Train::Platforms::Detect::Specifications::OS.load
+      Train::Platforms::Detect::Specifications::Api.load
 
       # default caching options
       @cache_enabled = {
@@ -74,6 +75,20 @@ class Train::Plugins::Transport
     # Is this a local transport?
     def local?
       false
+    end
+
+    def direct_platform(name)
+      plat = Train::Platforms.name(name)
+      plat.backend = self
+      plat.family_hierarchy = family_hierarchy(plat).flatten
+      plat
+    end
+
+    def family_hierarchy(plat)
+      plat.families.each_with_object([]) do |(k, _v), memo|
+        memo << k.name
+        memo << family_hierarchy(k) unless k.families.empty?
+      end
     end
 
     # Get information on the operating system which this transport connects to.
