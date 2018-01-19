@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/chef/train.svg?branch=master)](https://travis-ci.org/chef/train)
 [![Build Status Master](https://ci.appveyor.com/api/projects/status/github/chef/train?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/train/branch/master)
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fchef%2Ftrain.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fchef%2Ftrain?ref=badge_shield)
 
 Train lets you talk to your local or remote operating systems with a unified interface.
 
@@ -173,3 +174,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fchef%2Ftrain.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fchef%2Ftrain?ref=badge_large)
