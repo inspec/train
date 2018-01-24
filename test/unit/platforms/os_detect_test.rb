@@ -44,6 +44,16 @@ describe 'os_detect' do
         platform[:family].must_equal('redhat')
         platform[:release].must_equal('7.2.1511')
       end
+      it 'sets the correct family, name, and release on scientific linux' do
+        files = {
+          '/etc/redhat-release' => "Scientific Linux release 7.4 (Nitrogen)\n",
+          '/etc/os-release' => "NAME=\"Scientific Linux\"\nVERSION=\"7.4 (Nitrogen)\"\nID=\"rhel\"\nID_LIKE=\"scientific centos fedora\"\nVERSION_ID=\"7.4\"\nPRETTY_NAME=\"Scientific Linux 7.4 (Nitrogen)\"\nANSI_COLOR=\"0;31\"\nCPE_NAME=\"cpe:/o:scientificlinux:scientificlinux:7.4:GA\"\nHOME_URL=\"http://www.scientificlinux.org//\"\nBUG_REPORT_URL=\"mailto:scientific-linux-devel@listserv.fnal.gov\"\n\nREDHAT_BUGZILLA_PRODUCT=\"Scientific Linux 7\"\nREDHAT_BUGZILLA_PRODUCT_VERSION=7.4\nREDHAT_SUPPORT_PRODUCT=\"Scientific Linux\"\nREDHAT_SUPPORT_PRODUCT_VERSION=\"7.4\"\n",
+        }
+        platform = scan_with_files('linux', files)
+        platform[:name].must_equal('scientific')
+        platform[:family].must_equal('redhat')
+        platform[:release].must_equal('7.4')
+      end
     end
   end
 
