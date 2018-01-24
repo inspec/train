@@ -5,8 +5,10 @@
 
 require 'train/file/local'
 require 'train/file/remote'
-require 'digest/sha2'
-require 'digest/md5'
+require 'train/file/remote/unix'
+require 'train/file/remote/linux'
+require 'train/file/remote/windows'
+require 'train/file/remote/qnx'
 require 'train/extras/stat'
 
 module Train
