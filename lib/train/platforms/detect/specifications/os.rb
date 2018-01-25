@@ -158,7 +158,7 @@ module Train::Platforms::Detect::Specifications
       plat.name('scientific').title('Scientific Linux').in_family('redhat')
           .detect {
             lsb = read_linux_lsb
-            if lsb && lsb[:id] =~ /scientificsl/i
+            if lsb && lsb[:id] =~ /scientific/i
               @platform[:release] = lsb[:release]
               true
             end
