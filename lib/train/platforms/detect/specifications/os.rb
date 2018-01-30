@@ -35,6 +35,19 @@ module Train::Platforms::Detect::Specifications
             end
           }
 
+      # cisco_ios family
+      plat.family('cisco').title('Cisco Family')
+          .detect {
+            true
+          }
+
+      plat.name('cisco_ios').title('Cisco IOS').in_family('cisco')
+          .detect {
+            return unless v = cisco_show_version
+            @platform[:release] = v[:version]
+            true
+          }
+
       # arista_eos family
       # this has to be before redhat as EOS is based off fedora
       plat.family('arista_eos').title('Arista EOS Family').in_family('unix')
