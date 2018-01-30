@@ -182,6 +182,7 @@ class Train::Transports::SSH
       cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
       logger.debug("[SSH] #{self} (#{cmd})")
 
+      reset_session if session.closed?
       session.open_channel do |channel|
         # wrap commands if that is configured
         cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
@@ -230,6 +231,10 @@ class Train::Transports::SSH
         retries: @connection_retries.to_i,
         delay:   @connection_retry_sleep.to_i,
       }.merge(retry_options))
+    end
+
+    def reset_session()
+      @session = nil
     end
 
     # String representation of object, reporting its connection details and
