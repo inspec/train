@@ -233,7 +233,7 @@ class Train::Transports::SSH
       }.merge(retry_options))
     end
 
-    def reset_session()
+    def reset_session
       @session = nil
     end
 
