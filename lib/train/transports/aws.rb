@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'train/plugins'
 require 'aws-sdk'
 
