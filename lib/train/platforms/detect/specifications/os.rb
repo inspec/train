@@ -27,7 +27,9 @@ module Train::Platforms::Detect::Specifications
       # unix master family
       plat.family('unix')
           .detect {
-            if unix_uname_s =~ /./
+            # we want to catch a special case here where cisco commands
+            # don't return an exit status and still print to stdout
+            if unix_uname_s =~ /./ && !unix_uname_s.start_with?('Line has invalid autocommand ')
               @platform[:arch] = unix_uname_m
               true
             end
