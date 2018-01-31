@@ -48,22 +48,8 @@ module Train::Transports
       end
 
       def connect
-        if @options[:profile]
-          creds = ::Aws::SharedCredentials.new(profile_name: @options[:profile])
-        else
-          creds = ::Aws::Credentials.new(
-            @options[:access_key_id],
-            @options[:secret_access_key],
-            @options[:session_token],
-          )
-        end
-
-        opts = { region: @options[:region] }
-
-        # fall back to the native aws credentials if we are not overriding
-        opts[:credentials] = creds unless creds.access_key_id.nil?
-
-        ::Aws.config.update(opts)
+        ENV['AWS_PROFILE'] = @options[:profile] if @options[:profile]
+        ENV['AWS_REGION'] = @options[:region] if @options[:region]
       end
 
       def uri

@@ -1,16 +1,16 @@
 # encoding: utf-8
 
-# envs have to be set before we start up the testing
-ENV['AWS_REGION'] = 'test_region'
-ENV['AWS_ACCESS_KEY_ID'] = 'test_key_id'
-ENV['AWS_SECRET_ACCESS_KEY'] = 'test_access_key'
-ENV['AWS_SESSION_TOKEN'] = 'test_session_token'
-
 require 'helper'
-require 'train/transports/aws'
 
 describe 'aws transport' do
   def transport(options = nil)
+    ENV['AWS_REGION'] = 'test_region'
+    ENV['AWS_ACCESS_KEY_ID'] = 'test_key_id'
+    ENV['AWS_SECRET_ACCESS_KEY'] = 'test_access_key'
+    ENV['AWS_SESSION_TOKEN'] = 'test_session_token'
+
+    # need to require this at here as it captures the envs on load
+    require 'train/transports/aws'
     Train::Transports::Aws.new(options)
   end
   let(:connection) { transport.connection }
@@ -82,20 +82,18 @@ describe 'aws transport' do
   end
 
   describe 'connect' do
-    it 'validate aws connection config' do
-      options[:profile] = nil
-      creds = connection.connect
-      creds[:credentials].access_key_id.must_equal 'test_key_id'
-      creds[:credentials].secret_access_key.must_equal 'test_access_key'
-      creds[:credentials].session_token.must_equal 'test_session_token'
-      creds[:region].must_equal 'test_region'
+    it 'validate aws connection with profile' do
+      options[:profile] = 'xyz'
+      ENV['AWS_PROFILE'].must_be_nil
+      connection.connect
+      ENV['AWS_PROFILE'].must_equal 'xyz'
     end
 
-    it 'validate aws connection fallback' do
-      options[:profile] = nil
-      options[:access_key_id] = nil
-
-      Aws.config.expects(:update).never
+    it 'validate aws connection with region' do
+      options[:region] = 'xyz'
+      ENV['AWS_REGION'].must_equal 'test_region'
+      connection.connect
+      ENV['AWS_REGION'].must_equal 'xyz'
     end
   end
 end
