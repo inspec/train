@@ -90,5 +90,12 @@ describe 'aws transport' do
       creds[:credentials].session_token.must_equal 'test_session_token'
       creds[:region].must_equal 'test_region'
     end
+
+    it 'validate aws connection fallback' do
+      options[:profile] = nil
+      options[:access_key_id] = nil
+
+      Aws.config.expects(:update).never
+    end
   end
 end

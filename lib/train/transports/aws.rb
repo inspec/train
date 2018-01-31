@@ -58,10 +58,11 @@ module Train::Transports
           )
         end
 
-        opts = {
-          region: @options[:region],
-          credentials: creds,
-        }
+        opts = { region: @options[:region] }
+
+        # fall back to the native aws credentials if we are not overriding
+        opts[:credentials] = creds unless creds.access_key_id.nil?
+
         ::Aws.config.update(opts)
       end
 
