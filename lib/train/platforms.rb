@@ -6,6 +6,7 @@ require 'train/platforms/platform'
 require 'train/platforms/detect'
 require 'train/platforms/detect/scanner'
 require 'train/platforms/detect/specifications/os'
+require 'train/platforms/detect/specifications/api'
 
 module Train::Platforms
   class << self

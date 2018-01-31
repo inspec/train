@@ -4,13 +4,14 @@
 [![Build Status Master](https://ci.appveyor.com/api/projects/status/github/chef/train?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/train/branch/master)
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
 
-Train lets you talk to your local or remote operating systems with a unified interface.
+Train lets you talk to your local or remote operating systems and APIs with a unified interface.
 
 It allows you to:
 
 * execute commands via `run_command`
 * interact with files via `file`
 * identify the target operating system via `os`
+* authenticate to API-based services and treat them like a platform
 
 Train supports:
 
@@ -19,6 +20,7 @@ Train supports:
 * WinRM
 * Docker
 * Mock (for testing and debugging)
+* AWS as an API
 
 # Examples
 
@@ -61,6 +63,21 @@ require 'train'
 train = Train.create('docker', host: 'container_id...')
 ```
 
+**AWS**
+
+To use AWS API authentication, setup an AWS client profile to store the Access Key ID and Secret Access Key.
+
+```ruby
+require 'train'
+train = Train.create('aws', region: 'us-east-2', profile: 'my-profile')
+```
+
+You may also use the standard AWS CLI environment variables, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION`.
+```ruby
+require 'train'
+train = Train.create('aws')
+```
+
 ## Configuration
 
 To get a list of available options for a plugin:
@@ -95,6 +112,10 @@ puts conn.os[:release]
 
 # access files
 puts conn.file('/proc/version').content
+
+# access specific API client functionality
+ec2_client = train.connection.aws_client(Aws::EC2::Client)
+puts ec2_client.describe_instances
 
 # close the connection
 conn.close

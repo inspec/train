@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'winrm', '~> 2.0'
   spec.add_dependency 'winrm-fs', '~> 1.0'
   spec.add_dependency 'docker-api', '~> 1.26'
+  spec.add_dependency 'aws-sdk', '~> 2'
 
   spec.add_development_dependency 'mocha', '~> 1.1'
 end
