@@ -51,7 +51,7 @@ module Train::Platforms::Detect::Specifications
                 @platform[:release] = eos_ver['version']
                 @platform[:arch] = eos_ver['architecture']
                 true
-              rescue JSON::ParserError => _
+              rescue JSON::ParserError
                 nil
               end
             end
@@ -67,7 +67,7 @@ module Train::Platforms::Detect::Specifications
                   @platform[:release] = eos_ver['version']
                   @platform[:arch] = eos_ver['architecture']
                   true
-                rescue JSON::ParserError => _
+                rescue JSON::ParserError
                   nil
                 end
               end
