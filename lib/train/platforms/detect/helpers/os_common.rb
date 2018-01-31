@@ -52,5 +52,11 @@ module Train::Platforms::Detect::Helpers
       return @uname[:m] if @uname.key?(:m)
       @uname[:m] = command_output('uname -m')
     end
+
+    def cisco_show_version
+      res = command_output('show version')
+      m = res.match(/^Cisco IOS Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+)/)
+      m.nil? ? nil : { version: m[2], model: m[1], raw: res }
+    end
   end
 end
