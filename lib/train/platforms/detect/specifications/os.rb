@@ -46,10 +46,14 @@ module Train::Platforms::Detect::Specifications
             cmd = @backend.run_command('show version | json')
             if cmd.exit_status == 0 && !cmd.stdout.empty?
               require 'json'
-              eos_ver = JSON.parse(cmd.stdout)
-              @platform[:release] = eos_ver['version']
-              @platform[:arch] = eos_ver['architecture']
-              true
+              begin
+                eos_ver = JSON.parse(cmd.stdout)
+                @platform[:release] = eos_ver['version']
+                @platform[:arch] = eos_ver['architecture']
+                true
+              rescue JSON::ParserError
+                nil
+              end
             end
           }
       plat.name('arista_eos_bash').title('Arista EOS Bash Shell').in_family('arista_eos')
@@ -58,10 +62,14 @@ module Train::Platforms::Detect::Specifications
               cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
               if cmd.exit_status == 0 && !cmd.stdout.empty?
                 require 'json'
-                eos_ver = JSON.parse(cmd.stdout)
-                @platform[:release] = eos_ver['version']
-                @platform[:arch] = eos_ver['architecture']
-                true
+                begin
+                  eos_ver = JSON.parse(cmd.stdout)
+                  @platform[:release] = eos_ver['version']
+                  @platform[:arch] = eos_ver['architecture']
+                  true
+                rescue JSON::ParserError
+                  nil
+                end
               end
             end
           }
