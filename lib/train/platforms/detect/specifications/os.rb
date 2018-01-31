@@ -43,7 +43,8 @@ module Train::Platforms::Detect::Specifications
 
       plat.name('cisco_ios').title('Cisco IOS').in_family('cisco')
           .detect {
-            return unless v == cisco_show_version
+            v = cisco_show_version
+            return unless v
             @platform[:release] = v[:version]
             true
           }
