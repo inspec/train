@@ -38,22 +38,24 @@ module Train::Platforms::Detect::Specifications
       # cisco_ios family
       plat.family('cisco').title('Cisco Family')
           .detect {
-            true
+            !cisco_show_version.nil?
           }
 
       plat.name('cisco_ios').title('Cisco IOS').in_family('cisco')
           .detect {
-            next unless v = cisco_show_version
+            v = cisco_show_version
             next unless v[:type] == 'ios'
             @platform[:release] = v[:version]
+            @platform[:arch] = nil
             true
           }
 
       plat.name('cisco_nexus').title('Cisco Nexus').in_family('cisco')
           .detect {
-            next unless v = cisco_show_version
+            v = cisco_show_version
             next unless v[:type] == 'nexus'
             @platform[:release] = v[:version]
+            @platform[:arch] = nil
             true
           }
 
