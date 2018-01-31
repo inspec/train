@@ -21,6 +21,7 @@ Train supports:
 * Docker
 * Mock (for testing and debugging)
 * AWS as an API
+* Azure as an API
 
 # Examples
 

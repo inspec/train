@@ -19,7 +19,7 @@ group :test do
   gem 'rake', '~> 10'
   gem 'rubocop', '~> 0.36.0'
   gem 'simplecov', '~> 0.10'
-  gem 'concurrent-ruby', '~> 0.9'
+  gem 'concurrent-ruby', '~> 1.0'
 end
 
 group :integration do
