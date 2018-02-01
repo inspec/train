@@ -1,7 +1,23 @@
 # Change Log
 
-## [0.32.0](https://github.com/chef/train/tree/0.32.0) (2018-01-04)
-[Full Changelog](https://github.com/chef/train/compare/v0.31.1...0.32.0)
+## [1.0.0](https://github.com/chef/train/tree/1.0.0) (2018-02-01)
+[Full Changelog](https://github.com/chef/train/compare/v0.32.0...1.0.0)
+
+**Closed issues:**
+
+- Add aws:// target [\#229](https://github.com/chef/train/issues/229)
+
+**Merged pull requests:**
+
+- cisco nexus + ios12 [\#247](https://github.com/chef/train/pull/247) ([arlimus](https://github.com/arlimus))
+- Add a CONTRIBUTING.md to Train [\#245](https://github.com/chef/train/pull/245) ([miah](https://github.com/miah))
+- catch detect failing to parse json [\#243](https://github.com/chef/train/pull/243) ([arlimus](https://github.com/arlimus))
+- if ssh closes the session force it to reset and reopen [\#242](https://github.com/chef/train/pull/242) ([arlimus](https://github.com/arlimus))
+- Add AWS transport [\#239](https://github.com/chef/train/pull/239) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Fix detection of Scientific Linux [\#237](https://github.com/chef/train/pull/237) ([schrd](https://github.com/schrd))
+
+## [v0.32.0](https://github.com/chef/train/tree/v0.32.0) (2018-01-04)
+[Full Changelog](https://github.com/chef/train/compare/v0.31.1...v0.32.0)
 
 **Fixed bugs:**
 
@@ -10,6 +26,7 @@
 
 **Merged pull requests:**
 
+- Release 0.32.0 [\#232](https://github.com/chef/train/pull/232) ([adamleff](https://github.com/adamleff))
 - Set mock transport to use the platform instance variable [\#230](https://github.com/chef/train/pull/230) ([jquick](https://github.com/jquick))
 
 ## [v0.31.1](https://github.com/chef/train/tree/v0.31.1) (2017-12-06)
