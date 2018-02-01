@@ -15,6 +15,7 @@ module Train::Platforms::Detect
       @files = {}
       @uname = {}
       @lsb = {}
+      @cache = {}
     end
 
     # Main detect method to scan all platforms for a match
