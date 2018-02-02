@@ -11,8 +11,6 @@ require 'train/file/remote/unix'
 require 'train/file/remote/linux'
 require 'train/file/remote/windows'
 require 'train/file/remote/qnx'
-require 'digest/sha2'
-require 'digest/md5'
 require 'train/extras/stat'
 
 module Train
@@ -55,17 +53,21 @@ module Train
     end
 
     def md5sum
-      res = Digest::MD5.new
-      res.update(content)
-      res.hexdigest
+      value = @backend.run_command("md5sum #{@path}").stdout.slice(0..31)
+      if value.empty?
+        value = nil
+      end
+      value
     rescue TypeError => _
       nil
     end
 
     def sha256sum
-      res = Digest::SHA256.new
-      res.update(content)
-      res.hexdigest
+      value = @backend.run_command("sha256sum #{@path}").stdout.slice(0..63)
+      if value.empty?
+        value = nil
+      end
+      value
     rescue TypeError => _
       nil
     end

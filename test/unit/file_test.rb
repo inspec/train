@@ -1,8 +1,14 @@
 require 'helper'
+require 'train/transports/mock'
 
 describe Train::File do
   let(:cls) { Train::File }
   let(:new_cls) { cls.new(nil, '/temp/file', false) }
+  let(:backend) {
+    backend = Train::Transports::Mock.new.connection
+    backend.mock_os({ name: 'linux', family: 'unix' })
+    backend
+  }
 
   def mockup(stubs)
     Class.new(cls) do
@@ -19,29 +25,27 @@ describe Train::File do
   end
 
   it 'calculates md5sum from content' do
-    content = 'hello world'
-    new_cls.stub :content, content do |i|
-      i.md5sum.must_equal '5eb63bbbe01eeed093cb22bb8f5acdc3'
-    end
+    content = '5eb63bbbe01eeed093cb22bb8f5acdc3'
+    backend.mock_command('md5sum /md5_checksum_path', content)
+    cls.new(backend, '/md5_checksum_path').md5sum.must_equal content
   end
 
   it 'sets md5sum of nil content to nil' do
-    new_cls.stub :content, nil do |i|
-      i.md5sum.must_be_nil
-    end
+    content = nil
+    backend.mock_command('md5sum /md5_checksum_path', content)
+    assert_nil cls.new(backend, '/md5_checksum_path').md5sum
   end
 
   it 'calculates sha256sum from content' do
-    content = 'hello world'
-    new_cls.stub :content, content do |i|
-      i.sha256sum.must_equal 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
-    end
+    content = 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
+    backend.mock_command('sha256sum /sha256sum_checksum_path', content)
+    cls.new(backend, '/sha256sum_checksum_path').sha256sum.must_equal content
   end
 
   it 'sets sha256sum of nil content to nil' do
-    new_cls.stub :content, nil do |i|
-      i.sha256sum.must_be_nil
-    end
+    content = nil
+    backend.mock_command('sha256sum /sha256sum_checksum_path', content)
+    assert_nil cls.new(backend, '/sha256sum_checksum_path').sha256sum
   end
 
   it 'throws Not implemented error for exist?' do
