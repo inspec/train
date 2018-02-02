@@ -32,7 +32,7 @@ module Train
           mode owner group uid gid mtime size selinux_label link_path mounted stat
         }.each do |field|
           define_method field.to_sym do
-            fail NotImplementedError, "QNX does not implement the #{m}() method yet."
+            fail NotImplementedError, "QNX does not implement the #{field}() method yet."
           end
         end
       end
