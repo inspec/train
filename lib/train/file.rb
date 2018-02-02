@@ -4,13 +4,7 @@
 # author: Dominik Richter
 
 require 'train/file/local'
-require 'train/file/local/unix'
-require 'train/file/local/windows'
 require 'train/file/remote'
-require 'train/file/remote/unix'
-require 'train/file/remote/linux'
-require 'train/file/remote/windows'
-require 'train/file/remote/qnx'
 require 'digest/sha2'
 require 'digest/md5'
 require 'train/extras/stat'
