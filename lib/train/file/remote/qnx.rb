@@ -8,7 +8,7 @@ require 'train/file/remote/unix'
 module Train
   class File
     class Remote
-      class Aix < Train::File::Remote::Unix
+      class Qnx < Train::File::Remote::Unix
         def content
           cat = 'cat'
           cat = '/proc/boot/cat' if @backend.os[:release].to_i >= 7
@@ -32,7 +32,7 @@ module Train
           mode owner group uid gid mtime size selinux_label link_path mounted stat
         }.each do |field|
           define_method field.to_sym do
-            fail NotImplementedError, "QNX does not implement the #{m}() method yet."
+            fail NotImplementedError, "QNX does not implement the #{field}() method yet."
           end
         end
       end

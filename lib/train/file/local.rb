@@ -68,3 +68,8 @@ module Train
     end
   end
 end
+
+# subclass requires are loaded after Train::File::Local is defined
+# to avoid superclass mismatch errors
+require 'train/file/local/unix'
+require 'train/file/local/windows'

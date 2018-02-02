@@ -26,3 +26,11 @@ module Train
     end
   end
 end
+
+# subclass requires are loaded after Train::File::Remote is defined
+# to avoid superclass mismatch errors
+require 'train/file/remote/aix'
+require 'train/file/remote/linux'
+require 'train/file/remote/qnx'
+require 'train/file/remote/unix'
+require 'train/file/remote/windows'
