@@ -14,7 +14,7 @@ module Train::Transports
     option :subscription_id, default: ENV['AZURE_SUBSCRIPTION_ID']
 
     # This can provide the client id and secret
-    option :credentials_file, required: true, default: ENV['AZURE_CRED_FILE']
+    option :credentials_file, default: ENV['AZURE_CRED_FILE']
 
     def connection(_ = nil)
       @connection ||= Connection.new(@options)
@@ -40,9 +40,7 @@ module Train::Transports
         direct_platform('azure')
       end
 
-      def azure_client(klass = nil)
-        # return the managment client by default
-        klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client if klass.nil?
+      def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client)
         return klass.new(@credentials) unless cache_enabled?(:api_call)
 
         @cache[:api_call][klass.to_s.to_sym] ||= klass.new(@credentials)
@@ -75,7 +73,7 @@ module Train::Transports
         # the credentials file to that, otherwise set the one in home
         azure_creds_file = @options[:credentials_file]
         azure_creds_file = File.join(Dir.home, '.azure', 'credentials') if azure_creds_file.nil?
-        return unless File.file?(azure_creds_file)
+        return unless File.readable?(azure_creds_file)
 
         credentials = IniFile.load(File.expand_path(azure_creds_file))
         if !@options[:subscription_id].nil?
@@ -93,11 +91,11 @@ module Train::Transports
           end
           id = credentials.sections[subscription_number - 1]
         else
-          raise 'Multiple credentials detected, please set a subscription id to use.' if credentials.sections.count > 1
+          raise 'Multiple credentials detected, please set the AZURE_SUBSCRIPTION_ID environment variable.' if credentials.sections.count > 1
           id = credentials.sections[0]
         end
 
-        raise format('No credentials found for subscription number %s', id) if credentials.sections.empty? || credentials[id].empty?
+        raise "No credentials found for subscription number #{id}" if credentials.sections.empty? || credentials[id].empty?
         @options[:subscription_id] = id
         @options[:tenant_id] = credentials[id]['tenant_id']
         @options[:client_id] = credentials[id]['client_id']
