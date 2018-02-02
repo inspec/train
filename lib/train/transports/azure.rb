@@ -76,7 +76,7 @@ module Train::Transports
         return unless File.readable?(azure_creds_file)
 
         credentials = IniFile.load(File.expand_path(azure_creds_file))
-        if !@options[:subscription_id].nil?
+        if @options[:subscription_id]
           id = @options[:subscription_id]
         elsif !ENV['AZURE_SUBSCRIPTION_NUMBER'].nil?
           subscription_number = ENV['AZURE_SUBSCRIPTION_NUMBER'].to_i

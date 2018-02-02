@@ -26,7 +26,7 @@ describe 'azure transport' do
       options[:subscription_id].must_equal 'test_subscription_id'
     end
 
-    it 'test options override' do
+    it 'allows for options override' do
       transport = transport(subscription_id: '102', client_id: '717')
       options = transport.connection.instance_variable_get(:@options)
       options[:tenant_id].must_equal 'test_tenant_id'
@@ -35,7 +35,7 @@ describe 'azure transport' do
       options[:subscription_id].must_equal '102'
     end
 
-    it 'test url parse override' do
+    it 'allows uri parse override' do
       transport = transport(host: '999')
       options = transport.connection.instance_variable_get(:@options)
       options[:tenant_id].must_equal 'test_tenant_id'
@@ -58,14 +58,15 @@ describe 'azure transport' do
         @hash = hash
       end
     end
-    it 'test azure_client with caching' do
+
+    it 'can use azure_client with caching' do
       connection.instance_variable_set(:@credentials, {})
       client = connection.azure_client(AzureResource)
       client.is_a?(AzureResource).must_equal true
       cache[:api_call].count.must_equal 1
     end
 
-    it 'test azure_client without caching' do
+    it 'can use azure_client without caching' do
       connection.instance_variable_set(:@credentials, {})
       connection.disable_cache(:api_call)
       client = connection.azure_client(AzureResource)
@@ -73,7 +74,7 @@ describe 'azure transport' do
       cache[:api_call].count.must_equal 0
     end
 
-    it 'test azure_client default client' do
+    it 'can use azure_client default client' do
       client = connection.azure_client
       client.class.must_equal Azure::Resources::Profiles::Latest::Mgmt::Client
     end
@@ -109,6 +110,7 @@ describe 'azure transport' do
       file.close
       file
     end
+
     it 'validate credentials from file' do
       options[:credentials_file] = cred_file.path
       options[:subscription_id] = 'my_subscription_id'
