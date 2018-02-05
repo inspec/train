@@ -5,10 +5,6 @@
 
 require 'train/file/local'
 require 'train/file/remote'
-require 'train/file/remote/unix'
-require 'train/file/remote/linux'
-require 'train/file/remote/windows'
-require 'train/file/remote/qnx'
 require 'train/extras/stat'
 
 module Train
@@ -48,26 +44,6 @@ module Train
 
     def type
       :unknown
-    end
-
-    def md5sum
-      value = @backend.run_command("md5sum #{@path}").stdout.slice(0..31)
-      if value.empty?
-        value = nil
-      end
-      value
-    rescue TypeError => _
-      nil
-    end
-
-    def sha256sum
-      value = @backend.run_command("sha256sum #{@path}").stdout.slice(0..63)
-      if value.empty?
-        value = nil
-      end
-      value
-    rescue TypeError => _
-      nil
     end
 
     def source
@@ -152,6 +128,15 @@ module Train
       return false unless respond_to?(:mounted)
 
       !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.empty?
+    end
+
+    private
+
+    # Called by child classes when md5/sha256 checksum fails
+    def raise_checksum_error(cmd, res)
+      fail "Failed to get checksum with `#{cmd}`.\n" \
+           "STDOUT: #{res.stdout}\n" \
+           "STDERR: #{res.stderr}\n"
     end
   end
 end

@@ -18,10 +18,10 @@ describe 'file interface' do
       file.type.must_equal(:pipe)
     end
 
-    # # TODO add back content
-    # it 'has no content' do
-    #   file.content.must_be_nil
-    # end
+    # TODO: Investigate `Docker::Error::TimeoutError: read timeout reached`
+    #it 'has content' do
+    #  file.content.wont_be_nil
+    #end
 
     it 'has owner name root' do
       file.owner.must_equal('root')
@@ -43,15 +43,15 @@ describe 'file interface' do
       file.link_path.must_be_nil
     end
 
-    # # TODO add back content
-    # it 'has no md5sum' do
-    #   file.md5sum.must_be_nil
-    # end
-    #
-    # # TODO add back content
-    # it 'has no sha256sum' do
-    #   file.sha256sum.must_be_nil
-    # end
+    # TODO: Investigate `Docker::Error::TimeoutError: read timeout reached`
+    #it 'has the correct md5sum' do
+    #   file.md5sum.must_equal 'Fix test first to get value'
+    #end
+
+    # TODO: Investigate `Docker::Error::TimeoutError: read timeout reached`
+    #it 'has the correct sha256sum' do
+    #  file.sha256sum.must_equal 'Fix test first to get value'
+    #end
 
     it 'has a modified time' do
       file.mtime.must_be_close_to(Time.now.to_i - Test.mtime/2, Test.mtime)

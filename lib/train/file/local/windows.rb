@@ -57,6 +57,22 @@ module Train
 
           @stat
         end
+
+        def md5sum
+          cmd = "CertUtil -hashfile #{@path} MD5"
+          res = @backend.run_command(cmd)
+          return res.stdout.split("\r\n")[1].tr(' ', '') if res.exit_status == 0
+
+          raise_checksum_error(cmd, res)
+        end
+
+        def sha256sum
+          cmd = "CertUtil -hashfile #{@path} SHA256"
+          res = @backend.run_command(cmd)
+          return res.stdout.split("\r\n")[1].tr(' ', '') if res.exit_status == 0
+
+          raise_checksum_error(cmd, res)
+        end
       end
     end
   end

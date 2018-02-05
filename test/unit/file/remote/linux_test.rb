@@ -9,7 +9,7 @@ describe Train::File::Remote::Linux do
     backend = Train::Transports::Mock.new.connection
     backend.mock_os({ name: 'linux', family: 'unix' })
     backend
-  }  
+  }
 
   def mock_stat(args, out, err = '', code = 0)
     backend.mock_command(
@@ -168,6 +168,28 @@ describe Train::File::Remote::Linux do
 
     it 'retrieves the file selinux_label' do
       f.selinux_label.must_equal 'labels'
+    end
+  end
+
+  describe '#md5sum' do
+    let(:md5_checksum) { '57d4c6f9d15313fd5651317e588c035d' }
+
+    it 'calculates the correct md5sum on the `linux` platform family' do
+      output = "#{md5_checksum} /tmp/testfile"
+      backend.mock_command('md5sum /tmp/testfile', output)
+      cls.new(backend, '/tmp/testfile').md5sum.must_equal md5_checksum
+    end
+  end
+
+  describe '#sha256sum' do
+    let(:sha256_checksum) {
+      '491260aaa6638d4a64c714a17828c3d82bad6ca600c9149b3b3350e91bcd283d'
+    }
+
+    it 'calculates the correct sha256sum on the `linux` platform family' do
+      output = "#{sha256_checksum} /tmp/testfile"
+      backend.mock_command('sha256sum /tmp/testfile', output)
+      cls.new(backend, '/tmp/testfile').sha256sum.must_equal sha256_checksum
     end
   end
 end

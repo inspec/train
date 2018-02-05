@@ -84,12 +84,22 @@ describe 'windows winrm command' do
       file.mode.must_be_nil
     end
 
-    it 'has an md5sum' do
-      file.md5sum.wont_be_nil
+    it 'has the correct md5sum' do
+      # Must create unique file to prevent `ERROR_SHARING_VIOLATION`
+      tempfile = Tempfile.new('tempfile')
+      tempfile.write('easy to hash')
+      tempfile.close
+      conn.file(tempfile.path).md5sum.must_equal 'c15b41ade1221a532a38d89671ffaa20'
+      tempfile.unlink
     end
 
-    it 'has an sha256sum' do
-      file.sha256sum.wont_be_nil
+    it 'has the correct sha256sum' do
+      # Must create unique file to prevent `ERROR_SHARING_VIOLATION`
+      tempfile = Tempfile.new('tempfile')
+      tempfile.write('easy to hash')
+      tempfile.close
+      conn.file(tempfile.path).sha256sum.must_equal '24ae25354d5f697566e715cd46e1df2f490d0b8367c21447962dbf03bf7225ba'
+      tempfile.unlink
     end
 
     it 'has no modified time' do
