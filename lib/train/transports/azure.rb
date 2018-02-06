@@ -22,6 +22,8 @@ module Train::Transports
 
     class Connection < BaseConnection
       def initialize(options)
+        @apis = {}
+
         # Override for any cli options
         # azure://subscription_id
         options[:subscription_id] = options[:host] || options[:subscription_id]
@@ -64,6 +66,51 @@ module Train::Transports
 
       def uri
         "azure://#{@options[:subscription_id]}"
+      end
+
+      # Returns the api version for the specified resource type
+      #
+      # If an api version has been specified in the options then the apis version table is updated
+      # with that value and it is returned
+      #
+      # However if it is not specified, or multiple types are being interrogated then this method
+      # will interrogate Azure for each of the types versions and pick the latest one. This is added
+      # to the apis table so that it can be retrieved quickly again of another one of those resources
+      # is encountered again in the resource collection.
+      #
+      # @param string resource_type The resource type for which the API is required
+      # @param hash options Options have that have been passed to the resource during the test.
+      # @option opts [String] :group_name Resource group name
+      # @option opts [String] :type Azure resource type
+      # @option opts [String] :name Name of specific resource to look for
+      # @option opts [String] :apiversion If looking for a specific item or type specify the api version to use
+      #
+      # @return string API Version of the specified resource type
+      def get_api_version(resource_type, options)
+        # if an api version has been set in the options, add to the apis hashtable with
+        # the resource type
+        if options[:apiversion]
+          @apis[resource_type] = options[:apiversion]
+        else
+          # only attempt to get the api version from Azure if the resource type
+          # is not present in the apis hashtable
+          unless @apis.key?(resource_type)
+
+            # determine the namespace for the resource type
+            namespace, type = resource_type.split(%r{/})
+
+            client = azure_client(::Azure::Resources::Profiles::Latest::Mgmt::Client)
+            provider = client.providers.get(namespace)
+
+            # get the latest API version for the type
+            # assuming that this is the first one in the list
+            api_versions = (provider.resource_types.find { |v| v.resource_type == type }).api_versions
+            @apis[resource_type] = api_versions[0]
+          end
+        end
+
+        # return the api version for the type
+        @apis[resource_type]
       end
 
       private
