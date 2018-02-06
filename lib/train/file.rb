@@ -8,7 +8,7 @@ require 'train/file/remote'
 require 'train/extras/stat'
 
 module Train
-  class File
+  class File # rubocop:disable Metrics/ClassLength
     def initialize(backend, path, follow_symlink = true)
       @backend = backend
       @path = path || ''
@@ -130,9 +130,66 @@ module Train
       !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.empty?
     end
 
+    def md5sum
+      return perform_checksum(:md5) unless @backend.os.family == 'windows'
+
+      perform_checksum_windows(:md5)
+    end
+
+    def sha256sum
+      return perform_checksum(:sha256) unless @backend.os.family == 'windows'
+
+      perform_checksum_windows(:sha256)
+    end
+
     private
 
-    # Called by child classes when md5/sha256 checksum fails
+    def md5_command
+      case @backend.os.family
+      when 'darwin'
+        # `-r` reverses output to match `md5sum`
+        'md5 -r'
+      when 'solaris'
+        'digest -a md5'
+      else
+        'md5sum'
+      end
+    end
+
+    def sha256_command
+      case @backend.os.family
+      when 'darwin', 'hpux'
+        'shasum -a 256'
+      when 'solaris'
+        'digest -a sha256'
+      else
+        'sha256sum'
+      end
+    end
+
+    def perform_checksum(method)
+      case method
+      when :md5
+        cmd = "#{md5_command} #{@path}"
+      when :sha256
+        cmd = "#{sha256_command} #{@path}"
+      end
+
+      res = @backend.run_command(cmd)
+      return res.stdout.split(' ').first if res.exit_status == 0
+
+      raise_checksum_error(cmd, res)
+    end
+
+    def perform_checksum_windows(method)
+      cmd = "CertUtil -hashfile #{@path} #{method.to_s.upcase}"
+
+      res = @backend.run_command(cmd)
+      return res.stdout.split("\r\n")[1].tr(' ', '') if res.exit_status == 0
+
+      raise_checksum_error(cmd, res)
+    end
+
     def raise_checksum_error(cmd, res)
       fail "Failed to get checksum with `#{cmd}`.\n" \
            "STDOUT: #{res.stdout}\n" \

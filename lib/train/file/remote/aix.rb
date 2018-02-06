@@ -21,22 +21,6 @@ module Train
         def mounted
           @mounted ||= @backend.run_command("lsfs -c #{@spath}")
         end
-
-        def md5sum
-          cmd = "md5sum #{path}"
-          res = @backend.run_command(cmd)
-          return res.stdout.split(' ').first if res.exit_status == 0
-
-          raise_checksum_error(cmd, res)
-        end
-
-        def sha256sum
-          cmd = "sha256sum #{@path}"
-          res = @backend.run_command(cmd)
-          return res.stdout.split(' ').first if res.exit_status == 0
-
-          raise_checksum_error(cmd, res)
-        end
       end
     end
   end

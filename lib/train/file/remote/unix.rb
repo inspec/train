@@ -80,39 +80,6 @@ module Train
           @link_path ||= read_target_path
         end
 
-        def md5sum
-          case @backend.os.family
-          when 'darwin'
-            # `-r` reverses output to match `md5sum`
-            cmd = "md5 -r #{@path}"
-          when 'solaris'
-            cmd = "digest -a md5 #{@path}"
-          else
-            fail 'No application defined to perform md5sum'
-          end
-
-          res = @backend.run_command(cmd)
-          return res.stdout.split(' ').first if res.exit_status == 0
-
-          raise_checksum_error(cmd, res)
-        end
-
-        def sha256sum
-          case @backend.os.family
-          when 'darwin', 'hpux'
-            cmd = "shasum -a 256 #{@path}"
-          when 'solaris'
-            cmd = "digest -a sha256 #{@path}"
-          else
-            fail 'No application defined to perform sha256sum'
-          end
-
-          res = @backend.run_command(cmd)
-          return res.stdout.split(' ').first if res.exit_status == 0
-
-          raise_checksum_error(cmd, res)
-        end
-
         private
 
         # Returns full path of a symlink target(real dest) or '' on symlink loop

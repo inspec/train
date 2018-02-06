@@ -13,22 +13,6 @@ module Train
           @content = nil if directory? or size.nil? or size > 0
           @content
         end
-
-        def md5sum
-          cmd = "md5sum #{path}"
-          res = @backend.run_command(cmd)
-          return res.stdout.split(' ').first if res.exit_status == 0
-
-          raise_checksum_error(cmd, res)
-        end
-
-        def sha256sum
-          cmd = "sha256sum #{@path}"
-          res = @backend.run_command(cmd)
-          return res.stdout.split(' ').first if res.exit_status == 0
-
-          raise_checksum_error(cmd, res)
-        end
       end
     end
   end

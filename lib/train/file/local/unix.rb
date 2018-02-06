@@ -64,39 +64,6 @@ module Train
           t & o
         end
 
-        def md5sum
-          case @backend.os.family
-          when 'darwin'
-            # `-r` reverses output to match `md5sum`
-            cmd = "md5 -r #{@path}"
-          when 'solaris'
-            cmd = "digest -a md5 #{@path}"
-          else
-            cmd = "md5sum #{@path}"
-          end
-
-          res = @backend.run_command(cmd)
-          return res.stdout.split(' ').first if res.exit_status == 0
-
-          raise_checksum_error(cmd, res)
-        end
-
-        def sha256sum
-          case @backend.os.family
-          when 'darwin', 'hpux'
-            cmd = "shasum -a 256 #{@path}"
-          when 'solaris'
-            cmd = "digest -a sha256 #{@path}"
-          else
-            cmd = "sha256sum #{@path}"
-          end
-
-          res = @backend.run_command(cmd)
-          return res.stdout.split(' ').first if res.exit_status == 0
-
-          raise_checksum_error(cmd, res)
-        end
-
         private
 
         def pw_username(uid)
