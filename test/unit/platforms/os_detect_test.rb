@@ -183,6 +183,16 @@ describe 'os_detect' do
     end
   end
 
+  describe 'qnx' do
+    it 'sets the correct info for qnx platform' do
+      platform = scan_with_files('qnx', {})
+
+      platform[:name].must_equal('qnx')
+      platform[:family].must_equal('qnx')
+      platform[:release].must_equal('test-release')
+    end
+  end
+
   describe 'cisco' do
     it 'recognizes Cisco IOS12' do
       mock = Train::Transports::Mock::Connection.new
