@@ -453,6 +453,19 @@ module Train::Platforms::Detect::Specifications
             true
           }
 
+      # qnx
+      plat.family('qnx').in_family('unix')
+          .detect {
+            true if unix_uname_s =~ /qnx/i
+          }
+      plat.name('qnx').title('QNX').in_family('qnx')
+          .detect {
+            @platform[:name] = unix_uname_s.lines[0].chomp.downcase
+            @platform[:release] = unix_uname_r.lines[0].chomp
+            @platform[:arch] = unix_uname_m
+            true
+          }
+
       # bsd family
       plat.family('bsd').in_family('unix')
           .detect {
