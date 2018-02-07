@@ -6,8 +6,10 @@ module Train::Platforms::Detect::Specifications
       plat = Train::Platforms
 
       plat.family('api')
+
       plat.family('cloud').in_family('api')
       plat.name('aws').in_family('cloud')
+      plat.name('azure').in_family('cloud')
     end
   end
 end
