@@ -158,7 +158,7 @@ module Train
 
     def sha256_command
       case @backend.os.family
-      when 'darwin', 'hpux'
+      when 'darwin', 'hpux', 'qnx'
         'shasum -a 256'
       when 'solaris'
         'digest -a sha256'
