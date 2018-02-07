@@ -116,7 +116,7 @@ module Train::Transports
       private
 
       def parse_credentials_file # rubocop:disable Metrics/AbcSize
-        # If an INSPEC_AZURE_CREDS environment has been specified set the
+        # If an AZURE_CRED_FILE environment variable has been specified set the
         # the credentials file to that, otherwise set the one in home
         azure_creds_file = @options[:credentials_file]
         azure_creds_file = File.join(Dir.home, '.azure', 'credentials') if azure_creds_file.nil?
