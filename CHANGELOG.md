@@ -1,7 +1,20 @@
 # Change Log
 
-## [1.0.0](https://github.com/chef/train/tree/1.0.0) (2018-02-01)
-[Full Changelog](https://github.com/chef/train/compare/v0.32.0...1.0.0)
+## [1.1.0](https://github.com/chef/train/tree/1.1.0) (2018-02-08)
+[Full Changelog](https://github.com/chef/train/compare/v1.0.0...1.1.0)
+
+**Closed issues:**
+
+- Add azure:// target [\#233](https://github.com/chef/train/issues/233)
+
+**Merged pull requests:**
+
+- Add qnx platform support [\#253](https://github.com/chef/train/pull/253) ([jquick](https://github.com/jquick))
+- Add azure transport [\#250](https://github.com/chef/train/pull/250) ([jquick](https://github.com/jquick))
+- Fix AIX and QNX file support [\#249](https://github.com/chef/train/pull/249) ([adamleff](https://github.com/adamleff))
+
+## [v1.0.0](https://github.com/chef/train/tree/v1.0.0) (2018-02-01)
+[Full Changelog](https://github.com/chef/train/compare/v0.32.0...v1.0.0)
 
 **Closed issues:**
 
@@ -9,6 +22,7 @@
 
 **Merged pull requests:**
 
+- Update version to 1.0.0 [\#248](https://github.com/chef/train/pull/248) ([jquick](https://github.com/jquick))
 - cisco nexus + ios12 [\#247](https://github.com/chef/train/pull/247) ([arlimus](https://github.com/arlimus))
 - Add a CONTRIBUTING.md to Train [\#245](https://github.com/chef/train/pull/245) ([miah](https://github.com/miah))
 - catch detect failing to parse json [\#243](https://github.com/chef/train/pull/243) ([arlimus](https://github.com/arlimus))
