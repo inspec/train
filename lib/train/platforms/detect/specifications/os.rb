@@ -288,6 +288,13 @@ module Train::Platforms::Detect::Specifications
             end
           }
 
+      # brocade family detected here if device responds to 'uname' command,
+      # happens when logging in as root
+      plat.family('brocade').title('Brocade Family').in_family('linux')
+          .detect {
+            !brocade_version.nil?
+          }
+
       # genaric linux
       # this should always be last in the linux family list
       plat.name('linux').title('Genaric Linux').in_family('linux')
@@ -533,6 +540,21 @@ module Train::Platforms::Detect::Specifications
           .detect {
             v = cisco_show_version
             next unless v[:type] == 'nexus'
+            @platform[:release] = v[:version]
+            @platform[:arch] = nil
+            true
+          }
+
+      # brocade family
+      plat.family('brocade').title('Brocade Family').in_family('os')
+          .detect {
+            !brocade_version.nil?
+          }
+
+      plat.name('brocade_fos').title('Brocade FOS').in_family('brocade')
+          .detect {
+            v = brocade_version
+            next unless v[:type] == 'fos'
             @platform[:release] = v[:version]
             @platform[:arch] = nil
             true

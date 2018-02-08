@@ -224,4 +224,16 @@ describe 'os_detect' do
       platform[:release].must_equal('5.2')
     end
   end
+
+  describe 'brocade' do
+    it 'recognizes Brocade FOS-based SAN switches' do
+      mock = Train::Transports::Mock::Connection.new
+      mock.mock_command('version', "Kernel:     2.6.14.2\nFabric OS:  v7.4.2a\nMade on:    Thu Jun 29 19:22:14 2017\nFlash:      Sat Sep 9 17:30:42 2017\nBootProm:   1.0.11")
+      platform = Train::Platforms::Detect.scan(mock)
+
+      platform[:name].must_equal('brocade_fos')
+      platform[:family].must_equal('brocade')
+      platform[:release].must_equal('7.4.2a')
+    end
+  end
 end
