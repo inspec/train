@@ -46,7 +46,6 @@ module Train::Platforms::Detect
         next unless instance_eval(&plat.detect) == true
 
         if plat.class == Train::Platforms::Platform
-          @platform[:family] = parent.name
           return plat if condition.empty? || check_condition(condition)
         elsif plat.class == Train::Platforms::Family
           plat = scan_family_children(plat)

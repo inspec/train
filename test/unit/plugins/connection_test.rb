@@ -44,9 +44,22 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'provides direct platform' do
-      plat = connection.direct_platform('linux')
-      plat.name.must_equal 'linux'
-      plat.family_hierarchy.must_equal ['linux', 'unix']
+      plat = connection.direct_platform('mac_os_x')
+      plat.name.must_equal 'mac_os_x'
+      plat.linux?.must_equal false
+      plat.cloud?.must_equal false
+      plat.unix?.must_equal true
+      plat.family.must_equal 'darwin'
+      plat.family_hierarchy.must_equal ['darwin', 'bsd', 'unix']
+    end
+
+    it 'provides api direct platform' do
+      plat = connection.direct_platform('aws')
+      plat.name.must_equal 'aws'
+      plat.linux?.must_equal false
+      plat.cloud?.must_equal true
+      plat.family.must_equal 'cloud'
+      plat.family_hierarchy.must_equal ['cloud', 'api']
     end
 
     it 'provides family hierarchy' do

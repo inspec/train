@@ -22,6 +22,10 @@ module Train::Platforms
       @families.collect { |k, _v| k.name }
     end
 
+    def family
+      @platform[:family] || @family_hierarchy[0]
+    end
+
     def name
       # Override here incase a updated name was set
       # during the detect logic

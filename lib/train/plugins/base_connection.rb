@@ -81,6 +81,7 @@ class Train::Plugins::Transport
       plat = Train::Platforms.name(name)
       plat.backend = self
       plat.family_hierarchy = family_hierarchy(plat).flatten
+      plat.add_platform_methods
       plat
     end
 
