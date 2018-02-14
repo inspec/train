@@ -77,9 +77,10 @@ class Train::Plugins::Transport
       false
     end
 
-    def direct_platform(name)
+    def direct_platform(name, platform_details = nil)
       plat = Train::Platforms.name(name)
       plat.backend = self
+      plat.platform = platform_details unless platform_details.nil?
       plat.family_hierarchy = family_hierarchy(plat).flatten
       plat.add_platform_methods
       plat

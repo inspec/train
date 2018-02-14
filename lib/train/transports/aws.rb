@@ -31,11 +31,14 @@ module Train::Transports
         @cache_enabled[:api_call] = true
         @cache[:api_call] = {}
 
+        # additional platform details
+        @platform_details = { release: '2.0' }
+
         connect
       end
 
       def platform
-        direct_platform('aws')
+        direct_platform('aws', @platform_details)
       end
 
       def aws_client(klass)

@@ -62,6 +62,14 @@ describe 'v1 Connection Plugin' do
       plat.family_hierarchy.must_equal ['cloud', 'api']
     end
 
+    it 'provides api direct platform with platform options' do
+      details = { release: '2.0' }
+      plat = connection.direct_platform('aws', details)
+      plat.name.must_equal 'aws'
+      plat.release.must_equal '2.0'
+      plat[:release].must_equal '2.0'
+    end
+
     it 'provides family hierarchy' do
       plat = Train::Platforms.name('linux')
       family = connection.family_hierarchy(plat)

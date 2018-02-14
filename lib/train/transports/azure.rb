@@ -35,11 +35,15 @@ module Train::Transports
         if @options[:client_secret].nil? && @options[:client_id].nil?
           parse_credentials_file
         end
+
+        # additional platform details
+        @platform_details = { release: '0.15' }
+
         connect
       end
 
       def platform
-        direct_platform('azure')
+        direct_platform('azure', @platform_details)
       end
 
       def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client)
