@@ -1,7 +1,15 @@
 # Change Log
 
-## [1.1.0](https://github.com/chef/train/tree/1.1.0) (2018-02-08)
-[Full Changelog](https://github.com/chef/train/compare/v1.0.0...1.1.0)
+## [1.1.1](https://github.com/chef/train/tree/1.1.1) (2018-02-14)
+[Full Changelog](https://github.com/chef/train/compare/v1.1.0...1.1.1)
+
+**Merged pull requests:**
+
+- Add api sdk versions as platform release [\#258](https://github.com/chef/train/pull/258) ([jquick](https://github.com/jquick))
+- Add plat helper methods to api direct platforms. [\#257](https://github.com/chef/train/pull/257) ([jquick](https://github.com/jquick))
+
+## [v1.1.0](https://github.com/chef/train/tree/v1.1.0) (2018-02-08)
+[Full Changelog](https://github.com/chef/train/compare/v1.0.0...v1.1.0)
 
 **Closed issues:**
 
@@ -9,6 +17,7 @@
 
 **Merged pull requests:**
 
+- Release train 1.1.0 [\#255](https://github.com/chef/train/pull/255) ([jquick](https://github.com/jquick))
 - Add qnx platform support [\#253](https://github.com/chef/train/pull/253) ([jquick](https://github.com/jquick))
 - Add azure transport [\#250](https://github.com/chef/train/pull/250) ([jquick](https://github.com/jquick))
 - Fix AIX and QNX file support [\#249](https://github.com/chef/train/pull/249) ([adamleff](https://github.com/adamleff))
