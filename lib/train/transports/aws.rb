@@ -31,11 +31,15 @@ module Train::Transports
         @cache_enabled[:api_call] = true
         @cache[:api_call] = {}
 
+        # additional platform details
+        release = Gem.loaded_specs['aws-sdk'].version
+        @platform_details = { release: "aws-sdk-v#{release}" }
+
         connect
       end
 
       def platform
-        direct_platform('aws')
+        direct_platform('aws', @platform_details)
       end
 
       def aws_client(klass)
