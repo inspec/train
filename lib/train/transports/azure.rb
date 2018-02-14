@@ -37,7 +37,8 @@ module Train::Transports
         end
 
         # additional platform details
-        @platform_details = { release: '0.15' }
+        release = Gem.loaded_specs['azure_mgmt_resources'].version
+        @platform_details = { release: "azure_mgmt_resources-v#{release}" }
 
         connect
       end

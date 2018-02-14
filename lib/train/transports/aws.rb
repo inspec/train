@@ -32,7 +32,8 @@ module Train::Transports
         @cache[:api_call] = {}
 
         # additional platform details
-        @platform_details = { release: '2.0' }
+        release = Gem.loaded_specs['aws-sdk'].version
+        @platform_details = { release: "aws-sdk-v#{release}" }
 
         connect
       end
