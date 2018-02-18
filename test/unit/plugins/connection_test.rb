@@ -50,7 +50,7 @@ describe 'v1 Connection Plugin' do
       plat.cloud?.must_equal false
       plat.unix?.must_equal true
       plat.family.must_equal 'darwin'
-      plat.family_hierarchy.must_equal ['darwin', 'bsd', 'unix']
+      plat.family_hierarchy.must_equal ['darwin', 'bsd', 'unix', 'os']
     end
 
     it 'provides api direct platform' do
@@ -75,7 +75,7 @@ describe 'v1 Connection Plugin' do
     it 'provides family hierarchy' do
       plat = Train::Platforms.name('linux')
       family = connection.family_hierarchy(plat)
-      family.flatten.must_equal ['linux', 'unix']
+      family.flatten.must_equal ['linux', 'unix', 'os']
     end
 
     it 'must use the user-provided logger' do
