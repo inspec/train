@@ -14,6 +14,7 @@ describe 'ssh transport' do
     host: rand.to_s,
     password: rand.to_s,
     key_files: rand.to_s,
+    proxy_command: 'ssh root@127.0.0.1 -W %h:%p',
   }}
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
@@ -95,6 +96,7 @@ describe 'ssh transport' do
         "-o", "IdentitiesOnly=yes",
         "-o", "LogLevel=VERBOSE",
         "-o", "ForwardAgent=no",
+        "-o", "ProxyCommand='ssh root@127.0.0.1 -W %h:%p'",
         "-i", conf[:key_files],
         "-p", "22",
         "root@#{conf[:host]}",
@@ -119,6 +121,19 @@ describe 'ssh transport' do
     it 'works with ssh agent auth' do
       cls_agent.stubs(:ssh_known_identities).returns({:some => 'rsa_key'})
       cls_agent.connection
+    end
+
+    it 'sets up a proxy when ssh proxy command is specified' do
+      mock = MiniTest::Mock.new
+      mock.expect(:call, true) do |hostname, username, options|
+        options[:proxy].kind_of?(Net::SSH::Proxy::Command) &&
+          'ssh root@127.0.0.1 -W %h:%p' == options[:proxy].command_line_template
+      end
+      connection.stubs(:run_command)
+      Net::SSH.stub(:start, mock) do
+        connection.wait_until_ready
+      end
+      mock.verify
     end
   end
 
@@ -154,6 +169,7 @@ describe 'ssh transport' do
     it 'wont connect if it is not possible' do
       conf[:host] = 'localhost'
       conf[:port] = 1
+      conf.delete :proxy_command
       conn = cls.new(conf).connection
       proc { conn.run_command('uname') }.must_raise Train::Transports::SSHFailed
     end
