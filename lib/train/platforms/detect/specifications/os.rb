@@ -12,7 +12,10 @@ module Train::Platforms::Detect::Specifications
     def self.load
       plat = Train::Platforms
 
-      plat.family('windows')
+      # master family
+      plat.family('os').detect { true }
+
+      plat.family('windows').in_family('os')
           .detect {
             if winrm? || (@backend.local? && ruby_host_os(/mswin|mingw32|windows/))
               true
@@ -25,87 +28,13 @@ module Train::Platforms::Detect::Specifications
           }
 
       # unix master family
-      plat.family('unix')
+      plat.family('unix').in_family('os')
           .detect {
             # we want to catch a special case here where cisco commands
             # don't return an exit status and still print to stdout
             if unix_uname_s =~ /./ && !unix_uname_s.start_with?('Line has invalid autocommand ') && !unix_uname_s.start_with?('The command you have entered')
               @platform[:arch] = unix_uname_m
               true
-            end
-          }
-
-      # cisco_ios family
-      plat.family('cisco').title('Cisco Family')
-          .detect {
-            !cisco_show_version.nil?
-          }
-
-      plat.name('cisco_ios').title('Cisco IOS').in_family('cisco')
-          .detect {
-            v = cisco_show_version
-            next unless v[:type] == 'ios'
-            @platform[:release] = v[:version]
-            @platform[:arch] = nil
-            true
-          }
-
-      plat.name('cisco_ios_xe').title('Cisco IOS XE').in_family('cisco')
-          .detect {
-            v = cisco_show_version
-            next unless v[:type] == 'ios-xe'
-            @platform[:release] = v[:version]
-            @platform[:arch] = nil
-            true
-          }
-
-      plat.name('cisco_nexus').title('Cisco Nexus').in_family('cisco')
-          .detect {
-            v = cisco_show_version
-            next unless v[:type] == 'nexus'
-            @platform[:release] = v[:version]
-            @platform[:arch] = nil
-            true
-          }
-
-      # arista_eos family
-      # this has to be before redhat as EOS is based off fedora
-      plat.family('arista_eos').title('Arista EOS Family').in_family('unix')
-          .detect {
-            # we need a better way to determin this family
-            # for now we are going to just try each platform
-            true
-          }
-      plat.name('arista_eos').title('Arista EOS').in_family('arista_eos')
-          .detect {
-            cmd = @backend.run_command('show version | json')
-            if cmd.exit_status == 0 && !cmd.stdout.empty?
-              require 'json'
-              begin
-                eos_ver = JSON.parse(cmd.stdout)
-                @platform[:release] = eos_ver['version']
-                @platform[:arch] = eos_ver['architecture']
-                true
-              rescue JSON::ParserError
-                nil
-              end
-            end
-          }
-      plat.name('arista_eos_bash').title('Arista EOS Bash Shell').in_family('arista_eos')
-          .detect {
-            if unix_file_exist?('/usr/bin/FastCli')
-              cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
-              if cmd.exit_status == 0 && !cmd.stdout.empty?
-                require 'json'
-                begin
-                  eos_ver = JSON.parse(cmd.stdout)
-                  @platform[:release] = eos_ver['version']
-                  @platform[:arch] = eos_ver['architecture']
-                  true
-                rescue JSON::ParserError
-                  nil
-                end
-              end
             end
           }
 
@@ -166,6 +95,31 @@ module Train::Platforms::Detect::Specifications
           .detect {
             @platform[:release] = linux_os_release['VERSION_ID']
             true
+          }
+
+      # arista_eos family
+      # this checks for the arista bash shell
+      # must come before redhat as it uses fedora under the hood
+      plat.family('arista_eos').title('Arista EOS Family').in_family('linux')
+          .detect {
+            true
+          }
+      plat.name('arista_eos_bash').title('Arista EOS Bash Shell').in_family('arista_eos')
+          .detect {
+            if unix_file_exist?('/usr/bin/FastCli')
+              cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
+              if cmd.exit_status == 0 && !cmd.stdout.empty?
+                require 'json'
+                begin
+                  eos_ver = JSON.parse(cmd.stdout)
+                  @platform[:release] = eos_ver['version']
+                  @platform[:arch] = eos_ver['architecture']
+                  true
+                rescue JSON::ParserError
+                  nil
+                end
+              end
+            end
           }
 
       # redhat family
@@ -357,18 +311,6 @@ module Train::Platforms::Detect::Specifications
             end
           }
 
-      # esx
-      plat.family('esx').title('ESXi Family')
-          .detect {
-            true if unix_uname_s =~ /vmkernel/i
-          }
-      plat.name('vmkernel').in_family('esx')
-          .detect {
-            @platform[:name] = unix_uname_s.lines[0].chomp
-            @platform[:release] = unix_uname_r.lines[0].chomp
-            true
-          }
-
       # aix
       plat.family('aix').in_family('unix')
           .detect {
@@ -484,8 +426,8 @@ module Train::Platforms::Detect::Specifications
           }
       plat.family('darwin').in_family('bsd')
           .detect {
-            cmd = unix_file_contents('/usr/bin/sw_vers')
-            if unix_uname_s =~ /darwin/i || !cmd.nil?
+            if unix_uname_s =~ /darwin/i
+              cmd = unix_file_contents('/usr/bin/sw_vers')
               unless cmd.nil?
                 m = cmd.match(/^ProductVersion:\s+(.+)$/)
                 @platform[:release] = m.nil? ? nil : m[1]
@@ -531,6 +473,69 @@ module Train::Platforms::Detect::Specifications
               @platform[:release] = unix_uname_r.lines[0].chomp
               true
             end
+          }
+
+      # arista_eos family
+      plat.family('arista_eos').title('Arista EOS Family').in_family('os')
+          .detect {
+            true
+          }
+      plat.name('arista_eos').title('Arista EOS').in_family('arista_eos')
+          .detect {
+            cmd = @backend.run_command('show version | json')
+            if cmd.exit_status == 0 && !cmd.stdout.empty?
+              require 'json'
+              begin
+                eos_ver = JSON.parse(cmd.stdout)
+                @platform[:release] = eos_ver['version']
+                @platform[:arch] = eos_ver['architecture']
+                true
+              rescue JSON::ParserError
+                nil
+              end
+            end
+          }
+
+      # esx
+      plat.family('esx').title('ESXi Family').in_family('os')
+          .detect {
+            true if unix_uname_s =~ /vmkernel/i
+          }
+      plat.name('vmkernel').in_family('esx')
+          .detect {
+            @platform[:name] = unix_uname_s.lines[0].chomp
+            @platform[:release] = unix_uname_r.lines[0].chomp
+            true
+          }
+
+      # cisco_ios family
+      plat.family('cisco').title('Cisco Family').in_family('os')
+          .detect {
+            !cisco_show_version.nil?
+          }
+      plat.name('cisco_ios').title('Cisco IOS').in_family('cisco')
+          .detect {
+            v = cisco_show_version
+            next unless v[:type] == 'ios'
+            @platform[:release] = v[:version]
+            @platform[:arch] = nil
+            true
+          }
+      plat.name('cisco_ios_xe').title('Cisco IOS XE').in_family('cisco')
+          .detect {
+            v = cisco_show_version
+            next unless v[:type] == 'ios-xe'
+            @platform[:release] = v[:version]
+            @platform[:arch] = nil
+            true
+          }
+      plat.name('cisco_nexus').title('Cisco Nexus').in_family('cisco')
+          .detect {
+            v = cisco_show_version
+            next unless v[:type] == 'nexus'
+            @platform[:release] = v[:version]
+            @platform[:arch] = nil
+            true
           }
     end
   end
