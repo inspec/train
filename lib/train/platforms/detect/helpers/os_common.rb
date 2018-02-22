@@ -62,6 +62,11 @@ module Train::Platforms::Detect::Helpers
         return @cache[:cisco] = { version: m[2], model: m[1], type: 'ios' }
       end
 
+      m = res.match(/^Cisco IOS Software, IOS-XE Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+\.\d+[A-Z]*)/)
+      unless m.nil?
+        return @cache[:cisco] = { version: m[2], model: m[1], type: 'ios-xe' }
+      end
+
       m = res.match(/^Cisco Nexus Operating System \(NX-OS\) Software/)
       unless m.nil?
         v = res[/^\s*system:\s+version (\d+\.\d+)/, 1]

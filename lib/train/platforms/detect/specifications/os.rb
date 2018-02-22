@@ -29,7 +29,7 @@ module Train::Platforms::Detect::Specifications
           .detect {
             # we want to catch a special case here where cisco commands
             # don't return an exit status and still print to stdout
-            if unix_uname_s =~ /./ && !unix_uname_s.start_with?('Line has invalid autocommand ')
+            if unix_uname_s =~ /./ && !unix_uname_s.start_with?('Line has invalid autocommand ') && !unix_uname_s.start_with?('The command you have entered')
               @platform[:arch] = unix_uname_m
               true
             end
@@ -45,6 +45,15 @@ module Train::Platforms::Detect::Specifications
           .detect {
             v = cisco_show_version
             next unless v[:type] == 'ios'
+            @platform[:release] = v[:version]
+            @platform[:arch] = nil
+            true
+          }
+
+      plat.name('cisco_ios_xe').title('Cisco IOS XE').in_family('cisco')
+          .detect {
+            v = cisco_show_version
+            next unless v[:type] == 'ios-xe'
             @platform[:release] = v[:version]
             @platform[:arch] = nil
             true
