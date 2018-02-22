@@ -204,6 +204,16 @@ describe 'os_detect' do
       platform[:release].must_equal('12.2')
     end
 
+    it 'recognizes Cisco IOS XE' do
+      mock = Train::Transports::Mock::Connection.new
+      mock.mock_command('show version', "Cisco IOS Software, IOS-XE Software, Catalyst L3 Switch Software (CAT3K_CAA-UNIVERSALK9-M), Version 03.03.03SE RELEASE SOFTWARE (fc2)")
+      platform = Train::Platforms::Detect.scan(mock)
+
+      platform[:name].must_equal('cisco_ios_xe')
+      platform[:family].must_equal('cisco')
+      platform[:release].must_equal('03.03.03SE')
+    end
+
     it 'recognizes Cisco Nexus' do
       mock = Train::Transports::Mock::Connection.new
       mock.mock_command('show version', "Cisco Nexus Operating System (NX-OS) Software\n  system:      version 5.2(1)N1(8b)\n")
