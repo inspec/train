@@ -53,6 +53,18 @@ module Train::Platforms::Detect::Helpers
       @uname[:m] = command_output('uname -m')
     end
 
+    def brocade_version
+      return @cache[:brocade] if @cache.key?(:brocade)
+      res = command_output('version')
+
+      m = res.match(/^Fabric OS:\s+v(\S+)$/)
+      unless m.nil?
+        return @cache[:brocade] = { version: m[1], type: 'fos' }
+      end
+
+      @cache[:brocade] = nil
+    end
+
     def cisco_show_version
       return @cache[:cisco] if @cache.key?(:cisco)
       res = command_output('show version')
