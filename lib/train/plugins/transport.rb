@@ -30,7 +30,7 @@ class Train::Plugins
     # @param [Hash] _options = nil provide optional configuration params
     # @return [Connection] the connection for this configuration
     def connection(_options = nil)
-      fail Train::ClientError, "#{self.class} does not implement #connect()"
+      fail Train::ClientError, "#{self.class} does not implement #connection()"
     end
 
     # Register the inheriting class with as a train plugin using the
