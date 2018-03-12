@@ -43,11 +43,18 @@ module Train::Transports
 
       def select_runner(options)
         if os.windows?
+          # Force a 64 bit poweshell if needed
+          if RUBY_PLATFORM == 'i386-mingw32' && os.arch == 'x86_64'
+            powershell_cmd = "#{ENV['SystemRoot']}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+          else
+            powershell_cmd = 'powershell'
+          end
+
           # Attempt to use a named pipe but fallback to ShellOut if that fails
           begin
-            WindowsPipeRunner.new
+            WindowsPipeRunner.new(powershell_cmd)
           rescue PipeError
-            WindowsShellRunner.new
+            WindowsShellRunner.new(powershell_cmd)
           end
         else
           GenericRunner.new(self, options)
@@ -111,6 +118,10 @@ module Train::Transports
         require 'json'
         require 'base64'
 
+        def initialize(powershell_cmd = 'powershell')
+          @powershell_cmd = powershell_cmd
+        end
+
         def run_command(script)
           # Prevent progress stream from leaking into stderr
           script = "$ProgressPreference='SilentlyContinue';" + script
@@ -119,7 +130,7 @@ module Train::Transports
           script = script.encode('UTF-16LE', 'UTF-8')
           base64_script = Base64.strict_encode64(script)
 
-          cmd = "powershell -NoProfile -EncodedCommand #{base64_script}"
+          cmd = "#{@powershell_cmd} -NoProfile -EncodedCommand #{base64_script}"
 
           res = Mixlib::ShellOut.new(cmd)
           res.run_command
@@ -132,7 +143,8 @@ module Train::Transports
         require 'base64'
         require 'securerandom'
 
-        def initialize
+        def initialize(powershell_cmd = 'powershell')
+          @powershell_cmd = powershell_cmd
           @pipe = acquire_pipe
           fail PipeError if @pipe.nil?
         end
@@ -206,7 +218,7 @@ module Train::Transports
 
           utf8_script = script.encode('UTF-16LE', 'UTF-8')
           base64_script = Base64.strict_encode64(utf8_script)
-          cmd = "powershell -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
+          cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
 
           server_pid = Process.create(command_line: cmd).process_id
 
