@@ -12,16 +12,13 @@ require 'tempfile'
 require 'train/transports/local'
 
 describe 'windows local command' do
-  let(:conn) {
+  let(:backend) do
     # get final config
     target_config = Train.target_config({})
     # initialize train
     backend = Train.create('local', target_config)
-
-    # start or reuse a connection
-    conn = backend.connection
-    conn
-  }
+  end
+  let(:conn) { backend.connection }
 
   it 'verify os' do
     os = conn.os
@@ -35,6 +32,65 @@ describe 'windows local command' do
     cmd = conn.run_command('Write-Output "test"')
     cmd.stdout.must_equal "test\r\n"
     cmd.stderr.must_equal ''
+  end
+
+  describe 'force 64 bit powershell command' do
+    let(:runner) { conn.instance_variable_get(:@runner) }
+    let(:powershell) { runner.instance_variable_get(:@powershell_cmd) }
+    RUBY_PLATFORM_DUP = RUBY_PLATFORM.dup
+
+    def override_platform(platform)
+      ::Object.send(:remove_const, :RUBY_PLATFORM)
+      ::Object.const_set(:RUBY_PLATFORM, platform)
+    end
+
+    after do
+      backend.instance_variable_set(:@connection, nil)
+      ::Object.send(:remove_const, :RUBY_PLATFORM)
+      ::Object.const_set(:RUBY_PLATFORM, RUBY_PLATFORM_DUP)
+    end
+
+    it 'use normal powershell with PipeRunner' do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .any_instance
+        .expects(:acquire_pipe)
+        .returns('acquired')
+
+      override_platform('x64-mingw32')
+      powershell.must_equal 'powershell'
+    end
+
+    it 'use 64bit powershell with PipeRunner' do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .any_instance
+        .expects(:acquire_pipe)
+        .returns('acquired')
+
+      override_platform('i386-mingw32')
+      powershell.must_equal "#{ENV['SystemRoot']}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+    end
+
+    it 'use normal powershell with ShellRunner' do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .any_instance
+        .expects(:acquire_pipe)
+        .returns(nil)
+
+      override_platform('x64-mingw32')
+      runner.class.must_equal Train::Transports::Local::Connection::WindowsShellRunner
+      powershell.must_equal 'powershell'
+    end
+
+    it 'use 64bit powershell with ShellRunner' do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .any_instance
+        .expects(:acquire_pipe)
+        .returns(nil)
+
+      override_platform('i386-mingw32')
+      runner.class.must_equal Train::Transports::Local::Connection::WindowsShellRunner
+      powershell.must_equal "#{ENV['SystemRoot']}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+    end
   end
 
   it 'use powershell piping' do
