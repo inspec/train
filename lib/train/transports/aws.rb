@@ -59,6 +59,13 @@ module Train::Transports
       def uri
         "aws://#{@options[:region]}"
       end
+
+      def unique_identifier
+        # use aws account id
+        client = aws_client(::Aws::IAM::Client)
+        arn = client.get_user.user.arn
+        arn.split(':')[4]
+      end
     end
   end
 end

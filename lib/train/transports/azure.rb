@@ -21,6 +21,8 @@ module Train::Transports
     end
 
     class Connection < BaseConnection
+      attr_reader :options
+
       def initialize(options)
         @apis = {}
 
@@ -116,6 +118,10 @@ module Train::Transports
 
         # return the api version for the type
         @apis[resource_type]
+      end
+
+      def unique_identifier
+        options[:subscription_id] || options[:tenant_id]
       end
 
       private

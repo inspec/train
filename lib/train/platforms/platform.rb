@@ -41,6 +41,10 @@ module Train::Platforms
                         end
     end
 
+    def uuid
+      @uuid ||= Train::Platforms::Detect::UUID.new(self).find_or_create_uuid.downcase
+    end
+
     # This is for backwords compatability with
     # the current inspec os resource.
     def[](name)

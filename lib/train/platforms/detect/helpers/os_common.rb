@@ -5,7 +5,7 @@ require 'train/platforms/detect/helpers/os_windows'
 require 'rbconfig'
 
 module Train::Platforms::Detect::Helpers
-  module OSCommon
+  module OSCommon # rubocop:disable Metrics/ModuleLength
     include Train::Platforms::Detect::Helpers::Linux
     include Train::Platforms::Detect::Helpers::Windows
 
@@ -86,6 +86,66 @@ module Train::Platforms::Detect::Helpers
       end
 
       @cache[:cisco] = nil
+    end
+
+    def unix_uuid
+      uuid = unix_uuid_from_chef
+      uuid = unix_uuid_from_machine_file if uuid.nil?
+      uuid = uuid_from_command if uuid.nil?
+      uuid = unix_write_uuid if uuid.nil?
+      uuid
+    end
+
+    def unix_uuid_from_chef
+      file = @backend.file('/var/chef/cache/data_collector_metadata.json')
+      if file.exist? && !file.size.zero?
+        json = ::JSON.parse(file.content)
+        return json['node_uuid'] if json['node_uuid']
+      end
+    end
+
+    def unix_uuid_from_machine_file
+      %W(
+        /etc/machine-id
+        /var/lib/dbus/machine-id
+        /var/db/dbus/machine-id
+        /etc/machine-uuid
+        #{ENV['HOME']}/.local/etc/machine-uuid
+      ).each do |path|
+        file = @backend.file(path)
+        next unless file.exist? && !file.size.zero?
+        return file.content.chomp if path =~ /uuid/
+        return uuid_from_string(file.content.chomp)
+      end
+      nil
+    end
+
+    def unix_write_uuid
+      uuid = SecureRandom.uuid
+      result = @backend.run_command("echo \"#{uuid}\" > /etc/machine-uuid")
+      unless result.exit_status.zero?
+        # fallback to user location
+        warn 'Cannot write uuid to `/etc/machine-uuid`, falling back to ~/.local/etc/machine-uuid instead.'
+        result = @backend.run_command("mkdir -p #{ENV['HOME']}/.local/etc; echo \"#{uuid}\" > #{ENV['HOME']}/.local/etc/machine-uuid")
+        raise 'Cannot write uuid to `~/.local/etc/machine-uuid`.' unless result.exit_status.zero?
+      end
+      uuid
+    end
+
+    def uuid_from_command
+      return unless @platform[:uuid_command]
+      result = @backend.run_command(@platform[:uuid_command])
+      uuid_from_string(result.stdout.chomp) if result.exit_status.zero? && !result.stdout.empty?
+    end
+
+    def uuid_from_string(string)
+      hash = Digest::SHA1.new
+      hash.update(string)
+      ary = hash.digest.unpack('NnnnnN')
+      ary[2] = (ary[2] & 0x0FFF) | (5 << 12)
+      ary[3] = (ary[3] & 0x3FFF) | 0x8000
+      # rubocop:disable Style/FormatString
+      '%08x-%04x-%04x-%04x-%04x%08x' % ary
     end
   end
 end

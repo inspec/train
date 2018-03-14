@@ -75,5 +75,59 @@ module Train::Platforms::Detect::Helpers
       arch_number = sys_info[:Architecture].to_i
       arch_map[arch_number]
     end
+
+    # This method scans the target os for a unique uuid to use
+    def windows_uuid
+      uuid = windows_uuid_from_chef
+      uuid = windows_uuid_from_machine_file if uuid.nil?
+      uuid = windows_uuid_from_wmic if uuid.nil?
+      uuid = windows_uuid_from_registry if uuid.nil?
+      uuid = windows_write_uuid if uuid.nil?
+      uuid
+    end
+
+    def windows_uuid_from_machine_file
+      %W(
+        #{ENV['SYSTEMROOT']}\\machine-uuid
+        #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.system\\machine-uuid
+      ).each do |path|
+        file = @backend.file(path)
+        return file.content.chomp if file.exist? && !file.size.zero?
+      end
+      nil
+    end
+
+    def windows_uuid_from_chef
+      file = @backend.file("#{ENV['SYSTEMDRIVE']}\\chef\\cache\\data_collector_metadata.json")
+      return if !file.exist? || file.size.zero?
+      json = JSON.parse(file.content)
+      json['node_uuid'] if json['node_uuid']
+    end
+
+    def windows_uuid_from_wmic
+      result = @backend.run_command('wmic csproduct get UUID')
+      return unless result.exit_status.zero?
+      result.stdout.split("\r\n")[-1].strip
+    end
+
+    def windows_uuid_from_registry
+      cmd = '(Get-ItemProperty "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography" -Name "MachineGuid")."MachineGuid"'
+      result = @backend.run_command(cmd)
+      return unless result.exit_status.zero?
+      result.stdout.chomp
+    end
+
+    def windows_write_uuid
+      uuid = SecureRandom.uuid
+      result = @backend.run_command("'#{uuid}' | Out-File -encoding ASCII #{ENV['SYSTEMROOT']}\\machine-uuid")
+      unless result.exit_status.zero?
+        # fallback to user location
+        local_uuid_path = "#{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.system\\machine-uuid"
+        warn "Cannot write uuid to `#{ENV['SYSTEMROOT']}\\machine-uuid`, falling back to #{local_uuid_path} instead."
+        result = @backend.run_command("new-item -force -path #{local_uuid_path} -value '#{uuid}' -type file")
+        raise "Cannot write uuid to `#{local_uuid_path}\\machine-uuid`." unless result.exit_status.zero?
+      end
+      uuid
+    end
   end
 end
