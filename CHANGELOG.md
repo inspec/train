@@ -1,10 +1,31 @@
 # Change Log
 
-## [1.1.1](https://github.com/chef/train/tree/1.1.1) (2018-02-14)
-[Full Changelog](https://github.com/chef/train/compare/v1.1.0...1.1.1)
+## [1.2.0](https://github.com/chef/train/tree/1.2.0) (2018-03-15)
+[Full Changelog](https://github.com/chef/train/compare/v1.1.1...1.2.0)
+
+**Implemented enhancements:**
+
+- Change error message to use `connection` [\#263](https://github.com/chef/train/pull/263) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+**Closed issues:**
+
+- Force 64bit powershell if using ruby32 on a 64bit os [\#265](https://github.com/chef/train/issues/265)
+- Master OS detect family [\#260](https://github.com/chef/train/issues/260)
 
 **Merged pull requests:**
 
+- Force 64bit powershell for 32bit ruby running on 64bit windows [\#266](https://github.com/chef/train/pull/266) ([jquick](https://github.com/jquick))
+- support cisco ios xe [\#262](https://github.com/chef/train/pull/262) ([arlimus](https://github.com/arlimus))
+- Create a master OS family and refactor specifications [\#261](https://github.com/chef/train/pull/261) ([jquick](https://github.com/jquick))
+- Support for Brocade FOS-based SAN devices [\#254](https://github.com/chef/train/pull/254) ([marcelhuth](https://github.com/marcelhuth))
+- ProxyCommand support [\#227](https://github.com/chef/train/pull/227) ([cbeckr](https://github.com/cbeckr))
+
+## [v1.1.1](https://github.com/chef/train/tree/v1.1.1) (2018-02-14)
+[Full Changelog](https://github.com/chef/train/compare/v1.1.0...v1.1.1)
+
+**Merged pull requests:**
+
+- Release train 1.1.1 [\#259](https://github.com/chef/train/pull/259) ([jquick](https://github.com/jquick))
 - Add api sdk versions as platform release [\#258](https://github.com/chef/train/pull/258) ([jquick](https://github.com/jquick))
 - Add plat helper methods to api direct platforms. [\#257](https://github.com/chef/train/pull/257) ([jquick](https://github.com/jquick))
 
