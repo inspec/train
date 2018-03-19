@@ -125,19 +125,26 @@ module Train::Platforms::Detect::Helpers
       result = @backend.run_command("echo \"#{uuid}\" > /etc/machine-uuid")
       unless result.exit_status.zero?
         # fallback to user location
-        warn 'Cannot write uuid to `/etc/machine-uuid`, falling back to ~/.local/etc/machine-uuid instead.'
-        result = @backend.run_command("mkdir -p #{ENV['HOME']}/.local/etc; echo \"#{uuid}\" > #{ENV['HOME']}/.local/etc/machine-uuid")
-        raise 'Cannot write uuid to `~/.local/etc/machine-uuid`.' unless result.exit_status.zero?
+        local_uuid_path = "#{ENV['HOME']}/.local/etc/machine-uuid"
+        warn "Cannot write uuid to `/etc/machine-uuid`, falling back to `#{local_uuid_path}` instead."
+        result = @backend.run_command("mkdir -p #{ENV['HOME']}/.local/etc; echo \"#{uuid}\" > #{local_uuid_path}")
+        raise "Cannot write uuid to `#{local_uuid_path}`." unless result.exit_status.zero?
       end
       uuid
     end
 
+    # This takes a command from the platform detect block to run.
+    # We expect the command to return a unique identifier which
+    # we turn into a UUID.
     def uuid_from_command
       return unless @platform[:uuid_command]
       result = @backend.run_command(@platform[:uuid_command])
       uuid_from_string(result.stdout.chomp) if result.exit_status.zero? && !result.stdout.empty?
     end
 
+    # This hashes the passed string into SHA1.
+    # Then it downgrades the 160bit SHA1 to a 128bit
+    # then we format it as a valid UUIDv5.
     def uuid_from_string(string)
       hash = Digest::SHA1.new
       hash.update(string)

@@ -115,7 +115,7 @@ describe 'aws transport' do
         AwsUser.new
       end
     end
-    it 'return account id' do
+    it 'returns an account id' do
       connection.stubs(:aws_client).returns(AwsClient.new)
       connection.unique_identifier.must_equal '158551926027'
     end

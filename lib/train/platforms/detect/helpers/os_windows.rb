@@ -123,7 +123,7 @@ module Train::Platforms::Detect::Helpers
       unless result.exit_status.zero?
         # fallback to user location
         local_uuid_path = "#{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.system\\machine-uuid"
-        warn "Cannot write uuid to `#{ENV['SYSTEMROOT']}\\machine-uuid`, falling back to #{local_uuid_path} instead."
+        warn "Cannot write uuid to `#{ENV['SYSTEMROOT']}\\machine-uuid`, falling back to `#{local_uuid_path}` instead."
         result = @backend.run_command("new-item -force -path #{local_uuid_path} -value '#{uuid}' -type file")
         raise "Cannot write uuid to `#{local_uuid_path}\\machine-uuid`." unless result.exit_status.zero?
       end

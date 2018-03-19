@@ -92,11 +92,11 @@ describe 'azure transport' do
   end
 
   describe 'unique_identifier' do
-    it 'return subscription id' do
+    it 'returns a subscription id' do
       connection.unique_identifier.must_equal 'test_subscription_id'
     end
 
-    it 'return tenant id' do
+    it 'returns a tenant id' do
       options = connection.instance_variable_get(:@options)
       options[:subscription_id] = nil
       connection.unique_identifier.must_equal 'test_tenant_id'
