@@ -52,6 +52,19 @@ describe 'uuid' do
     plat.uuid.must_equal 'd400073f-0920-41aa-8dd3-2ea59b18f5ce'
   end
 
+  it 'finds a linux uuid from /etc/chef/chef_guid' do
+    files = { '/etc/chef/chef_guid' => '5e430326-b5aa-56f8-975f-c3ca1c21df91' }
+    plat = mock_platform('linux', {}, files)
+    plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
+  end
+
+  it 'finds a linux uuid from /home/testuser/.chef/chef_guid' do
+    ENV['HOME'] = '/home/testuser'
+    files = { '/home/testuser/.chef/chef_guid' => '5e430326-b5aa-56f8-975f-c3ca1c21df91' }
+    plat = mock_platform('linux', {}, files)
+    plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
+  end
+
   it 'finds a linux uuid from /etc/machine-id' do
     files = { '/etc/machine-id' => '123141dsfadf' }
     plat = mock_platform('linux', {}, files)
@@ -97,6 +110,22 @@ describe 'uuid' do
     plat = mock_platform('windows', commands)
     plat.uuid.must_equal 'd400073f-0920-41aa-8dd3-2ea59b18f5ce'
   end
+
+  it 'finds a windows uuid from C:\chef\chef_guid' do
+    ENV['HOMEDRIVE'] = 'C:\\'
+    files = { 'C:\chef\chef_guid' => '5e430326-b5aa-56f8-975f-c3ca1c21df91' }
+    plat = mock_platform('windows', {}, files)
+    plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
+  end
+
+  it 'finds a windows uuid from C:\Users\test\.chef\chef_guid' do
+    ENV['HOMEDRIVE'] = 'C:\\'
+    ENV['HOMEPATH'] = 'Users\test'
+    files = { 'C:\Users\test\.chef\chef_guid' => '5e430326-b5aa-56f8-975f-c3ca1c21df91' }
+    plat = mock_platform('windows', {}, files)
+    plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
+  end
+
 
   it 'finds a windows uuid from C:\windows\machine-uuid' do
     ENV['SYSTEMROOT'] = 'C:\windows'

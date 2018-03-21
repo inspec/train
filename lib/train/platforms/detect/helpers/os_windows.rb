@@ -88,6 +88,8 @@ module Train::Platforms::Detect::Helpers
 
     def windows_uuid_from_machine_file
       %W(
+        #{ENV['SYSTEMDRIVE']}\\chef\\chef_guid
+        #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.chef\\chef_guid
         #{ENV['SYSTEMROOT']}\\machine-uuid
         #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.system\\machine-uuid
       ).each do |path|

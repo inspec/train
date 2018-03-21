@@ -106,6 +106,8 @@ module Train::Platforms::Detect::Helpers
 
     def unix_uuid_from_machine_file
       %W(
+        /etc/chef/chef_guid
+        #{ENV['HOME']}/.chef/chef_guid
         /etc/machine-id
         /var/lib/dbus/machine-id
         /var/db/dbus/machine-id
@@ -114,7 +116,7 @@ module Train::Platforms::Detect::Helpers
       ).each do |path|
         file = @backend.file(path)
         next unless file.exist? && !file.size.zero?
-        return file.content.chomp if path =~ /uuid/
+        return file.content.chomp if path =~ /(uuid|guid)/
         return uuid_from_string(file.content.chomp)
       end
       nil
