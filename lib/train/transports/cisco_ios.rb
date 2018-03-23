@@ -23,10 +23,6 @@ module Train::Transports
       @connection ||= Connection.new(@options)
     end
 
-    def validate_options(options)
-      super(options)
-    end
-
     class Connection < BaseConnection
       def initialize(options)
         super(options)
@@ -76,14 +72,21 @@ module Train::Transports
       end
 
       def format_result(result)
+        stderr_with_exit_1 = ['', result, 1]
+        stdout_with_exit_0 = [result, '', 0]
+
         # IOS commands do not have an exit code, so we must capture known errors
         case result
+        when /Bad IP address/
+          stderr_with_exit_1
+        when /Incomplete command/
+          stderr_with_exit_1
         when /Invalid input detected/
-          ['', result, 1]
-        when /Bad IP address or host name/
-          ['', result, 1]
+          stderr_with_exit_1
+        when /Unrecognized host/
+          stderr_with_exit_1
         else
-          [result, '', 0]
+          stdout_with_exit_0
         end
       end
 
@@ -104,6 +107,12 @@ module Train::Transports
         output = @buf.dup
         @buf = ''
 
+        format_output(output, cmd)
+      end
+
+      # The buffer (@buf) contains all data sent/received on the SSH channel so
+      # we need to format the data to match what we would expect from Train
+      def format_output(output, cmd)
         # Remove leading prompt
         output.sub!(/(\r\n|^)\S+[>#]/, '')
 
@@ -112,6 +121,9 @@ module Train::Transports
 
         # Remove trailing prompt
         output.gsub!(/\S+[>#](\r\n|$)/, '')
+
+        # Remove trailing returns/newlines
+        output.gsub!(/(\r\n)+$/, '')
 
         output
       end
