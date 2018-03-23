@@ -9,21 +9,24 @@
 # Licensed under the Apache License, Version 2.0 (the "License");
 
 module Train
+  # Base exception for any exception explicitly raised by the Train library.
+  class Error < ::StandardError; end
+
   # Base exception class for all exceptions that are caused by user input
   # errors.
-  class UserError < ::StandardError; end
+  class UserError < Error; end
 
   # Base exception class for all exceptions that are caused by incorrect use
   # of an API.
-  class ClientError < ::StandardError; end
+  class ClientError < Error; end
 
   # Base exception class for all exceptions that are caused by other failures
   # in the transport layer.
-  class TransportError < ::StandardError; end
+  class TransportError < Error; end
 
   # Exception for when no platform can be detected.
-  class PlatformDetectionFailed < ::StandardError; end
+  class PlatformDetectionFailed < Error; end
 
   # Exception for when a invalid cache type is passed.
-  class UnknownCacheType < ::StandardError; end
+  class UnknownCacheType < Error; end
 end
