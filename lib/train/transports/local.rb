@@ -4,13 +4,14 @@
 # author: Christoph Hartmann
 
 require 'train/plugins'
+require 'train/errors'
 require 'mixlib/shellout'
 
 module Train::Transports
   class Local < Train.plugin(1)
     name 'local'
 
-    class PipeError < ::StandardError; end
+    class PipeError < Train::TransportError; end
 
     def connection(_ = nil)
       @connection ||= Connection.new(@options)
