@@ -27,10 +27,13 @@ module Train::Transports
       def initialize(options)
         super(options)
 
+        @session = nil
+        @buf = nil
+
+        # Delete options to avoid passing them in to `Net::SSH.start` later
         @host = @options.delete(:host)
         @user = @options.delete(:user)
         @port = @options.delete(:port)
-
         @enable_password = @options.delete(:enable_password)
 
         @prompt = /^\S+[>#]\r\n.*$/
@@ -45,93 +48,85 @@ module Train::Transports
       def establish_connection
         logger.debug("[SSH] opening connection to #{self}")
 
-        @ssh = Net::SSH.start(
+        Net::SSH.start(
           @host,
           @user,
-          @options.delete_if { |_key, value| value.nil? },
+          @options.reject { |_key, value| value.nil? },
         )
+      end
 
-        @channel ||= open_channel
+      def session
+        return @session unless @session.nil?
+
+        @session = open_channel(establish_connection)
 
         # Escalate privilege to enable mode if password is given
         if @enable_password
-          run_command_via_channel("enable\r\n#{@enable_password}")
+          run_command_via_connection("enable\r\n#{@enable_password}")
         end
 
         # Prevent `--MORE--` by removing terminal length limit
-        run_command_via_channel('terminal length 0')
+        run_command_via_connection('terminal length 0')
 
-        @ssh
+        @session
       end
 
       def run_command_via_connection(cmd)
-        @session ||= establish_connection
-
-        result = run_command_via_channel(cmd)
-        CommandResult.new(*format_result(result))
-      end
-
-      def format_result(result)
-        stderr_with_exit_1 = ['', result, 1]
-        stdout_with_exit_0 = [result, '', 0]
-
-        # IOS commands do not have an exit code, so we must capture known errors
-        case result
-        when /Bad IP address/
-          stderr_with_exit_1
-        when /Incomplete command/
-          stderr_with_exit_1
-        when /Invalid input detected/
-          stderr_with_exit_1
-        when /Unrecognized host/
-          stderr_with_exit_1
-        else
-          stdout_with_exit_0
-        end
-      end
-
-      def run_command_via_channel(cmd)
         # Ensure buffer is empty before sending data
         @buf = ''
 
         logger.debug("[SSH] Running `#{cmd}` on #{self}")
-        @channel.send_data(cmd + "\r\n")
+        session.send_data(cmd + "\r\n")
 
         logger.debug('[SSH] waiting for prompt')
         until @buf =~ @prompt
           raise BadEnablePassword if @buf =~ /Bad secrets/
-          @channel.connection.process(0)
+          session.connection.process(0)
         end
 
         # Save the buffer and clear it for the next command
         output = @buf.dup
         @buf = ''
 
-        format_output(output, cmd)
+        result = format_output(output, cmd)
+        CommandResult.new(*format_result(result))
+      end
+
+      ERROR_MATCHERS = [
+        'Bad IP address',
+        'Incomplete command',
+        'Invalid input detected',
+        'Unrecognized host',
+      ].freeze
+
+      def format_result(result)
+        stderr_with_exit_1 = ['', result, 1]
+        stdout_with_exit_0 = [result, '', 0]
+
+        # IOS commands do not have an exit code, so we must capture known errors
+        match = ->(e) { result.include?(e) }
+        ERROR_MATCHERS.any?(&match) ? stderr_with_exit_1 : stdout_with_exit_0
       end
 
       # The buffer (@buf) contains all data sent/received on the SSH channel so
       # we need to format the data to match what we would expect from Train
       def format_output(output, cmd)
-        # Remove leading prompt
-        output.sub!(/(\r\n|^)\S+[>#]/, '')
-
-        # Remove command string
-        output.sub!(/#{cmd}\r\n/, '')
-
-        # Remove trailing prompt
-        output.gsub!(/\S+[>#](\r\n|$)/, '')
-
-        # Remove trailing returns/newlines
-        output.gsub!(/(\r\n)+$/, '')
+        leading_prompt = /(\r\n|^)\S+[>#]/
+        command_string = /#{cmd}\r\n/
+        trailing_prompt = /\S+[>#](\r\n|$)/
+        trailing_line_endings = /(\r\n)+$/
 
         output
+          .sub(leading_prompt, '')
+          .sub(command_string, '')
+          .gsub(trailing_prompt, '')
+          .gsub(trailing_line_endings, '')
       end
 
       # Create an SSH channel that writes to @buf when data is received
-      def open_channel
+      def open_channel(ssh)
         logger.debug("[SSH] opening SSH channel to #{self}")
-        @ssh.open_channel do |ch|
+        ssh.open_channel do |ch|
           ch.on_data do |_, data|
             @buf += data
           end
