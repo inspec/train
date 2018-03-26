@@ -26,9 +26,6 @@ module Train::Transports
       def initialize(options)
         super(options)
 
-        @session = nil
-        @buf = nil
-
         # Delete options to avoid passing them in to `Net::SSH.start` later
         @host = @options.delete(:host)
         @user = @options.delete(:user)
