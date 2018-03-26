@@ -19,8 +19,7 @@ module Train::Transports
     option :enable_password
 
     def connection
-      validate_options(@options)
-      @connection ||= Connection.new(@options)
+      @connection ||= Connection.new(validate_options(@options).options)
     end
 
     class Connection < BaseConnection
