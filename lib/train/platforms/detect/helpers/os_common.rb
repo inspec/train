@@ -92,7 +92,7 @@ module Train::Platforms::Detect::Helpers
       uuid = unix_uuid_from_chef
       uuid = unix_uuid_from_machine_file if uuid.nil?
       uuid = uuid_from_command if uuid.nil?
-      uuid = unix_write_uuid if uuid.nil?
+      raise Train::TransportError, 'Cannot find a UUID for your node.' if uuid.nil?
       uuid
     end
 
@@ -111,28 +111,13 @@ module Train::Platforms::Detect::Helpers
         /etc/machine-id
         /var/lib/dbus/machine-id
         /var/db/dbus/machine-id
-        /etc/machine-uuid
-        #{ENV['HOME']}/.local/etc/machine-uuid
       ).each do |path|
         file = @backend.file(path)
         next unless file.exist? && !file.size.zero?
-        return file.content.chomp if path =~ /(uuid|guid)/
+        return file.content.chomp if path =~ /guid/
         return uuid_from_string(file.content.chomp)
       end
       nil
-    end
-
-    def unix_write_uuid
-      uuid = SecureRandom.uuid
-      result = @backend.run_command("echo \"#{uuid}\" > /etc/machine-uuid")
-      unless result.exit_status.zero?
-        # fallback to user location
-        local_uuid_path = "#{ENV['HOME']}/.local/etc/machine-uuid"
-        warn "Cannot write uuid to `/etc/machine-uuid`, falling back to `#{local_uuid_path}` instead."
-        result = @backend.run_command("mkdir -p #{ENV['HOME']}/.local/etc; echo \"#{uuid}\" > #{local_uuid_path}")
-        raise "Cannot write uuid to `#{local_uuid_path}`." unless result.exit_status.zero?
-      end
-      uuid
     end
 
     # This takes a command from the platform detect block to run.

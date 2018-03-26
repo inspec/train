@@ -80,19 +80,6 @@ describe 'uuid' do
     plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
   end
 
-  it 'finds a linux uuid from /etc/machine-uuid' do
-    files = { '/etc/machine-uuid' => 'd400073f-0920-41aa-8dd3-2ea59b18f5ce' }
-    plat = mock_platform('linux', {}, files)
-    plat.uuid.must_equal 'd400073f-0920-41aa-8dd3-2ea59b18f5ce'
-  end
-
-  it 'finds a linux uuid from uuid_command' do
-    plat_options = { uuid_command: "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'"}
-    commands = { "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'" => 'd400073f-0920-41aa-8dd3-2ea59b18f5ce' }
-    plat = mock_platform('mac_os_x', commands, {}, plat_options)
-    plat.uuid.must_equal '2ee3c95b-4023-570d-8177-f939901a3c51'
-  end
-
   it 'finds a linux uuid from /etc/machine-id' do
     files = { '/etc/machine-id' => '123141dsfadf' }
     plat = mock_platform('linux', {}, files)
@@ -112,7 +99,7 @@ describe 'uuid' do
   end
 
   it 'finds a windows uuid from C:\chef\chef_guid' do
-    ENV['HOMEDRIVE'] = 'C:\\'
+    ENV['SYSTEMDRIVE'] = 'C:'
     files = { 'C:\chef\chef_guid' => '5e430326-b5aa-56f8-975f-c3ca1c21df91' }
     plat = mock_platform('windows', {}, files)
     plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
@@ -122,22 +109,6 @@ describe 'uuid' do
     ENV['HOMEDRIVE'] = 'C:\\'
     ENV['HOMEPATH'] = 'Users\test'
     files = { 'C:\Users\test\.chef\chef_guid' => '5e430326-b5aa-56f8-975f-c3ca1c21df91' }
-    plat = mock_platform('windows', {}, files)
-    plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
-  end
-
-
-  it 'finds a windows uuid from C:\windows\machine-uuid' do
-    ENV['SYSTEMROOT'] = 'C:\windows'
-    files = { 'C:\windows\machine-uuid' => '5e430326-b5aa-56f8-975f-c3ca1c21df91' }
-    plat = mock_platform('windows', {}, files)
-    plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
-  end
-
-  it 'finds a windows uuid from C:\Users\test\.system\machine-uuid' do
-    ENV['HOMEDRIVE'] = 'C:\\'
-    ENV['HOMEPATH'] = 'Users\test'
-    files = { 'C:\Users\test\.system\machine-uuid' => '5e430326-b5aa-56f8-975f-c3ca1c21df91' }
     plat = mock_platform('windows', {}, files)
     plat.uuid.must_equal '5e430326-b5aa-56f8-975f-c3ca1c21df91'
   end

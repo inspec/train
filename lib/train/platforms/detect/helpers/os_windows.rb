@@ -82,7 +82,7 @@ module Train::Platforms::Detect::Helpers
       uuid = windows_uuid_from_machine_file if uuid.nil?
       uuid = windows_uuid_from_wmic if uuid.nil?
       uuid = windows_uuid_from_registry if uuid.nil?
-      uuid = windows_write_uuid if uuid.nil?
+      raise Train::TransportError, 'Cannot find a UUID for your node.' if uuid.nil?
       uuid
     end
 
@@ -90,8 +90,6 @@ module Train::Platforms::Detect::Helpers
       %W(
         #{ENV['SYSTEMDRIVE']}\\chef\\chef_guid
         #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.chef\\chef_guid
-        #{ENV['SYSTEMROOT']}\\machine-uuid
-        #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.system\\machine-uuid
       ).each do |path|
         file = @backend.file(path)
         return file.content.chomp if file.exist? && !file.size.zero?
@@ -117,19 +115,6 @@ module Train::Platforms::Detect::Helpers
       result = @backend.run_command(cmd)
       return unless result.exit_status.zero?
       result.stdout.chomp
-    end
-
-    def windows_write_uuid
-      uuid = SecureRandom.uuid
-      result = @backend.run_command("'#{uuid}' | Out-File -encoding ASCII #{ENV['SYSTEMROOT']}\\machine-uuid")
-      unless result.exit_status.zero?
-        # fallback to user location
-        local_uuid_path = "#{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.system\\machine-uuid"
-        warn "Cannot write uuid to `#{ENV['SYSTEMROOT']}\\machine-uuid`, falling back to `#{local_uuid_path}` instead."
-        result = @backend.run_command("new-item -force -path #{local_uuid_path} -value '#{uuid}' -type file")
-        raise "Cannot write uuid to `#{local_uuid_path}\\machine-uuid`." unless result.exit_status.zero?
-      end
-      uuid
     end
   end
 end
