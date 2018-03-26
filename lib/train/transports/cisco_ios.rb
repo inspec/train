@@ -87,8 +87,7 @@ module Train::Transports
         output = @buf.dup
         @buf = ''
 
-        result = format_output(output, cmd)
-        CommandResult.new(*format_result(result))
+        format_result(format_output(output, cmd))
       end
 
       ERROR_MATCHERS = [
@@ -98,13 +97,16 @@ module Train::Transports
         'Unrecognized host',
       ].freeze
 
+      # IOS commands do not have an exit code so we must compare the command
+      # output with partial segments of known errors. Then, we return a
+      # `CommandResult` with arguments in the correct position based on the
+      # result.
       def format_result(result)
-        stderr_with_exit_1 = ['', result, 1]
-        stdout_with_exit_0 = [result, '', 0]
-
-        # IOS commands do not have an exit code, so we must capture known errors
-        match = ->(e) { result.include?(e) }
-        ERROR_MATCHERS.any?(&match) ? stderr_with_exit_1 : stdout_with_exit_0
+        if ERROR_MATCHERS.none? { |e| result.include?(e) }
+          CommandResult.new(result, '', 0)
+        else
+          CommandResult.new('', result, 1)
+        end
       end
 
       # The buffer (@buf) contains all data sent/received on the SSH channel so

@@ -52,31 +52,33 @@ describe 'Train::Transports::CiscoIOS' do
 
     describe '#format_result' do
       it 'returns correctly when result is `good`' do
-        connection.send(:format_result, 'good').must_equal ['good', '', 0]
+        output = 'good'
+        Train::Extras::CommandResult.expects(:new).with(output, '', 0)
+        connection.send(:format_result, 'good')
       end
 
       it 'returns correctly when result matches /Bad IP address/' do
         output = "Translating \"nope\"\r\n\r\nTranslating \"nope\"\r\n\r\n% Bad IP address or host name\r\n% Unknown command or computer name, or unable to find computer address\r\n"
-        result = connection.send(:format_result, output)
-        result.must_equal ['', output, 1]
+        Train::Extras::CommandResult.expects(:new).with('', output, 1)
+        connection.send(:format_result, output)
       end
 
       it 'returns correctly when result matches /Incomplete command/' do
         output = "% Incomplete command.\r\n\r\n"
-        result = connection.send(:format_result, output)
-        result.must_equal ['', output, 1]
+        Train::Extras::CommandResult.expects(:new).with('', output, 1)
+        connection.send(:format_result, output)
       end
 
       it 'returns correctly when result matches /Invalid input detected/' do
         output = "             ^\r\n% Invalid input detected at '^' marker.\r\n\r\n"
-        result = connection.send(:format_result, output)
-        result.must_equal ['', output, 1]
+        Train::Extras::CommandResult.expects(:new).with('', output, 1)
+        connection.send(:format_result, output)
       end
 
       it 'returns correctly when result matches /Unrecognized host/' do
         output = "Translating \"nope\"\r\n% Unrecognized host or address, or protocol not running.\r\n\r\n"
-        result = connection.send(:format_result, output)
-        result.must_equal ['', output, 1]
+        Train::Extras::CommandResult.expects(:new).with('', output, 1)
+        connection.send(:format_result, output)
       end
     end
 
