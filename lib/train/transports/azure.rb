@@ -4,6 +4,8 @@ require 'train/plugins'
 require 'ms_rest_azure'
 require 'azure_mgmt_resources'
 require 'inifile'
+require 'socket'
+require 'timeout'
 
 module Train::Transports
   class Azure < Train.plugin(1)
@@ -12,6 +14,7 @@ module Train::Transports
     option :client_id, default: ENV['AZURE_CLIENT_ID']
     option :client_secret, default: ENV['AZURE_CLIENT_SECRET']
     option :subscription_id, default: ENV['AZURE_SUBSCRIPTION_ID']
+    option :msi_port, default: ENV['AZURE_MSI_PORT'] || '50342'
 
     # This can provide the client id and secret
     option :credentials_file, default: ENV['AZURE_CRED_FILE']
@@ -38,6 +41,8 @@ module Train::Transports
           parse_credentials_file
         end
 
+        @options[:msi_port] = @options[:msi_port].to_i unless @options[:msi_port].nil?
+
         # additional platform details
         release = Gem.loaded_specs['azure_mgmt_resources'].version
         @platform_details = { release: "azure_mgmt_resources-v#{release}" }
@@ -56,19 +61,24 @@ module Train::Transports
       end
 
       def connect
-        provider = ::MsRestAzure::ApplicationTokenProvider.new(
-          @options[:tenant_id],
-          @options[:client_id],
-          @options[:client_secret],
-        )
+        if @options[:client_id].nil? && @options[:client_secret].nil? && port_open?(@options[:msi_port])
+          # try using MSI connection
+          provider = ::MsRestAzure::MSITokenProvider.new(@options[:msi_port])
+        else
+          provider = ::MsRestAzure::ApplicationTokenProvider.new(
+            @options[:tenant_id],
+            @options[:client_id],
+            @options[:client_secret],
+          )
+        end
 
         @credentials = {
           credentials: ::MsRest::TokenCredentials.new(provider),
           subscription_id: @options[:subscription_id],
           tenant_id: @options[:tenant_id],
-          client_id: @options[:client_id],
-          client_secret: @options[:client_secret],
         }
+        @credentials[:client_id] = @options[:client_id] unless @options[:client_id].nil?
+        @credentials[:client_secret] = @options[:client_secret] unless @options[:client_secret].nil?
       end
 
       def uri
@@ -125,6 +135,19 @@ module Train::Transports
       end
 
       private
+
+      def port_open?(port, seconds = 1)
+        Timeout.timeout(seconds) do
+          begin
+            TCPSocket.new('localhost', port).close
+            true
+          rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+            false
+          end
+        end
+      rescue Timeout::Error
+        false
+      end
 
       def parse_credentials_file # rubocop:disable Metrics/AbcSize
         # If an AZURE_CRED_FILE environment variable has been specified set the

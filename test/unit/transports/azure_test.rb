@@ -83,11 +83,31 @@ describe 'azure transport' do
   describe 'connect' do
     it 'validate credentials' do
       connection.connect
+      token = credentials[:credentials].instance_variable_get(:@token_provider)
+      token.class.must_equal MsRestAzure::ApplicationTokenProvider
+
       credentials[:credentials].class.must_equal MsRest::TokenCredentials
       credentials[:tenant_id].must_equal 'test_tenant_id'
       credentials[:client_id].must_equal 'test_client_id'
       credentials[:client_secret].must_equal 'test_client_secret'
       credentials[:subscription_id].must_equal 'test_subscription_id'
+    end
+
+    it 'validate msi credentials' do
+      options[:client_id] = nil
+      options[:client_secret] = nil
+      Train::Transports::Azure::Connection.any_instance.stubs(:port_open?).returns(true)
+
+      connection.connect
+      token = credentials[:credentials].instance_variable_get(:@token_provider)
+      token.class.must_equal MsRestAzure::MSITokenProvider
+
+      credentials[:credentials].class.must_equal MsRest::TokenCredentials
+      credentials[:tenant_id].must_equal 'test_tenant_id'
+      credentials[:subscription_id].must_equal 'test_subscription_id'
+      credentials[:client_id].must_be_nil
+      credentials[:client_secret].must_be_nil
+      options[:msi_port].must_equal 50342
     end
   end
 
