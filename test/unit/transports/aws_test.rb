@@ -96,4 +96,28 @@ describe 'aws transport' do
       ENV['AWS_REGION'].must_equal 'xyz'
     end
   end
+
+  describe 'unique_identifier' do
+    class AwsArn
+      def arn
+        'arn:aws:iam::158551926027:user/test-fixture-maker'
+      end
+    end
+
+    class AwsUser
+      def user
+        AwsArn.new
+      end
+    end
+
+    class AwsClient
+      def get_user
+        AwsUser.new
+      end
+    end
+    it 'returns an account id' do
+      connection.stubs(:aws_client).returns(AwsClient.new)
+      connection.unique_identifier.must_equal '158551926027'
+    end
+  end
 end

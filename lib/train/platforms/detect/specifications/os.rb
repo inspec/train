@@ -449,6 +449,7 @@ module Train::Platforms::Detect::Specifications
       plat.name('mac_os_x').title('macOS X').in_family('darwin')
           .detect {
             cmd = unix_file_contents('/System/Library/CoreServices/SystemVersion.plist')
+            @platform[:uuid_command] = "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'"
             true if cmd =~ /Mac OS X/i
           }
       plat.name('darwin').title('Darwin').in_family('darwin')

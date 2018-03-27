@@ -5,7 +5,7 @@ require 'train/platforms/detect/helpers/os_windows'
 require 'rbconfig'
 
 module Train::Platforms::Detect::Helpers
-  module OSCommon
+  module OSCommon # rubocop:disable Metrics/ModuleLength
     include Train::Platforms::Detect::Helpers::Linux
     include Train::Platforms::Detect::Helpers::Windows
 
@@ -86,6 +86,60 @@ module Train::Platforms::Detect::Helpers
       end
 
       @cache[:cisco] = nil
+    end
+
+    def unix_uuid
+      uuid = unix_uuid_from_chef
+      uuid = unix_uuid_from_machine_file if uuid.nil?
+      uuid = uuid_from_command if uuid.nil?
+      raise Train::TransportError, 'Cannot find a UUID for your node.' if uuid.nil?
+      uuid
+    end
+
+    def unix_uuid_from_chef
+      file = @backend.file('/var/chef/cache/data_collector_metadata.json')
+      if file.exist? && !file.size.zero?
+        json = ::JSON.parse(file.content)
+        return json['node_uuid'] if json['node_uuid']
+      end
+    end
+
+    def unix_uuid_from_machine_file
+      %W(
+        /etc/chef/chef_guid
+        #{ENV['HOME']}/.chef/chef_guid
+        /etc/machine-id
+        /var/lib/dbus/machine-id
+        /var/db/dbus/machine-id
+      ).each do |path|
+        file = @backend.file(path)
+        next unless file.exist? && !file.size.zero?
+        return file.content.chomp if path =~ /guid/
+        return uuid_from_string(file.content.chomp)
+      end
+      nil
+    end
+
+    # This takes a command from the platform detect block to run.
+    # We expect the command to return a unique identifier which
+    # we turn into a UUID.
+    def uuid_from_command
+      return unless @platform[:uuid_command]
+      result = @backend.run_command(@platform[:uuid_command])
+      uuid_from_string(result.stdout.chomp) if result.exit_status.zero? && !result.stdout.empty?
+    end
+
+    # This hashes the passed string into SHA1.
+    # Then it downgrades the 160bit SHA1 to a 128bit
+    # then we format it as a valid UUIDv5.
+    def uuid_from_string(string)
+      hash = Digest::SHA1.new
+      hash.update(string)
+      ary = hash.digest.unpack('NnnnnN')
+      ary[2] = (ary[2] & 0x0FFF) | (5 << 12)
+      ary[3] = (ary[3] & 0x3FFF) | 0x8000
+      # rubocop:disable Style/FormatString
+      '%08x-%04x-%04x-%04x-%04x%08x' % ary
     end
   end
 end

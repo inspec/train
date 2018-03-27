@@ -75,5 +75,46 @@ module Train::Platforms::Detect::Helpers
       arch_number = sys_info[:Architecture].to_i
       arch_map[arch_number]
     end
+
+    # This method scans the target os for a unique uuid to use
+    def windows_uuid
+      uuid = windows_uuid_from_chef
+      uuid = windows_uuid_from_machine_file if uuid.nil?
+      uuid = windows_uuid_from_wmic if uuid.nil?
+      uuid = windows_uuid_from_registry if uuid.nil?
+      raise Train::TransportError, 'Cannot find a UUID for your node.' if uuid.nil?
+      uuid
+    end
+
+    def windows_uuid_from_machine_file
+      %W(
+        #{ENV['SYSTEMDRIVE']}\\chef\\chef_guid
+        #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.chef\\chef_guid
+      ).each do |path|
+        file = @backend.file(path)
+        return file.content.chomp if file.exist? && !file.size.zero?
+      end
+      nil
+    end
+
+    def windows_uuid_from_chef
+      file = @backend.file("#{ENV['SYSTEMDRIVE']}\\chef\\cache\\data_collector_metadata.json")
+      return if !file.exist? || file.size.zero?
+      json = JSON.parse(file.content)
+      json['node_uuid'] if json['node_uuid']
+    end
+
+    def windows_uuid_from_wmic
+      result = @backend.run_command('wmic csproduct get UUID')
+      return unless result.exit_status.zero?
+      result.stdout.split("\r\n")[-1].strip
+    end
+
+    def windows_uuid_from_registry
+      cmd = '(Get-ItemProperty "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography" -Name "MachineGuid")."MachineGuid"'
+      result = @backend.run_command(cmd)
+      return unless result.exit_status.zero?
+      result.stdout.chomp
+    end
   end
 end

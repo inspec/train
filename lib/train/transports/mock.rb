@@ -57,6 +57,8 @@ end
 
 class Train::Transports::Mock
   class Connection < BaseConnection
+    attr_reader :options
+
     def initialize(conf = nil)
       super(conf)
       mock_os

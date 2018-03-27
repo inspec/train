@@ -91,6 +91,18 @@ describe 'azure transport' do
     end
   end
 
+  describe 'unique_identifier' do
+    it 'returns a subscription id' do
+      connection.unique_identifier.must_equal 'test_subscription_id'
+    end
+
+    it 'returns a tenant id' do
+      options = connection.instance_variable_get(:@options)
+      options[:subscription_id] = nil
+      connection.unique_identifier.must_equal 'test_tenant_id'
+    end
+  end
+
   describe 'parse_credentials_file' do
     let(:cred_file) do
       require 'tempfile'

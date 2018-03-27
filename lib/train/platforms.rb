@@ -1,12 +1,13 @@
 # encoding: utf-8
 
 require 'train/platforms/common'
-require 'train/platforms/family'
-require 'train/platforms/platform'
 require 'train/platforms/detect'
 require 'train/platforms/detect/scanner'
 require 'train/platforms/detect/specifications/os'
 require 'train/platforms/detect/specifications/api'
+require 'train/platforms/detect/uuid'
+require 'train/platforms/family'
+require 'train/platforms/platform'
 
 module Train::Platforms
   class << self
