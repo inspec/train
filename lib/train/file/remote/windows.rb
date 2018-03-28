@@ -39,7 +39,7 @@ module Train
         end
 
         def type
-          if attributes.include?('Archive')
+          if attributes.include?('Archive') && !attributes.include?('Directory')
             return :file
           elsif attributes.include?('ReparsePoint')
             return :symlink
