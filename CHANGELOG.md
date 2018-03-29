@@ -1,7 +1,24 @@
 # Change Log
 
-## [1.2.0](https://github.com/chef/train/tree/1.2.0) (2018-03-15)
-[Full Changelog](https://github.com/chef/train/compare/v1.1.1...1.2.0)
+## [1.3.0](https://github.com/chef/train/tree/1.3.0) (2018-03-29)
+[Full Changelog](https://github.com/chef/train/compare/v1.2.0...1.3.0)
+
+**Implemented enhancements:**
+
+- Update errors to have a base type of Train::Error [\#273](https://github.com/chef/train/pull/273) ([marcparadise](https://github.com/marcparadise))
+
+**Closed issues:**
+
+- RFC: Generate unique uuid for platforms [\#264](https://github.com/chef/train/issues/264)
+
+**Merged pull requests:**
+
+- Add MSI connection option for azure. [\#272](https://github.com/chef/train/pull/272) ([jquick](https://github.com/jquick))
+- Add transport for Cisco IOS [\#271](https://github.com/chef/train/pull/271) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add platform uuid information. [\#270](https://github.com/chef/train/pull/270) ([jquick](https://github.com/jquick))
+
+## [v1.2.0](https://github.com/chef/train/tree/v1.2.0) (2018-03-15)
+[Full Changelog](https://github.com/chef/train/compare/v1.1.1...v1.2.0)
 
 **Implemented enhancements:**
 
@@ -14,6 +31,7 @@
 
 **Merged pull requests:**
 
+- Release train 1.2.0 [\#269](https://github.com/chef/train/pull/269) ([jquick](https://github.com/jquick))
 - Force 64bit powershell for 32bit ruby running on 64bit windows [\#266](https://github.com/chef/train/pull/266) ([jquick](https://github.com/jquick))
 - support cisco ios xe [\#262](https://github.com/chef/train/pull/262) ([arlimus](https://github.com/arlimus))
 - Create a master OS family and refactor specifications [\#261](https://github.com/chef/train/pull/261) ([jquick](https://github.com/jquick))
