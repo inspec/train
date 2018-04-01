@@ -13,30 +13,45 @@ module Train::Transports
     option :user, required: true
     option :port, default: 22, required: true
 
-    option :password, required: true
+    # Password not required since keys could be used
+    option :password
 
     # Used to elevate to enable mode (similar to `sudo su` in Linux)
     option :enable_password
 
     def connection
-      @connection ||= Connection.new(validate_options(@options).options)
+      return @connection if defined?(@connection)
+
+      # Get connection options using methods from the SSH transport
+      conn_opts = connection_options(validate_options(@options).options)
+
+      # Prune options not used by this transport
+      conn_opts.delete(:transport_options)
+
+      # Add in the `enable_password` option
+      conn_opts[:enable_password] = @options[:enable_password]
+
+      @connection = Connection.new(conn_opts)
     end
 
     class Connection < BaseConnection
       def initialize(options)
         super(options)
 
-        # Delete options to avoid passing them in to `Net::SSH.start` later
-        @host = @options.delete(:host)
-        @user = @options.delete(:user)
-        @port = @options.delete(:port)
-        @enable_password = @options.delete(:enable_password)
+        # Extract options to avoid passing them in to `Net::SSH.start` later
+        @hostname = options.delete(:hostname)
+        @username = options.delete(:username)
+        @port = options.delete(:port)
+        @enable_password = options.delete(:enable_password)
+
+        # Use all options left that are not `nil`
+        @ssh_options = options.reject { |_key, value| value.nil? }
 
         @prompt = /^\S+[>#]\r\n.*$/
       end
 
       def uri
-        "ssh://#{@user}@#{@host}:#{@port}"
+        "ssh://#{@username}@#{@hostname}:#{@port}"
       end
 
       private
@@ -44,11 +59,7 @@ module Train::Transports
       def establish_connection
         logger.debug("[SSH] opening connection to #{self}")
 
-        Net::SSH.start(
-          @host,
-          @user,
-          @options.reject { |_key, value| value.nil? },
-        )
+        Net::SSH.start(@hostname, @username, @ssh_options)
       end
 
       def session
