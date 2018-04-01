@@ -37,6 +37,7 @@ module Train::Transports
     name 'ssh'
 
     require 'train/transports/ssh_connection'
+    require 'train/transports/cisco_ios_connection'
 
     # add options for submodules
     include_options Train::Extras::CommandWrapper
@@ -193,6 +194,19 @@ module Train::Transports
 
       @connection_options = options
       conn = Connection.new(options, &block)
+
+      # Cisco IOS requires a special implementation of `Net:SSH`. This uses the
+      # SSH transport to identify the platform, but then replaces SSHConnection
+      # with a CiscoIOSConnection in order to behave as expected for the user.
+      if defined?(conn.platform.cisco_ios?) && conn.platform.cisco_ios?
+        ios_options = {}
+        ios_options[:host] = @options[:host]
+        ios_options[:user] = @options[:user]
+        ios_options[:enable_password] = @options[:enable_password]
+        ios_options.merge!(@connection_options)
+        conn = CiscoIOSConnection.new(ios_options)
+      end
+
       @connection = conn unless conn.nil?
     end
 
