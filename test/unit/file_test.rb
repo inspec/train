@@ -71,7 +71,6 @@ describe Train::File do
     new_cls.file_version.must_be_nil
   end
 
-
   describe 'type' do
     it 'recognized type == file' do
       fc = mockup(type: :file)

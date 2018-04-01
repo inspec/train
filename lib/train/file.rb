@@ -178,7 +178,7 @@ module Train
       res = @backend.run_command(cmd)
       return res.stdout.split(' ').first if res.exit_status == 0
 
-      raise_checksum_error(cmd, res)
+      perform_ruby_checksum(method)
     end
 
     def perform_checksum_windows(method)
@@ -187,13 +187,24 @@ module Train
       res = @backend.run_command(cmd)
       return res.stdout.split("\r\n")[1].tr(' ', '') if res.exit_status == 0
 
-      raise_checksum_error(cmd, res)
+      perform_ruby_checksum(method)
     end
 
-    def raise_checksum_error(cmd, res)
-      fail "Failed to get checksum with `#{cmd}`.\n" \
-           "STDOUT: #{res.stdout}\n" \
-           "STDERR: #{res.stderr}\n"
+    # This pulls the content of the file to the machine running Train and uses
+    # Digest to perform the checksum. This is less efficient than using remote
+    # system binaries and can lead to incorrect results due to encoding.
+    def perform_ruby_checksum(method)
+      case method
+      when :md5
+        res = Digest::MD5.new
+      when :sha256
+        res = Digest::SHA256.new
+      end
+
+      res.update(content)
+      res.hexdigest
+    rescue TypeError => _
+      nil
     end
   end
 end
