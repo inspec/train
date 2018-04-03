@@ -121,7 +121,7 @@ module Train::Transports
       # we need to format the data to match what we would expect from Train
       def format_output(output, cmd)
         leading_prompt = /(\r\n|^)\S+[>#]/
-        command_string = /#{cmd}\r\n/
+        command_string = /#{Regexp.quote(cmd)}\r\n/
         trailing_prompt = /\S+[>#](\r\n|$)/
         trailing_line_endings = /(\r\n)+$/
 
