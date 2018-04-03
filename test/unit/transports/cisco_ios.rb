@@ -83,11 +83,18 @@ describe 'Train::Transports::CiscoIOS' do
     end
 
     describe '#format_output' do
-      it 'returns output containing only the output of the command executed' do
+      it 'returns the correct output' do
         cmd = 'show calendar'
         output = "show calendar\r\n10:35:50 UTC Fri Mar 23 2018\r\n7200_ios_12#\r\n7200_ios_12#"
         result = connection.send(:format_output, output, cmd)
         result.must_equal '10:35:50 UTC Fri Mar 23 2018'
+      end
+
+      it 'returns the correct output when a pipe is used' do
+        cmd = 'show running-config | section line con 0'
+        output = "show running-config | section line con 0\r\nline con 0\r\n exec-timeout 0 0\r\n privilege level 15\r\n logging synchronous\r\n stopbits 1\r\n7200_ios_12#\r\n7200_ios_12#"
+        result = connection.send(:format_output, output, cmd)
+        result.must_equal "line con 0\r\n exec-timeout 0 0\r\n privilege level 15\r\n logging synchronous\r\n stopbits 1"
       end
     end
   end
