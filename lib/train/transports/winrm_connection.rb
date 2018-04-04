@@ -80,7 +80,7 @@ class Train::Transports::WinRM
         retry_limit: @max_wait_until_ready / delay,
         retry_delay: delay,
       )
-      run_command(PING_COMMAND.dup)
+      run_command_via_connection(PING_COMMAND.dup)
     end
 
     def uri
