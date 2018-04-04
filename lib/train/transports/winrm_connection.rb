@@ -80,7 +80,7 @@ class Train::Transports::WinRM
         retry_limit: @max_wait_until_ready / delay,
         retry_delay: delay,
       )
-      run_command(PING_COMMAND.dup)
+      run_command_via_connection(PING_COMMAND.dup)
     end
 
     def uri
@@ -129,7 +129,11 @@ class Train::Transports::WinRM
     # @return [Winrm::FileManager] a file transporter
     # @api private
     def file_manager
-      @file_manager ||= WinRM::FS::FileManager.new(session)
+      @file_manager ||= begin
+        # Ensure @service is available:
+        wait_until_ready
+        WinRM::FS::FileManager.new(@service)
+      end
     end
 
     # Builds a `LoginCommand` for use by Linux-based platforms.
