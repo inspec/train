@@ -201,7 +201,7 @@ module Train::Platforms::Detect::Specifications
             if lsb && lsb[:id] =~ /cloudlinux/i
               @platform[:release] = lsb[:release]
               true
-            elsif (raw = unix_file_contents('/etc/system-release')) =~ /cloudlinux/i
+            elsif (raw = unix_file_contents('/etc/redhat-release')) =~ /cloudlinux/i
               @platform[:name] = redhatish_platform(raw)
               @platform[:release] = redhatish_version(raw)
               true
