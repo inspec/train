@@ -1,7 +1,21 @@
 # Change Log
 
-## [1.3.0](https://github.com/chef/train/tree/1.3.0) (2018-03-29)
-[Full Changelog](https://github.com/chef/train/compare/v1.2.0...1.3.0)
+## [1.4.0](https://github.com/chef/train/tree/1.4.0) (2018-04-12)
+[Full Changelog](https://github.com/chef/train/compare/v1.3.0...1.4.0)
+
+**Closed issues:**
+
+- Train reports directories with the archive bit set as files on the windows platform [\#274](https://github.com/chef/train/issues/274)
+
+**Merged pull requests:**
+
+- Add CloudLinux as a detected platform [\#281](https://github.com/chef/train/pull/281) ([tarcinil](https://github.com/tarcinil))
+- Move Cisco IOS connection under SSH transport [\#279](https://github.com/chef/train/pull/279) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Initialize FileManager using '@service' [\#278](https://github.com/chef/train/pull/278) ([marcparadise](https://github.com/marcparadise))
+- small fix to make sure windows directories with the archive bit set a… [\#275](https://github.com/chef/train/pull/275) ([devoptimist](https://github.com/devoptimist))
+
+## [v1.3.0](https://github.com/chef/train/tree/v1.3.0) (2018-03-29)
+[Full Changelog](https://github.com/chef/train/compare/v1.2.0...v1.3.0)
 
 **Implemented enhancements:**
 
@@ -13,6 +27,7 @@
 
 **Merged pull requests:**
 
+- Release Train 1.3.0 [\#276](https://github.com/chef/train/pull/276) ([jquick](https://github.com/jquick))
 - Add MSI connection option for azure. [\#272](https://github.com/chef/train/pull/272) ([jquick](https://github.com/jquick))
 - Add transport for Cisco IOS [\#271](https://github.com/chef/train/pull/271) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Add platform uuid information. [\#270](https://github.com/chef/train/pull/270) ([jquick](https://github.com/jquick))
