@@ -54,6 +54,16 @@ describe 'os_detect' do
         platform[:family].must_equal('redhat')
         platform[:release].must_equal('7.4')
       end
+      it 'sets the correct family, name, and release on CloudLinux' do
+        files = {
+          '/etc/redhat-release' => "CloudLinux release 7.4 (Georgy Grechko)\n",
+          '/etc/os-release' => "NAME=\"CloudLinux\"\nVERSION=\"7.4 (Georgy Grechko)\"\nID=\"cloudlinux\"\nID_LIKE=\"rhel fedora centos\"\nVERSION_ID=\"7.4\"\nPRETTY_NAME=\"CloudLinux 7.4 (Georgy Grechko)\"\nANSI_COLOR=\"0;31\"\nCPE_NAME=\"cpe:/o:cloudlinux:cloudlinux:7.4:GA:server\"\nHOME_URL=\"https://www.cloudlinux.com//\"\nBUG_REPORT_URL=\"https://www.cloudlinux.com/support\"\n",
+        }
+        platform = scan_with_files('linux', files)
+        platform[:name].must_equal('cloudlinux')
+        platform[:family].must_equal('redhat')
+        platform[:release].must_equal('7.4')
+      end
     end
   end
 

@@ -195,6 +195,18 @@ module Train::Platforms::Detect::Specifications
               true
             end
           }
+      plat.name('cloudlinux').title('CloudLinux').in_family('redhat')
+          .detect {
+            lsb = read_linux_lsb
+            if lsb && lsb[:id] =~ /cloudlinux/i
+              @platform[:release] = lsb[:release]
+              true
+            elsif (raw = unix_file_contents('/etc/redhat-release')) =~ /cloudlinux/i
+              @platform[:name] = redhatish_platform(raw)
+              @platform[:release] = redhatish_version(raw)
+              true
+            end
+          }
       # keep redhat at the end as a fallback for anything with a redhat-release
       plat.name('redhat').title('Red Hat Linux').in_family('redhat')
           .detect {
