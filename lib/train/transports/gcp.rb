@@ -7,7 +7,6 @@ require 'google/apis/compute_v1'
 require 'google/apis/storage_v1'
 require 'google/apis/iam_v1'
 require 'googleauth'
-require 'JSON'
 
 module Train::Transports
   class Gcp < Train.plugin(1)
