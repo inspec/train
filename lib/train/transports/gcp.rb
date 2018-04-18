@@ -49,27 +49,19 @@ module Train::Transports
 
       # Instantiate some named classes for ease of use
       def gcp_compute_client
-        klass = Google::Apis::ComputeV1::ComputeService
-        return klass.new unless cache_enabled?(:api_call)
-        @cache[:api_call][klass.to_s.to_sym] ||= klass.new
+        gcp_client(Google::Apis::ComputeV1::ComputeService)
       end
 
       def gcp_iam_client
-        klass = Google::Apis::IamV1::IamService
-        return klass.new unless cache_enabled?(:api_call)
-        @cache[:api_call][klass.to_s.to_sym] ||= klass.new
+        gcp_client(Google::Apis::IamV1::IamService)
       end
 
       def gcp_project_client
-        klass = Google::Apis::CloudresourcemanagerV1::CloudResourceManagerService
-        return klass.new unless cache_enabled?(:api_call)
-        @cache[:api_call][klass.to_s.to_sym] ||= klass.new
+        gcp_client(Google::Apis::CloudresourcemanagerV1::CloudResourceManagerService)
       end
 
       def gcp_storage_client
-        klass = Google::Apis::StorageV1::StorageService
-        return klass.new unless cache_enabled?(:api_call)
-        @cache[:api_call][klass.to_s.to_sym] ||= klass.new
+        gcp_client(Google::Apis::StorageV1::StorageService)
       end
 
       # Let's allow for other clients too
