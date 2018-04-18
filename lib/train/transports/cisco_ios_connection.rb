@@ -45,7 +45,11 @@ class Train::Transports::SSH
 
       # Escalate privilege to enable mode if password is given
       if @enable_password
-        run_command_via_connection("enable\r\n#{@enable_password}")
+        # This verifies we are not in privileged exec mode before running the
+        # enable command. Otherwise, the password will be in history.
+        if run_command_via_connection('show privilege').stdout.split[-1] != '15'
+          run_command_via_connection("enable\r\n#{@enable_password}")
+        end
       end
 
       # Prevent `--MORE--` by removing terminal length limit
