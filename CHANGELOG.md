@@ -1,7 +1,15 @@
 # Change Log
 
-## [1.4.0](https://github.com/chef/train/tree/1.4.0) (2018-04-12)
-[Full Changelog](https://github.com/chef/train/compare/v1.3.0...1.4.0)
+## [1.4.1](https://github.com/chef/train/tree/1.4.1) (2018-04-19)
+[Full Changelog](https://github.com/chef/train/compare/v1.4.0...1.4.1)
+
+**Merged pull requests:**
+
+- Add UUID for Cisco IOS and Nexus devices [\#285](https://github.com/chef/train/pull/285) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Add handling for privileged exec mode [\#284](https://github.com/chef/train/pull/284) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+
+## [v1.4.0](https://github.com/chef/train/tree/v1.4.0) (2018-04-12)
+[Full Changelog](https://github.com/chef/train/compare/v1.3.0...v1.4.0)
 
 **Closed issues:**
 
@@ -9,6 +17,7 @@
 
 **Merged pull requests:**
 
+- Release 1.4.0 [\#282](https://github.com/chef/train/pull/282) ([jquick](https://github.com/jquick))
 - Add CloudLinux as a detected platform [\#281](https://github.com/chef/train/pull/281) ([tarcinil](https://github.com/tarcinil))
 - Move Cisco IOS connection under SSH transport [\#279](https://github.com/chef/train/pull/279) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Initialize FileManager using '@service' [\#278](https://github.com/chef/train/pull/278) ([marcparadise](https://github.com/marcparadise))
