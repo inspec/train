@@ -98,26 +98,23 @@ describe 'aws transport' do
   end
 
   describe 'unique_identifier' do
-    class AwsArn
-      def arn
-        'arn:aws:iam::158551926027:user/test-fixture-maker'
+
+    class AwsCallerId
+      def account
+        "123456789012"
       end
     end
 
-    class AwsUser
-      def user
-        AwsArn.new
+    class StsClient
+      def get_caller_identity
+        AwsCallerId.new
       end
     end
 
-    class AwsClient
-      def get_user
-        AwsUser.new
-      end
-    end
     it 'returns an account id' do
-      connection.stubs(:aws_client).returns(AwsClient.new)
-      connection.unique_identifier.must_equal '158551926027'
+      connection.stubs(:aws_client).returns(StsClient.new)
+      connection.unique_identifier.must_equal '123456789012'
     end
   end
+
 end
