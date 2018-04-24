@@ -62,9 +62,8 @@ module Train::Transports
 
       def unique_identifier
         # use aws account id
-        client = aws_client(::Aws::IAM::Client)
-        arn = client.get_user.user.arn
-        arn.split(':')[4]
+        client = aws_client(::Aws::STS::Client)
+        client.get_caller_identity.account
       end
     end
   end
