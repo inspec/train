@@ -1,10 +1,18 @@
 # Change Log
 
-## [1.4.1](https://github.com/chef/train/tree/1.4.1) (2018-04-19)
-[Full Changelog](https://github.com/chef/train/compare/v1.4.0...1.4.1)
+## [1.4.2](https://github.com/chef/train/tree/1.4.2) (2018-04-26)
+[Full Changelog](https://github.com/chef/train/compare/v1.4.1...1.4.2)
 
 **Merged pull requests:**
 
+- switched method of determining aws account id to STS [\#286](https://github.com/chef/train/pull/286) ([tkrueger](https://github.com/tkrueger))
+
+## [v1.4.1](https://github.com/chef/train/tree/v1.4.1) (2018-04-19)
+[Full Changelog](https://github.com/chef/train/compare/v1.4.0...v1.4.1)
+
+**Merged pull requests:**
+
+- Release 1.4.1 [\#287](https://github.com/chef/train/pull/287) ([jquick](https://github.com/jquick))
 - Add UUID for Cisco IOS and Nexus devices [\#285](https://github.com/chef/train/pull/285) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Add handling for privileged exec mode [\#284](https://github.com/chef/train/pull/284) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 
