@@ -2,9 +2,11 @@
 # encoding: utf-8
 
 require 'bundler'
-require 'bundler/gem_tasks'
+require 'bundler/gem_helper'
 require 'rake/testtask'
 require 'rubocop/rake_task'
+
+Bundler::GemHelper.install_tasks name: 'inspec'
 
 # Rubocop
 desc 'Run Rubocop lint checks'
