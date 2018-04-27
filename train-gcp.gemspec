@@ -1,3 +1,4 @@
+# encoding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'train/version'
@@ -12,8 +13,8 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/chef/train/'
   spec.license       = 'Apache-2.0'
 
-  spec.files = %w[train-gcp.gemspec README.md LICENSE CHANGELOG.md
-                  lib/train/transports/gcp.rb]
+  spec.files = %w{train-gcp.gemspec README.md LICENSE CHANGELOG.md
+                  lib/train/transports/gcp.rb}
 
   spec.require_paths = ['lib']
 

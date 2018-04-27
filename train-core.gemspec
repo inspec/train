@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'train/version'
@@ -13,9 +13,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/chef/train/'
   spec.license       = 'Apache-2.0'
 
-  spec.files = %w{train-core.gemspec README.md LICENSE Gemfile CHANGELOG.md} +
-    Dir.glob('{lib,test}/**/*', File::FNM_DOTMATCH)
-    .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ }
+  spec.files = %w{train-core.gemspec README.md LICENSE Gemfile CHANGELOG.md} + Dir
+               .glob('{lib,test}/**/*', File::FNM_DOTMATCH)
+               .reject { |f| File.directory?(f) || f =~ /aws|azure|gcp/ }
 
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']

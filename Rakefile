@@ -6,7 +6,7 @@ require 'bundler/gem_helper'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 
-Bundler::GemHelper.install_tasks name: 'inspec'
+Bundler::GemHelper.install_tasks name: 'train'
 
 # Rubocop
 desc 'Run Rubocop lint checks'
