@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Enable expeditor release tasks [#294](https://github.com/chef/train/pull/294) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.2 -->
+### Changes since 1.4.2 release
+
+#### Merged Pull Requests
+- Enable expeditor release tasks [#294](https://github.com/chef/train/pull/294) ([jquick](https://github.com/jquick)) <!-- 1.4.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
@@ -768,4 +776,3 @@
 **Merged pull requests:**
 
 - bump train version to 0.9.0 [\#24](https://github.com/chef/train/pull/24) ([chris-rock](https://github.com/chris-rock))
-
