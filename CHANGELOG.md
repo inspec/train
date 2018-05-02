@@ -1,21 +1,18 @@
-<!-- latest_release 1.4.4 -->
-## [v1.4.4](https://github.com/chef/train/tree/v1.4.4) (2018-05-02)
-
-#### Merged Pull Requests
-- Split train into a core gem. [#293](https://github.com/chef/train/pull/293) ([miah](https://github.com/miah))
-- Enable expeditor release tasks [#294](https://github.com/chef/train/pull/294) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.2 -->
-### Changes since 1.4.2 release
-
-#### Merged Pull Requests
-- Split train into a core gem. [#293](https://github.com/chef/train/pull/293) ([miah](https://github.com/miah)) <!-- 1.4.4 -->
-- Enable expeditor release tasks [#294](https://github.com/chef/train/pull/294) ([jquick](https://github.com/jquick)) <!-- 1.4.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.4](https://github.com/chef/train/tree/v1.4.4) (2018-05-02)
+
+#### Merged Pull Requests
+- Enable expeditor release tasks [#294](https://github.com/chef/train/pull/294) ([jquick](https://github.com/jquick))
+- Split train into a core gem. [#293](https://github.com/chef/train/pull/293) ([miah](https://github.com/miah))
 <!-- latest_stable_release -->
+
+
 
 # Change Log
 
