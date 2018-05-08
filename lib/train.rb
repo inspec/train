@@ -66,8 +66,13 @@ module Train
       conf[:host]     ||= uri.hostname
       conf[:port]     ||= uri.port
       conf[:user]     ||= uri.user
-      conf[:password] ||= uri.password
       conf[:path]     ||= uri.path
+      conf[:password] ||=
+        if conf[:www_form_encoded_password]
+          URI.decode_www_form_component(uri.password)
+        else
+          uri.password
+        end
     end
 
     # ensure path is nil, if its empty; e.g. required to reset defaults for winrm
