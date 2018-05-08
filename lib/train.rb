@@ -68,7 +68,7 @@ module Train
       conf[:user]     ||= uri.user
       conf[:path]     ||= uri.path
       conf[:password] ||=
-        if conf[:www_form_encoded_password]
+        if conf[:www_form_encoded_password] && !uri.password.nil?
           URI.decode_www_form_component(uri.password)
         else
           uri.password

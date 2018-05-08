@@ -191,6 +191,18 @@ describe Train do
       res[:target].must_equal org[:target]
     end
 
+    it 'ignores www-form-encoded password value when there is no password' do
+      org = { target: "mock://username@1.2.3.4:100",
+              www_form_encoded_password: true}
+      res = Train.target_config(org)
+      res[:backend].must_equal 'mock'
+      res[:host].must_equal '1.2.3.4'
+      res[:user].must_equal 'username'
+      res[:password].must_be_nil
+      res[:port].must_equal 100
+      res[:target].must_equal org[:target]
+    end
+
     it 'it raises UserError on invalid URIs' do
       org = { target: 'mock world' }
       proc { Train.target_config(org) }.must_raise Train::UserError
