@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.5 -->
+## [v1.4.5](https://github.com/chef/train/tree/v1.4.5) (2018-05-08)
+
+#### Merged Pull Requests
+- Support encoded passwords in target url [#296](https://github.com/chef/train/pull/296) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.4 -->
+### Changes since 1.4.4 release
+
+#### Merged Pull Requests
+- Support encoded passwords in target url [#296](https://github.com/chef/train/pull/296) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
