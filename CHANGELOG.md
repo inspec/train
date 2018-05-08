@@ -1,12 +1,15 @@
-<!-- latest_release 1.4.5 -->
-## [v1.4.5](https://github.com/chef/train/tree/v1.4.5) (2018-05-08)
+<!-- latest_release 1.4.6 -->
+## [v1.4.6](https://github.com/chef/train/tree/v1.4.6) (2018-05-08)
 
-#### Merged Pull Requests
-- Support encoded passwords in target url [#296](https://github.com/chef/train/pull/296) ([marcparadise](https://github.com/marcparadise))
+#### Bug Fixes
+- Allow nil password and www_form_encoded_password to work together. [#297](https://github.com/chef/train/pull/297) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.4 -->
 ### Changes since 1.4.4 release
+
+#### Bug Fixes
+- Allow nil password and www_form_encoded_password to work together. [#297](https://github.com/chef/train/pull/297) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.6 -->
 
 #### Merged Pull Requests
 - Support encoded passwords in target url [#296](https://github.com/chef/train/pull/296) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.5 -->
