@@ -177,6 +177,20 @@ describe Train do
       res[:target].must_equal org[:target]
     end
 
+    it 'supports www-form encoded passwords when the option is set' do
+      raw_password = '+!@#$%^&*()_-\';:"\\|/?.>,<][}{=`~'
+      encoded_password = URI.encode_www_form_component(raw_password)
+      org = { target: "mock://username:#{encoded_password}@1.2.3.4:100",
+              www_form_encoded_password: true}
+      res = Train.target_config(org)
+      res[:backend].must_equal 'mock'
+      res[:host].must_equal '1.2.3.4'
+      res[:user].must_equal 'username'
+      res[:password].must_equal raw_password
+      res[:port].must_equal 100
+      res[:target].must_equal org[:target]
+    end
+
     it 'it raises UserError on invalid URIs' do
       org = { target: 'mock world' }
       proc { Train.target_config(org) }.must_raise Train::UserError
