@@ -38,7 +38,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'google-api-client', '~> 0.19.8'
   spec.add_dependency 'googleauth', '~> 0.6.2'
   spec.add_dependency 'google-cloud', '~> 0.51.1'
-  spec.add_dependency 'google-protobuf', '= 3.5.1'
   spec.add_dependency 'inifile'
 
   spec.add_development_dependency 'mocha', '~> 1.1'
