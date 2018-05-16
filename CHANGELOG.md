@@ -1,30 +1,27 @@
-<!-- latest_release 1.4.9 -->
-## [v1.4.9](https://github.com/chef/train/tree/v1.4.9) (2018-05-16)
-
-#### Merged Pull Requests
-- Unpin google-protobuf now that we are building it as a gem [#300](https://github.com/chef/train/pull/300) ([scotthain](https://github.com/scotthain))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.4 -->
-### Changes since 1.4.4 release
-
-#### Bug Fixes
-- Allow nil password and www_form_encoded_password to work together. [#297](https://github.com/chef/train/pull/297) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.6 -->
-
-#### Merged Pull Requests
-- Unpin google-protobuf now that we are building it as a gem [#300](https://github.com/chef/train/pull/300) ([scotthain](https://github.com/scotthain)) <!-- 1.4.9 -->
-- Change Cisco IOS transport log level to INFO [#298](https://github.com/chef/train/pull/298) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.8 -->
-- Initial import of transport for GCP. [#283](https://github.com/chef/train/pull/283) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.7 -->
-- Support encoded passwords in target url [#296](https://github.com/chef/train/pull/296) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.9](https://github.com/chef/train/tree/v1.4.9) (2018-05-16)
+
+#### Bug Fixes
+- Allow nil password and www_form_encoded_password to work together. [#297](https://github.com/chef/train/pull/297) ([marcparadise](https://github.com/marcparadise))
+
+#### Merged Pull Requests
+- Support encoded passwords in target url [#296](https://github.com/chef/train/pull/296) ([marcparadise](https://github.com/marcparadise))
+- Initial import of transport for GCP. [#283](https://github.com/chef/train/pull/283) ([skpaterson](https://github.com/skpaterson))
+- Change Cisco IOS transport log level to INFO [#298](https://github.com/chef/train/pull/298) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Unpin google-protobuf now that we are building it as a gem [#300](https://github.com/chef/train/pull/300) ([scotthain](https://github.com/scotthain))
+<!-- latest_stable_release -->
+
 ## [v1.4.4](https://github.com/chef/train/tree/v1.4.4) (2018-05-02)
 
 #### Merged Pull Requests
 - Enable expeditor release tasks [#294](https://github.com/chef/train/pull/294) ([jquick](https://github.com/jquick))
 - Split train into a core gem. [#293](https://github.com/chef/train/pull/293) ([miah](https://github.com/miah))
-<!-- latest_stable_release -->
 
 
 
