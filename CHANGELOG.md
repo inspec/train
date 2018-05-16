@@ -1,8 +1,8 @@
-<!-- latest_release 1.4.8 -->
-## [v1.4.8](https://github.com/chef/train/tree/v1.4.8) (2018-05-15)
+<!-- latest_release 1.4.9 -->
+## [v1.4.9](https://github.com/chef/train/tree/v1.4.9) (2018-05-16)
 
 #### Merged Pull Requests
-- Change Cisco IOS transport log level to INFO [#298](https://github.com/chef/train/pull/298) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Unpin google-protobuf now that we are building it as a gem [#300](https://github.com/chef/train/pull/300) ([scotthain](https://github.com/scotthain))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.4 -->
@@ -12,6 +12,7 @@
 - Allow nil password and www_form_encoded_password to work together. [#297](https://github.com/chef/train/pull/297) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.6 -->
 
 #### Merged Pull Requests
+- Unpin google-protobuf now that we are building it as a gem [#300](https://github.com/chef/train/pull/300) ([scotthain](https://github.com/scotthain)) <!-- 1.4.9 -->
 - Change Cisco IOS transport log level to INFO [#298](https://github.com/chef/train/pull/298) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.8 -->
 - Initial import of transport for GCP. [#283](https://github.com/chef/train/pull/283) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.7 -->
 - Support encoded passwords in target url [#296](https://github.com/chef/train/pull/296) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.5 -->
