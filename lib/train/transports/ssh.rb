@@ -204,7 +204,7 @@ module Train::Transports
         ios_options[:user] = @options[:user]
         # The enable password is used to elevate privileges on Cisco devices
         # We will also support the sudo password field for the same purpose
-        # for the interim.
+        # for the interim. # TODO
         ios_options[:enable_password] = @options[:enable_password] || @options[:sudo_password]
         ios_options.merge!(@connection_options)
         conn = CiscoIOSConnection.new(ios_options)
