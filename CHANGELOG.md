@@ -1,18 +1,16 @@
-<!-- latest_release 1.4.10 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v1.4.10](https://github.com/chef/train/tree/v1.4.10) (2018-05-17)
 
 #### Merged Pull Requests
 - support sudo passwords for cisco [#301](https://github.com/chef/train/pull/301) ([arlimus](https://github.com/arlimus))
-<!-- latest_release -->
-
-<!-- release_rollup since=1.4.9 -->
-### Changes since 1.4.9 release
-
-#### Merged Pull Requests
-- support sudo passwords for cisco [#301](https://github.com/chef/train/pull/301) ([arlimus](https://github.com/arlimus)) <!-- 1.4.10 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v1.4.9](https://github.com/chef/train/tree/v1.4.9) (2018-05-16)
 
 #### Bug Fixes
@@ -23,7 +21,6 @@
 - Initial import of transport for GCP. [#283](https://github.com/chef/train/pull/283) ([skpaterson](https://github.com/skpaterson))
 - Change Cisco IOS transport log level to INFO [#298](https://github.com/chef/train/pull/298) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Unpin google-protobuf now that we are building it as a gem [#300](https://github.com/chef/train/pull/300) ([scotthain](https://github.com/scotthain))
-<!-- latest_stable_release -->
 
 ## [v1.4.4](https://github.com/chef/train/tree/v1.4.4) (2018-05-02)
 
