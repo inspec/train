@@ -23,7 +23,7 @@ module Train::Transports
       @connection ||= Connection.new(@options)
     end
 
-    class Connection < BaseConnection
+    class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
       attr_reader :options
 
       def initialize(options)
@@ -62,7 +62,8 @@ module Train::Transports
 
       def connect
         if @options[:client_id].nil? && @options[:client_secret].nil? && port_open?(@options[:msi_port])
-          # try using MSI connection
+          # this needs set for azure cloud to authenticate
+          ENV['MSI_VM'] = 'true'
           provider = ::MsRestAzure::MSITokenProvider.new(@options[:msi_port])
         else
           provider = ::MsRestAzure::ApplicationTokenProvider.new(
