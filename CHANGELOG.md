@@ -1,23 +1,20 @@
-<!-- latest_release 1.4.11 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v1.4.11](https://github.com/chef/train/tree/v1.4.11) (2018-05-17)
 
 #### Merged Pull Requests
 - Add required env for azure shell msi headers [#302](https://github.com/chef/train/pull/302) ([jquick](https://github.com/jquick))
-<!-- latest_release -->
-
-<!-- release_rollup since=1.4.10 -->
-### Changes since 1.4.10 release
-
-#### Merged Pull Requests
-- Add required env for azure shell msi headers [#302](https://github.com/chef/train/pull/302) ([jquick](https://github.com/jquick)) <!-- 1.4.11 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v1.4.10](https://github.com/chef/train/tree/v1.4.10) (2018-05-17)
 
 #### Merged Pull Requests
 - support sudo passwords for cisco [#301](https://github.com/chef/train/pull/301) ([arlimus](https://github.com/arlimus))
-<!-- latest_stable_release -->
 
 ## [v1.4.9](https://github.com/chef/train/tree/v1.4.9) (2018-05-16)
 
