@@ -58,15 +58,15 @@ module Train::Extras
       rawerr = res.stdout + ' ' + res.stderr
 
       {
-        'Sorry, try again' => 'Wrong sudo password.',
+        'Sorry, try again' => ['Wrong sudo password.', :bad_sudo_password],
         'sudo: no tty present and no askpass program specified' =>
-          'Sudo requires a password, please configure it.',
+          ['Sudo requires a password, please configure it.', :sudo_password_required],
         'sudo: command not found' =>
-          "Can't find sudo command. Please either install and "\
-            'configure it on the target or deactivate sudo.',
+          ["Can't find sudo command. Please either install and "\
+            'configure it on the target or deactivate sudo.', :sudo_command_not_found],
         'sudo: sorry, you must have a tty to run sudo' =>
-          'Sudo requires a TTY. Please see the README on how to configure '\
-            'sudo to allow for non-interactive usage.',
+          ['Sudo requires a TTY. Please see the README on how to configure '\
+            'sudo to allow for non-interactive usage.', :sudo_no_tty],
       }.each do |sudo, human|
         rawerr = human if rawerr.include? sudo
       end
@@ -128,8 +128,11 @@ module Train::Extras
       if transport.os.unix?
         return nil unless LinuxCommand.active?(options)
         res = LinuxCommand.new(transport, options)
-        msg = res.verify
-        fail Train::UserError, "Sudo failed: #{msg}" unless msg.nil?
+        verification_res = res.verify
+        if verification_res
+          msg, reason = verification_res
+          raise Train::UserError.new("Sudo failed: #{msg}", reason)
+        end
         res
       end
     end
