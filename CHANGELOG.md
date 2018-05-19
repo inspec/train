@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.12 -->
+## [v1.4.12](https://github.com/chef/train/tree/v1.4.12) (2018-05-19)
+
+#### Merged Pull Requests
+- Allow TrainError to provide a supplement reason [#303](https://github.com/chef/train/pull/303) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.11 -->
+### Changes since 1.4.11 release
+
+#### Merged Pull Requests
+- Allow TrainError to provide a supplement reason [#303](https://github.com/chef/train/pull/303) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.12 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
