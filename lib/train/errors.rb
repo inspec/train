@@ -10,7 +10,14 @@
 
 module Train
   # Base exception for any exception explicitly raised by the Train library.
-  class Error < ::StandardError; end
+  class Error < ::StandardError
+    attr_reader :reason
+
+    def initialize(message = '', reason = :not_provided)
+      super(message)
+      @reason = reason
+    end
+  end
 
   # Base exception class for all exceptions that are caused by user input
   # errors.
