@@ -43,6 +43,19 @@ describe 'file common' do
     let(:md5_checksum) { '4ce0c733cdcf1d2f78532bbd9ce3441d' }
     let(:filepath) { 'C:\Windows\explorer.exe' }
 
+    let(:ruby_md5_mock) do
+      checksum_mock = mock
+      checksum_mock.expects(:update).returns('')
+      checksum_mock.expects(:hexdigest).returns(md5_checksum)
+      checksum_mock
+    end
+
+    it 'defaults to a Ruby based checksum if other methods fail' do
+      backend.mock_command("CertUtil -hashfile #{filepath} MD5", '', '', 1)
+      Digest::MD5.expects(:new).returns(ruby_md5_mock)
+      cls.new(backend, '/tmp/testfile').md5sum.must_equal md5_checksum
+    end
+
     it 'calculates the correct md5sum on the `windows` platform family' do
       output = <<-EOC
         MD5 hash of file C:\\Windows\\explorer.exe:\r
@@ -60,6 +73,19 @@ describe 'file common' do
       '85270240a5fd51934f0627c92b2282749d071fdc9ac351b81039ced5b10f798b'
     }
     let(:filepath) { 'C:\Windows\explorer.exe' }
+
+    let(:ruby_sha256_mock) do
+      checksum_mock = mock
+      checksum_mock.expects(:update).returns('')
+      checksum_mock.expects(:hexdigest).returns(sha256_checksum)
+      checksum_mock
+    end
+
+    it 'defaults to a Ruby based checksum if other methods fail' do
+      backend.mock_command('CertUtil -hashfile #{filepath} SHA256', '', '', 1)
+      Digest::SHA256.expects(:new).returns(ruby_sha256_mock)
+      cls.new(backend, '/tmp/testfile').sha256sum.must_equal sha256_checksum
+    end
 
     it 'calculates the correct sha256sum on the `windows` platform family' do
       output = <<-EOC

@@ -43,13 +43,19 @@ describe Train::File::Remote::Qnx do
   end
 
   describe '#md5sum' do
-    it 'performs a checksum via Ruby if the `md5sum` command fails' do
-      stderr = 'md5sum: command not found'
-      backend.mock_command('md5sum /tmp/testfile', nil, stderr, 1)
+    let(:md5_checksum) { '17404a596cbd0d1e6c7d23fcd845ab82' }
 
-      cls.new(backend, '/tmp/testfile').stub :content, 'mock' do |i|
-        i.md5sum.must_equal '17404a596cbd0d1e6c7d23fcd845ab82'
-      end
+    let(:ruby_md5_mock) do
+      checksum_mock = mock
+      checksum_mock.expects(:update).returns('')
+      checksum_mock.expects(:hexdigest).returns(md5_checksum)
+      checksum_mock
+    end
+
+    it 'defaults to a Ruby based checksum if other methods fail' do
+      backend.mock_command('md5sum /tmp/testfile', '', '', 1)
+      Digest::MD5.expects(:new).returns(ruby_md5_mock)
+      cls.new(backend, '/tmp/testfile').md5sum.must_equal md5_checksum
     end
   end
 
@@ -58,13 +64,17 @@ describe Train::File::Remote::Qnx do
       'ec864fe99b539704b8872ac591067ef22d836a8d942087f2dba274b301ebe6e5'
     }
 
-    it 'performs a checksum via Ruby if the `sha256sum` command fails' do
-      stderr = 'sha256sum: command not found'
-      backend.mock_command('sha256sum /tmp/testfile', nil, stderr, 1)
+    let(:ruby_sha256_mock) do
+      checksum_mock = mock
+      checksum_mock.expects(:update).returns('')
+      checksum_mock.expects(:hexdigest).returns(sha256_checksum)
+      checksum_mock
+    end
 
-      cls.new(backend, '/tmp/testfile').stub :content, 'mock' do |i|
-        i.sha256sum.must_equal sha256_checksum
-      end
+    it 'defaults to a Ruby based checksum if other methods fail' do
+      backend.mock_command('sha256sum /tmp/testfile', '', '', 1)
+      Digest::SHA256.expects(:new).returns(ruby_sha256_mock)
+      cls.new(backend, '/tmp/testfile').sha256sum.must_equal sha256_checksum
     end
   end
 end
