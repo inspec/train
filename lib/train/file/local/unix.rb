@@ -47,7 +47,7 @@ module Train
 
         def mounted
           @mounted ||=
-            @backend.run_command("mount | grep -- ' on #{@spath} '")
+            @backend.run_command("mount | grep -- ' on #{@path} '")
         end
 
         def grouped_into?(sth)
