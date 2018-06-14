@@ -6,7 +6,7 @@ require 'train/version'
 CORE_TRANSPORTS = [
   'lib/train/transports/local.rb',
   'lib/train/transports/mock.rb',
-]
+].freeze
 
 Gem::Specification.new do |spec|
   spec.name          = 'train-core'
@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.files = %w{train-core.gemspec README.md LICENSE Gemfile CHANGELOG.md} + Dir
                .glob('lib/**/*', File::FNM_DOTMATCH)
-               .reject { |f| f =~ /lib\/train\/transports/ unless CORE_TRANSPORTS.include?(f) }
+               .reject { |f| f =~ %r{lib/train/transports} unless CORE_TRANSPORTS.include?(f) }
                .reject { |f| File.directory?(f) }
 
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
