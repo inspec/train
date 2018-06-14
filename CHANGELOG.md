@@ -1,14 +1,15 @@
-<!-- latest_release 1.4.13 -->
-## [v1.4.13](https://github.com/inspec/train/tree/v1.4.13) (2018-06-12)
+<!-- latest_release 1.4.14 -->
+## [v1.4.14](https://github.com/inspec/train/tree/v1.4.14) (2018-06-14)
 
 #### Merged Pull Requests
-- Adding Oneview to platform detection. [#307](https://github.com/inspec/train/pull/307) ([skpaterson](https://github.com/skpaterson))
+- Add the mock transport to train-core [#308](https://github.com/inspec/train/pull/308) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.11 -->
 ### Changes since 1.4.11 release
 
 #### Merged Pull Requests
+- Add the mock transport to train-core [#308](https://github.com/inspec/train/pull/308) ([jquick](https://github.com/jquick)) <!-- 1.4.14 -->
 - Adding Oneview to platform detection. [#307](https://github.com/inspec/train/pull/307) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.13 -->
 - Allow TrainError to provide a supplement reason [#303](https://github.com/chef/train/pull/303) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.12 -->
 <!-- release_rollup -->
