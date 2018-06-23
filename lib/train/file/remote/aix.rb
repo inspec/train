@@ -12,6 +12,12 @@ module Train
             @backend.run_command("perl -e 'print readlink shift' #{@spath}").stdout.chomp
         end
 
+        def shallow_link_path
+          return nil unless symlink?
+          @shallow_link_path ||=
+            @backend.run_command("perl -e 'print readlink shift' #{@spath}").stdout.chomp
+        end
+
         def mounted
           @mounted ||= @backend.run_command("lsfs -c #{@spath}")
         end
