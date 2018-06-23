@@ -10,7 +10,7 @@ describe Train::File::Local do
     File.stub :read, res do
       connection.file(rand.to_s).content.must_equal(res)
     end
-  end 
+  end
 
   {
     exist?:            :exist?,
@@ -33,13 +33,13 @@ describe Train::File::Local do
     it 'returns the type block_device if it is block device' do
       File.stub :ftype, "blockSpecial" do
         connection.file(rand.to_s).type.must_equal :block_device
-      end  
+      end
     end
 
     it 'returns the type character_device if it is character device' do
       File.stub :ftype, "characterSpecial" do
         connection.file(rand.to_s).type.must_equal :character_device
-      end  
+      end
     end
 
     it 'returns the type symlink if it is symlink' do
@@ -77,7 +77,7 @@ describe Train::File::Local do
         connection.file(rand.to_s).type.must_equal :unknown
       end
     end
-  end  
+  end
 
   describe '#path' do
     it 'returns the path if it is not a symlink' do
@@ -103,6 +103,17 @@ describe Train::File::Local do
       File.stub :realpath, out do
         File.stub :symlink?, true do
           connection.file(rand.to_s).link_path.must_equal out
+        end
+      end
+    end
+  end
+
+  describe '#shallow_shlink_path' do
+    it 'returns file\'s direct link path' do
+      out = rand.to_s
+      File.stub :readlink, out do
+        File.stub :symlink?, true do
+          connection.file(rand.to_s).shallow_link_path.must_equal out
         end
       end
     end

@@ -23,4 +23,11 @@ describe Train::File::Remote::Aix do
     backend.mock_command("perl -e 'print readlink shift' path", 'our_link_path')
     file.link_path.must_equal 'our_link_path'
   end
+
+  it 'returns a correct shallow_link_path' do
+    file = cls.new(backend, 'path')
+    file.stubs(:symlink?).returns(true)
+    backend.mock_command("perl -e 'print readlink shift' path", 'our_link_path')
+    file.link_path.must_equal 'our_link_path'
+  end
 end
