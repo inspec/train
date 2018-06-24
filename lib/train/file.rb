@@ -135,14 +135,6 @@ module Train
       end
     end
 
-    def link_path
-      fail NotImplementedError, "#{self.class} does not implement #link_path()"
-    end
-
-    def shallow_link_path
-      fail NotImplementedError, "#{self.class} does not implement #shallow_link_path()"
-    end
-
     # if the OS-specific file class supports inquirying as to whether the
     # file/device is mounted, the #mounted method should return a command
     # object whose stdout will not be nil if indeed the device is mounted.
