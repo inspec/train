@@ -2,3 +2,4 @@ train-*.gem
 r-train-*.gem
 Gemfile.lock
 .kitchen/
+TAGS
