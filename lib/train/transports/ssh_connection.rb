@@ -92,7 +92,6 @@ class Train::Transports::SSH
     def login_command
       args = ssh_opts
       args += %W( -o ProxyCommand='#{generate_proxy_command}' ) if check_proxy
-      # args += %W( -o ProxyCommand='#{generate_proxy_command}' ) unless @bastion_host.nil?
       args += %W( -p #{@port} )
       args += %W( #{@username}@#{@hostname} )
       LoginCommand.new('ssh', args)
