@@ -14,7 +14,7 @@ describe 'ssh transport' do
     host: rand.to_s,
     password: rand.to_s,
     key_files: rand.to_s,
-    custom_proxy_command: 'ssh root@127.0.0.1 -W %h:%p',
+    proxy_command: 'ssh root@127.0.0.1 -W %h:%p',
   }}
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
@@ -169,7 +169,7 @@ describe 'ssh transport' do
     it 'wont connect if it is not possible' do
       conf[:host] = 'localhost'
       conf[:port] = 1
-      conf.delete :custom_proxy_command
+      conf.delete :proxy_command
       conn = cls.new(conf).connection
       proc { conn.run_command('uname') }.must_raise Train::Transports::SSHFailed
     end
@@ -306,12 +306,12 @@ describe 'ssh transport with bastion and proxy' do
     password: rand.to_s,
     key_files: rand.to_s,
     bastion_host: 'bastion_dummy',
-    custom_proxy_command: 'dummy'
+    proxy_command: 'dummy'
   }}
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
   describe 'bastion and proxy' do
-    it 'will throw an exception when both custom_proxy_command and bastion_host is specified' do
+    it 'will throw an exception when both proxy_command and bastion_host is specified' do
       proc { cls.new(conf).connection }.must_raise Train::ClientError
     end
   end

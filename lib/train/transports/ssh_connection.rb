@@ -43,7 +43,7 @@ class Train::Transports::SSH
       @session                = nil
       @transport_options      = @options.delete(:transport_options)
       @cmd_wrapper            = nil
-      @custom_proxy_command   = @options.delete(:custom_proxy_command)
+      @proxy_command          = @options.delete(:proxy_command)
       @bastion_host           = @options.delete(:bastion_host)
       @bastion_user           = @options.delete(:bastion_user)
       @bastion_port           = @options.delete(:bastion_port)
@@ -75,11 +75,11 @@ class Train::Transports::SSH
     end
 
     def check_proxy
-      [@custom_proxy_command, @bastion_host].any? { |type| !type.nil? }
+      [@proxy_command, @bastion_host].any? { |type| !type.nil? }
     end
 
     def generate_proxy_command
-      return @custom_proxy_command unless @custom_proxy_command.nil?
+      return @proxy_command unless @proxy_command.nil?
       args = %w{ ssh }
       args += ssh_opts
       args += %W( #{@bastion_user}@#{@bastion_host} )
