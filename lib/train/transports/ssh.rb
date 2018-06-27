@@ -58,6 +58,10 @@ module Train::Transports
     option :max_wait_until_ready, default: 600
     option :compression, default: false
     option :pty, default: false
+    option :proxy_command, default: nil
+    option :bastion_host, default: nil
+    option :bastion_user, default: 'root'
+    option :bastion_port, default: 22
 
     option :compression_level do |opts|
       # on nil or false: set compression level to 0
@@ -109,6 +113,10 @@ module Train::Transports
         logger.warn('[SSH] PTY requested: stderr will be merged into stdout')
       end
 
+      if [options[:proxy_command], options[:bastion_host]].all? { |type| !type.nil? }
+        fail Train::ClientError, 'Only one of proxy_command or bastion_host needs to be specified'
+      end
+
       super
       self
     end
@@ -151,6 +159,9 @@ module Train::Transports
         password:               opts[:password],
         forward_agent:          opts[:forward_agent],
         proxy_command:          opts[:proxy_command],
+        bastion_host:           opts[:bastion_host],
+        bastion_user:           opts[:bastion_user],
+        bastion_port:           opts[:bastion_port],
         transport_options:      opts,
       }
 

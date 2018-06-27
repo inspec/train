@@ -43,6 +43,10 @@ class Train::Transports::SSH
       @session                = nil
       @transport_options      = @options.delete(:transport_options)
       @cmd_wrapper            = nil
+      @proxy_command          = @options.delete(:proxy_command)
+      @bastion_host           = @options.delete(:bastion_host)
+      @bastion_user           = @options.delete(:bastion_user)
+      @bastion_port           = @options.delete(:bastion_port)
       @cmd_wrapper            = CommandWrapper.load(self, @transport_options)
     end
 
@@ -55,8 +59,7 @@ class Train::Transports::SSH
       @session = nil
     end
 
-    # (see Base::Connection#login_command)
-    def login_command
+    def ssh_opts
       level = logger.debug? ? 'VERBOSE' : 'ERROR'
       fwd_agent = options[:forward_agent] ? 'yes' : 'no'
 
@@ -65,13 +68,32 @@ class Train::Transports::SSH
       args += %w{ -o IdentitiesOnly=yes } if options[:keys]
       args += %W( -o LogLevel=#{level} )
       args += %W( -o ForwardAgent=#{fwd_agent} ) if options.key?(:forward_agent)
-      args += %W( -o ProxyCommand='#{options[:proxy_command]}' ) unless options[:proxy_command].nil?
       Array(options[:keys]).each do |ssh_key|
         args += %W( -i #{ssh_key} )
       end
+      args
+    end
+
+    def check_proxy
+      [@proxy_command, @bastion_host].any? { |type| !type.nil? }
+    end
+
+    def generate_proxy_command
+      return @proxy_command unless @proxy_command.nil?
+      args = %w{ ssh }
+      args += ssh_opts
+      args += %W( #{@bastion_user}@#{@bastion_host} )
+      args += %W( -p #{@bastion_port} )
+      args += %w{ -W %h:%p }
+      args.join(' ')
+    end
+
+    # (see Base::Connection#login_command)
+    def login_command
+      args = ssh_opts
+      args += %W( -o ProxyCommand='#{generate_proxy_command}' ) if check_proxy
       args += %W( -p #{@port} )
       args += %W( #{@username}@#{@hostname} )
-
       LoginCommand.new('ssh', args)
     end
 
@@ -145,10 +167,9 @@ class Train::Transports::SSH
     # @api private
     def establish_connection(opts)
       logger.debug("[SSH] opening connection to #{self}")
-      if @options[:proxy_command]
+      if check_proxy
         require 'net/ssh/proxy/command'
-        @options[:proxy] = Net::SSH::Proxy::Command.new(@options[:proxy_command])
-        @options.delete(:proxy_command)
+        @options[:proxy] = Net::SSH::Proxy::Command.new(generate_proxy_command)
       end
       Net::SSH.start(@hostname, @username, @options.clone.delete_if { |_key, value| value.nil? })
     rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH => e
