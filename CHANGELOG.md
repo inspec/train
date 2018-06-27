@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.16 -->
+## [v1.4.16](https://github.com/inspec/train/tree/v1.4.16) (2018-06-27)
+
+#### Merged Pull Requests
+- Fix detection of amazon linux 2 [#312](https://github.com/inspec/train/pull/312) ([artem-sidorenko](https://github.com/artem-sidorenko))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.15 -->
+### Changes since 1.4.15 release
+
+#### Merged Pull Requests
+- Fix detection of amazon linux 2 [#312](https://github.com/inspec/train/pull/312) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 1.4.16 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
