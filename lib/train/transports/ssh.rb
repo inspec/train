@@ -158,7 +158,7 @@ module Train::Transports
         keys:                   opts[:key_files],
         password:               opts[:password],
         forward_agent:          opts[:forward_agent],
-        proxy_command:   opts[:proxy_command],
+        proxy_command:          opts[:proxy_command],
         bastion_host:           opts[:bastion_host],
         bastion_user:           opts[:bastion_user],
         bastion_port:           opts[:bastion_port],
