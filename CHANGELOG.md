@@ -1,14 +1,15 @@
-<!-- latest_release 1.4.18 -->
-## [v1.4.18](https://github.com/inspec/train/tree/v1.4.18) (2018-06-29)
+<!-- latest_release 1.4.19 -->
+## [v1.4.19](https://github.com/inspec/train/tree/v1.4.19) (2018-06-29)
 
 #### Merged Pull Requests
-- Remove github_changelog_generator [#313](https://github.com/inspec/train/pull/313) ([tas50](https://github.com/tas50))
+- Remove the deploy config from Travis [#315](https://github.com/inspec/train/pull/315) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.15 -->
 ### Changes since 1.4.15 release
 
 #### Merged Pull Requests
+- Remove the deploy config from Travis [#315](https://github.com/inspec/train/pull/315) ([tas50](https://github.com/tas50)) <!-- 1.4.19 -->
 - Remove github_changelog_generator [#313](https://github.com/inspec/train/pull/313) ([tas50](https://github.com/tas50)) <!-- 1.4.18 -->
 - Adding proper bastion support [#310](https://github.com/inspec/train/pull/310) ([frezbo](https://github.com/frezbo)) <!-- 1.4.17 -->
 - Fix detection of amazon linux 2 [#312](https://github.com/inspec/train/pull/312) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 1.4.16 -->
