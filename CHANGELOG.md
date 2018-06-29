@@ -1,21 +1,19 @@
-<!-- latest_release 1.4.19 -->
-## [v1.4.19](https://github.com/inspec/train/tree/v1.4.19) (2018-06-29)
-
-#### Merged Pull Requests
-- Remove the deploy config from Travis [#315](https://github.com/inspec/train/pull/315) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.15 -->
-### Changes since 1.4.15 release
-
-#### Merged Pull Requests
-- Remove the deploy config from Travis [#315](https://github.com/inspec/train/pull/315) ([tas50](https://github.com/tas50)) <!-- 1.4.19 -->
-- Remove github_changelog_generator [#313](https://github.com/inspec/train/pull/313) ([tas50](https://github.com/tas50)) <!-- 1.4.18 -->
-- Adding proper bastion support [#310](https://github.com/inspec/train/pull/310) ([frezbo](https://github.com/frezbo)) <!-- 1.4.17 -->
-- Fix detection of amazon linux 2 [#312](https://github.com/inspec/train/pull/312) ([artem-sidorenko](https://github.com/artem-sidorenko)) <!-- 1.4.16 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.19](https://github.com/inspec/train/tree/v1.4.19) (2018-06-29)
+
+#### Merged Pull Requests
+- Fix detection of amazon linux 2 [#312](https://github.com/inspec/train/pull/312) ([artem-sidorenko](https://github.com/artem-sidorenko))
+- Adding proper bastion support [#310](https://github.com/inspec/train/pull/310) ([frezbo](https://github.com/frezbo))
+- Remove github_changelog_generator [#313](https://github.com/inspec/train/pull/313) ([tas50](https://github.com/tas50))
+- Remove the deploy config from Travis [#315](https://github.com/inspec/train/pull/315) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v1.4.15](https://github.com/inspec/train/tree/v1.4.15) (2018-06-14)
 
 #### Merged Pull Requests
@@ -23,7 +21,6 @@
 - Adding Oneview to platform detection. [#307](https://github.com/inspec/train/pull/307) ([skpaterson](https://github.com/skpaterson))
 - Add the mock transport to train-core [#308](https://github.com/inspec/train/pull/308) ([jquick](https://github.com/jquick))
 - Don&#39;t double-escape paths [#306](https://github.com/inspec/train/pull/306) ([voroniys](https://github.com/voroniys))
-<!-- latest_stable_release -->
 
 ## [v1.4.11](https://github.com/chef/train/tree/v1.4.11) (2018-05-17)
 
