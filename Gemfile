@@ -10,7 +10,6 @@ end
 
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
   gem 'json', '< 2.0'
-  gem 'rack', '< 2.0'
 end
 
 group :test do
@@ -32,5 +31,4 @@ group :tools do
   gem 'pry', '~> 0.10'
   gem 'rb-readline'
   gem 'license_finder'
-  gem 'github_changelog_generator', '~> 1'
 end
