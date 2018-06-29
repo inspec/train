@@ -40,11 +40,3 @@ matrix:
   - rvm: 2.4.1
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-ubuntu.yml"
-
-deploy:
-  provider: rubygems
-  gemspec: train.gemspec
-  on:
-    tags: true
-  api_key:
-    secure: PhEV035I1z40vdTthlZo3kLpLcUvEFniGZZT+oLC1s7mXRUetccQ3dS8SxVIDVKdIN9voSWuvgUoEkUEBy0w0sP7+NMK/PuoqEhnEc7zeishBJ+Xqc0AU2oRmNEcSRF5JA18Sb06kU186/tAc7pD4gydhcj3Li0FJBfRNZ6ox2iR8wp9NsbwcqCZEFrLyJLklDH+KSyt5qlCyFe/cmjw1NNVp1vSs3q3eiryNRaLur6XbPADR/k7s0oiFCe/3diB+7stQJvm8/rli9yrOmxT3MBHCn5O3kz6IfEuT9VKy3heREbXHsPftuf4gztXFfNzMi+yoBRtcroY8vUMMeK6yuEQ+Fnt1UUK7xgSz8JNloHt/a1oQdL/7XmxmS0lGUoYqiYAft2Zhv8Jmcif9N+t4kydqs/IJM+Q8F8+506YsoGFxnMtU+0+ySWazjXMursn9TRvUip9jHQ6irqL79uEtsiMh5fkPMxadAUN/xqlavTtTPKejOSG6X0aa57FrpafaUIrvOhhPerlZhA4Rj9mZl0PAkyYdIczmfFSBB1vjRyShEuSQ46sXkTcQpSCcOj/pj64IngI1AzmyG7LJ7AdF9Mf8+mdI0GqkBEuU6mYvCwweooGeCXm2S1mogZgzEJov6qE8yyGZtklFndGocHjQYeX/Lj8bLrmM/eKNDW8oK8=
