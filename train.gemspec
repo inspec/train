@@ -7,10 +7,10 @@ Gem::Specification.new do |spec|
   spec.name          = 'train'
   spec.version       = Train::VERSION
   spec.authors       = ['Dominik Richter']
-  spec.email         = ['dominik.richter@gmail.com']
+  spec.email         = ['drichter@chef.io']
   spec.summary       = 'Transport interface to talk to different backends.'
   spec.description   = 'Transport interface to talk to different backends.'
-  spec.homepage      = 'https://github.com/chef/train/'
+  spec.homepage      = 'https://github.com/inspec/train/'
   spec.license       = 'Apache-2.0'
 
   spec.files = %w{

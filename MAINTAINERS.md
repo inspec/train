@@ -10,4 +10,4 @@ project lead.
 
 ## List of Maintainers
 
-The [Maintainers of the InSpec project](https://github.com/chef/inspec/blob/master/MAINTAINERS.md) serve as maintainers of the train project.
+The [Maintainers of the InSpec project](https://github.com/inspec/inspec/blob/master/MAINTAINERS.md) serve as maintainers of the train project.

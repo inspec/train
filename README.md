@@ -1,7 +1,7 @@
 # Train - Transport Interface
 
-[![Build Status](https://travis-ci.org/chef/train.svg?branch=master)](https://travis-ci.org/chef/train)
-[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/chef/train?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/train/branch/master)
+[![Build Status](https://travis-ci.org/inspec/train.svg?branch=master)](https://travis-ci.org/inspec/train)
+[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/inspec/train?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/train/branch/master)
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
 
 Train lets you talk to your local or remote operating systems and APIs with a unified interface.
@@ -178,7 +178,7 @@ We also want to thank [halo](https://github.com/halo) who did a great contributi
 
 | **Author:**          | Christoph Hartmann (<chartmann@chef.io>)
 
-| **Copyright:**       | Copyright (c) 2015 Chef Software Inc.
+| **Copyright:**       | Copyright (c) 2015-2018 Chef Software Inc.
 
 | **Copyright:**       | Copyright (c) 2015 Vulcano Security GmbH.
 
