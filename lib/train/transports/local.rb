@@ -206,7 +206,7 @@ module Train::Transports
                 $result = @{ 'stdout' = $stdout ; 'stderr' = ''; 'exitstatus' = 0 }
               } catch {
                 $stderr = $_ | Out-String
-                $result = @{ 'stdout' = ''; 'stderr' = $_; 'exitstatus' = 1 }
+                $result = @{ 'stdout' = ''; 'stderr' = $stderr; 'exitstatus' = 1 }
               }
               $resultJSON = $result | ConvertTo-JSON
 
