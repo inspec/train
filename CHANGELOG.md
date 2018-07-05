@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.20 -->
+## [v1.4.20](https://github.com/inspec/train/tree/v1.4.20) (2018-07-05)
+
+#### Merged Pull Requests
+- Remove the delivery cookbook [#317](https://github.com/inspec/train/pull/317) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.19 -->
+### Changes since 1.4.19 release
+
+#### Merged Pull Requests
+- Remove the delivery cookbook [#317](https://github.com/inspec/train/pull/317) ([tas50](https://github.com/tas50)) <!-- 1.4.20 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
