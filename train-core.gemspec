@@ -12,10 +12,10 @@ Gem::Specification.new do |spec|
   spec.name          = 'train-core'
   spec.version       = Train::VERSION
   spec.authors       = ['Dominik Richter']
-  spec.email         = ['dominik.richter@gmail.com']
+  spec.email         = ['drichter@chef.io']
   spec.summary       = 'Transport interface to talk to a selected set of backends.'
   spec.description   = 'A minimal Train with a selected set of backends, ssh, winrm, and docker.'
-  spec.homepage      = 'https://github.com/chef/train/'
+  spec.homepage      = 'https://github.com/inspec/train/'
   spec.license       = 'Apache-2.0'
 
   spec.files = %w{train-core.gemspec README.md LICENSE Gemfile CHANGELOG.md} + Dir

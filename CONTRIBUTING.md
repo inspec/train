@@ -6,7 +6,7 @@ We are glad you want to contribute to Train! This document will help answer comm
 
 We utilize **Github Issues** for issue tracking and contributions. You can contribute in two ways:
 
-1. Reporting an issue or making a feature request [here](https://github.com/chef/train/issues/new).
+1. Reporting an issue or making a feature request [here](https://github.com/inspec/train/issues/new).
 2. Adding features or fixing bugs yourself and contributing your code to Train.
 
 We ask you not to submit security concerns via Github. For details on submitting potential security issues please see <https://www.chef.io/security/>
@@ -37,10 +37,9 @@ Code review takes place in Github pull requests. See [this article](https://help
 
 Once you open a pull request, project maintainers will review your code and respond to your pull request with any feedback they might have. The process at this point is as follows:
 
-1. Two thumbs-up (:+1:) are required from project maintainers. See the master maintainers document for Train projects at <https://github.com/chef/train/blob/master/MAINTAINERS.md>.
+1. Two thumbs-up (:+1:) are required from project maintainers. See the master maintainers document for Train projects at <https://github.com/inspec/train/blob/master/MAINTAINERS.md>.
 2. When ready, your pull request will be merged into `master`, we may require you to rebase your PR to the latest `master`.
 3. Once the PR is merged, you will be included in `CHANGELOG.md`.
-
 
 ### Developer Certification of Origin (DCO)
 
