@@ -1,19 +1,17 @@
-<!-- latest_release 1.4.21 -->
-## [v1.4.21](https://github.com/inspec/train/tree/v1.4.21) (2018-07-05)
-
-#### Merged Pull Requests
-- Modify `WindowsPipeRunner` stderr to use String [#320](https://github.com/inspec/train/pull/320) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.19 -->
-### Changes since 1.4.19 release
-
-#### Merged Pull Requests
-- Modify `WindowsPipeRunner` stderr to use String [#320](https://github.com/inspec/train/pull/320) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.21 -->
-- Remove the delivery cookbook [#317](https://github.com/inspec/train/pull/317) ([tas50](https://github.com/tas50)) <!-- 1.4.20 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.21](https://github.com/inspec/train/tree/v1.4.21) (2018-07-05)
+
+#### Merged Pull Requests
+- Remove the delivery cookbook [#317](https://github.com/inspec/train/pull/317) ([tas50](https://github.com/tas50))
+- Modify `WindowsPipeRunner` stderr to use String [#320](https://github.com/inspec/train/pull/320) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v1.4.19](https://github.com/inspec/train/tree/v1.4.19) (2018-06-29)
 
 #### Merged Pull Requests
@@ -21,7 +19,6 @@
 - Adding proper bastion support [#310](https://github.com/inspec/train/pull/310) ([frezbo](https://github.com/frezbo))
 - Remove github_changelog_generator [#313](https://github.com/inspec/train/pull/313) ([tas50](https://github.com/tas50))
 - Remove the deploy config from Travis [#315](https://github.com/inspec/train/pull/315) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v1.4.15](https://github.com/inspec/train/tree/v1.4.15) (2018-06-14)
 
