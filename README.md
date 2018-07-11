@@ -22,6 +22,7 @@ Train supports:
 * Mock (for testing and debugging)
 * AWS as an API
 * Azure as an API
+* VMware via PowerCLI
 
 # Examples
 
@@ -77,6 +78,20 @@ You may also use the standard AWS CLI environment variables, `AWS_ACCESS_KEY_ID`
 ```ruby
 require 'train'
 train = Train.create('aws')
+```
+
+**VMware**
+
+```ruby
+require 'train'
+Train.create('vmware', viserver: '10.0.0.10', user: 'demouser', password: 'securepassword')
+```
+
+You may also use environment variables by setting `VISERVER`, `VISERVER__USERNAME`, and `VISERVER_PASSWORD`
+
+```ruby
+require 'train'
+Train.create('vmware')
 ```
 
 ## Configuration
@@ -151,7 +166,7 @@ bundle exec ruby -I .\test\windows\ .\test\windows\local_test.rb
 
 Train is heavily based on the work of:
 
-* [test-kitchen](https://github.com/test-kitchen/test-kitchen)  
+* [test-kitchen](https://github.com/test-kitchen/test-kitchen)
 
     by [Fletcher Nichol](fnichol@nichol.ca)
     and [a great community of contributors](https://github.com/test-kitchen/test-kitchen/graphs/contributors)
