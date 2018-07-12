@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.22 -->
+## [v1.4.22](https://github.com/inspec/train/tree/v1.4.22) (2018-07-12)
+
+#### Merged Pull Requests
+- Add VMware transport [#321](https://github.com/inspec/train/pull/321) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.21 -->
+### Changes since 1.4.21 release
+
+#### Merged Pull Requests
+- Add VMware transport [#321](https://github.com/inspec/train/pull/321) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.22 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
