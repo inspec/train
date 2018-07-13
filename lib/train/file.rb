@@ -131,72 +131,69 @@ module Train
     end
 
     def md5sum
-      return perform_ruby_checksum(method) if defined?(@use_ruby_checksum)
+      # Skip processing rest of method if fallback method is selected
+      return perform_checksum_ruby(:md5) if defined?(@ruby_checksum_fallback)
 
-      @md5_command ||= case @backend.os.family
-                       when 'darwin'
-                         # `-r` reverses output to match `md5sum` behavior
-                         'md5 -r'
-                       when 'solaris'
-                         'digest -a md5'
-                       else
-                         'md5sum'
-                       end
+      checksum = if @backend.os.family == 'windows'
+                   perform_checksum_windows(:md5)
+                 else
+                   @md5_command ||= case @backend.os.family
+                                    when 'darwin'
+                                      'md5 -r'
+                                    when 'solaris'
+                                      'digest -a md5'
+                                    else
+                                      'md5sum'
+                                    end
 
-      return perform_checksum(:md5) unless @backend.os.family == 'windows'
+                   perform_checksum_linux(@md5_command)
+                 end
 
-      perform_checksum_windows(:md5)
+      checksum || perform_checksum_ruby(:md5)
     end
 
     def sha256sum
-      return perform_ruby_checksum(method) if defined?(@use_ruby_checksum)
+      # Skip processing rest of method if fallback method is selected
+      return perform_checksum_ruby(:sha256) if defined?(@ruby_checksum_fallback)
 
-      @sha256_command ||= case @backend.os.family
-                          when 'darwin', 'hpux', 'qnx'
-                            'shasum -a 256'
-                          when 'solaris'
-                            'digest -a sha256'
-                          else
-                            'sha256sum'
-                          end
+      checksum = if @backend.os.family == 'windows'
+                   perform_checksum_windows(:sha256)
+                 else
+                   @sha256_command ||= case @backend.os.family
+                                       when 'darwin', 'hpux', 'qnx'
+                                         'shasum -a 256'
+                                       when 'solaris'
+                                         'digest -a sha256'
+                                       else
+                                         'sha256sum'
+                                       end
 
-      return perform_checksum(:sha256) unless @backend.os.family == 'windows'
+                   perform_checksum_linux(@sha256_command)
+                 end
 
-      perform_checksum_windows(:sha256)
+      checksum || perform_checksum_ruby(:sha256)
     end
 
     private
 
-    def perform_checksum(method)
-      case method
-      when :md5
-        cmd = "#{@md5_command} #{@path}"
-      when :sha256
-        cmd = "#{@sha256_command} #{@path}"
-      end
-
-      res = @backend.run_command(cmd)
-      return res.stdout.split(' ').first if res.exit_status == 0
-
-      perform_ruby_checksum(method)
+    def perform_checksum_linux(cmd)
+      res = @backend.run_command("#{cmd} #{@path}")
+      res.stdout.split(' ').first if res.exit_status == 0
     end
 
     def perform_checksum_windows(method)
       cmd = "CertUtil -hashfile #{@path} #{method.to_s.upcase}"
-
       res = @backend.run_command(cmd)
-      return res.stdout.split("\r\n")[1].tr(' ', '') if res.exit_status == 0
-
-      perform_ruby_checksum(method)
+      res.stdout.split("\r\n")[1].tr(' ', '') if res.exit_status == 0
     end
 
     # This pulls the content of the file to the machine running Train and uses
     # Digest to perform the checksum. This is less efficient than using remote
     # system binaries and can lead to incorrect results due to encoding.
-    def perform_ruby_checksum(method)
+    def perform_checksum_ruby(method)
       # This is used to skip attempting other checksum methods. If this is set
       # then we know all other methods have failed.
-      @use_ruby_checksum = true
+      @ruby_checksum_fallback = true
       case method
       when :md5
         res = Digest::MD5.new
