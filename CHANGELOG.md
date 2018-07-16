@@ -1,24 +1,21 @@
-<!-- latest_release 1.4.22 -->
-## [v1.4.22](https://github.com/inspec/train/tree/v1.4.22) (2018-07-12)
-
-#### Merged Pull Requests
-- Add VMware transport [#321](https://github.com/inspec/train/pull/321) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.21 -->
-### Changes since 1.4.21 release
-
-#### Merged Pull Requests
-- Add VMware transport [#321](https://github.com/inspec/train/pull/321) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.22 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.22](https://github.com/inspec/train/tree/v1.4.22) (2018-07-16)
+
+#### Merged Pull Requests
+- Add VMware transport [#321](https://github.com/inspec/train/pull/321) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v1.4.21](https://github.com/inspec/train/tree/v1.4.21) (2018-07-05)
 
 #### Merged Pull Requests
 - Remove the delivery cookbook [#317](https://github.com/inspec/train/pull/317) ([tas50](https://github.com/tas50))
 - Modify `WindowsPipeRunner` stderr to use String [#320](https://github.com/inspec/train/pull/320) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v1.4.19](https://github.com/inspec/train/tree/v1.4.19) (2018-06-29)
 
