@@ -77,6 +77,10 @@ module Train
           nil
         end
 
+        def shallow_link_path
+          nil
+        end
+
         def mounted
           nil
         end
