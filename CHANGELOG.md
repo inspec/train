@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.23 -->
+## [v1.4.23](https://github.com/inspec/train/tree/v1.4.23) (2018-07-17)
+
+#### Merged Pull Requests
+- Add shallow_link_path to inspect symlink direct link [#309](https://github.com/inspec/train/pull/309) ([ColinHebert](https://github.com/ColinHebert))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.22 -->
+### Changes since 1.4.22 release
+
+#### Merged Pull Requests
+- Add shallow_link_path to inspect symlink direct link [#309](https://github.com/inspec/train/pull/309) ([ColinHebert](https://github.com/ColinHebert)) <!-- 1.4.23 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
