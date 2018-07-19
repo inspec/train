@@ -3,6 +3,7 @@
 require 'train/plugins'
 require 'ms_rest_azure'
 require 'azure_mgmt_resources'
+require 'azure_graph_rbac'
 require 'inifile'
 require 'socket'
 require 'timeout'
@@ -58,6 +59,21 @@ module Train::Transports
         return klass.new(@credentials) unless cache_enabled?(:api_call)
 
         @cache[:api_call][klass.to_s.to_sym] ||= klass.new(@credentials)
+      end
+
+      def azure_client_graph
+
+        graph_settings = MsRestAzure::ActiveDirectoryServiceSettings.get_azure_settings
+        graph_settings.authentication_endpoint = MsRestAzure::AzureEnvironments::AzureCloud.active_directory_endpoint_url
+        graph_settings.token_audience = MsRestAzure::AzureEnvironments::AzureCloud.active_directory_graph_resource_id
+        provider = ::MsRestAzure::ApplicationTokenProvider.new(
+          @options[:tenant_id],
+          @options[:client_id],
+          @options[:client_secret],
+          graph_settings
+        )
+        @credentials[:credentials] = ::MsRest::TokenCredentials.new(provider)
+        ::Azure::GraphRbac::Profiles::Latest::Client.new(@credentials)
       end
 
       def connect
