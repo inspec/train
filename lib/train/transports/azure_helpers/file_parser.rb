@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Train
   module Transports
     module AzureHelpers
@@ -9,9 +11,9 @@ module Train
         end
 
         def validate!
-          if @credentials.sections.count > 1
-            raise 'Multiple credentials detected, please set the AZURE_SUBSCRIPTION_ID environment variable.'
-          end
+          return if @credentials.sections.count < 2
+
+          raise 'Multiple credentials detected, please set the AZURE_SUBSCRIPTION_ID environment variable.'
         end
 
         def subscription_id

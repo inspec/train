@@ -1,9 +1,11 @@
+# encoding: utf-8
+
 module Train
   module Transports
     module AzureHelpers
       class SubscriptionNumberFileParser
         def initialize(index, credentials)
-          @index    = index
+          @index       = index
           @credentials = credentials
 
           validate!
@@ -11,7 +13,7 @@ module Train
 
         def validate!
           if @index == 0
-            raise "Index must be greater than 0."
+            raise 'Index must be greater than 0.'
           end
 
           if @index > @credentials.sections.length

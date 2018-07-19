@@ -1,7 +1,11 @@
+# encoding: utf-8
+
 module Train
   module Transports
     module AzureHelpers
       class SubscriptionIdFileParser
+        attr_reader :subscription_id
+
         def initialize(subscription_id, credentials)
           @subscription_id = subscription_id
           @credentials     = credentials
@@ -13,10 +17,6 @@ module Train
           if @credentials.sections.empty? || @credentials[subscription_id].empty?
             raise "No credentials found for subscription number #{subscription_id}"
           end
-        end
-
-        def subscription_id
-          @subscription_id
         end
       end
     end

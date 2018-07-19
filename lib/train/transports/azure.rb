@@ -23,7 +23,7 @@ module Train::Transports
       @connection ||= Connection.new(@options)
     end
 
-    class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
+    class Connection < BaseConnection
       attr_reader :options
 
       def initialize(options)
@@ -38,8 +38,7 @@ module Train::Transports
         @cache[:api_call] = {}
 
         if @options[:client_secret].nil? && @options[:client_id].nil?
-          values = AzureHelpers::FileCredentials.parse(@options)
-          @options.merge!(values)
+          @options.merge!(AzureHelpers::FileCredentials.parse(@options))
         end
 
         @options[:msi_port] = @options[:msi_port].to_i unless @options[:msi_port].nil?

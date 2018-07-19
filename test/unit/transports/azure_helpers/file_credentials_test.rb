@@ -49,7 +49,7 @@ describe 'parse_credentials_file' do
     assert_equal('my_subscription_id', result[:subscription_id])
   end
 
-  it 'raises and error when no subscription id given and multiple entries' do
+  it 'raises an error when no subscription id given and multiple entries' do
     error = assert_raises RuntimeError do
       Train::Transports::AzureHelpers::FileCredentials.parse(options)
     end
@@ -102,7 +102,7 @@ describe 'parse_credentials_file' do
     assert_equal('Your credentials file only contains 2 subscriptions. You specified number 3.', error.message)
   end
 
-  it 'raises and error when index 0 is given' do
+  it 'raises an error when index 0 is given' do
     ENV['AZURE_SUBSCRIPTION_NUMBER'] = '0'
 
     error = assert_raises RuntimeError do

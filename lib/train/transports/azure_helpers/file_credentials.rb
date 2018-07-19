@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require 'inifile'
 require 'train/transports/azure_helpers/file_parser'
 require 'train/transports/azure_helpers/subscription_number_file_parser'
@@ -30,7 +32,7 @@ module Train
             subscription_id: subscription_id,
             tenant_id:       credentials[subscription_id]['tenant_id'],
             client_id:       credentials[subscription_id]['client_id'],
-            client_secret:   credentials[subscription_id]['client_secret']
+            client_secret:   credentials[subscription_id]['client_secret'],
           }
         end
       end
