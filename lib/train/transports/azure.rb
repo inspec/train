@@ -38,7 +38,7 @@ module Train::Transports
         @cache[:api_call] = {}
 
         if @options[:client_secret].nil? && @options[:client_id].nil?
-          @options.merge!(AzureHelpers::FileCredentials.parse(@options))
+          @options.merge!(Helpers::Azure::FileCredentials.parse(@options))
         end
 
         @options[:msi_port] = @options[:msi_port].to_i unless @options[:msi_port].nil?

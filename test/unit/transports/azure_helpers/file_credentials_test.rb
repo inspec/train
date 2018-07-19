@@ -41,7 +41,7 @@ describe 'parse_credentials_file' do
   it 'loads only entry from file when no subscription id given' do
     options[:credentials_file] = cred_file_single_entry.path
 
-    result = Train::Transports::AzureHelpers::FileCredentials.parse(options)
+    result = Train::Transports::Helpers::Azure::FileCredentials.parse(options)
 
     assert_equal('my_tenant_id',       result[:tenant_id])
     assert_equal('my_client_id',       result[:client_id])
@@ -51,7 +51,7 @@ describe 'parse_credentials_file' do
 
   it 'raises an error when no subscription id given and multiple entries' do
     error = assert_raises RuntimeError do
-      Train::Transports::AzureHelpers::FileCredentials.parse(options)
+      Train::Transports::Helpers::Azure::FileCredentials.parse(options)
     end
 
     assert_equal('Credentials file must have one entry. Check your credentials file. If you have more than one entry set AZURE_SUBSCRIPTION_ID environment variable.', error.message)
@@ -60,7 +60,7 @@ describe 'parse_credentials_file' do
   it 'loads entry when subscription id is given' do
     options[:subscription_id] = 'my_subscription_id'
 
-    result = Train::Transports::AzureHelpers::FileCredentials.parse(options)
+    result = Train::Transports::Helpers::Azure::FileCredentials.parse(options)
 
     assert_equal('my_tenant_id',       result[:tenant_id])
     assert_equal('my_client_id',       result[:client_id])
@@ -72,7 +72,7 @@ describe 'parse_credentials_file' do
     options[:subscription_id] = 'missing_subscription_id'
 
     error = assert_raises RuntimeError do
-      Train::Transports::AzureHelpers::FileCredentials.parse(options)
+      Train::Transports::Helpers::Azure::FileCredentials.parse(options)
     end
 
     assert_equal('No credentials found for subscription number missing_subscription_id', error.message)
@@ -81,7 +81,7 @@ describe 'parse_credentials_file' do
   it 'loads entry based on index' do
     ENV['AZURE_SUBSCRIPTION_NUMBER'] = '2'
 
-    result = Train::Transports::AzureHelpers::FileCredentials.parse(options)
+    result = Train::Transports::Helpers::Azure::FileCredentials.parse(options)
 
     ENV.delete('AZURE_SUBSCRIPTION_NUMBER')
 
@@ -95,7 +95,7 @@ describe 'parse_credentials_file' do
     ENV['AZURE_SUBSCRIPTION_NUMBER'] = '3'
 
     error = assert_raises RuntimeError do
-      Train::Transports::AzureHelpers::FileCredentials.parse(options)
+      Train::Transports::Helpers::Azure::FileCredentials.parse(options)
     end
     ENV.delete('AZURE_SUBSCRIPTION_NUMBER')
 
@@ -106,7 +106,7 @@ describe 'parse_credentials_file' do
     ENV['AZURE_SUBSCRIPTION_NUMBER'] = '0'
 
     error = assert_raises RuntimeError do
-      Train::Transports::AzureHelpers::FileCredentials.parse(options)
+      Train::Transports::Helpers::Azure::FileCredentials.parse(options)
     end
     ENV.delete('AZURE_SUBSCRIPTION_NUMBER')
 

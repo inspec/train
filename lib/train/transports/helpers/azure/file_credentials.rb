@@ -5,9 +5,9 @@ require 'train/transports/helpers/azure/file_parser'
 require 'train/transports/helpers/azure/subscription_number_file_parser'
 require 'train/transports/helpers/azure/subscription_id_file_parser'
 
-module Train
-  module Transports
-    module AzureHelpers
+module Train::Transports
+  module Helpers
+    module Azure
       class FileCredentials
         DEFAULT_FILE = ::File.join(Dir.home, '.azure', 'credentials')
 

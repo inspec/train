@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-module Train
-  module Transports
-    module AzureHelpers
+module Train::Transports
+  module Helpers
+    module Azure
       class FileParser
         def initialize(credentials)
           @credentials = credentials
