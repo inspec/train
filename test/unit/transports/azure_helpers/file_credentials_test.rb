@@ -54,7 +54,7 @@ describe 'parse_credentials_file' do
       Train::Transports::AzureHelpers::FileCredentials.parse(options)
     end
 
-    assert_equal('Multiple credentials detected, please set the AZURE_SUBSCRIPTION_ID environment variable.', error.message)
+    assert_equal('Credentials file must have one entry. Check your credentials file. If you have more than one entry set AZURE_SUBSCRIPTION_ID environment variable.', error.message)
   end
 
   it 'loads entry when subscription id is given' do

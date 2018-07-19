@@ -11,9 +11,9 @@ module Train
         end
 
         def validate!
-          return if @credentials.sections.count < 2
+          return if @credentials.sections.count == 1
 
-          raise 'Multiple credentials detected, please set the AZURE_SUBSCRIPTION_ID environment variable.'
+          raise 'Credentials file must have one entry. Check your credentials file. If you have more than one entry set AZURE_SUBSCRIPTION_ID environment variable.'
         end
 
         def subscription_id
