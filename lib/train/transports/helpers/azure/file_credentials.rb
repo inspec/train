@@ -1,9 +1,9 @@
 # encoding: utf-8
 
 require 'inifile'
-require 'train/transports/azure_helpers/file_parser'
-require 'train/transports/azure_helpers/subscription_number_file_parser'
-require 'train/transports/azure_helpers/subscription_id_file_parser'
+require 'train/transports/helpers/azure/file_parser'
+require 'train/transports/helpers/azure/subscription_number_file_parser'
+require 'train/transports/helpers/azure/subscription_id_file_parser'
 
 module Train
   module Transports

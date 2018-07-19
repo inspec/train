@@ -2,7 +2,7 @@
 
 require 'helper'
 require 'tempfile'
-require 'train/transports/azure_helpers/file_credentials'
+require 'train/transports/helpers/azure/file_credentials'
 
 describe 'parse_credentials_file' do
   let(:cred_file_single_entry) do

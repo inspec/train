@@ -5,7 +5,7 @@ require 'ms_rest_azure'
 require 'azure_mgmt_resources'
 require 'socket'
 require 'timeout'
-require 'train/transports/azure_helpers/file_credentials'
+require 'train/transports/helpers/azure/file_credentials'
 
 module Train::Transports
   class Azure < Train.plugin(1)
