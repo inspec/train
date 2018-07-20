@@ -38,6 +38,12 @@ describe 'parse_credentials_file' do
 
   let(:options) { { credentials_file: cred_file_multiple_entries.path } }
 
+  it 'returns empty hash when no credentials file detected' do
+    result = Train::Transports::Helpers::Azure::FileCredentials.parse({})
+
+    assert_empty(result)
+  end
+
   it 'loads only entry from file when no subscription id given' do
     options[:credentials_file] = cred_file_single_entry.path
 
