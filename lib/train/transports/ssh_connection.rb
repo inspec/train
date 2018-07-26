@@ -32,6 +32,9 @@ class Train::Transports::SSH
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     attr_reader :hostname
     def initialize(options)
+      # Track IOS command retries to prevent infinite loop on IOError. This must
+      # be done before `super()` because the parent runs detection commands.
+      @ios_cmd_retries = 0
       super(options)
       @username               = @options.delete(:username)
       @hostname               = @options.delete(:hostname)
@@ -203,7 +206,7 @@ class Train::Transports::SSH
       end
     end
 
-    def run_command_via_connection(cmd)
+    def run_command_via_connection(cmd) # rubocop:disable AbcSize
       stdout = stderr = ''
       exit_status = nil
       cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
@@ -242,9 +245,25 @@ class Train::Transports::SSH
       end
       @session.loop
 
+      # Since `@session.loop` succeeded, reset the IOS command retry counter
+      @ios_cmd_retries = 0
+
       CommandResult.new(stdout, stderr, exit_status)
     rescue Net::SSH::Exception => ex
       raise Train::Transports::SSHFailed, "SSH command failed (#{ex.message})"
+    rescue IOError
+      # Cisco IOS occasionally closes the stream prematurely while we are
+      # running commands to detect if we need to switch to the Cisco IOS
+      # transport. This retries the command if this is the case.
+      # See:
+      #  https://github.com/inspec/train/pull/271
+      logger.debug('[SSH] Possible Cisco IOS race condition, retrying command')
+
+      # Only attempt retry up to 5 times to avoid infinite loop
+      @ios_cmd_retries += 1
+      raise if @ios_cmd_retries >= 5
+
+      retry
     end
 
     # Returns a connection session, or establishes one when invoked the
