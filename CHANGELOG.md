@@ -1,24 +1,21 @@
-<!-- latest_release 1.4.24 -->
-## [v1.4.24](https://github.com/inspec/train/tree/v1.4.24) (2018-07-26)
-
-#### Merged Pull Requests
-- Retry SSH command on IOError (Cisco IOS specific) [#326](https://github.com/inspec/train/pull/326) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.22 -->
-### Changes since 1.4.22 release
-
-#### Merged Pull Requests
-- Retry SSH command on IOError (Cisco IOS specific) [#326](https://github.com/inspec/train/pull/326) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.24 -->
-- Add shallow_link_path to inspect symlink direct link [#309](https://github.com/inspec/train/pull/309) ([ColinHebert](https://github.com/ColinHebert)) <!-- 1.4.23 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.24](https://github.com/inspec/train/tree/v1.4.24) (2018-07-26)
+
+#### Merged Pull Requests
+- Add shallow_link_path to inspect symlink direct link [#309](https://github.com/inspec/train/pull/309) ([ColinHebert](https://github.com/ColinHebert))
+- Retry SSH command on IOError (Cisco IOS specific) [#326](https://github.com/inspec/train/pull/326) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v1.4.22](https://github.com/inspec/train/tree/v1.4.22) (2018-07-16)
 
 #### Merged Pull Requests
 - Add VMware transport [#321](https://github.com/inspec/train/pull/321) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v1.4.21](https://github.com/inspec/train/tree/v1.4.21) (2018-07-05)
 
