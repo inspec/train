@@ -1,13 +1,13 @@
 # encoding: utf-8
 
 require 'train/plugins'
-require 'train/transports/clients/graph_rbac'
 require 'ms_rest_azure'
 require 'azure_mgmt_resources'
 require 'azure_graph_rbac'
 require 'inifile'
 require 'socket'
 require 'timeout'
+require_relative 'clients/azure/graph_rbac'
 
 module Train::Transports
   class Azure < Train.plugin(1)
@@ -57,10 +57,9 @@ module Train::Transports
       end
 
       def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client)
-
         if klass == ::Azure::Resources::Profiles::Latest::Mgmt::Client
-          @credentials[:base_url] =  MsRestAzure::AzureEnvironments::AzureCloud.resource_manager_endpoint_url
-          return klass.new(@credentials) unless cache_enabled?(:api_call) # Todo extract into configurable class.
+          @credentials[:base_url] = MsRestAzure::AzureEnvironments::AzureCloud.resource_manager_endpoint_url
+          return klass.new(@credentials) unless cache_enabled?(:api_call)
           @cache[:api_call][klass.to_s.to_sym] ||= klass.new(@credentials)
         elsif klass == ::Azure::GraphRbac::Profiles::Latest::Client
           return GraphRbac.client(@credentials) unless cache_enabled?(:api_call)
