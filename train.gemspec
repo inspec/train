@@ -1,5 +1,5 @@
-# encoding: utf-8
-lib = File.expand_path('lib', __dir__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'train/version'
 
@@ -28,17 +28,16 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'mixlib-shellout', '~> 2.0'
   # net-ssh 3.x drops Ruby 1.9 support, so this constraint could be raised when
   # 1.9 support is no longer needed here or for Inspec
-  spec.add_dependency 'net-scp', '~> 1.2'
   spec.add_dependency 'net-ssh', '>= 2.9', '< 5.0'
+  spec.add_dependency 'net-scp', '~> 1.2'
   spec.add_dependency 'winrm', '~> 2.0'
-  spec.add_dependency 'docker-api', '~> 1.26'
   spec.add_dependency 'winrm-fs', '~> 1.0'
+  spec.add_dependency 'docker-api', '~> 1.26'
   spec.add_dependency 'aws-sdk', '~> 2'
-  spec.add_dependency 'azure_graph_rbac', '~> 0.15'
   spec.add_dependency 'azure_mgmt_resources', '~> 0.15'
   spec.add_dependency 'google-api-client', '~> 0.19.8'
-  spec.add_dependency 'google-cloud', '~> 0.51.1'
   spec.add_dependency 'googleauth', '~> 0.6.2'
+  spec.add_dependency 'google-cloud', '~> 0.51.1'
   spec.add_dependency 'inifile'
 
   spec.add_development_dependency 'mocha', '~> 1.1'
