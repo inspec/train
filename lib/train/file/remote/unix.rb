@@ -60,6 +60,11 @@ module Train
           symlink? ? path : nil
         end
 
+        def shallow_link_path
+          return nil unless symlink?
+          @shallow_link_path ||= ::File.readlink(@path)
+        end
+
         def unix_mode_mask(owner, type)
           o = UNIX_MODE_OWNERS[owner.to_sym]
           return nil if o.nil?
