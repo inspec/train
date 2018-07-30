@@ -32,8 +32,8 @@ module Train::Transports
         super(options)
 
         # additional GCP platform metadata
-        release = Gem.loaded_specs['google_cloud']
-        @platform_details = { release: "google-cloud-v#{release}" }
+        release = Gem.loaded_specs['google-api-client'].version
+        @platform_details = { release: "google-api-client-v#{release}" }
 
         # Initialize the client object cache
         @cache_enabled[:api_call] = true
