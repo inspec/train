@@ -146,7 +146,7 @@ module Train
                                       'md5sum'
                                     end
 
-                   perform_checksum_linux(@md5_command)
+                   perform_checksum_unix(@md5_command)
                  end
 
       checksum || perform_checksum_ruby(:md5)
@@ -168,7 +168,7 @@ module Train
                                          'sha256sum'
                                        end
 
-                   perform_checksum_linux(@sha256_command)
+                   perform_checksum_unix(@sha256_command)
                  end
 
       checksum || perform_checksum_ruby(:sha256)
@@ -176,7 +176,7 @@ module Train
 
     private
 
-    def perform_checksum_linux(cmd)
+    def perform_checksum_unix(cmd)
       res = @backend.run_command("#{cmd} #{@path}")
       res.stdout.split(' ').first if res.exit_status == 0
     end
