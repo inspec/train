@@ -1,24 +1,21 @@
-<!-- latest_release 1.4.25 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v1.4.25](https://github.com/inspec/train/tree/v1.4.25) (2018-08-01)
 
 #### Merged Pull Requests
 - Remove not needed google-cloud dependency (see #328) and correct GCP … [#329](https://github.com/inspec/train/pull/329) ([skpaterson](https://github.com/skpaterson))
-<!-- latest_release -->
-
-<!-- release_rollup since=1.4.24 -->
-### Changes since 1.4.24 release
-
-#### Merged Pull Requests
-- Remove not needed google-cloud dependency (see #328) and correct GCP … [#329](https://github.com/inspec/train/pull/329) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.25 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v1.4.24](https://github.com/inspec/train/tree/v1.4.24) (2018-07-26)
 
 #### Merged Pull Requests
 - Add shallow_link_path to inspect symlink direct link [#309](https://github.com/inspec/train/pull/309) ([ColinHebert](https://github.com/ColinHebert))
 - Retry SSH command on IOError (Cisco IOS specific) [#326](https://github.com/inspec/train/pull/326) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v1.4.22](https://github.com/inspec/train/tree/v1.4.22) (2018-07-16)
 
