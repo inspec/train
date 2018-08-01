@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.25 -->
+## [v1.4.25](https://github.com/inspec/train/tree/v1.4.25) (2018-08-01)
+
+#### Merged Pull Requests
+- Remove not needed google-cloud dependency (see #328) and correct GCP … [#329](https://github.com/inspec/train/pull/329) ([skpaterson](https://github.com/skpaterson))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.24 -->
+### Changes since 1.4.24 release
+
+#### Merged Pull Requests
+- Remove not needed google-cloud dependency (see #328) and correct GCP … [#329](https://github.com/inspec/train/pull/329) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.25 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
