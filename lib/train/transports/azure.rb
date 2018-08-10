@@ -3,9 +3,9 @@
 require 'train/plugins'
 require 'ms_rest_azure'
 require 'azure_mgmt_resources'
-require 'inifile'
 require 'socket'
 require 'timeout'
+require 'train/transports/helpers/azure/file_credentials'
 
 module Train::Transports
   class Azure < Train.plugin(1)
@@ -23,7 +23,7 @@ module Train::Transports
       @connection ||= Connection.new(@options)
     end
 
-    class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
+    class Connection < BaseConnection
       attr_reader :options
 
       def initialize(options)
@@ -38,7 +38,7 @@ module Train::Transports
         @cache[:api_call] = {}
 
         if @options[:client_secret].nil? && @options[:client_id].nil?
-          parse_credentials_file
+          @options.merge!(Helpers::Azure::FileCredentials.parse(@options))
         end
 
         @options[:msi_port] = @options[:msi_port].to_i unless @options[:msi_port].nil?
@@ -148,40 +148,6 @@ module Train::Transports
         end
       rescue Timeout::Error
         false
-      end
-
-      def parse_credentials_file # rubocop:disable Metrics/AbcSize
-        # If an AZURE_CRED_FILE environment variable has been specified set the
-        # the credentials file to that, otherwise set the one in home
-        azure_creds_file = @options[:credentials_file]
-        azure_creds_file = File.join(Dir.home, '.azure', 'credentials') if azure_creds_file.nil?
-        return unless File.readable?(azure_creds_file)
-
-        credentials = IniFile.load(File.expand_path(azure_creds_file))
-        if @options[:subscription_id]
-          id = @options[:subscription_id]
-        elsif !ENV['AZURE_SUBSCRIPTION_NUMBER'].nil?
-          subscription_number = ENV['AZURE_SUBSCRIPTION_NUMBER'].to_i
-
-          # Check that the specified index is not greater than the number of subscriptions
-          if subscription_number > credentials.sections.length
-            raise format(
-              'Your credentials file only contains %s subscriptions.  You specified number %s.',
-              @credentials.sections.length,
-              subscription_number,
-            )
-          end
-          id = credentials.sections[subscription_number - 1]
-        else
-          raise 'Multiple credentials detected, please set the AZURE_SUBSCRIPTION_ID environment variable.' if credentials.sections.count > 1
-          id = credentials.sections[0]
-        end
-
-        raise "No credentials found for subscription number #{id}" if credentials.sections.empty? || credentials[id].empty?
-        @options[:subscription_id] = id
-        @options[:tenant_id] = credentials[id]['tenant_id']
-        @options[:client_id] = credentials[id]['client_id']
-        @options[:client_secret] = credentials[id]['client_secret']
       end
     end
   end
