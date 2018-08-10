@@ -18,32 +18,6 @@ describe Train::File do
     new_cls.type.must_equal :unknown
   end
 
-  it 'calculates md5sum from content' do
-    content = 'hello world'
-    new_cls.stub :content, content do |i|
-      i.md5sum.must_equal '5eb63bbbe01eeed093cb22bb8f5acdc3'
-    end
-  end
-
-  it 'sets md5sum of nil content to nil' do
-    new_cls.stub :content, nil do |i|
-      i.md5sum.must_be_nil
-    end
-  end
-
-  it 'calculates sha256sum from content' do
-    content = 'hello world'
-    new_cls.stub :content, content do |i|
-      i.sha256sum.must_equal 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
-    end
-  end
-
-  it 'sets sha256sum of nil content to nil' do
-    new_cls.stub :content, nil do |i|
-      i.sha256sum.must_be_nil
-    end
-  end
-
   it 'throws Not implemented error for exist?' do
     # proc { Train.validate_backend({ host: rand }) }.must_raise Train::UserError
     proc { new_cls.exist?}.must_raise NotImplementedError
@@ -91,12 +65,11 @@ describe Train::File do
 
   it 'set product_version to nil' do
     new_cls.product_version.must_be_nil
-  end  
+  end
 
   it 'set product_version to nil' do
     new_cls.file_version.must_be_nil
   end
-
 
   describe 'type' do
     it 'recognized type == file' do
@@ -153,4 +126,4 @@ describe Train::File do
       fc.version?(x).must_equal true
     end
   end
-end  
+end

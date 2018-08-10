@@ -5,12 +5,10 @@
 
 require 'train/file/local'
 require 'train/file/remote'
-require 'digest/sha2'
-require 'digest/md5'
 require 'train/extras/stat'
 
 module Train
-  class File
+  class File # rubocop:disable Metrics/ClassLength
     def initialize(backend, path, follow_symlink = true)
       @backend = backend
       @path = path || ''
@@ -46,22 +44,6 @@ module Train
 
     def type
       :unknown
-    end
-
-    def md5sum
-      res = Digest::MD5.new
-      res.update(content)
-      res.hexdigest
-    rescue TypeError => _
-      nil
-    end
-
-    def sha256sum
-      res = Digest::SHA256.new
-      res.update(content)
-      res.hexdigest
-    rescue TypeError => _
-      nil
     end
 
     def source
@@ -146,6 +128,83 @@ module Train
       return false unless respond_to?(:mounted)
 
       !mounted.nil? && !mounted.stdout.nil? && !mounted.stdout.empty?
+    end
+
+    def md5sum
+      # Skip processing rest of method if fallback method is selected
+      return perform_checksum_ruby(:md5) if defined?(@ruby_checksum_fallback)
+
+      checksum = if @backend.os.family == 'windows'
+                   perform_checksum_windows(:md5)
+                 else
+                   @md5_command ||= case @backend.os.family
+                                    when 'darwin'
+                                      'md5 -r'
+                                    when 'solaris'
+                                      'digest -a md5'
+                                    else
+                                      'md5sum'
+                                    end
+
+                   perform_checksum_unix(@md5_command)
+                 end
+
+      checksum || perform_checksum_ruby(:md5)
+    end
+
+    def sha256sum
+      # Skip processing rest of method if fallback method is selected
+      return perform_checksum_ruby(:sha256) if defined?(@ruby_checksum_fallback)
+
+      checksum = if @backend.os.family == 'windows'
+                   perform_checksum_windows(:sha256)
+                 else
+                   @sha256_command ||= case @backend.os.family
+                                       when 'darwin', 'hpux', 'qnx'
+                                         'shasum -a 256'
+                                       when 'solaris'
+                                         'digest -a sha256'
+                                       else
+                                         'sha256sum'
+                                       end
+
+                   perform_checksum_unix(@sha256_command)
+                 end
+
+      checksum || perform_checksum_ruby(:sha256)
+    end
+
+    private
+
+    def perform_checksum_unix(cmd)
+      res = @backend.run_command("#{cmd} #{@path}")
+      res.stdout.split(' ').first if res.exit_status == 0
+    end
+
+    def perform_checksum_windows(method)
+      cmd = "CertUtil -hashfile #{@path} #{method.to_s.upcase}"
+      res = @backend.run_command(cmd)
+      res.stdout.split("\r\n")[1].tr(' ', '') if res.exit_status == 0
+    end
+
+    # This pulls the content of the file to the machine running Train and uses
+    # Digest to perform the checksum. This is less efficient than using remote
+    # system binaries and can lead to incorrect results due to encoding.
+    def perform_checksum_ruby(method)
+      # This is used to skip attempting other checksum methods. If this is set
+      # then we know all other methods have failed.
+      @ruby_checksum_fallback = true
+      case method
+      when :md5
+        res = Digest::MD5.new
+      when :sha256
+        res = Digest::SHA256.new
+      end
+
+      res.update(content)
+      res.hexdigest
+    rescue TypeError => _
+      nil
     end
   end
 end
