@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.26 -->
+## [v1.4.26](https://github.com/inspec/train/tree/v1.4.26) (2018-08-10)
+
+#### Merged Pull Requests
+- Modify checksum logic to use system binaries [#251](https://github.com/inspec/train/pull/251) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.25 -->
+### Changes since 1.4.25 release
+
+#### Merged Pull Requests
+- Modify checksum logic to use system binaries [#251](https://github.com/inspec/train/pull/251) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.26 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
