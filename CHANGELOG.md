@@ -1,12 +1,15 @@
-<!-- latest_release 1.4.26 -->
-## [v1.4.26](https://github.com/inspec/train/tree/v1.4.26) (2018-08-10)
+<!-- latest_release 1.4.27 -->
+## [v1.4.27](https://github.com/inspec/train/tree/v1.4.27) (2018-08-10)
 
-#### Merged Pull Requests
-- Modify checksum logic to use system binaries [#251](https://github.com/inspec/train/pull/251) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+#### Features & Enhancements
+- Pulls file credentials parsing out of Azure class [#324](https://github.com/inspec/train/pull/324) ([dmccown](https://github.com/dmccown))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.25 -->
 ### Changes since 1.4.25 release
+
+#### Features & Enhancements
+- Pulls file credentials parsing out of Azure class [#324](https://github.com/inspec/train/pull/324) ([dmccown](https://github.com/dmccown)) <!-- 1.4.27 -->
 
 #### Merged Pull Requests
 - Modify checksum logic to use system binaries [#251](https://github.com/inspec/train/pull/251) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.26 -->

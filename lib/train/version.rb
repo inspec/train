@@ -3,5 +3,5 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
 module Train
-  VERSION = '1.4.26'.freeze
+  VERSION = '1.4.27'.freeze
 end
