@@ -69,6 +69,7 @@ class Train::Transports::SSH
       args  = %w{ -o UserKnownHostsFile=/dev/null }
       args += %w{ -o StrictHostKeyChecking=no }
       args += %w{ -o IdentitiesOnly=yes } if options[:keys]
+      args += %w{ -o BatchMode=yes } if options[:non_interactive]
       args += %W( -o LogLevel=#{level} )
       args += %W( -o ForwardAgent=#{fwd_agent} ) if options.key?(:forward_agent)
       Array(options[:keys]).each do |ssh_key|
