@@ -5,7 +5,7 @@ require 'train/platforms/detect/helpers/os_windows'
 require 'rbconfig'
 
 module Train::Platforms::Detect::Helpers
-  module OSCommon # rubocop:disable Metrics/ModuleLength
+  module OSCommon
     include Train::Platforms::Detect::Helpers::Linux
     include Train::Platforms::Detect::Helpers::Windows
 
