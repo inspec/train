@@ -43,7 +43,7 @@ module Train::Transports
       end
 
       def platform
-        direct_platform('gcp', @platform_details)
+        force_platform!('gcp', @platform_details)
       end
 
       # Instantiate some named classes for ease of use

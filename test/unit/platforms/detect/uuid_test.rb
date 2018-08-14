@@ -36,7 +36,7 @@ describe 'uuid' do
     end
 
     mock.files = file_objects
-    mock.direct_platform(name, plat_options)
+    mock.force_platform!(name, plat_options)
   end
 
   it 'finds a linux uuid from chef entity_uuid' do
