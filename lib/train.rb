@@ -44,8 +44,9 @@ module Train
     require 'train/transports/' + name.to_s
     Train::Plugins.registry[name.to_s]
   rescue LoadError => _
-    raise Train::UserError,
-          "Can't find train plugin #{name.inspect}. Please install it first."
+    ex = Train::PluginLoadError.new("Can't find train plugin #{name.inspect}. Please install it first.")
+    ex.transport_name = name.inspect
+    raise ex
   end
 
   # Resolve target configuration in URI-scheme into

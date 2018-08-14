@@ -23,6 +23,11 @@ module Train
   # errors.
   class UserError < Error; end
 
+  # We could not load a plugin, because of a user error
+  class PluginLoadError < UserError
+    attr_accessor :transport_name
+  end
+
   # Base exception class for all exceptions that are caused by incorrect use
   # of an API.
   class ClientError < Error; end

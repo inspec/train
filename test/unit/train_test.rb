@@ -1,7 +1,7 @@
 # encoding: utf-8
 #
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
-require 'helper'
+require_relative 'helper'
 
 describe Train do
   before do
@@ -11,6 +11,7 @@ describe Train do
   describe '#create' do
     it 'raises an error if the plugin isnt found' do
       proc { Train.create('missing') }.must_raise Train::UserError
+      proc { Train.create('missing') }.must_raise Train::PluginLoadError
     end
 
     it 'load a plugin if it isnt in the registry yet via symbol' do
