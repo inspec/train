@@ -14,7 +14,7 @@ describe Train do
       proc { Train.create('missing') }.must_raise Train::PluginLoadError
     end
 
-    it 'load a plugin if it isnt in the registry yet via symbol' do
+    it 'loads a core plugin if it isnt in the registry yet via symbol' do
       Kernel.stub :require, true do
         ex = Class.new(Train.plugin 1) { name 'existing' }
         train = Train.create(:existing)
@@ -22,18 +22,30 @@ describe Train do
       end
     end
 
-    it 'load a plugin if it isnt in the registry yet via string' do
+    it 'loads a core plugin if it isnt in the registry yet via string' do
       Kernel.stub :require, true do
         ex = Class.new(Train.plugin 1) { name 'existing' }
         train = Train.create('existing')
         train.class.must_equal ex
       end
     end
+
+    it 'loads a gem plugin if it isnt in the registry yet via string' do
+      # The 'train-gem-fixture' gem is located in test/fixtures/gempath/gems and is
+      # added to the gempath via Bundler. The key difference is that it isn't under
+      # lib/train/trainsports, and Train will need to pre-pend 'train-' to the
+      # transport name to get the gem name.
+      transport = Train.create('gem-fixture')
+      # Normally one would call transport.class.name, but that's been overridden to be a write-only DSL method
+      # So use to_s
+      transport.class.to_s.must_equal 'TrainTransports::GemFixture'
+    end
   end
 
   describe '#options' do
     it 'raises exception if a given transport plugin isnt found' do
       proc { Train.options('missing') }.must_raise Train::UserError
+      proc { Train.options('missing') }.must_raise Train::PluginLoadError
     end
 
     it 'provides empty options of a transport plugin' do

@@ -21,6 +21,11 @@ group :test do
   gem 'concurrent-ruby', '~> 1.0'
   gem 'pry-byebug'
   gem 'm'
+  # This is not a true gem installation
+  # (Gem::Specification.find_by_path('train-gem-fixture') will return nil)
+  # but it's close enough to show the gempath handler can find a plugin
+  # See test/unit/
+  gem 'train-gem-fixture', path: 'test/fixtures/gempath/gems'
 end
 
 group :integration do

@@ -36,16 +36,28 @@ module Train
   #
   # @param [String] name of the plugin
   # @return [Train::Transport] the transport plugin
-  def self.load_transport(name)
-    res = Train::Plugins.registry[name.to_s]
-    return res unless res.nil?
+  def self.load_transport(transport_name)
+    transport_name = transport_name.to_s
+    transport_class = Train::Plugins.registry[transport_name]
+    return transport_class unless transport_class.nil?
 
-    # if the plugin wasnt loaded yet:
-    require 'train/transports/' + name.to_s
-    Train::Plugins.registry[name.to_s]
+    # Try to load the transport name from the core transports...
+    require 'train/transports/' + transport_name
+    return Train::Plugins.registry[transport_name]
   rescue LoadError => _
-    ex = Train::PluginLoadError.new("Can't find train plugin #{name.inspect}. Please install it first.")
-    ex.transport_name = name.inspect
+    begin
+      # If it's not in the core transports, try loading from a train plugin gem.
+      gem_name = 'train-' + transport_name
+      require gem_name
+      return Train::Plugins.registry[transport_name]
+      # rubocop: disable Lint/HandleExceptions
+    rescue LoadError => _
+      # rubocop: enable Lint/HandleExceptions
+      # Intentionally empty rescue - we're handling it below anyway
+    end
+
+    ex = Train::PluginLoadError.new("Can't find train plugin #{transport_name}. Please install it first.")
+    ex.transport_name = transport_name
     raise ex
   end
 
