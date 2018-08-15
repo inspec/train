@@ -1,8 +1,8 @@
-<!-- latest_release 1.4.28 -->
-## [v1.4.28](https://github.com/inspec/train/tree/v1.4.28) (2018-08-14)
+<!-- latest_release 1.4.29 -->
+## [v1.4.29](https://github.com/inspec/train/tree/v1.4.29) (2018-08-15)
 
 #### Merged Pull Requests
-- Require Ruby 2.0 and allow net-ssh 5.0 [#334](https://github.com/inspec/train/pull/334) ([tas50](https://github.com/tas50))
+- Add non_interactive support for SSH [#336](https://github.com/inspec/train/pull/336) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.25 -->
@@ -12,6 +12,7 @@
 - Pulls file credentials parsing out of Azure class [#324](https://github.com/inspec/train/pull/324) ([dmccown](https://github.com/dmccown)) <!-- 1.4.27 -->
 
 #### Merged Pull Requests
+- Add non_interactive support for SSH [#336](https://github.com/inspec/train/pull/336) ([marcparadise](https://github.com/marcparadise)) <!-- 1.4.29 -->
 - Require Ruby 2.0 and allow net-ssh 5.0 [#334](https://github.com/inspec/train/pull/334) ([tas50](https://github.com/tas50)) <!-- 1.4.28 -->
 - Modify checksum logic to use system binaries [#251](https://github.com/inspec/train/pull/251) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.26 -->
 <!-- release_rollup -->
