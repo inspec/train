@@ -38,6 +38,14 @@ describe 'parse_credentials_file' do
 
   let(:options) { { credentials_file: cred_file_multiple_entries.path } }
 
+  it 'handles a nil file' do
+    options[:credentials_file] = nil
+
+    result = Train::Transports::Helpers::Azure::FileCredentials.parse(options)
+
+    assert_empty(result)
+  end
+
   it 'returns empty hash when no credentials file detected' do
     result = Train::Transports::Helpers::Azure::FileCredentials.parse({})
 
