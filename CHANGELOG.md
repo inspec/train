@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.30 -->
+## [v1.4.30](https://github.com/inspec/train/tree/v1.4.30) (2018-08-16)
+
+#### Merged Pull Requests
+- Fixes an issue where the credential file was nil [#337](https://github.com/inspec/train/pull/337) ([dmccown](https://github.com/dmccown))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.29 -->
+### Changes since 1.4.29 release
+
+#### Merged Pull Requests
+- Fixes an issue where the credential file was nil [#337](https://github.com/inspec/train/pull/337) ([dmccown](https://github.com/dmccown)) <!-- 1.4.30 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
