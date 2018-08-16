@@ -51,7 +51,7 @@ module Train::Transports
       end
 
       def platform
-        direct_platform('azure', @platform_details)
+        force_platform!('azure', @platform_details)
       end
 
       def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client)

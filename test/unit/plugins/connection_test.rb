@@ -44,7 +44,7 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'provides direct platform' do
-      plat = connection.direct_platform('mac_os_x')
+      plat = connection.force_platform!('mac_os_x')
       plat.name.must_equal 'mac_os_x'
       plat.linux?.must_equal false
       plat.cloud?.must_equal false
@@ -54,7 +54,7 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'provides api direct platform' do
-      plat = connection.direct_platform('aws')
+      plat = connection.force_platform!('aws')
       plat.name.must_equal 'aws'
       plat.linux?.must_equal false
       plat.cloud?.must_equal true
@@ -66,7 +66,7 @@ describe 'v1 Connection Plugin' do
       aws_version = Gem.loaded_specs['aws-sdk'].version
       aws_version = "aws-sdk-v#{aws_version}"
       details = { release: aws_version }
-      plat = connection.direct_platform('aws', details)
+      plat = connection.force_platform!('aws', details)
       plat.name.must_equal 'aws'
       plat.release.must_equal aws_version
       plat[:release].must_equal aws_version

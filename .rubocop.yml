@@ -28,6 +28,8 @@ Metrics/PerceivedComplexity:
   Max: 10
 Metrics/AbcSize:
   Max: 33
+Metrics/ModuleLength:
+  Enabled: false
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
     '%':  '{}'
