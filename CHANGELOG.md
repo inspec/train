@@ -1,14 +1,15 @@
-<!-- latest_release 1.4.30 -->
-## [v1.4.30](https://github.com/inspec/train/tree/v1.4.30) (2018-08-16)
+<!-- latest_release 1.4.31 -->
+## [v1.4.31](https://github.com/inspec/train/tree/v1.4.31) (2018-08-16)
 
 #### Merged Pull Requests
-- Fixes an issue where the credential file was nil [#337](https://github.com/inspec/train/pull/337) ([dmccown](https://github.com/dmccown))
+- Enable using rubygems as plugins [#335](https://github.com/inspec/train/pull/335) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.29 -->
 ### Changes since 1.4.29 release
 
 #### Merged Pull Requests
+- Enable using rubygems as plugins [#335](https://github.com/inspec/train/pull/335) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.4.31 -->
 - Fixes an issue where the credential file was nil [#337](https://github.com/inspec/train/pull/337) ([dmccown](https://github.com/dmccown)) <!-- 1.4.30 -->
 <!-- release_rollup -->
 
