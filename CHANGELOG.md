@@ -1,19 +1,17 @@
-<!-- latest_release 1.4.31 -->
-## [v1.4.31](https://github.com/inspec/train/tree/v1.4.31) (2018-08-16)
-
-#### Merged Pull Requests
-- Enable using rubygems as plugins [#335](https://github.com/inspec/train/pull/335) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.29 -->
-### Changes since 1.4.29 release
-
-#### Merged Pull Requests
-- Enable using rubygems as plugins [#335](https://github.com/inspec/train/pull/335) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.4.31 -->
-- Fixes an issue where the credential file was nil [#337](https://github.com/inspec/train/pull/337) ([dmccown](https://github.com/dmccown)) <!-- 1.4.30 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.31](https://github.com/inspec/train/tree/v1.4.31) (2018-08-17)
+
+#### Merged Pull Requests
+- Fixes an issue where the credential file was nil [#337](https://github.com/inspec/train/pull/337) ([dmccown](https://github.com/dmccown))
+- Enable using rubygems as plugins [#335](https://github.com/inspec/train/pull/335) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v1.4.29](https://github.com/inspec/train/tree/v1.4.29) (2018-08-15)
 
 #### Features & Enhancements
@@ -23,7 +21,6 @@
 - Modify checksum logic to use system binaries [#251](https://github.com/inspec/train/pull/251) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Require Ruby 2.0 and allow net-ssh 5.0 [#334](https://github.com/inspec/train/pull/334) ([tas50](https://github.com/tas50))
 - Add non_interactive support for SSH [#336](https://github.com/inspec/train/pull/336) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [v1.4.25](https://github.com/inspec/train/tree/v1.4.25) (2018-08-01)
 
