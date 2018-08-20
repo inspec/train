@@ -64,16 +64,13 @@ module Train::Transports
       def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client)
         if klass == ::Azure::Resources::Profiles::Latest::Mgmt::Client
           @credentials[:base_url] = MsRestAzure::AzureEnvironments::AzureCloud.resource_manager_endpoint_url
-          return klass.new(@credentials) unless cache_enabled?(:api_call)
-          @cache[:api_call][klass.to_s.to_sym] ||= klass.new(@credentials)
-        else
-          return klass.new(@credentials) unless cache_enabled?(:api_call)
-          @cache[:api_call][klass.to_s.to_sym] ||= klass.new(@credentials)
         end
+        return klass.new(@credentials) unless cache_enabled?(:api_call)
+        @cache[:api_call][klass.to_s.to_sym] ||= klass.new(@credentials)
       end
 
       def connect
-        if @options[:client_id].nil? && @options[:client_secret].nil? && port_open?(@options[:msi_port])
+        if msi_auth?
           # this needs set for azure cloud to authenticate
           ENV['MSI_VM'] = 'true'
           provider = ::MsRestAzure::MSITokenProvider.new(@options[:msi_port])
@@ -145,6 +142,10 @@ module Train::Transports
 
       def unique_identifier
         options[:subscription_id] || options[:tenant_id]
+      end
+
+      def msi_auth?
+        @options[:client_id].nil? && @options[:client_secret].nil? && port_open?(@options[:msi_port])
       end
 
       private
