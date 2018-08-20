@@ -77,7 +77,7 @@ class Train::Plugins::Transport
       false
     end
 
-    def direct_platform(name, platform_details = nil)
+    def force_platform!(name, platform_details = nil)
       plat = Train::Platforms.name(name)
       plat.backend = self
       plat.platform = platform_details unless platform_details.nil?
@@ -85,6 +85,8 @@ class Train::Plugins::Transport
       plat.add_platform_methods
       plat
     end
+
+    alias direct_platform force_platform!
 
     def family_hierarchy(plat)
       plat.families.each_with_object([]) do |(k, _v), memo|

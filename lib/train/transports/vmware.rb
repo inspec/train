@@ -74,7 +74,7 @@ module Train::Transports
       end
 
       def platform
-        direct_platform('vmware', @platform_details)
+        force_platform!('vmware', @platform_details)
       end
 
       def run_command_via_connection(cmd)

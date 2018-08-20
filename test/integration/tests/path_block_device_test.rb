@@ -42,11 +42,11 @@ describe 'file interface' do
       file.link_path.must_be_nil
     end
 
-    it 'has no md5sum' do
+    it 'has the correct md5sum' do
       file.md5sum.must_equal('d41d8cd98f00b204e9800998ecf8427e')
     end
 
-    it 'has no sha256sum' do
+    it 'has the correct sha256sum' do
       file.sha256sum.must_equal('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855')
     end
 

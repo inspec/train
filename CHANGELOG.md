@@ -1,16 +1,45 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.32 -->
+## [v1.4.32](https://github.com/inspec/train/tree/v1.4.32) (2018-08-17)
+
+#### Merged Pull Requests
+- Ensure unique_identifier returns something meaningful for service acc… [#338](https://github.com/inspec/train/pull/338) ([skpaterson](https://github.com/skpaterson))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.31 -->
+### Changes since 1.4.31 release
+
+#### Merged Pull Requests
+- Ensure unique_identifier returns something meaningful for service acc… [#338](https://github.com/inspec/train/pull/338) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.32 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.31](https://github.com/inspec/train/tree/v1.4.31) (2018-08-17)
+
+#### Merged Pull Requests
+- Fixes an issue where the credential file was nil [#337](https://github.com/inspec/train/pull/337) ([dmccown](https://github.com/dmccown))
+- Enable using rubygems as plugins [#335](https://github.com/inspec/train/pull/335) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
+## [v1.4.29](https://github.com/inspec/train/tree/v1.4.29) (2018-08-15)
+
+#### Features & Enhancements
+- Pulls file credentials parsing out of Azure class [#324](https://github.com/inspec/train/pull/324) ([dmccown](https://github.com/dmccown))
+
+#### Merged Pull Requests
+- Modify checksum logic to use system binaries [#251](https://github.com/inspec/train/pull/251) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Require Ruby 2.0 and allow net-ssh 5.0 [#334](https://github.com/inspec/train/pull/334) ([tas50](https://github.com/tas50))
+- Add non_interactive support for SSH [#336](https://github.com/inspec/train/pull/336) ([marcparadise](https://github.com/marcparadise))
+
+## [v1.4.25](https://github.com/inspec/train/tree/v1.4.25) (2018-08-01)
+
+#### Merged Pull Requests
+- Remove not needed google-cloud dependency (see #328) and correct GCP … [#329](https://github.com/inspec/train/pull/329) ([skpaterson](https://github.com/skpaterson))
+
 ## [v1.4.24](https://github.com/inspec/train/tree/v1.4.24) (2018-07-26)
 
 #### Merged Pull Requests
 - Add shallow_link_path to inspect symlink direct link [#309](https://github.com/inspec/train/pull/309) ([ColinHebert](https://github.com/ColinHebert))
 - Retry SSH command on IOError (Cisco IOS specific) [#326](https://github.com/inspec/train/pull/326) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v1.4.22](https://github.com/inspec/train/tree/v1.4.22) (2018-07-16)
 

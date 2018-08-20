@@ -32,8 +32,8 @@ module Train::Transports
         super(options)
 
         # additional GCP platform metadata
-        release = Gem.loaded_specs['google_cloud']
-        @platform_details = { release: "google-cloud-v#{release}" }
+        release = Gem.loaded_specs['google-api-client'].version
+        @platform_details = { release: "google-api-client-v#{release}" }
 
         # Initialize the client object cache
         @cache_enabled[:api_call] = true
@@ -43,7 +43,7 @@ module Train::Transports
       end
 
       def platform
-        direct_platform('gcp', @platform_details)
+        force_platform!('gcp', @platform_details)
       end
 
       # Instantiate some named classes for ease of use
@@ -84,8 +84,12 @@ module Train::Transports
       end
 
       def unique_identifier
-        # use auth client_id - same to retrieve for any of the clients but use IAM
-        gcp_iam_client.request_options.authorization.client_id
+        unique_id = 'default'
+        # use auth client_id for users (issuer is nil)
+        unique_id=gcp_iam_client.request_options.authorization.client_id unless gcp_iam_client.request_options.authorization.client_id.nil?
+        # for service account credentials (client_id is nil)
+        unique_id=gcp_iam_client.request_options.authorization.issuer unless gcp_iam_client.request_options.authorization.issuer.nil?
+        unique_id
       end
     end
   end

@@ -55,6 +55,18 @@ describe 'ssh transport' do
     end
   end
 
+  describe 'ssh options' do
+    let(:ssh) { cls.new(conf) }
+    let(:connection) { ssh.connection }
+    it 'includes BatchMode when :non_interactive is set' do
+      conf[:non_interactive] = true
+      connection.ssh_opts.include?("BatchMode=yes").must_equal true
+    end
+    it 'excludes BatchMode when :non_interactive is not set' do
+      connection.ssh_opts.include?("BatchMode=yes").must_equal false
+    end
+  end
+
   describe 'opening a connection' do
     let(:ssh) { cls.new(conf) }
     let(:connection) { ssh.connection }

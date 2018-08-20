@@ -18,11 +18,6 @@ describe 'file interface' do
       file.type.must_equal(:pipe)
     end
 
-    # # TODO add back content
-    # it 'has no content' do
-    #   file.content.must_be_nil
-    # end
-
     it 'has owner name root' do
       file.owner.must_equal('root')
     end
@@ -42,16 +37,6 @@ describe 'file interface' do
     it 'has no link_path' do
       file.link_path.must_be_nil
     end
-
-    # # TODO add back content
-    # it 'has no md5sum' do
-    #   file.md5sum.must_be_nil
-    # end
-    #
-    # # TODO add back content
-    # it 'has no sha256sum' do
-    #   file.sha256sum.must_be_nil
-    # end
 
     it 'has a modified time' do
       file.mtime.must_be_close_to(Time.now.to_i - Test.mtime/2, Test.mtime)

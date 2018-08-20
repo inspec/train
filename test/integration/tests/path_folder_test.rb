@@ -37,12 +37,12 @@ describe 'file interface' do
         file.content.must_be_nil
       end
 
-      it 'has an md5sum' do
-        file.md5sum.must_be_nil
+      it 'raises an error if md5sum is attempted' do
+        proc { file.md5sum }.must_raise RuntimeError
       end
 
-      it 'has an sha256sum' do
-        file.sha256sum.must_be_nil
+      it 'raises an error if sha256sum is attempted' do
+        proc { file.sha256sum }.must_raise RuntimeError
       end
     end
 

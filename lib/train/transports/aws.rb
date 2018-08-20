@@ -39,7 +39,7 @@ module Train::Transports
       end
 
       def platform
-        direct_platform('aws', @platform_details)
+        force_platform!('aws', @platform_details)
       end
 
       def aws_client(klass)
