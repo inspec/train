@@ -114,7 +114,7 @@ class Train::Transports::WinRM
     #   Mac system
     # @api private
     def rdp_doc(opts = {})
-      host = URI.parse(options[:endpoint]).host
+      host = Addressable::URI.parse(options[:endpoint]).host
       content = [
         "full address:s:#{host}:#{@rdp_port}",
         'prompt for credentials:i:1',
@@ -145,7 +145,7 @@ class Train::Transports::WinRM
     def login_command_for_linux
       args  = %W( -u #{options[:user]} )
       args += %W( -p #{options[:pass]} ) if options.key?(:pass)
-      args += %W( #{URI.parse(options[:endpoint]).host}:#{@rdp_port} )
+      args += %W( #{Addressable::URI.parse(options[:endpoint]).host}:#{@rdp_port} )
       LoginCommand.new('rdesktop', args)
     end
 

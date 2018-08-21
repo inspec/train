@@ -7,7 +7,7 @@ require 'train/options'
 require 'train/plugins'
 require 'train/errors'
 require 'train/platforms'
-require 'uri'
+require 'addressable/uri'
 
 module Train
   # Create a new transport instance, with the plugin indicated by the
@@ -82,7 +82,7 @@ module Train
       conf[:path]     ||= uri.path
       conf[:password] ||=
         if conf[:www_form_encoded_password] && !uri.password.nil?
-          URI.decode_www_form_component(uri.password)
+          Addressable::URI.unencode_component(uri.password)
         else
           uri.password
         end
@@ -112,24 +112,24 @@ module Train
   # Parse a URI. Supports empty URI's with paths, e.g. `mock://`
   #
   # @param string [string] URI string, e.g. `schema://domain.com`
-  # @return [URI::Generic] parsed URI object
+  # @return [Addressable::URI] parsed URI object
   def self.parse_uri(string)
-    URI.parse(string)
-  rescue URI::InvalidURIError => e
+    u = Addressable::URI.parse(string)
     # A use-case we want to catch is parsing empty URIs with a schema
     # e.g. mock://. To do this, we match it manually and fake the hostname
-    case string
-    when %r{^([a-z]+)://$}
-      string += 'dummy'
-    when /^([a-z]+):$/
-      string += '//dummy'
-    else
-      raise Train::UserError, e
+    if u.scheme and (u.host.nil? or u.host.empty?) and u.path.empty?
+      case string
+        when %r{^([a-z]+)://$}
+          string += 'dummy'
+        when /^([a-z]+):$/
+          string += '//dummy'
+      end
+      u = Addressable::URI.parse(string)
+      u.host = nil
     end
-
-    u = URI.parse(string)
-    u.host = nil
     u
+  rescue Addressable::URI::InvalidURIError => e
+    raise Train::UserError, e
   end
   private_class_method :parse_uri
 

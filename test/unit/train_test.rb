@@ -125,7 +125,7 @@ describe Train do
       res[:target].must_equal org[:target]
     end
 
-    it 'always takes ruby sumbols as configuration fields' do
+    it 'always takes ruby symbols as configuration fields' do
       org = {
         'target'    => 'ssh://user:pass@host.com:123/path',
         'backend'   => rand,
@@ -154,11 +154,23 @@ describe Train do
       res[:target].must_equal org[:target]
     end
 
-    it 'supports IPv6 URIs' do
+    it 'supports IPv6 URIs (with brackets)' do
       org = { target: 'mock://[abc::def]:123' }
       res = Train.target_config(org)
       res[:backend].must_equal 'mock'
       res[:host].must_equal 'abc::def'
+      res[:user].must_be_nil
+      res[:password].must_be_nil
+      res[:port].must_equal 123
+      res[:path].must_be_nil
+      res[:target].must_equal org[:target]
+    end
+
+    it 'supports IPv6 URIs (without brackets)' do
+      org = { target: 'mock://FEDC:BA98:7654:3210:FEDC:BA98:7654:3210:123' }
+      res = Train.target_config(org)
+      res[:backend].must_equal 'mock'
+      res[:host].must_equal 'FEDC:BA98:7654:3210:FEDC:BA98:7654:3210'
       res[:user].must_be_nil
       res[:password].must_be_nil
       res[:port].must_equal 123
@@ -192,7 +204,7 @@ describe Train do
 
     it 'supports www-form encoded passwords when the option is set' do
       raw_password = '+!@#$%^&*()_-\';:"\\|/?.>,<][}{=`~'
-      encoded_password = URI.encode_www_form_component(raw_password)
+      encoded_password = Addressable::URI.normalize_component(raw_password, Addressable::URI::CharacterClasses::UNRESERVED)
       org = { target: "mock://username:#{encoded_password}@1.2.3.4:100",
               www_form_encoded_password: true}
       res = Train.target_config(org)
@@ -216,8 +228,8 @@ describe Train do
       res[:target].must_equal org[:target]
     end
 
-    it 'it raises UserError on invalid URIs' do
-      org = { target: 'mock world' }
+    it 'it raises UserError on invalid URIs (invalid scheme)' do
+      org = { target: '123://invalid_scheme.example.com/' }
       proc { Train.target_config(org) }.must_raise Train::UserError
     end
   end
