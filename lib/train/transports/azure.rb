@@ -56,17 +56,24 @@ module Train::Transports
         force_platform!('azure', @platform_details)
       end
 
-      def graph_client
-        return GraphRbac.client(@credentials) unless cache_enabled?(:api_call)
-        @cache[:api_call][GraphRbac.class] ||= GraphRbac.client(@credentials)
-      end
-
       def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client)
+        # Return early if we can
+        if cache_enabled?(:api_call)
+          return @cache[:api_call][klass.to_s.to_sym] unless @cache[:api_call][klass.to_s.to_sym].nil?
+        end
+
         if klass == ::Azure::Resources::Profiles::Latest::Mgmt::Client
           @credentials[:base_url] = MsRestAzure::AzureEnvironments::AzureCloud.resource_manager_endpoint_url
+        elsif klass == ::Azure::GraphRbac::Profiles::Latest::Client
+          client =  GraphRbac.client(@credentials)
         end
-        return klass.new(@credentials) unless cache_enabled?(:api_call)
-        @cache[:api_call][klass.to_s.to_sym] ||= klass.new(@credentials)
+
+        client ||= klass.new(@credentials)
+
+        # Cache if enabled
+        @cache[:api_call][klass.to_s.to_sym] ||= client if cache_enabled?(:api_call)
+
+        client
       end
 
       def connect
