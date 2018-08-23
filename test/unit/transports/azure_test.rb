@@ -75,8 +75,15 @@ describe 'azure transport' do
     end
 
     it 'can use azure_client default client' do
+      MANAGEMENT_API_CLIENT = Azure::Resources::Profiles::Latest::Mgmt::Client
       client = connection.azure_client
-      client.class.must_equal Azure::Resources::Profiles::Latest::Mgmt::Client
+      client.class.must_equal MANAGEMENT_API_CLIENT
+    end
+
+    it 'can use azure_client graph client' do
+      GRAPH_API_CLIENT      = Azure::GraphRbac::Profiles::Latest::Client
+      client = connection.azure_client(GRAPH_API_CLIENT)
+      client.class.must_equal GRAPH_API_CLIENT
     end
   end
 
