@@ -1,14 +1,15 @@
-<!-- latest_release 1.4.34 -->
-## [v1.4.34](https://github.com/inspec/train/tree/v1.4.34) (2018-08-23)
+<!-- latest_release 1.4.35 -->
+## [v1.4.35](https://github.com/inspec/train/tree/v1.4.35) (2018-08-23)
 
 #### Merged Pull Requests
-- Fixes failing test when you have a cred file [#343](https://github.com/inspec/train/pull/343) ([dmccown](https://github.com/dmccown))
+- Adds connection to Graph RBAC API  [#327](https://github.com/inspec/train/pull/327) ([r-fennell](https://github.com/r-fennell))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.31 -->
 ### Changes since 1.4.31 release
 
 #### Merged Pull Requests
+- Adds connection to Graph RBAC API  [#327](https://github.com/inspec/train/pull/327) ([r-fennell](https://github.com/r-fennell)) <!-- 1.4.35 -->
 - Fixes failing test when you have a cred file [#343](https://github.com/inspec/train/pull/343) ([dmccown](https://github.com/dmccown)) <!-- 1.4.34 -->
 - Modify Cisco UUID detection to use processor ID [#342](https://github.com/inspec/train/pull/342) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.33 -->
 - Ensure unique_identifier returns something meaningful for service acc… [#338](https://github.com/inspec/train/pull/338) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.32 -->
