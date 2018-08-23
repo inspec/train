@@ -26,10 +26,8 @@ class Train::Transports::SSH
     end
 
     def unique_identifier
-      result = run_command_via_connection('show inventory').stdout
-      result.split("\r\n\r\n").each do |section|
-        return section.split('SN: ')[1].strip if section.include?('Chassis')
-      end
+      result = run_command_via_connection('show version | include Processor')
+      result.stdout.split(' ')[-1]
     end
 
     private

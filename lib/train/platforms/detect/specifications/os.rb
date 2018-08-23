@@ -555,7 +555,7 @@ module Train::Platforms::Detect::Specifications
             next unless v[:type] == 'nexus'
             @platform[:release] = v[:version]
             @platform[:arch] = nil
-            @platform[:uuid_command] = 'show inventory chassis | include SN'
+            @platform[:uuid_command] = 'show version | include Processor'
             true
           }
 
