@@ -7,7 +7,7 @@ require 'azure_graph_rbac'
 require 'socket'
 require 'timeout'
 require 'train/transports/helpers/azure/file_credentials'
-require_relative 'clients/azure/graph_rbac'
+require 'train/transports/clients/azure/graph_rbac'
 
 module Train::Transports
   class Azure < Train.plugin(1)
@@ -57,7 +57,6 @@ module Train::Transports
       end
 
       def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client)
-        # Return early if we can
         if cache_enabled?(:api_call)
           return @cache[:api_call][klass.to_s.to_sym] unless @cache[:api_call][klass.to_s.to_sym].nil?
         end
