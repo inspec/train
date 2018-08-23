@@ -33,11 +33,12 @@ describe 'CiscoIOSConnection' do
 
   describe '#unique_identifier' do
     it 'returns the correct identifier' do
-      output = "NAME: \"Chassis\", DESCR: \"Cisco 7206VXR, 6-slot chassis\"\r\nPID: CISCO7206VXR      , VID:    , SN: 4279256517 \r\n\r\nNAME: \"NPE400 0\", DESCR: \"Cisco 7200VXR Network Processing Engine NPE-400\"\r\nPID: NPE-400           , VID:    , SN: 11111111   \r\n\r\nNAME: \"module 0\", DESCR: \"I/O FastEthernet (TX-ISL)\"\r\nPID: C7200-IO-FE-MII/RJ45=, VID:    , SN: 4294967295 \r\n\r\nNAME: \"Power Supply 1\", DESCR: \"Cisco 7200 AC Power Supply\"\r\nPID: PWR-7200-AC       , VID:    , SN:            \r\n\r\nNAME: \"Power Supply 2\", DESCR: \"Cisco 7200 AC Power Supply\"\r\nPID: PWR-7200-AC       , VID:    , SN:            "
+      output = "\r\nProcessor board ID 1111111111\r\n"
       Train::Transports::SSH::CiscoIOSConnection.any_instance
-        .expects(:run_command_via_connection).with('show inventory')
+        .expects(:run_command_via_connection)
+        .with('show version | include Processor')
         .returns(OpenStruct.new(stdout: output))
-      connection.unique_identifier.must_equal('4279256517')
+      connection.unique_identifier.must_equal('1111111111')
     end
   end
 
