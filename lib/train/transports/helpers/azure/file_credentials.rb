@@ -9,10 +9,8 @@ module Train::Transports
   module Helpers
     module Azure
       class FileCredentials
-        DEFAULT_FILE = ::File.join(Dir.home, '.azure', 'credentials')
-
-        def self.parse(subscription_id: nil, credentials_file: DEFAULT_FILE, **_)
-          credentials_file = DEFAULT_FILE if credentials_file.nil?
+        def self.parse(subscription_id: nil, credentials_file: nil, **_)
+          return {} if credentials_file.nil?
           return {} unless ::File.readable?(credentials_file)
           credentials     = IniFile.load(::File.expand_path(credentials_file))
           subscription_id = parser(subscription_id, ENV['AZURE_SUBSCRIPTION_NUMBER'], credentials).subscription_id

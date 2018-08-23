@@ -28,6 +28,8 @@ module Train::Transports
     class Connection < BaseConnection
       attr_reader :options
 
+      DEFAULT_FILE = ::File.join(Dir.home, '.azure', 'credentials')
+
       def initialize(options)
         @apis = {}
 
@@ -40,6 +42,7 @@ module Train::Transports
         @cache[:api_call] = {}
 
         if @options[:client_secret].nil? && @options[:client_id].nil?
+          options[:credentials_file] = DEFAULT_FILE if options[:credentials_file].nil?
           @options.merge!(Helpers::Azure::FileCredentials.parse(@options))
         end
 
