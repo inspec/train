@@ -1,14 +1,15 @@
-<!-- latest_release 1.4.32 -->
-## [v1.4.32](https://github.com/inspec/train/tree/v1.4.32) (2018-08-17)
+<!-- latest_release 1.4.33 -->
+## [v1.4.33](https://github.com/inspec/train/tree/v1.4.33) (2018-08-23)
 
 #### Merged Pull Requests
-- Ensure unique_identifier returns something meaningful for service acc… [#338](https://github.com/inspec/train/pull/338) ([skpaterson](https://github.com/skpaterson))
+- Modify Cisco UUID detection to use processor ID [#342](https://github.com/inspec/train/pull/342) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.31 -->
 ### Changes since 1.4.31 release
 
 #### Merged Pull Requests
+- Modify Cisco UUID detection to use processor ID [#342](https://github.com/inspec/train/pull/342) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.4.33 -->
 - Ensure unique_identifier returns something meaningful for service acc… [#338](https://github.com/inspec/train/pull/338) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.32 -->
 <!-- release_rollup -->
 
