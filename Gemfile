@@ -12,6 +12,8 @@ if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
   gem 'json', '< 2.0'
 end
 
+gem 'addressable', '~> 2.5'
+
 group :test do
   gem 'bundler', '~> 1.11'
   gem 'minitest', '~> 5.8'

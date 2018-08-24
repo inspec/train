@@ -117,7 +117,7 @@ module Train
     u = Addressable::URI.parse(string)
     # A use-case we want to catch is parsing empty URIs with a schema
     # e.g. mock://. To do this, we match it manually and fake the hostname
-    if u.scheme and (u.host.nil? or u.host.empty?) and u.path.empty?
+    if u.scheme && (u.host.nil? || u.host.empty?) && u.path.empty?
       case string
         when %r{^([a-z]+)://$}
           string += 'dummy'
