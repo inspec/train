@@ -164,7 +164,7 @@ module Train::Transports
           begin
             TCPSocket.new('localhost', port).close
             true
-          rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
+          rescue SystemCallError
             false
           end
         end
