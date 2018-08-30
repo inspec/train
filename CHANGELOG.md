@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.36 -->
+## [v1.4.36](https://github.com/inspec/train/tree/v1.4.36) (2018-08-30)
+
+#### Merged Pull Requests
+- Rescues SystemCallError instead of Errno [#346](https://github.com/inspec/train/pull/346) ([dmccown](https://github.com/dmccown))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.35 -->
+### Changes since 1.4.35 release
+
+#### Merged Pull Requests
+- Rescues SystemCallError instead of Errno [#346](https://github.com/inspec/train/pull/346) ([dmccown](https://github.com/dmccown)) <!-- 1.4.36 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
