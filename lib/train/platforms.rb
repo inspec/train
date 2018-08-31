@@ -81,4 +81,16 @@ module Train::Platforms
       print_children(obj, pad + 2) if defined?(obj.children) && !obj.children.nil?
     end
   end
+
+  def self.export
+    export = []
+    list.each do |name, platform|
+      platform.find_family_hierarchy
+      export << {
+        name: name,
+        families: platform.family_hierarchy,
+      }
+    end
+    export
+  end
 end
