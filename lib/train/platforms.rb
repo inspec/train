@@ -91,6 +91,6 @@ module Train::Platforms
         families: platform.family_hierarchy,
       }
     end
-    export
+    export.sort_by { |platform| platform[:name] }
   end
 end

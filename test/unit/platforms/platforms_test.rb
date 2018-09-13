@@ -39,4 +39,13 @@ describe 'platforms' do
     top = Train::Platforms.top_platforms
     top.count.must_equal(1)
   end
+
+  it 'return platforms export with data' do
+    Train::Platforms::Detect::Specifications::OS.load
+    export = Train::Platforms.export
+    export.size.must_be :>, 10
+    export[0][:name].must_equal 'aix'
+    expected_families = ['aix', 'unix', 'os']
+    export[0][:families].must_equal expected_families
+  end
 end
