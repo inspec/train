@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.4.38 -->
+## [v1.4.38](https://github.com/inspec/train/tree/v1.4.38) (2018-09-13)
+
+#### Merged Pull Requests
+- Update google-api-client version. [#348](https://github.com/inspec/train/pull/348) ([skpaterson](https://github.com/skpaterson))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.4.37 -->
+### Changes since 1.4.37 release
+
+#### Merged Pull Requests
+- Update google-api-client version. [#348](https://github.com/inspec/train/pull/348) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.38 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
