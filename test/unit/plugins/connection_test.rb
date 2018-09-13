@@ -72,12 +72,6 @@ describe 'v1 Connection Plugin' do
       plat[:release].must_equal aws_version
     end
 
-    it 'provides family hierarchy' do
-      plat = Train::Platforms.name('linux')
-      family = connection.family_hierarchy(plat)
-      family.flatten.must_equal ['linux', 'unix', 'os']
-    end
-
     it 'must use the user-provided logger' do
       l = rand
       cls.new({logger: l})
