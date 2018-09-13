@@ -24,6 +24,12 @@ module Train::Platforms
     def families
       @families ||= {}
     end
+
+    # Clear all platform settings. Only used for testing.
+    def __reset
+      @list = {}
+      @families = {}
+    end
   end
 
   # Create or update a platform

@@ -41,6 +41,7 @@ describe 'platforms' do
   end
 
   it 'return platforms export with data' do
+    Train::Platforms.__reset
     Train::Platforms::Detect::Specifications::OS.load
     export = Train::Platforms.export
     export.size.must_be :>, 10
