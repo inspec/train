@@ -1,19 +1,17 @@
-<!-- latest_release 1.4.37 -->
-## [v1.4.37](https://github.com/inspec/train/tree/v1.4.37) (2018-09-13)
-
-#### Merged Pull Requests
-- Add a export method for platforms [#347](https://github.com/inspec/train/pull/347) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.35 -->
-### Changes since 1.4.35 release
-
-#### Merged Pull Requests
-- Add a export method for platforms [#347](https://github.com/inspec/train/pull/347) ([jquick](https://github.com/jquick)) <!-- 1.4.37 -->
-- Rescues SystemCallError instead of Errno [#346](https://github.com/inspec/train/pull/346) ([dmccown](https://github.com/dmccown)) <!-- 1.4.36 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.4.37](https://github.com/inspec/train/tree/v1.4.37) (2018-09-13)
+
+#### Merged Pull Requests
+- Rescues SystemCallError instead of Errno [#346](https://github.com/inspec/train/pull/346) ([dmccown](https://github.com/dmccown))
+- Add a export method for platforms [#347](https://github.com/inspec/train/pull/347) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v1.4.35](https://github.com/inspec/train/tree/v1.4.35) (2018-08-23)
 
 #### Merged Pull Requests
@@ -21,7 +19,6 @@
 - Modify Cisco UUID detection to use processor ID [#342](https://github.com/inspec/train/pull/342) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Fixes failing test when you have a cred file [#343](https://github.com/inspec/train/pull/343) ([dmccown](https://github.com/dmccown))
 - Adds connection to Graph RBAC API  [#327](https://github.com/inspec/train/pull/327) ([r-fennell](https://github.com/r-fennell))
-<!-- latest_stable_release -->
 
 ## [v1.4.31](https://github.com/inspec/train/tree/v1.4.31) (2018-08-17)
 
