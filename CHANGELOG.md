@@ -1,14 +1,15 @@
-<!-- latest_release 1.4.36 -->
-## [v1.4.36](https://github.com/inspec/train/tree/v1.4.36) (2018-08-30)
+<!-- latest_release 1.4.37 -->
+## [v1.4.37](https://github.com/inspec/train/tree/v1.4.37) (2018-09-13)
 
 #### Merged Pull Requests
-- Rescues SystemCallError instead of Errno [#346](https://github.com/inspec/train/pull/346) ([dmccown](https://github.com/dmccown))
+- Add a export method for platforms [#347](https://github.com/inspec/train/pull/347) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.35 -->
 ### Changes since 1.4.35 release
 
 #### Merged Pull Requests
+- Add a export method for platforms [#347](https://github.com/inspec/train/pull/347) ([jquick](https://github.com/jquick)) <!-- 1.4.37 -->
 - Rescues SystemCallError instead of Errno [#346](https://github.com/inspec/train/pull/346) ([dmccown](https://github.com/dmccown)) <!-- 1.4.36 -->
 <!-- release_rollup -->
 
