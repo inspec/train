@@ -146,6 +146,21 @@ describe 'gcp transport' do
     end
   end
 
+  describe 'gcp_admin_client' do
+    it 'test gcp_admin_client with caching' do
+      client = connection.gcp_admin_client
+      client.is_a?(Google::Apis::AdminDirectoryV1::DirectoryService).must_equal true
+      cache[:api_call].count.must_equal 1
+    end
+
+    it 'test gcp_admin_client without caching' do
+      connection.disable_cache(:api_call)
+      client = connection.gcp_admin_client
+      client.is_a?(Google::Apis::AdminDirectoryV1::DirectoryService).must_equal true
+      cache[:api_call].count.must_equal 0
+    end
+  end
+
   # test options override of env vars in connect
   describe 'connect' do
     let(:creds) do
