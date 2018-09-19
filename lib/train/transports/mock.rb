@@ -77,7 +77,7 @@ class Train::Transports::Mock
       value = { name: 'mock', family: 'mock', release: 'unknown', arch: 'unknown' }.merge(value)
 
       platform = Train::Platforms.name(value[:name])
-      platform.family_hierarchy = family_hierarchy(platform).flatten
+      platform.find_family_hierarchy
       platform.platform = value
       platform.add_platform_methods
       @platform = platform

@@ -24,6 +24,12 @@ module Train::Platforms
     def families
       @families ||= {}
     end
+
+    # Clear all platform settings. Only used for testing.
+    def __reset
+      @list = {}
+      @families = {}
+    end
   end
 
   # Create or update a platform
@@ -80,5 +86,17 @@ module Train::Platforms
       puts "#{' ' * pad}-> #{obj.title}#{value unless value.empty?}"
       print_children(obj, pad + 2) if defined?(obj.children) && !obj.children.nil?
     end
+  end
+
+  def self.export
+    export = []
+    list.each do |name, platform|
+      platform.find_family_hierarchy
+      export << {
+        name: name,
+        families: platform.family_hierarchy,
+      }
+    end
+    export.sort_by { |platform| platform[:name] }
   end
 end

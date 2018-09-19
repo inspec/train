@@ -81,19 +81,12 @@ class Train::Plugins::Transport
       plat = Train::Platforms.name(name)
       plat.backend = self
       plat.platform = platform_details unless platform_details.nil?
-      plat.family_hierarchy = family_hierarchy(plat).flatten
+      plat.find_family_hierarchy
       plat.add_platform_methods
       plat
     end
 
     alias direct_platform force_platform!
-
-    def family_hierarchy(plat)
-      plat.families.each_with_object([]) do |(k, _v), memo|
-        memo << k.name
-        memo << family_hierarchy(k) unless k.families.empty?
-      end
-    end
 
     # Get information on the operating system which this transport connects to.
     #

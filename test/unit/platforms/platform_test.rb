@@ -61,6 +61,12 @@ describe 'platform' do
     plat.families.values[0].must_equal({ arch: '= x86_64' })
   end
 
+  it 'finds family hierarchy' do
+    plat = Train::Platforms.name('linux')
+    plat.find_family_hierarchy
+    plat.family_hierarchy.must_equal ['linux', 'unix', 'os']
+  end
+
   it 'return direct families' do
     plat = mock_platform_family('mock')
     plat.in_family('mock2')
