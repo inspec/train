@@ -4,10 +4,12 @@ require 'train/plugins'
 require 'ms_rest_azure'
 require 'azure_mgmt_resources'
 require 'azure_graph_rbac'
+require 'azure_mgmt_key_vault'
 require 'socket'
 require 'timeout'
 require 'train/transports/helpers/azure/file_credentials'
 require 'train/transports/clients/azure/graph_rbac'
+require 'train/transports/clients/azure/vault'
 
 module Train::Transports
   class Azure < Train.plugin(1)
@@ -59,15 +61,17 @@ module Train::Transports
         force_platform!('azure', @platform_details)
       end
 
-      def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client)
-        if cache_enabled?(:api_call)
+      def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client, use_cache = true, vault_name = nil)
+        if use_cache && cache_enabled?(:api_call)
           return @cache[:api_call][klass.to_s.to_sym] unless @cache[:api_call][klass.to_s.to_sym].nil?
         end
 
         if klass == ::Azure::Resources::Profiles::Latest::Mgmt::Client
           @credentials[:base_url] = MsRestAzure::AzureEnvironments::AzureCloud.resource_manager_endpoint_url
         elsif klass == ::Azure::GraphRbac::Profiles::Latest::Client
-          client =  GraphRbac.client(@credentials)
+          client = GraphRbac.new.client(@credentials)
+        elsif klass == ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
+          client = Vault.new(vault_name).client(@credentials)
         end
 
         client ||= klass.new(@credentials)
