@@ -31,14 +31,13 @@ describe Train do
     end
 
     it 'loads a gem plugin if it isnt in the registry yet via string' do
-      # The 'train-gem-fixture' gem is located in test/fixtures/gempath/gems and is
-      # added to the gempath via Bundler. The key difference is that it isn't under
+      # The 'train-test-fixture' gem is located in test/fixtures/plugins/train-test-fixture and is
       # lib/train/trainsports, and Train will need to pre-pend 'train-' to the
       # transport name to get the gem name.
-      transport = Train.create('gem-fixture')
+      transport = Train.create('test-fixture')
       # Normally one would call transport.class.name, but that's been overridden to be a write-only DSL method
       # So use to_s
-      transport.class.to_s.must_equal 'TrainTransports::GemFixture'
+      transport.class.to_s.must_equal 'TrainPlugins::TestFixture'
     end
   end
 
