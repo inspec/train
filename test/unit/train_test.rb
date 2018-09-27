@@ -37,7 +37,7 @@ describe Train do
       transport = Train.create('test-fixture')
       # Normally one would call transport.class.name, but that's been overridden to be a write-only DSL method
       # So use to_s
-      transport.class.to_s.must_equal 'TrainPlugins::TestFixture'
+      transport.class.to_s.must_equal 'TrainPlugins::TestFixture::Transport'
     end
   end
 
