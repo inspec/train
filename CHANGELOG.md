@@ -1,27 +1,24 @@
-<!-- latest_release 1.5.0 -->
-## [v1.5.0](https://github.com/inspec/train/tree/v1.5.0) (2018-09-27)
-
-#### Merged Pull Requests
-- Bump minor version. [#357](https://github.com/inspec/train/pull/357) ([jquick](https://github.com/jquick))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.4.37 -->
-### Changes since 1.4.37 release
-
-#### Merged Pull Requests
-- Bump minor version. [#357](https://github.com/inspec/train/pull/357) ([jquick](https://github.com/jquick)) <!-- 1.5.0 -->
-- Plugins:  Test harness, test fixture, docs, and local-type example [#356](https://github.com/inspec/train/pull/356) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.4.40 -->
-- Adding GCP admin_client helper. [#349](https://github.com/inspec/train/pull/349) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.39 -->
-- Update google-api-client version. [#348](https://github.com/inspec/train/pull/348) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.38 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.5.0](https://github.com/inspec/train/tree/v1.5.0) (2018-09-27)
+
+#### Merged Pull Requests
+- Update google-api-client version. [#348](https://github.com/inspec/train/pull/348) ([skpaterson](https://github.com/skpaterson))
+- Adding GCP admin_client helper. [#349](https://github.com/inspec/train/pull/349) ([skpaterson](https://github.com/skpaterson))
+- Plugins:  Test harness, test fixture, docs, and local-type example [#356](https://github.com/inspec/train/pull/356) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump minor version. [#357](https://github.com/inspec/train/pull/357) ([jquick](https://github.com/jquick))
+<!-- latest_stable_release -->
+
 ## [v1.4.37](https://github.com/inspec/train/tree/v1.4.37) (2018-09-13)
 
 #### Merged Pull Requests
 - Rescues SystemCallError instead of Errno [#346](https://github.com/inspec/train/pull/346) ([dmccown](https://github.com/dmccown))
 - Add a export method for platforms [#347](https://github.com/inspec/train/pull/347) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v1.4.35](https://github.com/inspec/train/tree/v1.4.35) (2018-08-23)
 
