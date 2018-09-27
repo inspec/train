@@ -19,7 +19,7 @@ module TrainPlugins::LocalRot13
 
       # This plugin makes up a new platform.  Train (or rather InSpec) only
       # know how to read files on Windows and Un*x (MacOS is a kind of Un*x),
-      # so we'll sy we're part of those families.
+      # so we'll say we're part of those families.
       Train::Platforms.name('test-fixture').in_family('unix')
       Train::Platforms.name('test-fixture').in_family('windows')
 

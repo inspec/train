@@ -11,7 +11,7 @@
 require_relative '../helper'
 
 # Because InSpec is a Spec-style test suite, and Train has a close relationship
-# to InSpec, , we're going to use MiniTest::Spec here, for familiar look and
+# to InSpec, we're going to use MiniTest::Spec here, for familiar look and
 # feel. However, this isn't InSpec (or RSpec) code.
 describe 'train-local-rot13' do
   # Our helper.rb locates this library from the Train install that
@@ -33,9 +33,9 @@ describe 'train-local-rot13' do
   # See https://ruby-doc.org/stdlib-2.1.0/libdoc/minitest/rdoc/MiniTest/Expectations.html
 
   # LocalRot13 should do at least this:
-  # * Not explode when you run train with it
-  # * Apply rot13 when you use train to read a file
-  # * Apply rot13 when you use train to run a command
+  # * Not explode when you run Train with it
+  # * Apply rot13 when you use Train to read a file
+  # * Apply rot13 when you use Train to run a command
 
   describe "creating a train instance with this transport" do
     # This is a bit of an awkward test. There is no 'wont_raise', so

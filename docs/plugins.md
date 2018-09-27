@@ -10,10 +10,10 @@ If you are familiar with InSpec plugins, be forewarned; the two plugin systems a
 
 #### Benefits of plugins
 
-Plugins address two main needs that the Chef InSpec Engineering team encountered in 2017-2018.
+Plugins address two main needs that the Chef InSpec Engineering team (which maintains Train) encountered in 2017-2018:
 
-* Passionate contributors parties can develop and release new Train transports at their own pace, without gating by Chef engineers.
-* Reduction of dependency bloat within Train.  For example, since only the AWS transport need the aws-sdk, we can move the gem dependency into the plugin gem, and out of train itself.
+* Passionate contributor parties can develop and release new Train transports at their own pace, without gating by Chef engineers.
+* Reduction of dependency bloat within Train.  For example, since only the AWS transport needs the aws-sdk, we can move the gem dependency into the plugin gem, and out of train itself.
 
 #### Future of existing Transports
 
@@ -49,11 +49,15 @@ Train plugins can be found by running:
 $ inspec plugin search train-
 ```
 
-If you are not an InSpec user, you may also perform a rubygems search.
+If you are not an InSpec user, you may also perform a RubyGems search:
+
+```bash
+$ gem search train-
+```
 
 ## Developing Train Plugins for the Train Plugin API v1
 
-Train plugins are gems.  Their names always start with 'train-'.
+Train plugins are gems.  Their names must start with 'train-'.
 
 You can use the example plugin at [the Train github project](https://github.com/inspec/train/tree/master/examples/train-local-rot13) as a starting point.
 
@@ -63,17 +67,54 @@ As with any Gem library, you should create a file with the name of your plugin, 
 
 ### The Transport File
 
-In this file, you should define a class that inherits from `Train.plugin(1)`.  The class returned will be `Train::Plugins::Transport` or a descendant.  This superclass provides DSL methods for you to configure your plugin.
+In this file, you should define a class that inherits from `Train.plugin(1)`.  The class returned will be `Train::Plugins::Transport` or a descendant.  This superclass provides DSL methods, abstract methods, instance variables, and accessors for you to configure your plugin.
 
-#### name
+Feedback about providing a clearer Plugin API for a future Plugin V2 API is welcome.
+
+#### `name` DSL method
 
 Required. Use the `name` call to register your plugin.  Pass a String, which should have the 'train-' portion removed.
 
-#### option
+#### `option` DSL method
 
+TODO
 
+#### @options Instance Variable
 
-### The Connection
+TODO
+
+#### `connection` abstract method
+
+Required to be implemented. Called with a single arg which is usually ignored.  You must return an instance of a class that is a descendant of `Train::Plugins::Transports::BaseConnection`.  Typically you will call the constructor with the `@options`.
+
+### Connection File
+
+The your Connection class must inherit from `Train::Plugins::Transports::BaseConnection`.  Abstract methods it should implement include:
+
+#### initialize
+
+TODO
+
+#### run_command_via_connection
+
+TODO
+
+#### file_via_connection
+
+TODO
+
+#### API Access Methods
+
+TODO
+
+#### local?
+
+TODO
+
+#### platform
+
+`platform` is called when InSpec is trying to detect the platform (OS family, etc).  We recommend that you implement platform in a separate Module, and include it.
 
 ### Platform Detection
 
+TODO

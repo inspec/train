@@ -2,7 +2,7 @@
 # Train Plugins v1 are usually declared under the TrainPlugins namespace.
 # Each plugin has three components: Transport, Connection, and Platform.
 # We'll only define the Transport here, but we'll refer to the others.
-# require 'train-local-rot13/connection'
+require 'train-local-rot13/connection'
 
 module TrainPlugins
   module LocalRot13
