@@ -12,7 +12,6 @@ module TrainPlugins::LocalRot13
     # system for platform detection, but for most plugins, you'll
     # only ever run on the special platform for which you are targeting.
     def platform
-
       # If you are declaring a new platform, you will need to tell
       # Train a bit about it.
       # If you were defining a cloud API, you should say you are a member

@@ -7,7 +7,6 @@
 module TrainPlugins
   module LocalRot13
     class Transport < Train.plugin(1)
-
       name 'local-rot13'
 
       # The only thing you MUST do in a transport is a define a
@@ -15,7 +14,7 @@ module TrainPlugins
       # subclass of BaseConnection.
 
       # The options passed to this are undocumented and rarely used.
-      def connection(_instance_opts =  nil)
+      def connection(_instance_opts = nil)
         # Typical practice is to cache the connection as an instance variable.
         # Do what makes sense for your platform.
         # @options here is the parsed options that the calling

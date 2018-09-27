@@ -18,7 +18,7 @@ module TrainPlugins
 
       # Everything else, we delegate to the Train::File object.
       # This is not a safe or efficient implementation.
-      def method_missing(meth, *args, &block)
+      def method_missing(meth, *args, &block) # rubocop: disable Style/MethodMissing
         @train_file.send(meth, *args, &block)
       end
     end

@@ -8,7 +8,9 @@ Please note that ROT13 is an incredibly weak cypher, and can be broken by most e
 
 ## Relationship between InSpec and Train
 
-Train itself has no CLI, nor a sophisticated test harness.  InSpec does have such facilities, so installing and developing Train plugins will require an InSpec installation.  You do not need to use or understand InSpec.
+Train itself has no CLI, nor a sophisticated test harness.  InSpec does have such facilities, so installing Train plugins will require an InSpec installation.  You do not need to use or understand InSpec.
+
+Train plugins may be developed without an InSpec installation.
 
 ## To Install this as a User
 
@@ -44,13 +46,11 @@ This example plugin is a full-fledged plugin example, with everything a real-wor
   * a Connection
   * Platform configuration
 * documentation (you are reading it now)
-
-# TODO
 * tests, at the unit and functional level
 * a .gemspec, for packaging and publishing it as a gem
 * a Gemfile, for managing its dependencies
 * a Rakefile, for running development tasks
-* Rubocop linting support for using the base InSpec project rubocop.yml (See Rakefile)
+* Rubocop linting support for using the base Train project rubocop.yml (See Rakefile)
 
 You are encouraged to use this plugin as a starting point for real plugins.
 

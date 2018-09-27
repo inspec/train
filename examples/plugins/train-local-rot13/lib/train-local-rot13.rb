@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 # This file is known as the "entry point."
 # This is the file Train will try to load if it
 # thinks your plugin is needed.

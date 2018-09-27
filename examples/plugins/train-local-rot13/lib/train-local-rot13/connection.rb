@@ -29,7 +29,6 @@ module TrainPlugins
   module LocalRot13
     # You must inherit from BaseConnection.
     class Connection < Train::Plugins::Transport::BaseConnection
-
       # We've placed platform detection in a separate module; pull it in here.
       include TrainPlugins::LocalRot13::Platform
 
