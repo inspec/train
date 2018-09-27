@@ -13,13 +13,13 @@ module TrainPlugins
 
       # We implement content ourselves, rotating the contents of the file
       def content
-        Rot13.rotate(train_file.content)
+        Rot13.rotate(@train_file.content)
       end
 
       # Everything else, we delegate to the Train::File object.
       # This is not a safe or efficient implementation.
       def method_missing(meth, *args, &block)
-        train_file.send(meth, *args, &block)
+        @train_file.send(meth, *args, &block)
       end
     end
   end

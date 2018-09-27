@@ -30,6 +30,9 @@ module TrainPlugins
     # You must inherit from BaseConnection.
     class Connection < Train::Plugins::Transport::BaseConnection
 
+      # We've placed platform detection in a separate module; pull it in here.
+      include TrainPlugins::LocalRot13::Platform
+
       def initialize(options)
         # 'options' here is a hash, Symbol-keyed,
         # of what Train.target_config decided to do with the URI that it was
@@ -56,12 +59,7 @@ module TrainPlugins
       # If your plugin is for an API, don't implement this.
       # If your plugin supports reading files, you'll need to implement this.
       def file_via_connection(path)
-        # This block is copied from the normal Local transport.
-        if os.windows?
-          train_file = Train::File::Local::Windows.new(self, path)
-        else
-          train_file = Train::File::Local::Unix.new(self, path)
-        end
+        train_file = Train::File::Local::Unix.new(self, path)
         # But then we wrap the return in a class that meddles with the content.
         FileContentRotator.new(train_file)
       end
