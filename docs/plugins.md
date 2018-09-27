@@ -127,7 +127,7 @@ This will return a class and cache the client object accordingly if caching is e
 
 #### local?
 
-This flag helps Train decide what detection to use for OS based platforms. This should be set to `true` if your transport target resides in the same instance you are running train from. This setting is not needed for API transports or transports who do not use platform detection.
+This flag helps Train decide what detection to use for OS based platforms. This should be set to `true` if your transport target resides in the same instance you are running train from. This setting is not needed for API transports or transports that do not use platform detection.
 
 #### platform
 
@@ -137,7 +137,7 @@ This flag helps Train decide what detection to use for OS based platforms. This 
 
 Platform detection is used if you do not specify a platform method for your transport. Currently it is only used for OS (Unix, Windows) platforms. The detection system will run a series of commands on your target to try and determine what platform it is. This information can be found here [OS Specifications](https://github.com/inspec/train/blob/master/lib/train/platforms/detect/specifications/os.rb).
 
-When using a API or a fixed platform for your transport its suggested you skip the detection process and specify a direct platform. Here is an example:
+When using an API or a fixed platform for your transport it's suggested you skip the detection process and specify a direct platform. Here is an example:
 
 ```Ruby
 def platform
