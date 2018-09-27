@@ -25,7 +25,7 @@ group :test do
   # (Gem::Specification.find_by_path('train-gem-fixture') will return nil)
   # but it's close enough to show the gempath handler can find a plugin
   # See test/unit/
-  gem 'train-gem-fixture', path: 'test/fixtures/gempath/gems'
+  gem 'train-test-fixture', path: 'test/fixtures/plugins/train-test-fixture'
 end
 
 group :integration do

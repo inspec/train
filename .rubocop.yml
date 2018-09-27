@@ -4,14 +4,14 @@ AllCops:
   - Gemfile
   - Rakefile
   - 'test/**/*'
-  - 'examples/**/*'
+  - 'examples/plugins/train-*/test/**/*'
   - 'vendor/**/*'
 Documentation:
   Enabled: false
 AlignParameters:
   Enabled: true
 Encoding:
-  Enabled: true
+  Enabled: false
 HashSyntax:
   Enabled: true
 LineLength:

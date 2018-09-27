@@ -1,1 +1,0 @@
-This is a very simple train transport plugin, laid out as though it were an installed gem.  It is not a good example to use for learning, nor a good base for starting your own plugin - it's intended for for use during the testing of Train.
