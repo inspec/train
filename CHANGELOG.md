@@ -1,14 +1,15 @@
-<!-- latest_release 1.4.40 -->
-## [v1.4.40](https://github.com/inspec/train/tree/v1.4.40) (2018-09-27)
+<!-- latest_release 1.5.0 -->
+## [v1.5.0](https://github.com/inspec/train/tree/v1.5.0) (2018-09-27)
 
 #### Merged Pull Requests
-- Plugins:  Test harness, test fixture, docs, and local-type example [#356](https://github.com/inspec/train/pull/356) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Bump minor version. [#357](https://github.com/inspec/train/pull/357) ([jquick](https://github.com/jquick))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.4.37 -->
 ### Changes since 1.4.37 release
 
 #### Merged Pull Requests
+- Bump minor version. [#357](https://github.com/inspec/train/pull/357) ([jquick](https://github.com/jquick)) <!-- 1.5.0 -->
 - Plugins:  Test harness, test fixture, docs, and local-type example [#356](https://github.com/inspec/train/pull/356) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.4.40 -->
 - Adding GCP admin_client helper. [#349](https://github.com/inspec/train/pull/349) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.39 -->
 - Update google-api-client version. [#348](https://github.com/inspec/train/pull/348) ([skpaterson](https://github.com/skpaterson)) <!-- 1.4.38 -->
