@@ -77,11 +77,11 @@ Required. Use the `name` call to register your plugin.  Pass a String, which sho
 
 #### `option` DSL method
 
-TODO
+The option method is used to register new information into your transport options hash. This hash contains all the information your transport will need for its connection and runtime support. These options calls are a good place to pull in defaults or information from environment variables.
 
 #### @options Instance Variable
 
-TODO
+This variable includes any options you passed in from the DSL method when defining a transport. It will also merge in any options passed from the URL definition for your transport (schema, host, etc).
 
 #### `connection` abstract method
 
@@ -93,23 +93,41 @@ The your Connection class must inherit from `Train::Plugins::Transports::BaseCon
 
 #### initialize
 
-TODO
+Not required but is a good place to set option defaults for options that were passed with the transport URL. Example:
+
+```Ruby
+def initialize(options)
+  # Override for cli region from url host
+  # aws://region/my-profile
+  options[:region] = options[:host] if options.key?(:host)
+  super(options)
+end
+```
 
 #### run_command_via_connection
 
-TODO
+If your transport is OS based and has the option to read a file you can set this method. It is expected to return a `Train::File::Remote::*` class here to be used upstream in InSpec. Currently the file resource is restricted to Unix and Windows platforms. Caching is enabled by default for this method.
 
 #### file_via_connection
 
-TODO
+If your transport is OS based and has the option to run a command you can set this method. It is expected to return a `CommandResult` class here to be used upstream in InSpec. Currently the command resource is restricted to Unix and Windows platforms. Caching is enabled by default for this method.
 
 #### API Access Methods
 
-TODO
+When working with API's it's often helpful to create methods to return client information or API objects. These are then accessed upstream in InSpec. Here is an example of a API method you may have:
+
+```Ruby
+def aws_client(klass)
+  return klass.new unless cache_enabled?(:api_call)
+  @cache[:api_call][klass.to_s.to_sym] ||= klass.new
+end
+```
+
+This will return a class and cache the client object accordingly if caching is enabled. You can call this from a inspec resource by calling `inspec.backend.aws_client(AWS::TEST::CLASS)`.
 
 #### local?
 
-TODO
+This flag helps Train decide what detection to use for OS based platforms. This should be set to `true` if your transport target resides in the same instance you are running train from. This setting is not needed for API transports or transports who do not use platform detection.
 
 #### platform
 
@@ -117,4 +135,15 @@ TODO
 
 ### Platform Detection
 
-TODO
+Platform detection is used if you do not specify a platform method for your transport. Currently it is only used for OS (Unix, Windows) platforms. The detection system will run a series of commands on your target to try and determine what platform it is. This information can be found here [OS Specifications](https://github.com/inspec/train/blob/master/lib/train/platforms/detect/specifications/os.rb).
+
+When using a API or a fixed platform for your transport its suggested you skip the detection process and specify a direct platform. Here is an example:
+
+```Ruby
+def platform
+ Train::Platforms.name('Aws').in_family('cloud')
+ force_platform!('Aws',
+   release: '1.2',
+ )
+end
+```
