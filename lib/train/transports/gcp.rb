@@ -6,6 +6,7 @@ require 'google/apis/cloudresourcemanager_v1'
 require 'google/apis/compute_v1'
 require 'google/apis/storage_v1'
 require 'google/apis/iam_v1'
+require 'google/apis/admin_directory_v1'
 require 'googleauth'
 
 module Train::Transports
@@ -22,6 +23,7 @@ module Train::Transports
     # https://cloud.google.com/compute/docs/regions-zones/changing-default-zone-region
     # can also specify project via env var:
     option :google_cloud_project, required: false, default: ENV['GOOGLE_CLOUD_PROJECT']
+    option :google_super_admin_email, required: false, default: ENV['GOOGLE_SUPER_ADMIN_EMAIL']
 
     def connection(_ = nil)
       @connection ||= Connection.new(@options)
@@ -61,6 +63,16 @@ module Train::Transports
 
       def gcp_storage_client
         gcp_client(Google::Apis::StorageV1::StorageService)
+      end
+
+      def gcp_admin_client
+        scopes = ['https://www.googleapis.com/auth/admin.directory.user.readonly']
+        authorization = Google::Auth.get_application_default(scopes).dup
+        # Use of the Admin API requires delegation (impersonation). An email address of a Super Admin in
+        # the G Suite account may be required.
+        authorization.sub = @options[:google_super_admin_email] if @options[:google_super_admin_email]
+        Google::Apis::RequestOptions.default.authorization = authorization
+        gcp_client(Google::Apis::AdminDirectoryV1::DirectoryService)
       end
 
       # Let's allow for other clients too
