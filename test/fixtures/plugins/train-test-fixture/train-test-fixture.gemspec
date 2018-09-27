@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.license       = 'Apache-2.0'
 
   spec.summary       = %q{Test train plugin. Not intended for use as an example.}
-  spec.description   = <<~EOD
+  spec.description   = <<-EOD
     Train plugin used in testing Train's plugin loader and InSpec's plugin manager.
     This plugin does things that a normal plugin should not.  Do not use it as an
     example or as a starting point for plugin of your own.  For that, please see
