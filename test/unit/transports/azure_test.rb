@@ -88,14 +88,14 @@ describe 'azure transport' do
 
     it 'can use azure_client vault client' do
       VAULT_API_CLIENT = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
-      client = connection.azure_client(VAULT_API_CLIENT, false, "Test Vault")
+      client = connection.azure_client(VAULT_API_CLIENT, "Test Vault")
       client.class.must_equal VAULT_API_CLIENT
     end
 
     it 'cannot instantiate azure_client vault client without a vault name' do
       VAULT_API_CLIENT = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
       assert_raises(Train::UserError) do
-        connection.azure_client(VAULT_API_CLIENT, false)
+        connection.azure_client(VAULT_API_CLIENT)
       end
     end
   end
