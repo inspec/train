@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.5.1 -->
+## [v1.5.1](https://github.com/inspec/train/tree/v1.5.1) (2018-10-04)
+
+#### Merged Pull Requests
+- Fixes the link pointing back to the plugin docs [#362](https://github.com/inspec/train/pull/362) ([cattywampus](https://github.com/cattywampus))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.5.0 -->
+### Changes since 1.5.0 release
+
+#### Merged Pull Requests
+- Fixes the link pointing back to the plugin docs [#362](https://github.com/inspec/train/pull/362) ([cattywampus](https://github.com/cattywampus)) <!-- 1.5.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
