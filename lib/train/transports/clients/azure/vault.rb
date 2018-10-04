@@ -9,28 +9,33 @@ class Vault
   RESOURCE_ENDPOINT = 'https://vault.azure.net'.freeze
 
   def self.client(vault_name, credentials)
-    if vault_name.nil?
-      raise ::Train::UserError, 'Vault Name cannot be nil'
-    end
-    provider = ::MsRestAzure::ApplicationTokenProvider.new(
+    raise ::Train::UserError, 'Vault Name cannot be nil' if vault_name.nil?
+
+    credentials[:credentials] = ::MsRest::TokenCredentials.new(provider(credentials))
+    credentials[:base_url] = api_endpoint(vault_name)
+
+    ::Azure::KeyVault::Profiles::Latest::Mgmt::Client.new(credentials)
+  end
+
+  def self.provider(credentials)
+    ::MsRestAzure::ApplicationTokenProvider.new(
       credentials[:tenant_id],
       credentials[:client_id],
       credentials[:client_secret],
       settings,
     )
-    credentials[:credentials] = ::MsRest::TokenCredentials.new(provider)
-    credentials[:base_url] = api_endpoint(vault_name)
-    ::Azure::KeyVault::Profiles::Latest::Mgmt::Client.new(credentials)
   end
 
-  private_class_method def self.api_endpoint(vault_name)
+  def self.api_endpoint(vault_name)
     "https://#{vault_name}#{MsRestAzure::AzureEnvironments::AzureCloud.key_vault_dns_suffix}"
   end
 
-  private_class_method def self.settings
+  def self.settings
     client_settings = MsRestAzure::ActiveDirectoryServiceSettings.get_azure_settings
     client_settings.authentication_endpoint = AUTH_ENDPOINT
     client_settings.token_audience = RESOURCE_ENDPOINT
     client_settings
   end
+
+  private_class_method :provider, :api_endpoint, :settings
 end
