@@ -14,6 +14,9 @@
 # * marshalling to / from JSON
 # You don't have to worry about most of this.
 
+# This allow us to inherit from Train::Plugins::Transport::BaseConnection
+require 'train'
+
 # Push platform detection out to a mixin, as it tends
 # to develop at a different cadence than the rest
 require 'train-local-rot13/platform'
