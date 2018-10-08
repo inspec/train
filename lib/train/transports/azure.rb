@@ -61,7 +61,7 @@ module Train::Transports
         force_platform!('azure', @platform_details)
       end
 
-      def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client, vault_name = nil)
+      def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client, opts = {})
         if cache_enabled?(:api_call)
           return @cache[:api_call][klass.to_s.to_sym] unless @cache[:api_call][klass.to_s.to_sym].nil?
         end
@@ -71,7 +71,7 @@ module Train::Transports
         elsif klass == ::Azure::GraphRbac::Profiles::Latest::Client
           client = GraphRbac.client(@credentials)
         elsif klass == ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
-          client = Vault.client(vault_name, @credentials)
+          client = Vault.client(opts[:vault_name], @credentials)
         end
 
         client ||= klass.new(@credentials)
