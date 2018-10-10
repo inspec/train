@@ -52,11 +52,6 @@ module TrainPlugins
         # credentials, now is a good time.
       end
 
-      # If you are writing a local-style connection, implement this to return true.
-      def local?
-        true
-      end
-
       # Filesystem access.
       # If your plugin is for an API, don't implement this.
       # If your plugin supports reading files, you'll need to implement this.
