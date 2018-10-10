@@ -28,10 +28,6 @@ module Train::Transports
                   end
       end
 
-      def local?
-        true
-      end
-
       def login_command
         nil # none, open your shell
       end

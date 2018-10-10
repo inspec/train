@@ -17,9 +17,17 @@ module Train::Platforms::Detect::Specifications
 
       plat.family('windows').in_family('os')
           .detect {
-            if winrm? || (@backend.local? && ruby_host_os(/mswin|mingw32|windows/))
-              true
+            # Can't return from a `proc` thus the `is_windows` shenanigans
+            is_windows = false
+            is_windows = true if winrm?
+
+            if defined?(Train::Transports::Local::Connection)
+              if @backend.class == Train::Transports::Local::Connection
+                is_windows = true
+              end
             end
+
+            is_windows
           }
       # windows platform
       plat.name('windows').in_family('windows')
