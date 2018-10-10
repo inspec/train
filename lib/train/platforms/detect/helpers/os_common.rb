@@ -124,8 +124,8 @@ module Train::Platforms::Detect::Helpers
     # We expect the command to return a unique identifier which
     # we turn into a UUID.
     def uuid_from_command
-      return unless @platform[:uuid_command]
-      result = @backend.run_command(@platform[:uuid_command])
+      return unless @platform.uuid_command
+      result = @backend.run_command(@platform.uuid_command)
       uuid_from_string(result.stdout.chomp) if result.exit_status.zero? && !result.stdout.empty?
     end
 

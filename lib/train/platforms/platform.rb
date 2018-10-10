@@ -3,8 +3,15 @@
 module Train::Platforms
   class Platform
     include Train::Platforms::Common
-    attr_accessor :backend, :condition, :families, :family_hierarchy, :platform
 
+    attr_accessor(
+      :backend,
+      :condition,
+      :families,
+      :family_hierarchy,
+      :platform,
+      :uuid_command,
+    )
     def initialize(name, condition = {})
       @name = name
       @condition = condition
@@ -12,6 +19,7 @@ module Train::Platforms
       @family_hierarchy = []
       @platform = {}
       @detect = nil
+      @uuid_command = nil
       @title = name.to_s.capitalize
 
       # add itself to the platform list

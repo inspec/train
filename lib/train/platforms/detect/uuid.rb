@@ -22,12 +22,12 @@ module Train::Platforms::Detect
       elsif @platform.windows?
         windows_uuid
       else
-        if @platform[:uuid_command]
-          result = @backend.run_command(@platform[:uuid_command])
+        if @platform.uuid_command
+          result = @backend.run_command(@platform.uuid_command)
           return uuid_from_string(result.stdout.chomp) if result.exit_status.zero? && !result.stdout.empty?
         end
 
-        raise 'Could not find platform uuid! Please set a uuid_command for your platform.'
+        raise Train::TransportError, 'Could not find platform uuid! Please set a uuid_command for your platform.'
       end
     end
   end
