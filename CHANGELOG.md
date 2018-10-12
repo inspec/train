@@ -1,14 +1,15 @@
-<!-- latest_release 1.5.1 -->
-## [v1.5.1](https://github.com/inspec/train/tree/v1.5.1) (2018-10-04)
+<!-- latest_release 1.5.2 -->
+## [v1.5.2](https://github.com/inspec/train/tree/v1.5.2) (2018-10-12)
 
 #### Merged Pull Requests
-- Fixes the link pointing back to the plugin docs [#362](https://github.com/inspec/train/pull/362) ([cattywampus](https://github.com/cattywampus))
+- Remove the legacy version bumping from the rakefile [#359](https://github.com/inspec/train/pull/359) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.5.0 -->
 ### Changes since 1.5.0 release
 
 #### Merged Pull Requests
+- Remove the legacy version bumping from the rakefile [#359](https://github.com/inspec/train/pull/359) ([tas50](https://github.com/tas50)) <!-- 1.5.2 -->
 - Fixes the link pointing back to the plugin docs [#362](https://github.com/inspec/train/pull/362) ([cattywampus](https://github.com/cattywampus)) <!-- 1.5.1 -->
 <!-- release_rollup -->
 
