@@ -21,10 +21,8 @@ module Train::Platforms::Detect::Specifications
             is_windows = false
             is_windows = true if winrm?
 
-            if defined?(Train::Transports::Local::Connection)
-              if @backend.class == Train::Transports::Local::Connection
-                is_windows = true
-              end
+            if @backend.class.to_s == 'Train::Transports::Local::Connection'
+              is_windows = true if ruby_host_os(/mswin|mingw32|windows/)
             end
 
             is_windows
