@@ -6,12 +6,10 @@ module Train::Platforms::Detect
   class Scanner
     include Train::Platforms::Detect::Helpers::OSCommon
 
-    attr_accessor :uuid_command # Used by mock transport during testing
     def initialize(backend)
       @backend = backend
       @platform = {}
       @family_hierarchy = []
-      @uuid_command = nil
 
       # detect cache variables
       @files = {}

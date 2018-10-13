@@ -461,7 +461,7 @@ module Train::Platforms::Detect::Specifications
       plat.name('mac_os_x').title('macOS X').in_family('darwin')
           .detect {
             cmd = unix_file_contents('/System/Library/CoreServices/SystemVersion.plist')
-            self.uuid_command = "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'"
+            @platform[:uuid_command] = "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'"
             true if cmd =~ /Mac OS X/i
           }
       plat.name('darwin').title('Darwin').in_family('darwin')
@@ -555,7 +555,7 @@ module Train::Platforms::Detect::Specifications
             next unless v[:type] == 'nexus'
             @platform[:release] = v[:version]
             @platform[:arch] = nil
-            self.uuid_command = 'show version | include Processor'
+            @platform[:uuid_command] = 'show version | include Processor'
             true
           }
 
