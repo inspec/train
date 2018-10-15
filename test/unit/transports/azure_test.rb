@@ -81,9 +81,22 @@ describe 'azure transport' do
     end
 
     it 'can use azure_client graph client' do
-      GRAPH_API_CLIENT      = Azure::GraphRbac::Profiles::Latest::Client
+      GRAPH_API_CLIENT = Azure::GraphRbac::Profiles::Latest::Client
       client = connection.azure_client(GRAPH_API_CLIENT)
       client.class.must_equal GRAPH_API_CLIENT
+    end
+
+    it 'can use azure_client vault client' do
+      VAULT_API_CLIENT = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
+      client = connection.azure_client(VAULT_API_CLIENT, vault_name: 'Test Vault')
+      client.class.must_equal VAULT_API_CLIENT
+    end
+
+    it 'cannot instantiate azure_client vault client without a vault name' do
+      VAULT_API_CLIENT = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
+      assert_raises(Train::UserError) do
+        connection.azure_client(VAULT_API_CLIENT)
+      end
     end
   end
 
