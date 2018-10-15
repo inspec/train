@@ -59,7 +59,7 @@ $ gem search train-
 
 Train plugins are gems.  Their names must start with 'train-'.
 
-You can use the example plugin at [the Train github project](https://github.com/inspec/train/tree/master/examples/train-local-rot13) as a starting point.
+You can use the example plugin at [the Train github project](https://github.com/inspec/train/tree/master/examples/plugins/train-local-rot13) as a starting point.
 
 ### The Entry Point
 
