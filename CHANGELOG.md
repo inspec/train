@@ -1,14 +1,15 @@
-<!-- latest_release 1.5.2 -->
-## [v1.5.2](https://github.com/inspec/train/tree/v1.5.2) (2018-10-12)
+<!-- latest_release 1.5.3 -->
+## [v1.5.3](https://github.com/inspec/train/tree/v1.5.3) (2018-10-15)
 
 #### Merged Pull Requests
-- Remove the legacy version bumping from the rakefile [#359](https://github.com/inspec/train/pull/359) ([tas50](https://github.com/tas50))
+- Adds Azure Vault Client [#351](https://github.com/inspec/train/pull/351) ([r-fennell](https://github.com/r-fennell))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.5.0 -->
 ### Changes since 1.5.0 release
 
 #### Merged Pull Requests
+- Adds Azure Vault Client [#351](https://github.com/inspec/train/pull/351) ([r-fennell](https://github.com/r-fennell)) <!-- 1.5.3 -->
 - Remove the legacy version bumping from the rakefile [#359](https://github.com/inspec/train/pull/359) ([tas50](https://github.com/tas50)) <!-- 1.5.2 -->
 - Fixes the link pointing back to the plugin docs [#362](https://github.com/inspec/train/pull/362) ([cattywampus](https://github.com/cattywampus)) <!-- 1.5.1 -->
 <!-- release_rollup -->
