@@ -1,21 +1,19 @@
-<!-- latest_release 1.5.4 -->
-## [v1.5.4](https://github.com/inspec/train/tree/v1.5.4) (2018-10-15)
-
-#### Merged Pull Requests
-- Correct example plugin link [#363](https://github.com/inspec/train/pull/363) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.5.0 -->
-### Changes since 1.5.0 release
-
-#### Merged Pull Requests
-- Correct example plugin link [#363](https://github.com/inspec/train/pull/363) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.5.4 -->
-- Adds Azure Vault Client [#351](https://github.com/inspec/train/pull/351) ([r-fennell](https://github.com/r-fennell)) <!-- 1.5.3 -->
-- Remove the legacy version bumping from the rakefile [#359](https://github.com/inspec/train/pull/359) ([tas50](https://github.com/tas50)) <!-- 1.5.2 -->
-- Fixes the link pointing back to the plugin docs [#362](https://github.com/inspec/train/pull/362) ([cattywampus](https://github.com/cattywampus)) <!-- 1.5.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.5.4](https://github.com/inspec/train/tree/v1.5.4) (2018-10-18)
+
+#### Merged Pull Requests
+- Fixes the link pointing back to the plugin docs [#362](https://github.com/inspec/train/pull/362) ([cattywampus](https://github.com/cattywampus))
+- Remove the legacy version bumping from the rakefile [#359](https://github.com/inspec/train/pull/359) ([tas50](https://github.com/tas50))
+- Adds Azure Vault Client [#351](https://github.com/inspec/train/pull/351) ([r-fennell](https://github.com/r-fennell))
+- Correct example plugin link [#363](https://github.com/inspec/train/pull/363) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+<!-- latest_stable_release -->
+
 ## [v1.5.0](https://github.com/inspec/train/tree/v1.5.0) (2018-09-27)
 
 #### Merged Pull Requests
@@ -23,7 +21,6 @@
 - Adding GCP admin_client helper. [#349](https://github.com/inspec/train/pull/349) ([skpaterson](https://github.com/skpaterson))
 - Plugins:  Test harness, test fixture, docs, and local-type example [#356](https://github.com/inspec/train/pull/356) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Bump minor version. [#357](https://github.com/inspec/train/pull/357) ([jquick](https://github.com/jquick))
-<!-- latest_stable_release -->
 
 ## [v1.4.37](https://github.com/inspec/train/tree/v1.4.37) (2018-09-13)
 
