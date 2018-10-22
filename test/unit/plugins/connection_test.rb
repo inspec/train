@@ -78,6 +78,54 @@ describe 'v1 Connection Plugin' do
          .method(:logger).call.must_equal(l)
     end
 
+    describe 'cached_client helper' do
+      class DemoConnection < Train::Plugins::Transport::BaseConnection
+        def initialize(options = {})
+          super(options)
+          @cache_enabled[:api_call] = true
+          @cache[:api_call] = {}
+        end
+
+        def demo_client
+          cached_client(:api_call, :demo_client) do
+            DemoClient.new
+          end
+        end
+
+        class DemoClient
+        end
+      end
+
+      it 'returns a new connection when cached disabled' do
+        conn = DemoConnection.new
+        conn.disable_cache(:api_call)
+
+        client1 = conn.demo_client
+        client2 = conn.demo_client
+
+        client1.wont_be_same_as client2
+      end
+
+      it 'returns a new connection when cache enabled and not hydrated' do
+        conn = DemoConnection.new
+        conn.enable_cache(:api_call)
+
+        client1 = conn.demo_client
+
+        client1.must_be_instance_of DemoConnection::DemoClient
+      end
+
+      it 'returns a cached connection when cache enabled and hydrated' do
+        conn = DemoConnection.new
+        conn.enable_cache(:api_call)
+
+        client1 = conn.demo_client
+        client2 = conn.demo_client
+
+        client1.must_be_same_as client2
+      end
+    end
+
     describe 'create cache connection' do
       it 'default connection cache settings' do
         connection.cache_enabled?(:file).must_equal true
