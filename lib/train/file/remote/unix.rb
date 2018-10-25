@@ -62,7 +62,8 @@ module Train
 
         def shallow_link_path
           return nil unless symlink?
-          @shallow_link_path ||= ::File.readlink(@path)
+          @shallow_link_path ||=
+            @backend.run_command("readlink #{@spath}").stdout.chomp
         end
 
         def unix_mode_mask(owner, type)
