@@ -63,8 +63,8 @@ describe 'v1 Connection Plugin' do
     end
 
     it 'provides api direct platform with platform options' do
-      aws_version = Gem.loaded_specs['aws-sdk'].version
-      aws_version = "aws-sdk-v#{aws_version}"
+      aws_version = Gem.loaded_specs['aws-sdk-core'].version
+      aws_version = "aws-sdk-core-v#{aws_version}"
       details = { release: aws_version }
       plat = connection.force_platform!('aws', details)
       plat.name.must_equal 'aws'
