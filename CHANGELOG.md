@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.5.5 -->
+## [v1.5.5](https://github.com/inspec/train/tree/v1.5.5) (2018-10-30)
+
+#### Merged Pull Requests
+- Fix Cisco IOS detection when banners lack a `\r\n` [#372](https://github.com/inspec/train/pull/372) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.5.4 -->
+### Changes since 1.5.4 release
+
+#### Merged Pull Requests
+- Fix Cisco IOS detection when banners lack a `\r\n` [#372](https://github.com/inspec/train/pull/372) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.5.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
