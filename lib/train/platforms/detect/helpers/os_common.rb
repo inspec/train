@@ -69,17 +69,17 @@ module Train::Platforms::Detect::Helpers
       return @cache[:cisco] if @cache.key?(:cisco)
       res = command_output('show version')
 
-      m = res.match(/^Cisco IOS Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+)/)
+      m = res.match(/Cisco IOS Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+)/)
       unless m.nil?
         return @cache[:cisco] = { version: m[2], model: m[1], type: 'ios' }
       end
 
-      m = res.match(/^Cisco IOS Software, IOS-XE Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+\.\d+[A-Z]*)/)
+      m = res.match(/Cisco IOS Software, IOS-XE Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+\.\d+[A-Z]*)/)
       unless m.nil?
         return @cache[:cisco] = { version: m[2], model: m[1], type: 'ios-xe' }
       end
 
-      m = res.match(/^Cisco Nexus Operating System \(NX-OS\) Software/)
+      m = res.match(/Cisco Nexus Operating System \(NX-OS\) Software/)
       unless m.nil?
         v = res[/^\s*system:\s+version (\d+\.\d+)/, 1]
         return @cache[:cisco] = { version: v, type: 'nexus' }
