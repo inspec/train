@@ -1,19 +1,17 @@
-<!-- latest_release 1.5.6 -->
-## [v1.5.6](https://github.com/inspec/train/tree/v1.5.6) (2018-11-01)
-
-#### Merged Pull Requests
-- Adds cached_client method in BaseConnection [#371](https://github.com/inspec/train/pull/371) ([dmccown](https://github.com/dmccown))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.5.4 -->
-### Changes since 1.5.4 release
-
-#### Merged Pull Requests
-- Adds cached_client method in BaseConnection [#371](https://github.com/inspec/train/pull/371) ([dmccown](https://github.com/dmccown)) <!-- 1.5.6 -->
-- Fix Cisco IOS detection when banners lack a `\r\n` [#372](https://github.com/inspec/train/pull/372) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.5.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.5.6](https://github.com/inspec/train/tree/v1.5.6) (2018-11-01)
+
+#### Merged Pull Requests
+- Fix Cisco IOS detection when banners lack a `\r\n` [#372](https://github.com/inspec/train/pull/372) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Adds cached_client method in BaseConnection [#371](https://github.com/inspec/train/pull/371) ([dmccown](https://github.com/dmccown))
+<!-- latest_stable_release -->
+
 ## [v1.5.4](https://github.com/inspec/train/tree/v1.5.4) (2018-10-18)
 
 #### Merged Pull Requests
@@ -21,7 +19,6 @@
 - Remove the legacy version bumping from the rakefile [#359](https://github.com/inspec/train/pull/359) ([tas50](https://github.com/tas50))
 - Adds Azure Vault Client [#351](https://github.com/inspec/train/pull/351) ([r-fennell](https://github.com/r-fennell))
 - Correct example plugin link [#363](https://github.com/inspec/train/pull/363) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
-<!-- latest_stable_release -->
 
 ## [v1.5.0](https://github.com/inspec/train/tree/v1.5.0) (2018-09-27)
 
