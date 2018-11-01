@@ -37,6 +37,25 @@ class Train::Plugins::Transport
       end
     end
 
+    # Returns cached client if caching enabled. Otherwise returns whatever is
+    # given in the block.
+    #
+    # @example
+    #
+    #   def demo_client
+    #     cached_client(:api_call, :demo_connection) do
+    #       DemoClient.new(args)
+    #     end
+    #   end
+    #
+    # @param [symbol] type one of [:api_call, :file, :command]
+    # @param [symbol] key for your cached connection
+    def cached_client(type, key)
+      return yield unless cache_enabled?(type)
+
+      @cache[type][key] ||= yield
+    end
+
     def cache_enabled?(type)
       @cache_enabled[type.to_sym]
     end
