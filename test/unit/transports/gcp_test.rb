@@ -99,6 +99,18 @@ describe 'gcp transport' do
       client.is_a?(Google::Apis::ComputeV1::ComputeService).must_equal true
       cache[:api_call].count.must_equal 0
     end
+
+    it 'test gcp_compute_client application name' do
+      client = connection.gcp_compute_client
+      client.is_a?(Google::Apis::ComputeV1::ComputeService).must_equal true
+      client.client_options.application_name.must_equal 'chef-inspec-train'
+    end
+
+    it 'test gcp_compute_client application version' do
+      client = connection.gcp_compute_client
+      client.is_a?(Google::Apis::ComputeV1::ComputeService).must_equal true
+      client.client_options.application_version.must_equal Train::VERSION
+    end
   end
 
   describe 'gcp_iam_client' do
@@ -113,6 +125,18 @@ describe 'gcp transport' do
       client = connection.gcp_iam_client
       client.is_a?(Google::Apis::IamV1::IamService).must_equal true
       cache[:api_call].count.must_equal 0
+    end
+
+    it 'test gcp_iam_client application name' do
+      client = connection.gcp_iam_client
+      client.is_a?(Google::Apis::IamV1::IamService).must_equal true
+      client.client_options.application_name.must_equal 'chef-inspec-train'
+    end
+
+    it 'test gcp_iam_client application version' do
+      client = connection.gcp_iam_client
+      client.is_a?(Google::Apis::IamV1::IamService).must_equal true
+      client.client_options.application_version.must_equal Train::VERSION
     end
   end
 
@@ -129,6 +153,18 @@ describe 'gcp transport' do
       client.is_a?(Google::Apis::CloudresourcemanagerV1::CloudResourceManagerService).must_equal true
       cache[:api_call].count.must_equal 0
     end
+
+    it 'test gcp_project_client application name' do
+      client = connection.gcp_project_client
+      client.is_a?(Google::Apis::CloudresourcemanagerV1::CloudResourceManagerService).must_equal true
+      client.client_options.application_name.must_equal 'chef-inspec-train'
+    end
+
+    it 'test gcp_project_client application version' do
+      client = connection.gcp_project_client
+      client.is_a?(Google::Apis::CloudresourcemanagerV1::CloudResourceManagerService).must_equal true
+      client.client_options.application_version.must_equal Train::VERSION
+    end
   end
 
   describe 'gcp_storage_client' do
@@ -144,6 +180,18 @@ describe 'gcp transport' do
       client.is_a?(Google::Apis::StorageV1::StorageService).must_equal true
       cache[:api_call].count.must_equal 0
     end
+
+    it 'test gcp_storage_client application name' do
+      client = connection.gcp_storage_client
+      client.is_a?(Google::Apis::StorageV1::StorageService).must_equal true
+      client.client_options.application_name.must_equal 'chef-inspec-train'
+    end
+
+    it 'test gcp_storage_client application version' do
+      client = connection.gcp_storage_client
+      client.is_a?(Google::Apis::StorageV1::StorageService).must_equal true
+      client.client_options.application_version.must_equal Train::VERSION
+    end
   end
 
   describe 'gcp_admin_client' do
@@ -158,6 +206,18 @@ describe 'gcp transport' do
       client = connection.gcp_admin_client
       client.is_a?(Google::Apis::AdminDirectoryV1::DirectoryService).must_equal true
       cache[:api_call].count.must_equal 0
+    end
+
+    it 'test gcp_admin_client application name' do
+      client = connection.gcp_admin_client
+      client.is_a?(Google::Apis::AdminDirectoryV1::DirectoryService).must_equal true
+      client.client_options.application_name.must_equal 'chef-inspec-train'
+    end
+
+    it 'test gcp_admin_client application version' do
+      client = connection.gcp_admin_client
+      client.is_a?(Google::Apis::AdminDirectoryV1::DirectoryService).must_equal true
+      client.client_options.application_version.must_equal Train::VERSION
     end
   end
 

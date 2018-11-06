@@ -88,6 +88,8 @@ module Train::Transports
         scopes = ['https://www.googleapis.com/auth/cloud-platform',
                   'https://www.googleapis.com/auth/compute']
         authorization = Google::Auth.get_application_default(scopes)
+        Google::Apis::ClientOptions.default.application_name = 'chef-inspec-train'
+        Google::Apis::ClientOptions.default.application_version = Train::VERSION
         Google::Apis::RequestOptions.default.authorization = authorization
       end
 
