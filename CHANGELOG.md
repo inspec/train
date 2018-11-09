@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.5.7 -->
+## [v1.5.7](https://github.com/inspec/train/tree/v1.5.7) (2018-11-09)
+
+#### Merged Pull Requests
+- Add Google API application info [#378](https://github.com/inspec/train/pull/378) ([nathenharvey](https://github.com/nathenharvey))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.5.6 -->
+### Changes since 1.5.6 release
+
+#### Merged Pull Requests
+- Add Google API application info [#378](https://github.com/inspec/train/pull/378) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.5.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
