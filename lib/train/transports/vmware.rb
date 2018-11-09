@@ -69,10 +69,6 @@ module Train::Transports
         end
       end
 
-      def local?
-        true
-      end
-
       def platform
         force_platform!('vmware', @platform_details)
       end

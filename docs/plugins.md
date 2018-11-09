@@ -125,10 +125,6 @@ end
 
 This will return a class and cache the client object accordingly if caching is enabled. You can call this from a inspec resource by calling `inspec.backend.aws_client(AWS::TEST::CLASS)`.
 
-#### local?
-
-This flag helps Train decide what detection to use for OS based platforms. This should be set to `true` if your transport target resides in the same instance you are running train from. This setting is not needed for API transports or transports that do not use platform detection.
-
 #### platform
 
 `platform` is called when InSpec is trying to detect the platform (OS family, etc).  We recommend that you implement platform in a separate Module, and include it.

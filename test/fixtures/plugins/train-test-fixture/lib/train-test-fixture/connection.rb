@@ -10,10 +10,6 @@ module TrainPlugins
         super(options)
       end
 
-      def local?
-        true
-      end
-
       private
 
       def run_command_via_connection(cmd)

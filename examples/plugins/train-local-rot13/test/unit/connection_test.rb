@@ -30,16 +30,10 @@ describe TrainPlugins::LocalRot13::Connection do
   [
     :file_via_connection,
     :run_command_via_connection,
-    :local?,
   ].each do |method_name|
     it "should provide a #{method_name}() method" do
       # false passed to instance_methods says 'don't use inheritance'
       connection_class.instance_methods(false).must_include(method_name)
     end
-  end
-
-  # Ensure Train knows this is local.
-  it "should declare itself as a local transport" do
-    connection_class.new(Hash.new).local?.must_equal(true)
   end
 end

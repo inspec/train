@@ -91,11 +91,6 @@ class Train::Plugins::Transport
       end
     end
 
-    # Is this a local transport?
-    def local?
-      false
-    end
-
     def force_platform!(name, platform_details = nil)
       plat = Train::Platforms.name(name)
       plat.backend = self

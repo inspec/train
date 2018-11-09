@@ -127,12 +127,6 @@ describe 'Train::Transports::VMware::Connection' do
     end
   end
 
-  describe '#local' do
-    it 'returns true' do
-      create_transport.connection.local?.must_equal true
-    end
-  end
-
   describe '#platform' do
     it 'returns correct platform details' do
       platform = create_transport.connection.platform
