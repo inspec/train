@@ -1,14 +1,15 @@
-<!-- latest_release 1.5.7 -->
-## [v1.5.7](https://github.com/inspec/train/tree/v1.5.7) (2018-11-09)
+<!-- latest_release 1.5.8 -->
+## [v1.5.8](https://github.com/inspec/train/tree/v1.5.8) (2018-11-09)
 
 #### Merged Pull Requests
-- Add Google API application info [#378](https://github.com/inspec/train/pull/378) ([nathenharvey](https://github.com/nathenharvey))
+- Fix shallow_link_path on remote unix [#373](https://github.com/inspec/train/pull/373) ([mheiges](https://github.com/mheiges))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.5.6 -->
 ### Changes since 1.5.6 release
 
 #### Merged Pull Requests
+- Fix shallow_link_path on remote unix [#373](https://github.com/inspec/train/pull/373) ([mheiges](https://github.com/mheiges)) <!-- 1.5.8 -->
 - Add Google API application info [#378](https://github.com/inspec/train/pull/378) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.5.7 -->
 <!-- release_rollup -->
 
