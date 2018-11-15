@@ -12,6 +12,8 @@ module Train::Platforms::Detect::Helpers
         /((\d+) \(Rawhide\))/i.match(conf)[1].downcase
       when /Amazon Linux AMI/i
         /release ([\d\.]+)/.match(conf)[1]
+      when /amazon linux release/i
+        /Linux release ((\d+|\.)+)/i.match(conf)[1]
       when /derived from .*linux|amazon/i
         /Linux ((\d+|\.)+)/i.match(conf)[1]
       else
