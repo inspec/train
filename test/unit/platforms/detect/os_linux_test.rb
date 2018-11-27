@@ -28,6 +28,14 @@ describe 'os_linux' do
     it 'normal linux' do
       detector.redhatish_version('derived from Ubuntu Linux 11').must_equal('11')
     end
+
+    it 'amazon linux 2 new release naming schema' do
+      detector.redhatish_version('Amazon Linux release 2 (Karoo)').must_equal('2')
+    end
+
+    it 'amazon linux 2 old release naming schema' do
+      detector.redhatish_version('Amazon Linux 2').must_equal('2')
+    end
   end
 
   describe 'lsb parse' do
