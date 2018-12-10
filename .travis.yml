@@ -4,7 +4,7 @@ language: ruby
 cache: bundler
 
 # necessary for docker to work
-dist: trusty
+dist: xenial
 services:
   - docker
 
@@ -20,24 +20,25 @@ branches:
 
 matrix:
   include:
-  - rvm: 2.2.7
-  - rvm: 2.3.7
-  - rvm: 2.4.4
-  - rvm: 2.5.1
+  - rvm: 2.2.10
+  - rvm: 2.3.8
+  - rvm: 2.4.5
+  - rvm: 2.5.3
+  - rvm: 2.6
     script: bundle exec rake $SUITE
     env: SUITE="test"
-  - rvm: 2.5.1
+  - rvm: 2.6
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-debian.yml"
-  - rvm: 2.5.1
+  - rvm: 2.6
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-centos.yml"
-  - rvm: 2.5.1
+  - rvm: 2.6
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-oel.yml"
-  - rvm: 2.5.1
+  - rvm: 2.6
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-fedora.yml"
-  - rvm: 2.5.1
+  - rvm: 2.6
     script: bundle exec rake $SUITE
     env: SUITE="test:docker config=test-travis-ubuntu.yml"
