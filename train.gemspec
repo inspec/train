@@ -13,11 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/inspec/train/'
   spec.license       = 'Apache-2.0'
 
-  spec.files = %w{
-    train.gemspec README.md Rakefile LICENSE Gemfile CHANGELOG.md .rubocop.yml
-  } + Dir.glob(
-    '{lib,test}/**/*', File::FNM_DOTMATCH
-  ).reject { |f| File.directory?(f) }
+  spec.files = %w{LICENSE} + Dir.glob('lib/**/*', File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
 
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})

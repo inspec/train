@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/inspec/train/'
   spec.license       = 'Apache-2.0'
 
-  spec.files = %w{train-core.gemspec README.md LICENSE Gemfile CHANGELOG.md} + Dir
+  spec.files = %w{LICENSE} + Dir
                .glob('lib/**/*', File::FNM_DOTMATCH)
                .reject { |f| f =~ %r{lib/train/transports} unless CORE_TRANSPORTS.include?(f) }
                .reject { |f| File.directory?(f) }
