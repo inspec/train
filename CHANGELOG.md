@@ -1,14 +1,15 @@
-<!-- latest_release 1.5.10 -->
-## [v1.5.10](https://github.com/inspec/train/tree/v1.5.10) (2018-11-27)
+<!-- latest_release 1.5.11 -->
+## [v1.5.11](https://github.com/inspec/train/tree/v1.5.11) (2018-12-10)
 
 #### Merged Pull Requests
-- Added a new matcher for amazon linux 2 [#380](https://github.com/inspec/train/pull/380) ([artyomtkachenko](https://github.com/artyomtkachenko))
+- Pass logger to Cisco IOS transport [#381](https://github.com/inspec/train/pull/381) ([btm](https://github.com/btm))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.5.6 -->
 ### Changes since 1.5.6 release
 
 #### Merged Pull Requests
+- Pass logger to Cisco IOS transport [#381](https://github.com/inspec/train/pull/381) ([btm](https://github.com/btm)) <!-- 1.5.11 -->
 - Added a new matcher for amazon linux 2 [#380](https://github.com/inspec/train/pull/380) ([artyomtkachenko](https://github.com/artyomtkachenko)) <!-- 1.5.10 -->
 - Remove `#local?` [#365](https://github.com/inspec/train/pull/365) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.5.9 -->
 - Fix shallow_link_path on remote unix [#373](https://github.com/inspec/train/pull/373) ([mheiges](https://github.com/mheiges)) <!-- 1.5.8 -->
