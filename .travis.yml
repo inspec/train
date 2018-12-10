@@ -10,10 +10,6 @@ services:
 
 bundler_args: --without integration tools
 
-before_install:
-  - gem install bundler
-  - gem --version
-
 branches:
   only:
   - master
@@ -21,9 +17,21 @@ branches:
 matrix:
   include:
   - rvm: 2.2.10
+    before_install:
+      - gem install bundler
+      - gem --version
   - rvm: 2.3.8
+    before_install:
+      - gem install bundler
+      - gem --version
   - rvm: 2.4.5
+    before_install:
+      - gem install bundler
+      - gem --version
   - rvm: 2.5.3
+    before_install:
+      - gem install bundler
+      - gem --version
   - rvm: 2.6
     script: bundle exec rake $SUITE
     env: SUITE="test"
