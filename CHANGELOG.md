@@ -1,28 +1,25 @@
-<!-- latest_release 1.5.11 -->
-## [v1.5.11](https://github.com/inspec/train/tree/v1.5.11) (2018-12-10)
-
-#### Merged Pull Requests
-- Pass logger to Cisco IOS transport [#381](https://github.com/inspec/train/pull/381) ([btm](https://github.com/btm))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=1.5.6 -->
-### Changes since 1.5.6 release
-
-#### Merged Pull Requests
-- Pass logger to Cisco IOS transport [#381](https://github.com/inspec/train/pull/381) ([btm](https://github.com/btm)) <!-- 1.5.11 -->
-- Added a new matcher for amazon linux 2 [#380](https://github.com/inspec/train/pull/380) ([artyomtkachenko](https://github.com/artyomtkachenko)) <!-- 1.5.10 -->
-- Remove `#local?` [#365](https://github.com/inspec/train/pull/365) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.5.9 -->
-- Fix shallow_link_path on remote unix [#373](https://github.com/inspec/train/pull/373) ([mheiges](https://github.com/mheiges)) <!-- 1.5.8 -->
-- Add Google API application info [#378](https://github.com/inspec/train/pull/378) ([nathenharvey](https://github.com/nathenharvey)) <!-- 1.5.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v1.5.11](https://github.com/inspec/train/tree/v1.5.11) (2018-12-10)
+
+#### Merged Pull Requests
+- Add Google API application info [#378](https://github.com/inspec/train/pull/378) ([nathenharvey](https://github.com/nathenharvey))
+- Fix shallow_link_path on remote unix [#373](https://github.com/inspec/train/pull/373) ([mheiges](https://github.com/mheiges))
+- Remove `#local?` [#365](https://github.com/inspec/train/pull/365) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Added a new matcher for amazon linux 2 [#380](https://github.com/inspec/train/pull/380) ([artyomtkachenko](https://github.com/artyomtkachenko))
+- Pass logger to Cisco IOS transport [#381](https://github.com/inspec/train/pull/381) ([btm](https://github.com/btm))
+<!-- latest_stable_release -->
+
 ## [v1.5.6](https://github.com/inspec/train/tree/v1.5.6) (2018-11-01)
 
 #### Merged Pull Requests
 - Fix Cisco IOS detection when banners lack a `\r\n` [#372](https://github.com/inspec/train/pull/372) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
 - Adds cached_client method in BaseConnection [#371](https://github.com/inspec/train/pull/371) ([dmccown](https://github.com/dmccown))
-<!-- latest_stable_release -->
 
 ## [v1.5.4](https://github.com/inspec/train/tree/v1.5.4) (2018-10-18)
 
