@@ -7,8 +7,6 @@ class Train::Transports::SSH
     def initialize(options)
       super(options)
 
-      logger.level = Logger::INFO
-
       # Extract options to avoid passing them in to `Net::SSH.start` later
       @host = options.delete(:host)
       @user = options.delete(:user)
