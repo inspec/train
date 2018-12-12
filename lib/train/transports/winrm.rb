@@ -35,7 +35,7 @@ module Train::Transports
   # @author Matt Wrock <matt@mattwrock.com>
   # @author Salim Afiune <salim@afiunemaya.com.mx>
   # @author Fletcher Nichol <fnichol@nichol.ca>
-  class WinRM < Train.plugin(1)
+  class WinRM < Train.plugin(1) # rubocop:disable ClassLength
     name 'winrm'
 
     require 'train/transports/winrm_connection'
@@ -45,6 +45,9 @@ module Train::Transports
     option :port
     option :user, default: 'administrator', required: true
     option :password, nil
+    option :transport, default: :negotiate
+    option :disable_sspi, default: false
+    option :basic_auth_only, default: false
     option :path, default: '/wsman'
     option :ssl, default: false
     option :self_signed, default: false
@@ -100,9 +103,9 @@ module Train::Transports
     def connection_options(opts)
       {
         logger:                   logger,
-        transport:                :negotiate,
-        disable_sspi:             false,
-        basic_auth_only:          false,
+        transport:                opts[:transport].intern,
+        disable_sspi:             opts[:disable_sspi],
+        basic_auth_only:          opts[:basic_auth_only],
         hostname:                 opts[:host],
         endpoint:                 opts[:endpoint],
         user:                     opts[:user],
