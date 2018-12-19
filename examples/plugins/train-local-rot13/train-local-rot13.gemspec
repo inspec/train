@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   # Importantly, all Train plugins must be prefixed with `train-`
   spec.name          = 'train-local-rot13'
 
-  # It is polite to namespace your plugin under InspecPlugins::YourPluginInCamelCase
+  # It is polite to namespace your plugin under TrainPlugins::YourPluginInCamelCase
   spec.version       = TrainPlugins::LocalRot13::VERSION
   spec.authors       = ['Chef InSpec Team']
   spec.email         = ['inspec@chef.io']

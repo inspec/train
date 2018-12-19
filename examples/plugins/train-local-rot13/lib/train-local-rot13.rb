@@ -11,7 +11,7 @@
 libdir = File.dirname(__FILE__)
 $LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
 
-# It's traditonal to keep your gem version in a separate file, so CI can find it easier.
+# It's traditional to keep your gem version in a separate file, so CI can find it easier.
 require 'train-local-rot13/version'
 
 # A train plugin has three components: Transport, Connection, and Platform.
