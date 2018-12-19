@@ -1,14 +1,15 @@
-<!-- latest_release 1.6.2 -->
-## [v1.6.2](https://github.com/inspec/train/tree/v1.6.2) (2018-12-19)
+<!-- latest_release 1.6.3 -->
+## [v1.6.3](https://github.com/inspec/train/tree/v1.6.3) (2018-12-19)
 
 #### Merged Pull Requests
-- Small style/spelling changes for Train example plugin [#364](https://github.com/inspec/train/pull/364) ([jerryaldrichiii](https://github.com/jerryaldrichiii))
+- Update Travis config for Xenial / Ruby 2.6 and latest patchlevels of Ruby 2.2-2.5 [#390](https://github.com/inspec/train/pull/390) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.5.11 -->
 ### Changes since 1.5.11 release
 
 #### Merged Pull Requests
+- Update Travis config for Xenial / Ruby 2.6 and latest patchlevels of Ruby 2.2-2.5 [#390](https://github.com/inspec/train/pull/390) ([tas50](https://github.com/tas50)) <!-- 1.6.3 -->
 - Small style/spelling changes for Train example plugin [#364](https://github.com/inspec/train/pull/364) ([jerryaldrichiii](https://github.com/jerryaldrichiii)) <!-- 1.6.2 -->
 - Only ship the runtime files in the gem to slim install sizes [#388](https://github.com/inspec/train/pull/388) ([tas50](https://github.com/tas50)) <!-- 1.6.1 -->
 - Expose additional winrm options [#392](https://github.com/inspec/train/pull/392) ([frezbo](https://github.com/frezbo)) <!-- 1.6.0 -->
