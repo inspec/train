@@ -13,7 +13,7 @@ end
 
 group :test do
   gem 'minitest', '~> 5.8'
-  gem 'rake', '~> 12'
+  gem 'rake', '~> 10' # @todo bump this when we bump rubocop
   gem 'rubocop', '~> 0.36.0'
   gem 'simplecov', '~> 0.10'
   gem 'concurrent-ruby', '~> 1.0'
