@@ -40,14 +40,19 @@ module Train::Transports
 
     require 'train/transports/winrm_connection'
 
+    # ref: https://github.com/WinRb/Winrm#transports
+    # kerberos is skipped here as the options are not exposed in train
+    # basic ssl options is only supported
+    SUPPORTED_WINRM_TRANSPORTS = %i[negotiate ssl plaintext].freeze
+
     # common target configuration
     option :host, required: true
     option :port
     option :user, default: 'administrator', required: true
     option :password, nil
-    option :transport, default: :negotiate
-    option :disable_sspi, default: false
-    option :basic_auth_only, default: false
+    option :winrm_transport, default: :negotiate
+    option :winrm_disable_sspi, default: false
+    option :winrm_basic_auth_only, default: false
     option :path, default: '/wsman'
     option :ssl, default: false
     option :self_signed, default: false
@@ -85,6 +90,10 @@ module Train::Transports
       scheme = opts[:ssl] ? 'https' : 'http'
       port = opts[:port]
       port = (opts[:ssl] ? 5986 : 5985) if port.nil?
+      winrm_transport = opts[:winrm_transport].to_sym
+      unless SUPPORTED_WINRM_TRANSPORTS.any? { |t| winrm_transport == t }
+        fail Train::ClientError, "Unsupported transport type: #{winrm_transport.inspect}"
+      end
 
       # remove leading '/'
       path = (opts[:path] || '').sub(%r{^/+}, '')
@@ -103,9 +112,9 @@ module Train::Transports
     def connection_options(opts)
       {
         logger:                   logger,
-        transport:                opts[:transport].intern,
-        disable_sspi:             opts[:disable_sspi],
-        basic_auth_only:          opts[:basic_auth_only],
+        transport:                opts[:winrm_transport].to_sym,
+        disable_sspi:             opts[:winrm_disable_sspi],
+        basic_auth_only:          opts[:winrm_basic_auth_only],
         hostname:                 opts[:host],
         endpoint:                 opts[:endpoint],
         user:                     opts[:user],
