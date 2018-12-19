@@ -1,14 +1,15 @@
-<!-- latest_release 1.6.0 -->
-## [v1.6.0](https://github.com/inspec/train/tree/v1.6.0) (2018-12-19)
+<!-- latest_release 1.6.1 -->
+## [v1.6.1](https://github.com/inspec/train/tree/v1.6.1) (2018-12-19)
 
 #### Merged Pull Requests
-- Expose additional winrm options [#392](https://github.com/inspec/train/pull/392) ([frezbo](https://github.com/frezbo))
+- Only ship the runtime files in the gem to slim install sizes [#388](https://github.com/inspec/train/pull/388) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.5.11 -->
 ### Changes since 1.5.11 release
 
 #### Merged Pull Requests
+- Only ship the runtime files in the gem to slim install sizes [#388](https://github.com/inspec/train/pull/388) ([tas50](https://github.com/tas50)) <!-- 1.6.1 -->
 - Expose additional winrm options [#392](https://github.com/inspec/train/pull/392) ([frezbo](https://github.com/frezbo)) <!-- 1.6.0 -->
 <!-- release_rollup -->
 
