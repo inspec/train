@@ -43,7 +43,7 @@ module Train::Transports
     # ref: https://github.com/WinRb/Winrm#transports
     # kerberos is skipped here as the options are not exposed in train
     # basic ssl options is only supported
-    SUPPORTED_WINRM_TRANSPORTS = %i[negotiate ssl plaintext].freeze
+    SUPPORTED_WINRM_TRANSPORTS = %i(negotiate ssl plaintext).freeze
 
     # common target configuration
     option :host, required: true
