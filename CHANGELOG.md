@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.6.0 -->
+## [v1.6.0](https://github.com/inspec/train/tree/v1.6.0) (2018-12-19)
+
+#### Merged Pull Requests
+- Expose additional winrm options [#392](https://github.com/inspec/train/pull/392) ([frezbo](https://github.com/frezbo))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.5.11 -->
+### Changes since 1.5.11 release
+
+#### Merged Pull Requests
+- Expose additional winrm options [#392](https://github.com/inspec/train/pull/392) ([frezbo](https://github.com/frezbo)) <!-- 1.6.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
