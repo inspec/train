@@ -2,6 +2,7 @@
 #
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 require_relative 'helper'
+require 'byebug'
 
 describe Train do
   before do
@@ -66,7 +67,60 @@ describe Train do
     end
   end
 
-  describe '#target_config' do
+  describe '#unpack_target_creds' do
+    describe 'when the target_uri is a backend://credset format' do
+      it 'resolves an SSH target' do
+        config = Class.new do
+          CREDSETS = {
+            mock: {
+              myset1: {}
+            },
+            ssh: {
+              myset2: {},
+              myset3: {
+                host: 'host.com',
+                user: 'user',
+                password: 'pass',
+                port: 123,
+                path: '/path',
+              }
+            }
+          }
+          def target_uri
+            'ssh://myset3'
+          end
+          def fetch_credentials(xport, credset_name, _opts)
+            CREDSETS[xport][credset_name]
+          end
+        end.new
+
+        result = Train.unpack_target_creds(config)
+        result[:backend].must_equal :ssh
+        result[:host].must_equal 'host.com'
+        result[:user].must_equal 'user'
+        result[:password].must_equal 'pass'
+        result[:port].must_equal 123
+        result[:target].must_equal 'ssh://myset3'
+        result[:path].must_equal '/path'
+      end
+    end
+
+    describe 'when the target_uri is a backend://user:pass@host format' do
+      it 'resolves an SSH target' do
+        target_uri = 'ssh://user:pass@host.com:123/path'
+        result = Train.unpack_target_creds(OpenStruct.new(target_uri: target_uri ))
+        result[:backend].must_equal 'ssh'
+        result[:host].must_equal 'host.com'
+        result[:user].must_equal 'user'
+        result[:password].must_equal 'pass'
+        result[:port].must_equal 123
+        result[:target].must_equal target_uri
+        result[:path].must_equal '/path'
+      end
+    end
+  end
+
+  describe '#target_config - Legacy support' do
     it 'configures resolves target' do
       org = {
         target: 'ssh://user:pass@host.com:123/path',
@@ -124,7 +178,7 @@ describe Train do
       res[:target].must_equal org[:target]
     end
 
-    it 'always takes ruby sumbols as configuration fields' do
+    it 'always transforms config fields into ruby symbols' do
       org = {
         'target'    => 'ssh://user:pass@host.com:123/path',
         'backend'   => rand,
@@ -192,15 +246,15 @@ describe Train do
     it 'supports www-form encoded passwords when the option is set' do
       raw_password = '+!@#$%^&*()_-\';:"\\|/?.>,<][}{=`~'
       encoded_password = URI.encode_www_form_component(raw_password)
-      org = { target: "mock://username:#{encoded_password}@1.2.3.4:100",
-              www_form_encoded_password: true}
-      res = Train.target_config(org)
-      res[:backend].must_equal 'mock'
-      res[:host].must_equal '1.2.3.4'
-      res[:user].must_equal 'username'
-      res[:password].must_equal raw_password
-      res[:port].must_equal 100
-      res[:target].must_equal org[:target]
+      orig = { target: "mock://username:#{encoded_password}@1.2.3.4:100",
+               www_form_encoded_password: true}
+      result = Train.target_config(orig)
+      result[:backend].must_equal 'mock'
+      result[:host].must_equal '1.2.3.4'
+      result[:user].must_equal 'username'
+      result[:password].must_equal raw_password
+      result[:port].must_equal 100
+      result[:target].must_equal orig[:target]
     end
 
     it 'ignores www-form-encoded password value when there is no password' do

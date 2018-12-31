@@ -61,53 +61,82 @@ module Train
     raise ex
   end
 
-  # Resolve target configuration in URI-scheme into
-  # all respective fields and merge with existing configuration.
+  # Resolve target configuration, using information in the config object.
+  # in URI-scheme. respective fields and merge with existing configuration.
   # e.g. ssh://bob@remote  =>  backend: ssh, user: bob, host: remote
-  def self.target_config(config = nil) # rubocop:disable Metrics/AbcSize
-    conf = config.nil? ? {} : config.dup
-    conf = symbolize_keys(conf)
+  def self.unpack_target_creds(config = nil) # rubocop:disable Metrics/AbcSize
+    unless config.respond_to?(:target_uri)
+      return target_config(config)
+    end
 
-    group_keys_and_keyfiles(conf)
+    # A set of connecting information that will make sense to
+    # the selected transports. Different transports expect different
+    # keys here.
+    credentials = { target: config.target_uri }
+    return credentials if config.target_uri.empty?
 
+    # Look for transport://credset format
+    %r{^(?<transport_name>[a-z_\-0-9]+)://(?<cred_set_name>[a-z_\-0-9]*)$} =~ config.target_uri
+
+    unless transport_name
+      # We must need to parse from a more complex URI
+      return credentials.merge(unpack_target_from_uri(config.target_uri)) # TODO: dubious
+    end
+
+    transport_name = transport_name.to_sym
+    credentials[:backend] = transport_name
+
+    transport_class = load_transport(transport_name)
+    credentials.merge(config.fetch_credentials(
+      transport_name,
+      cred_set_name.to_sym,
+      option_defaults: transport_class.credential_option_defaults,
+    ))
+    # TODO: we could ask the transport class to validate / preflight the credset
+    #  (Inspec::Backend#create calls Train.validate_backend)
+  end
+
+  # Legacy code to unpack a series of items from an incoming Hash
+  def self.target_config(config) # TODO: deprecate
+    conf = config.dup
+    # Symbolize keys
+    conf.keys.each do |key|
+      unless key.is_a? Symbol
+        conf[key.to_sym] = conf.delete(key)
+      end
+    end
+
+    group_keys_and_keyfiles(conf) # TODO: move logic into SSH plugin
     return conf if conf[:target].to_s.empty?
+    return (unpack_target_from_uri(conf[:target], conf)).merge(conf)
+  end
+
+  def self.unpack_target_from_uri(uri_string, opts = {})
+    creds = {}
+    return creds if uri_string.empty?
 
     # split up the target's host/scheme configuration
-    uri = parse_uri(conf[:target].to_s)
+    uri = parse_uri(uri_string)
     unless uri.host.nil? and uri.scheme.nil?
-      conf[:backend]  ||= uri.scheme
-      conf[:host]     ||= uri.hostname
-      conf[:port]     ||= uri.port
-      conf[:user]     ||= uri.user
-      conf[:path]     ||= uri.path
-      conf[:password] ||=
-        if conf[:www_form_encoded_password] && !uri.password.nil?
+      creds[:backend]  ||= uri.scheme
+      creds[:host]     ||= uri.hostname
+      creds[:port]     ||= uri.port
+      creds[:user]     ||= uri.user
+      creds[:path]     ||= uri.path
+      creds[:password] ||=
+        if opts[:www_form_encoded_password] && !uri.password.nil?
           URI.decode_www_form_component(uri.password)
         else
           uri.password
         end
     end
 
-    # ensure path is nil, if its empty; e.g. required to reset defaults for winrm
-    conf[:path] = nil if !conf[:path].nil? && conf[:path].to_s.empty?
+    # ensure path is nil, if its empty; e.g. required to reset defaults for winrm # TODO: move logic into winrm plugin
+    creds[:path] = nil if !creds[:path].nil? && creds[:path].to_s.empty?
 
     # return the updated config
-    conf
+    creds
   end
-
-  # Takes a map of key-value pairs and turns all keys into symbols. For this
-  # to work, only keys are supported that can be turned into symbols.
-  # Example: { 'a' => 123 }  ==>  { a: 123 }
-  #
-  # @param map [Hash]
-  # @return [Hash] new map with all keys being symbols
-  def self.symbolize_keys(map)
-    map.each_with_object({}) do |(k, v), acc|
-      acc[k.to_sym] = v
-      acc
-    end
-  end
-  private_class_method :symbolize_keys
 
   # Parse a URI. Supports empty URI's with paths, e.g. `mock://`
   #
@@ -127,34 +156,38 @@ module Train
       raise Train::UserError, e
     end
 
-    u = URI.parse(string)
-    u.host = nil
-    u
+    uri = URI.parse(string)
+    uri.host = nil
+    uri
   end
   private_class_method :parse_uri
 
-  def self.validate_backend(conf, default = :local)
-    return default if conf.nil?
-    res = conf[:backend]
+  # Examine the given credential information, and if all is well,
+  # return the transport name.
+  def self.validate_backend(credentials, default_transport_name = :local)
+    return default_transport_name if credentials.nil?
+    result = credentials[:backend]
 
-    if (res.nil? || res == 'localhost') && conf[:sudo]
+    if (result.nil? || result == 'localhost') && credentials[:sudo]
       fail Train::UserError, 'Sudo is only valid when running against a remote host. '\
         'To run this locally with elevated privileges, run the command with `sudo ...`.'
     end
 
-    return res if !res.nil?
+    return result if !result.nil?
 
-    if !conf[:target].nil?
+    if !credentials[:target].nil?
+      # We should not get here, because if target_uri unpacking was successful,
+      # it would have set credentials[:backend]
       fail Train::UserError, 'Cannot determine backend from target '\
-           "configuration #{conf[:target].inspect}. Valid example: ssh://192.168.0.1."
+           "configuration #{credentials[:target_uri].inspect}. Valid example: ssh://192.168.0.1."
     end
 
-    if !conf[:host].nil?
+    if !credentials[:host].nil?
       fail Train::UserError, 'Host configured, but no backend was provided. Please '\
            'specify how you want to connect. Valid example: ssh://192.168.0.1.'
     end
 
-    conf[:backend] = default
+    credentials[:backend] = default_transport_name
   end
 
   def self.group_keys_and_keyfiles(conf)

@@ -41,6 +41,12 @@ class Train::Plugins
       Train::Plugins.registry[name] = self
     end
 
+    # Describe the defaults for the options this transport provides.
+    def self.credential_option_defaults
+      # TODO
+      Hash.new
+    end
+
     private
 
     # @return [Logger] logger for reporting information
