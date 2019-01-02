@@ -67,60 +67,7 @@ describe Train do
     end
   end
 
-  describe '#unpack_target_creds' do
-    describe 'when the target_uri is a backend://credset format' do
-      it 'resolves an SSH target' do
-        config = Class.new do
-          CREDSETS = {
-            mock: {
-              myset1: {}
-            },
-            ssh: {
-              myset2: {},
-              myset3: {
-                host: 'host.com',
-                user: 'user',
-                password: 'pass',
-                port: 123,
-                path: '/path',
-              }
-            }
-          }
-          def target_uri
-            'ssh://myset3'
-          end
-          def fetch_credentials(xport, credset_name, _opts)
-            CREDSETS[xport][credset_name]
-          end
-        end.new
-
-        result = Train.unpack_target_creds(config)
-        result[:backend].must_equal :ssh
-        result[:host].must_equal 'host.com'
-        result[:user].must_equal 'user'
-        result[:password].must_equal 'pass'
-        result[:port].must_equal 123
-        result[:target].must_equal 'ssh://myset3'
-        result[:path].must_equal '/path'
-      end
-    end
-
-    describe 'when the target_uri is a backend://user:pass@host format' do
-      it 'resolves an SSH target' do
-        target_uri = 'ssh://user:pass@host.com:123/path'
-        result = Train.unpack_target_creds(OpenStruct.new(target_uri: target_uri ))
-        result[:backend].must_equal 'ssh'
-        result[:host].must_equal 'host.com'
-        result[:user].must_equal 'user'
-        result[:password].must_equal 'pass'
-        result[:port].must_equal 123
-        result[:target].must_equal target_uri
-        result[:path].must_equal '/path'
-      end
-    end
-  end
-
-  describe '#target_config - Legacy support' do
+  describe '#target_config - URI parsing' do
     it 'configures resolves target' do
       org = {
         target: 'ssh://user:pass@host.com:123/path',
@@ -282,7 +229,7 @@ describe Train do
     end
 
     it 'returns the local backend if nothing was provided' do
-      Train.validate_backend({}).must_equal :local
+      Train.validate_backend({}).must_equal 'local'
     end
 
     it 'returns the default backend if nothing was provided' do

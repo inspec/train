@@ -61,42 +61,8 @@ module Train
     raise ex
   end
 
-  # Resolve target configuration, using information in the config object.
-  # in URI-scheme. respective fields and merge with existing configuration.
-  # e.g. ssh://bob@remote  =>  backend: ssh, user: bob, host: remote
-  def self.unpack_target_creds(config = nil) # rubocop:disable Metrics/AbcSize
-    unless config.respond_to?(:target_uri)
-      return target_config(config)
-    end
-
-    # A set of connecting information that will make sense to
-    # the selected transports. Different transports expect different
-    # keys here.
-    credentials = { target: config.target_uri }
-    return credentials if config.target_uri.empty?
-
-    # Look for transport://credset format
-    %r{^(?<transport_name>[a-z_\-0-9]+)://(?<cred_set_name>[a-z_\-0-9]*)$} =~ config.target_uri
-
-    unless transport_name
-      # We must need to parse from a more complex URI
-      return credentials.merge(unpack_target_from_uri(config.target_uri)) # TODO: dubious
-    end
-
-    transport_name = transport_name.to_sym
-    credentials[:backend] = transport_name
-
-    transport_class = load_transport(transport_name)
-    credentials.merge(config.fetch_credentials(
-      transport_name,
-      cred_set_name.to_sym,
-      option_defaults: transport_class.credential_option_defaults,
-    ))
-    # TODO: we could ask the transport class to validate / preflight the credset
-    #  (Inspec::Backend#create calls Train.validate_backend)
-  end
-
   # Legacy code to unpack a series of items from an incoming Hash
+  # Inspec::Config.unpack_train_credentials now handles this in most cases
   def self.target_config(config) # TODO: deprecate
     conf = config.dup
     # Symbolize keys
@@ -108,10 +74,10 @@ module Train
 
     group_keys_and_keyfiles(conf) # TODO: move logic into SSH plugin
     return conf if conf[:target].to_s.empty?
-    return (unpack_target_from_uri(conf[:target], conf)).merge(conf)
+    unpack_target_from_uri(conf[:target], conf).merge(conf)
   end
 
-  def self.unpack_target_from_uri(uri_string, opts = {})
+  def self.unpack_target_from_uri(uri_string, opts = {}) # rubocop: disable Metrics/AbcSize
     creds = {}
     return creds if uri_string.empty?
 
@@ -133,6 +99,8 @@ module Train
 
     # ensure path is nil, if its empty; e.g. required to reset defaults for winrm # TODO: move logic into winrm plugin
     creds[:path] = nil if !creds[:path].nil? && creds[:path].to_s.empty?
+
+    creds.compact!
 
     # return the updated config
     creds
@@ -164,11 +132,11 @@ module Train
 
   # Examine the given credential information, and if all is well,
   # return the transport name.
-  def self.validate_backend(credentials, default_transport_name = :local)
+  def self.validate_backend(credentials, default_transport_name = 'local')
     return default_transport_name if credentials.nil?
     result = credentials[:backend]
 
-    if (result.nil? || result == 'localhost') && credentials[:sudo]
+    if (result == 'local' || result == 'localhost') && credentials[:sudo]
       fail Train::UserError, 'Sudo is only valid when running against a remote host. '\
         'To run this locally with elevated privileges, run the command with `sudo ...`.'
     end

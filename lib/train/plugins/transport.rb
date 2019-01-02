@@ -44,7 +44,7 @@ class Train::Plugins
     # Describe the defaults for the options this transport provides.
     def self.credential_option_defaults
       # TODO
-      Hash.new
+      {}
     end
 
     private
