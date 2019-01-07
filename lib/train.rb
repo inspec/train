@@ -62,8 +62,9 @@ module Train
   end
 
   # Legacy code to unpack a series of items from an incoming Hash
-  # Inspec::Config.unpack_train_credentials now handles this in most cases
-  def self.target_config(config) # TODO: deprecate
+  # Inspec::Config.unpack_train_credentials now handles this in most cases that InSpec needs
+  # If you need to unpack a URI, use upack_target_from_uri
+  def self.target_config(config = nil)
     conf = config.dup
     # Symbolize keys
     conf.keys.each do |key|
@@ -100,7 +101,8 @@ module Train
     # ensure path is nil, if its empty; e.g. required to reset defaults for winrm # TODO: move logic into winrm plugin
     creds[:path] = nil if !creds[:path].nil? && creds[:path].to_s.empty?
 
-    creds.compact!
+    # compat! is available in ruby 2.4+
+    creds = creds.delete_if { |_, value| value.nil? }
 
     # return the updated config
     creds
