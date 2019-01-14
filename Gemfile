@@ -14,7 +14,7 @@ end
 
 # bundler is built into Ruby 2.6 and later
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.6')
-  gem 'bundler', '~> 1.11'
+  gem 'bundler', '>= 1.11'
 end
 
 group :test do
@@ -33,8 +33,8 @@ group :test do
 end
 
 group :integration do
-  gem 'berkshelf', '~> 5.2'
-  gem 'test-kitchen', '~> 1.11'
+  gem 'berkshelf', '>= 6.3.4'
+  gem 'test-kitchen', '>= 1.2.4'
   gem 'kitchen-vagrant'
 end
 
