@@ -8,9 +8,6 @@ environment:
   winrm_pass: Pass@word1
 
   matrix:
-    - ruby_version: "22"
-      train_target: winrm://test_user@localhost:5985
-
     - ruby_version: "24"
       train_target: winrm://test_user@localhost:5985
 
