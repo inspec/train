@@ -4,42 +4,54 @@ require 'helper'
 
 describe 'gcp transport' do
 
-  let(:credentials_file) do
-    require 'tempfile'
-    file = Tempfile.new('application_default_credentials.json')
-    info = <<-INFO
+  # XXX: The use of class variables here creates truly global state, but this is
+  # because we get used to set the ENV var which is parsed only once at class loading
+  # time when `require 'train/transports/gcp'` is parsed.  We need to create a tempfile
+  # once with this content and then have it be used for every example.
+
+  def credentials_file
+    @@credentials_file ||=
+      begin
+        require 'tempfile'
+        file = Tempfile.new('application_default_credentials.json')
+        info = <<-INFO
 {
   "client_id": "asdfasf-asdfasdf.apps.googleusercontent.com",
   "client_secret": "d-asdfasdf",
   "refresh_token": "1/adsfasdf-lCkju3-yQmjr20xVZonrfkE48L",
   "type": "authorized_user"
 }
-    INFO
-    file.write(info)
-    file.close
-    file
+        INFO
+        file.write(info)
+        file.close
+        file
+      end
   end
 
-  let(:credentials_file_override) do
-    require 'tempfile'
-    file = Tempfile.new('application_default_credentials.json')
-    info = <<-INFO
+  def credentials_file_override
+    @@credentials_file_override ||=
+      begin
+        require 'tempfile'
+        file = Tempfile.new('application_default_credentials.json')
+        info = <<-INFO
 {
   "client_id": "asdfasf-asdfasdf.apps.googleusercontent.com",
   "client_secret": "d-asdfasdf",
   "refresh_token": "1/adsfasdf-lCkju3-yQmjr20xVZonrfkE48L",
   "type": "authorized_user"
 }
-    INFO
-    file.write(info)
-    file.close
-    file
+        INFO
+        file.write(info)
+        file.close
+        file
+      end
   end
 
   def transport(options = nil)
     ENV['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_file.path
     ENV['GOOGLE_CLOUD_PROJECT'] = 'test_project'
     # need to require this at here as it captures the envs on load
+    # XXX: this require statement is parsed only once for all examples
     require 'train/transports/gcp'
     Train::Transports::Gcp.new(options)
   end
@@ -47,13 +59,6 @@ describe 'gcp transport' do
   let(:connection) { transport.connection }
   let(:options) { connection.instance_variable_get(:@options) }
   let(:cache) { connection.instance_variable_get(:@cache) }
-
-  before do
-    # force the tempfile object to persist for the lifetime of the test so the finalizer does not get
-    # called in the middle of our tests and delete the Tempfile out from underneath us.
-    @credentials_file = credentials_file
-    @credentials_file_override = credentials_file_override
-  end
 
   describe 'options' do
     it 'defaults to env options' do
