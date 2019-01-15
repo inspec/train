@@ -48,6 +48,13 @@ describe 'gcp transport' do
   let(:options) { connection.instance_variable_get(:@options) }
   let(:cache) { connection.instance_variable_get(:@cache) }
 
+  before do
+    # force the tempfile object to persist for the lifetime of the test so the finalizer does not get
+    # called in the middle of our tests and delete the Tempfile out from underneath us.
+    @credentials_file = credentials_file
+    @credentials_file_override = credentials_file_override
+  end
+
   describe 'options' do
     it 'defaults to env options' do
       options[:google_application_credentials] = credentials_file.path
