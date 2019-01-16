@@ -12,11 +12,6 @@ if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
   gem 'json', '< 2.0'
 end
 
-# bundler is built into Ruby 2.6 and later
-if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.6')
-  gem 'bundler', '>= 1.11'
-end
-
 group :test do
   gem 'minitest', '~> 5.8'
   gem 'rake', '~> 10'
