@@ -1,58 +1,45 @@
 # encoding: utf-8
 
 require 'helper'
+require 'train/transports/gcp'
 
 describe 'gcp transport' do
 
-  # XXX: The use of class variables here creates truly global state, but this is
-  # because we get used to set the ENV var which is parsed only once at class loading
-  # time when `require 'train/transports/gcp'` is parsed.  We need to create a tempfile
-  # once with this content and then have it be used for every example.
-
-  def credentials_file
-    @@credentials_file ||=
-      begin
-        require 'tempfile'
-        file = Tempfile.new('application_default_credentials.json')
-        info = <<-INFO
+  let(:credentials_file) do
+    require 'tempfile'
+    file = Tempfile.new('application_default_credentials.json')
+    info = <<-INFO
 {
   "client_id": "asdfasf-asdfasdf.apps.googleusercontent.com",
   "client_secret": "d-asdfasdf",
   "refresh_token": "1/adsfasdf-lCkju3-yQmjr20xVZonrfkE48L",
   "type": "authorized_user"
 }
-        INFO
-        file.write(info)
-        file.close
-        file
-      end
+    INFO
+    file.write(info)
+    file.close
+    file
   end
 
-  def credentials_file_override
-    @@credentials_file_override ||=
-      begin
-        require 'tempfile'
-        file = Tempfile.new('application_default_credentials.json')
-        info = <<-INFO
+  let(:credentials_file_override) do
+    require 'tempfile'
+    file = Tempfile.new('application_default_credentials.json')
+    info = <<-INFO
 {
   "client_id": "asdfasf-asdfasdf.apps.googleusercontent.com",
   "client_secret": "d-asdfasdf",
   "refresh_token": "1/adsfasdf-lCkju3-yQmjr20xVZonrfkE48L",
   "type": "authorized_user"
 }
-        INFO
-        file.write(info)
-        file.close
-        file
-      end
+    INFO
+    file.write(info)
+    file.close
+    file
   end
 
   def transport(options = nil)
     ENV['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_file.path
     ENV['GOOGLE_CLOUD_PROJECT'] = 'test_project'
-    # need to require this at here as it captures the envs on load
-    # XXX: this require statement is parsed only once for all examples
-    require 'train/transports/gcp'
     Train::Transports::Gcp.new(options)
   end
 
