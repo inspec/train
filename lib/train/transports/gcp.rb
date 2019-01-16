@@ -25,7 +25,7 @@ module Train::Transports
     # https://cloud.google.com/compute/docs/regions-zones/changing-default-zone-region
     # can also specify project via env var:
     option :google_cloud_project, required: false do
-     ENV['GOOGLE_CLOUD_PROJECT']
+      ENV['GOOGLE_CLOUD_PROJECT']
     end
     option :google_super_admin_email, required: false do
       ENV['GOOGLE_SUPER_ADMIN_EMAIL']
