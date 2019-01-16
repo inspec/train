@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'train/plugins'
-require 'aws-sdk'
+require 'aws-sdk-core'
 
 module Train::Transports
   class Aws < Train.plugin(1)
