@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.6.4 -->
+## [v1.6.4](https://github.com/inspec/train/tree/v1.6.4) (2019-01-25)
+
+#### Merged Pull Requests
+- drop ruby 2.0-2.2 support, allow bundler 2.x, bump integration gems, allow mixlib-shellout 3.x [#396](https://github.com/inspec/train/pull/396) ([lamont-granquist](https://github.com/lamont-granquist))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.6.3 -->
+### Changes since 1.6.3 release
+
+#### Merged Pull Requests
+- drop ruby 2.0-2.2 support, allow bundler 2.x, bump integration gems, allow mixlib-shellout 3.x [#396](https://github.com/inspec/train/pull/396) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 1.6.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
