@@ -2,6 +2,9 @@
 
 require 'helper'
 
+# Required because this test file acesses classes under Azure::
+require 'azure_mgmt_resources'
+
 describe 'azure transport' do
   def transport(options = nil)
     ENV['AZURE_TENANT_ID'] = 'test_tenant_id'
