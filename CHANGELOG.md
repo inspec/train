@@ -1,14 +1,15 @@
-<!-- latest_release 1.6.5 -->
-## [v1.6.5](https://github.com/inspec/train/tree/v1.6.5) (2019-01-25)
+<!-- latest_release 1.7.0 -->
+## [v1.7.0](https://github.com/inspec/train/tree/v1.7.0) (2019-01-25)
 
 #### Merged Pull Requests
-- Fix Azure Test by adding a require [#402](https://github.com/inspec/train/pull/402) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Remove compat with unsupported Ruby 1.9 in the Gemfile [#389](https://github.com/inspec/train/pull/389) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.6.3 -->
 ### Changes since 1.6.3 release
 
 #### Merged Pull Requests
+- Remove compat with unsupported Ruby 1.9 in the Gemfile [#389](https://github.com/inspec/train/pull/389) ([tas50](https://github.com/tas50)) <!-- 1.7.0 -->
 - Fix Azure Test by adding a require [#402](https://github.com/inspec/train/pull/402) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.6.5 -->
 - drop ruby 2.0-2.2 support, allow bundler 2.x, bump integration gems, allow mixlib-shellout 3.x [#396](https://github.com/inspec/train/pull/396) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 1.6.4 -->
 <!-- release_rollup -->
