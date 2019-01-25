@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'helper'
+require 'train/transports/gcp'
 
 describe 'gcp transport' do
 
@@ -39,8 +40,6 @@ describe 'gcp transport' do
   def transport(options = nil)
     ENV['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_file.path
     ENV['GOOGLE_CLOUD_PROJECT'] = 'test_project'
-    # need to require this at here as it captures the envs on load
-    require 'train/transports/gcp'
     Train::Transports::Gcp.new(options)
   end
 

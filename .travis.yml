@@ -16,10 +16,6 @@ branches:
 
 matrix:
   include:
-  - rvm: 2.2.10
-    before_install:
-      - gem install bundler
-      - gem --version
   - rvm: 2.3.8
     before_install:
       - gem install bundler

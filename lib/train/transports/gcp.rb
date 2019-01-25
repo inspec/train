@@ -14,7 +14,9 @@ module Train::Transports
     name 'gcp'
 
     # GCP will look automatically for the below env var for service accounts etc. :
-    option :google_application_credentials, required: false, default: ENV['GOOGLE_APPLICATION_CREDENTIALS']
+    option :google_application_credentials, required: false do
+      ENV['GOOGLE_APPLICATION_CREDENTIALS']
+    end
     # see https://cloud.google.com/docs/authentication/production#providing_credentials_to_your_application
     # In the absence of this, the client is expected to have already set up local credentials via:
     #   $ gcloud auth application-default login
@@ -22,8 +24,12 @@ module Train::Transports
     # GCP projects can have default regions / zones set, see:
     # https://cloud.google.com/compute/docs/regions-zones/changing-default-zone-region
     # can also specify project via env var:
-    option :google_cloud_project, required: false, default: ENV['GOOGLE_CLOUD_PROJECT']
-    option :google_super_admin_email, required: false, default: ENV['GOOGLE_SUPER_ADMIN_EMAIL']
+    option :google_cloud_project, required: false do
+      ENV['GOOGLE_CLOUD_PROJECT']
+    end
+    option :google_super_admin_email, required: false do
+      ENV['GOOGLE_SUPER_ADMIN_EMAIL']
+    end
 
     def connection(_ = nil)
       @connection ||= Connection.new(@options)
