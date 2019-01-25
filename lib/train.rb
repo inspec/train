@@ -63,7 +63,7 @@ module Train
 
   # Legacy code to unpack a series of items from an incoming Hash
   # Inspec::Config.unpack_train_credentials now handles this in most cases that InSpec needs
-  # If you need to unpack a URI, use upack_target_from_uri
+  # If you need to unpack a URI, use unpack_target_from_uri
   def self.target_config(config = nil)
     conf = config.dup
     # Symbolize keys
@@ -149,7 +149,7 @@ module Train
       # We should not get here, because if target_uri unpacking was successful,
       # it would have set credentials[:backend]
       fail Train::UserError, 'Cannot determine backend from target '\
-           "configuration #{credentials[:target_uri].inspect}. Valid example: ssh://192.168.0.1."
+           "configuration #{credentials[:target]}. Valid example: ssh://192.168.0.1."
     end
 
     if !credentials[:host].nil?
