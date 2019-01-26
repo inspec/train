@@ -193,7 +193,7 @@ We also want to thank [halo](https://github.com/halo) who did a great contributi
 
 | **Author:**          | Christoph Hartmann (<chartmann@chef.io>)
 
-| **Copyright:**       | Copyright (c) 2015-2018 Chef Software Inc.
+| **Copyright:**       | Copyright (c) 2015-2019 Chef Software Inc.
 
 | **Copyright:**       | Copyright (c) 2015 Vulcano Security GmbH.
 
