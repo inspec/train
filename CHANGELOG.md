@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.7.1 -->
+## [v1.7.1](https://github.com/inspec/train/tree/v1.7.1) (2019-01-26)
+
+#### Merged Pull Requests
+- Update copyright year to 2019 [#403](https://github.com/inspec/train/pull/403) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.7.0 -->
+### Changes since 1.7.0 release
+
+#### Merged Pull Requests
+- Update copyright year to 2019 [#403](https://github.com/inspec/train/pull/403) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.7.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
