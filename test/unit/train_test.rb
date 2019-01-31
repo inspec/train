@@ -66,7 +66,7 @@ describe Train do
     end
   end
 
-  describe '#target_config' do
+  describe '#target_config - URI parsing' do
     it 'configures resolves target' do
       org = {
         target: 'ssh://user:pass@host.com:123/path',
@@ -124,7 +124,7 @@ describe Train do
       res[:target].must_equal org[:target]
     end
 
-    it 'always takes ruby sumbols as configuration fields' do
+    it 'always transforms config fields into ruby symbols' do
       org = {
         'target'    => 'ssh://user:pass@host.com:123/path',
         'backend'   => rand,
@@ -192,15 +192,15 @@ describe Train do
     it 'supports www-form encoded passwords when the option is set' do
       raw_password = '+!@#$%^&*()_-\';:"\\|/?.>,<][}{=`~'
       encoded_password = URI.encode_www_form_component(raw_password)
-      org = { target: "mock://username:#{encoded_password}@1.2.3.4:100",
-              www_form_encoded_password: true}
-      res = Train.target_config(org)
-      res[:backend].must_equal 'mock'
-      res[:host].must_equal '1.2.3.4'
-      res[:user].must_equal 'username'
-      res[:password].must_equal raw_password
-      res[:port].must_equal 100
-      res[:target].must_equal org[:target]
+      orig = { target: "mock://username:#{encoded_password}@1.2.3.4:100",
+               www_form_encoded_password: true}
+      result = Train.target_config(orig)
+      result[:backend].must_equal 'mock'
+      result[:host].must_equal '1.2.3.4'
+      result[:user].must_equal 'username'
+      result[:password].must_equal raw_password
+      result[:port].must_equal 100
+      result[:target].must_equal orig[:target]
     end
 
     it 'ignores www-form-encoded password value when there is no password' do
@@ -228,7 +228,7 @@ describe Train do
     end
 
     it 'returns the local backend if nothing was provided' do
-      Train.validate_backend({}).must_equal :local
+      Train.validate_backend({}).must_equal 'local'
     end
 
     it 'returns the default backend if nothing was provided' do
