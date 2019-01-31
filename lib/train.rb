@@ -64,6 +64,7 @@ module Train
   # Legacy code to unpack a series of items from an incoming Hash
   # Inspec::Config.unpack_train_credentials now handles this in most cases that InSpec needs
   # If you need to unpack a URI, use unpack_target_from_uri
+  # TODO: deprecate; can't issue a warning because train doesn't have a logger until the connection is setup (See base_connection.rb)
   def self.target_config(config = nil)
     conf = config.dup
     # Symbolize keys
@@ -78,6 +79,13 @@ module Train
     unpack_target_from_uri(conf[:target], conf).merge(conf)
   end
 
+  # Given a string that looks like a URI, unpack connection credentials.
+  # The name of the desired transport is always taken from the 'scheme' slot of the URI;
+  # the remaining portion of the URI is parsed as if it were an HTTP URL, and then
+  # the URL components are stored in the credentials hash.  It is up to the transport
+  # to interpret the fields in a sensible way for that transport.
+  # New transport authors are encouraged to use transport://credset format (see
+  # inspec/inspec/issues/3661) rather than inventing a new field mapping.
   def self.unpack_target_from_uri(uri_string, opts = {}) # rubocop: disable Metrics/AbcSize
     creds = {}
     return creds if uri_string.empty?
@@ -101,7 +109,8 @@ module Train
     # ensure path is nil, if its empty; e.g. required to reset defaults for winrm # TODO: move logic into winrm plugin
     creds[:path] = nil if !creds[:path].nil? && creds[:path].to_s.empty?
 
-    # compat! is available in ruby 2.4+
+    # compact! is available in ruby 2.4+
+    # TODO: rewrite next line using compact! once we drop support for ruby 2.3
     creds = creds.delete_if { |_, value| value.nil? }
 
     # return the updated config
@@ -134,27 +143,30 @@ module Train
 
   # Examine the given credential information, and if all is well,
   # return the transport name.
+  # TODO: this actually does no validation of the credential options whatsoever
   def self.validate_backend(credentials, default_transport_name = 'local')
     return default_transport_name if credentials.nil?
-    result = credentials[:backend]
+    transport_name = credentials[:backend]
 
-    if (result == 'local' || result == 'localhost') && credentials[:sudo]
+    # TODO: Determine if it is ever possible (or supported) for transport_name to be 'localhost'
+    # TODO: After inspec/inspec/pull/3750 is merged, should be able to remove nil from the list
+    if credentials[:sudo] && [nil, 'local', 'localhost'].include?(transport_name)
       fail Train::UserError, 'Sudo is only valid when running against a remote host. '\
         'To run this locally with elevated privileges, run the command with `sudo ...`.'
     end
 
-    return result if !result.nil?
+    return transport_name if !transport_name.nil?
 
     if !credentials[:target].nil?
       # We should not get here, because if target_uri unpacking was successful,
       # it would have set credentials[:backend]
       fail Train::UserError, 'Cannot determine backend from target '\
-           "configuration #{credentials[:target]}. Valid example: ssh://192.168.0.1."
+           "configuration #{credentials[:target]}. Valid example: ssh://192.168.0.1"
     end
 
     if !credentials[:host].nil?
       fail Train::UserError, 'Host configured, but no backend was provided. Please '\
-           'specify how you want to connect. Valid example: ssh://192.168.0.1.'
+           'specify how you want to connect. Valid example: ssh://192.168.0.1'
     end
 
     credentials[:backend] = default_transport_name

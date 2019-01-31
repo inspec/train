@@ -2,7 +2,6 @@
 #
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 require_relative 'helper'
-require 'byebug'
 
 describe Train do
   before do
