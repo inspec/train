@@ -14,8 +14,7 @@ module Train::Platforms::Detect::Helpers
     end
 
     def winrm?
-      Object.const_defined?('Train::Transports::WinRM::Connection') &&
-        @backend.class == Train::Transports::WinRM::Connection
+      @backend.class.to_s == 'Train::Transports::WinRM::Connection'
     end
 
     def unix_file_contents(path)
