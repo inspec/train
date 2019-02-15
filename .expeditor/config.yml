@@ -10,6 +10,11 @@ github:
   version_tag_format: "v{{version}}"
   minor_bump_labels:
     - "Version: Bump Minor"
+  release_branch:
+    - master:
+        version_constraint: 1.*
+    - 2-release:
+        version_constraint: 2.*
 
 merge_actions:
   - built_in:bump_version:
