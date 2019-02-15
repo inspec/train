@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.7.3 -->
+## [v1.7.3](https://github.com/inspec/train/tree/v1.7.3) (2019-02-15)
+
+#### Merged Pull Requests
+- Add v2 to expeditor [#407](https://github.com/inspec/train/pull/407) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=1.7.2 -->
+### Changes since 1.7.2 release
+
+#### Merged Pull Requests
+- Add v2 to expeditor [#407](https://github.com/inspec/train/pull/407) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.7.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
