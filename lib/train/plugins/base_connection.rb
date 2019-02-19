@@ -29,6 +29,7 @@ class Train::Plugins::Transport
       @cache_enabled = {
         file: true,
         command: false,
+        api_call: false,
       }
 
       @cache = {}
@@ -61,7 +62,7 @@ class Train::Plugins::Transport
     end
 
     # Enable caching types for Train. Currently we support
-    # :file and :command types
+    # :api_call, :file and :command types
     def enable_cache(type)
       fail Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
       @cache_enabled[type.to_sym] = true
