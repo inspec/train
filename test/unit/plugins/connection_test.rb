@@ -53,25 +53,6 @@ describe 'v1 Connection Plugin' do
       plat.family_hierarchy.must_equal ['darwin', 'bsd', 'unix', 'os']
     end
 
-    it 'provides api direct platform' do
-      plat = connection.force_platform!('aws')
-      plat.name.must_equal 'aws'
-      plat.linux?.must_equal false
-      plat.cloud?.must_equal true
-      plat.family.must_equal 'cloud'
-      plat.family_hierarchy.must_equal ['cloud', 'api']
-    end
-
-    it 'provides api direct platform with platform options' do
-      aws_version = Gem.loaded_specs['aws-sdk'].version
-      aws_version = "aws-sdk-v#{aws_version}"
-      details = { release: aws_version }
-      plat = connection.force_platform!('aws', details)
-      plat.name.must_equal 'aws'
-      plat.release.must_equal aws_version
-      plat[:release].must_equal aws_version
-    end
-
     it 'must use the user-provided logger' do
       l = rand
       cls.new({logger: l})

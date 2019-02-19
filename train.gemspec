@@ -29,7 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'winrm', '~> 2.0'
   spec.add_dependency 'winrm-fs', '~> 1.0'
   spec.add_dependency 'docker-api', '~> 1.26'
-  spec.add_dependency 'aws-sdk', '~> 2'
   spec.add_dependency 'azure_mgmt_resources', '~> 0.15'
   spec.add_dependency 'azure_graph_rbac', '~> 0.16'
   spec.add_dependency 'azure_mgmt_key_vault', '~> 0.17'
