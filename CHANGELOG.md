@@ -1,14 +1,15 @@
-<!-- latest_release 1.7.4 -->
-## [v1.7.4](https://github.com/inspec/train/tree/v1.7.4) (2019-02-19)
+<!-- latest_release 1.7.5 -->
+## [v1.7.5](https://github.com/inspec/train/tree/v1.7.5) (2019-02-19)
 
 #### Merged Pull Requests
-- Add api_call cache type [#411](https://github.com/inspec/train/pull/411) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- 2.x: Remove AWS transport [#408](https://github.com/inspec/train/pull/408) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.7.2 -->
 ### Changes since 1.7.2 release
 
 #### Merged Pull Requests
+- 2.x: Remove AWS transport [#408](https://github.com/inspec/train/pull/408) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.7.5 -->
 - Add api_call cache type [#411](https://github.com/inspec/train/pull/411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.7.4 -->
 - Add v2 to expeditor [#407](https://github.com/inspec/train/pull/407) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.7.3 -->
 <!-- release_rollup -->
