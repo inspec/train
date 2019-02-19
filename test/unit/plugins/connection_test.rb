@@ -1,5 +1,5 @@
 # encoding: utf-8
-require 'helper'
+require_relative '../helper'
 
 describe 'v1 Connection Plugin' do
   describe 'empty v1 connection plugin' do
@@ -130,6 +130,7 @@ describe 'v1 Connection Plugin' do
       it 'default connection cache settings' do
         connection.cache_enabled?(:file).must_equal true
         connection.cache_enabled?(:command).must_equal false
+        connection.cache_enabled?(:api_call).must_equal false
       end
     end
 
