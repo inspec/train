@@ -108,3 +108,22 @@ describe 'linux command' do
     end
   end
 end
+
+describe 'windows command' do
+  let(:cls) { Train::Extras::WindowsCommand }
+  let(:cmd) { rand.to_s }
+  let(:backend) {
+    backend = Train::Transports::Mock.new.connection
+    backend.mock_os({ family: 'windows' })
+    backend
+  }
+
+  describe 'shell wrapping' do
+    it 'wraps commands in a default powershell' do
+      lc = cls.new(backend, { shell: true })
+      wcmd = "$ProgressPreference='SilentlyContinue';" + cmd
+      bcmd = Base64.strict_encode64(wcmd.encode('UTF-16LE', 'UTF-8'))
+      lc.run(cmd).must_equal "powershell -NoProfile -EncodedCommand #{bcmd}"
+    end
+  end
+end

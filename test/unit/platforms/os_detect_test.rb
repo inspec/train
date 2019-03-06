@@ -2,12 +2,12 @@
 require 'helper'
 require 'train/transports/mock'
 
-class OsDetectLinuxTester
+class OsDetectTester
   include Train::Platforms::Detect::Helpers::OSCommon
 end
 
 describe 'os_detect' do
-  let(:detector) { OsDetectLinuxTester.new }
+  let(:detector) { OsDetectTester.new }
 
   def scan_with_files(uname, files)
     mock = Train::Transports::Mock::Connection.new
@@ -17,6 +17,12 @@ describe 'os_detect' do
       mock.mock_command("test -f #{path}")
       mock.mock_command("test -f #{path} && cat #{path}", data)
     end
+    Train::Platforms::Detect.scan(mock)
+  end
+
+  def scan_with_windows()
+    mock = Train::Transports::Mock::Connection.new
+    mock.mock_command('cmd.exe /c ver', 'Microsoft Windows [Version 6.3.9600]')
     Train::Platforms::Detect.scan(mock)
   end
 
@@ -145,6 +151,16 @@ describe 'os_detect' do
         platform[:name].must_equal('raspbian')
         platform[:family].must_equal('debian')
         platform[:release].must_equal('13.6')
+      end
+    end
+
+    describe 'windows' do
+      it 'sets the correct family/release for windows ' do
+        platform = scan_with_windows()
+
+        platform[:name].must_equal('windows_6.3.9600')
+        platform[:family].must_equal('windows')
+        platform[:release].must_equal('6.3.9600')
       end
     end
 

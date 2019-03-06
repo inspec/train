@@ -3,7 +3,8 @@
 module Train::Platforms::Detect::Helpers
   module Windows
     def detect_windows
-      res = @backend.run_command('cmd /c ver')
+      # try to detect windows, use cmd.exe to also support Microsoft OpenSSH
+      res = @backend.run_command('cmd.exe /c ver')
       return false if res.exit_status != 0 or res.stdout.empty?
 
       # if the ver contains `Windows`, we know its a Windows system
