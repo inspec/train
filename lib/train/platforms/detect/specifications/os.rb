@@ -47,7 +47,47 @@ module Train::Platforms::Detect::Specifications
       # linux master family
       plat.family('linux').in_family('unix')
           .detect {
-            true if unix_uname_s =~ /linux/i
+             hostname = @backend.run_command("hostname").stdout.sub("\n",'')
+             @platform[:hostname] = hostname
+             fqdn = hostname
+             domain_name = @backend.run_command("domainname").stdout.sub("\n",'')
+             if domain_name != '(none)'
+               @platform[:domain_name] = domain_name
+               fqdn += ".#{domain_name}"
+             end
+             @platform[:fqdn] = fqdn
+
+             @platform[:guid] = @backend.run_command("sudo dmidecode -s system-uuid").stdout.sub("\n",'')
+
+             network = []
+
+             ip_addrs = @backend.run_command("ip addr").stdout
+             nic = {}
+             ip_addrs.each_line do |ip_addr|
+               if match = ip_addr.match(/^\d+: (\w+){1}: .*/i)
+                 if nic.size != 0
+                   network.push(nic)
+                   nic = {}
+                 end
+                 name = match.captures
+                 nic[:name] = name[0]
+                 nic[:mac] = ""
+                 nic[:ips] = []
+               end
+               if match = ip_addr.match(/^\s*link\/\w+ (([a-f0-9]{2}:){5}[a-f0-9]{2}) .*$/i)
+                 mac = match.captures
+                 nic[:mac] = mac[0]
+               end
+               if match = ip_addr.match(/^\s*inet ((\d+.){3}\d+)\/\d+ .*$/i)
+                 ip = match.captures
+                 nic[:ips].push(ip[0])
+               end
+             end
+             network.push(nic)
+
+             @platform[:network] = network
+
+             true if unix_uname_s =~ /linux/i
           }
 
       # debian family
