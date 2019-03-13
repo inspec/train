@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.7.5 -->
+## [v1.7.5](https://github.com/inspec/train/tree/v1.7.5) (2019-03-13)
+
+#### Merged Pull Requests
+- Replace the usage of const_defined? in the WinRM detection helper [#406](https://github.com/inspec/train/pull/406) ([RoboticCheese](https://github.com/RoboticCheese))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.0 -->
+### Changes since 2.0.0 release
+
+#### Merged Pull Requests
+- Replace the usage of const_defined? in the WinRM detection helper [#406](https://github.com/inspec/train/pull/406) ([RoboticCheese](https://github.com/RoboticCheese)) <!-- 1.7.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
