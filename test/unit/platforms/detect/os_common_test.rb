@@ -22,10 +22,20 @@ describe 'os_common' do
       detector.winrm?.must_equal(true)
     end
 
-    it 'return winrm? false' do
+    it 'return winrm? false when winrm is loaded' do
+      require 'train/transports/winrm'
       be = mock('Backend')
       detector.instance_variable_set(:@backend, be)
       detector.winrm?.must_equal(false)
+    end
+
+    it 'return winrm? false when winrm is not loaded' do
+      require 'train/transports/winrm'
+      winrm = Train::Transports.send(:remove_const, 'WinRM')
+      be = mock('Backend')
+      detector.instance_variable_set(:@backend, be)
+      detector.winrm?.must_equal(false)
+      Train::Transports.const_set('WinRM', winrm)
     end
   end
 
