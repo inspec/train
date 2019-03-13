@@ -1,24 +1,21 @@
-<!-- latest_release 1.7.5 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v1.7.5](https://github.com/inspec/train/tree/v1.7.5) (2019-03-13)
 
 #### Merged Pull Requests
 - Replace the usage of const_defined? in the WinRM detection helper [#406](https://github.com/inspec/train/pull/406) ([RoboticCheese](https://github.com/RoboticCheese))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.0.0 -->
-### Changes since 2.0.0 release
-
-#### Merged Pull Requests
-- Replace the usage of const_defined? in the WinRM detection helper [#406](https://github.com/inspec/train/pull/406) ([RoboticCheese](https://github.com/RoboticCheese)) <!-- 1.7.5 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v1.7.4](https://github.com/inspec/train/tree/v1.7.4) (2019-03-01)
 
 #### Merged Pull Requests
 - Add v2 to expeditor [#407](https://github.com/inspec/train/pull/407) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Add api_call cache type [#411](https://github.com/inspec/train/pull/411) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v1.7.2](https://github.com/inspec/train/tree/v1.7.2) (2019-01-31)
 
