@@ -63,11 +63,11 @@ module Train::Transports
     option :bastion_user, default: 'root'
     option :bastion_port, default: 22
     option :non_interactive, default: false
-
     option :compression_level do |opts|
       # on nil or false: set compression level to 0
       opts[:compression] ? 6 : 0
     end
+    option :data_callback, default: nil
 
     # (see Base#connection)
     def connection(state = {}, &block)
@@ -164,6 +164,7 @@ module Train::Transports
         bastion_user:           opts[:bastion_user],
         bastion_port:           opts[:bastion_port],
         non_interactive:        opts[:non_interactive],
+        data_callback:          opts[:data_callback],
         transport_options:      opts,
       }
       # disable host key verification. The hash key to use

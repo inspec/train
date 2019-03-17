@@ -36,6 +36,7 @@ class Train::Transports::WinRM
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
+      @data_callback          = @options.delete(:data_callback)
     end
 
     # (see Base::Connection#close)
@@ -101,6 +102,7 @@ class Train::Transports::WinRM
       out = ''
 
       response = session.run(command) do |stdout, _|
+        @data_callback.call(stdout) if stdout && @data_callback
         out << stdout if stdout
       end
 
