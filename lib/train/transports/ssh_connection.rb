@@ -50,6 +50,7 @@ class Train::Transports::SSH
       @bastion_host           = @options.delete(:bastion_host)
       @bastion_user           = @options.delete(:bastion_user)
       @bastion_port           = @options.delete(:bastion_port)
+      @data_callback          = @options.delete(:data_callback)
       @cmd_wrapper            = CommandWrapper.load(self, @transport_options)
     end
 
@@ -228,10 +229,12 @@ class Train::Transports::SSH
           abort 'Couldn\'t execute command on SSH.' unless success
 
           channel.on_data do |_, data|
+            @data_callback.call(data) if @data_callback
             stdout += data
           end
 
           channel.on_extended_data do |_, _type, data|
+            @data_callback.call(data) if @data_callback
             stderr += data
           end
 
