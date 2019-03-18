@@ -208,9 +208,9 @@ class Train::Transports::SSH
       end
     end
 
-    def run_command_via_connection(cmd) # rubocop:disable AbcSize
-      stdout = stderr = ''
+    def run_command_via_connection(cmd)
       exit_status = nil
+      stdout = stderr = ''
       cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
       logger.debug("[SSH] #{self} (#{cmd})")
 
@@ -225,27 +225,7 @@ class Train::Transports::SSH
           end
         end
 
-        channel.exec(cmd) do |_, success|
-          abort 'Couldn\'t execute command on SSH.' unless success
-
-          channel.on_data do |_, data|
-            @data_callback.call(data) if @data_callback
-            stdout += data
-          end
-
-          channel.on_extended_data do |_, _type, data|
-            @data_callback.call(data) if @data_callback
-            stderr += data
-          end
-
-          channel.on_request('exit-status') do |_, data|
-            exit_status = data.read_long
-          end
-
-          channel.on_request('exit-signal') do |_, data|
-            exit_status = data.read_long
-          end
-        end
+        exit_status, stdout, stderr = execute_on_channel(channel, cmd)
       end
       @session.loop
 
@@ -295,6 +275,42 @@ class Train::Transports::SSH
       options_to_print = @options.clone
       options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
       "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
+    end
+
+    # Given a channel and a command string, it will execute the command on the channel
+    # and accumulate results in  @stdout/@stderr.
+    #
+    # @param channel [Net::SSH::Connection::Channel] an open ssh channel
+    # @param cmd [String] the command to execute
+    # @return [Integer] exit status or nil if exit-status/exit-signal requests
+    #         not received.
+    #
+    # @api private
+    def execute_on_channel(channel, cmd)
+      stdout = stderr = ''
+      exit_status = nil
+      channel.exec(cmd) do |_, success|
+        abort 'Couldn\'t execute command on SSH.' unless success
+
+        channel.on_data do |_, data|
+          @data_callback.call(data) if @data_callback
+          stdout += data
+        end
+
+        channel.on_extended_data do |_, _type, data|
+          @data_callback.call(data) if @data_callback
+          stderr += data
+        end
+
+        channel.on_request('exit-status') do |_, data|
+          exit_status = data.read_long
+        end
+
+        channel.on_request('exit-signal') do |_, data|
+          exit_status = data.read_long
+        end
+      end
+      [exit_status, stdout, stderr]
     end
   end
 end
