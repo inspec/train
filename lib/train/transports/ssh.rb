@@ -168,7 +168,7 @@ module Train::Transports
       }
       # disable host key verification. The hash key to use
       # depends on the version of net-ssh in use.
-      connection_options[verify_host_key_option] = false
+      connection_options[verify_host_key_option] = opts[:verify_host_key] || false
 
       connection_options
     end
