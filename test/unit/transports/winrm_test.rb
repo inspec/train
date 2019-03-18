@@ -82,7 +82,7 @@ describe 'winrm transport' do
   describe 'options validation' do
     let(:winrm) { cls.new(conf) }
     it 'raises an error when a non-supported winrm_transport is specificed' do
-      conf[:winrm_transport] = 'kerberos'
+      conf[:winrm_transport] = 'invalid'
       proc { winrm.connection }.must_raise Train::ClientError
     end
   end
