@@ -40,10 +40,8 @@ module Train::Transports
 
     require 'train/transports/winrm_connection'
 
-    # ref: https://github.com/WinRb/Winrm#transports
-    # kerberos is skipped here as the options are not exposed in train
-    # basic ssl options is only supported
-    SUPPORTED_WINRM_TRANSPORTS = %i(negotiate ssl plaintext).freeze
+    # ref: https://github.com/winrb/winrm#transports
+    SUPPORTED_WINRM_TRANSPORTS = %i(negotiate ssl plaintext kerberos).freeze
 
     # common target configuration
     option :host, required: true
@@ -62,6 +60,10 @@ module Train::Transports
     option :connection_retries, default: 5
     option :connection_retry_sleep, default: 1
     option :max_wait_until_ready, default: 600
+    option :ssl_peer_fingerprint, default: nil
+    option :kerberos_realm, default: nil
+    option :kerberos_service, default: nil
+    option :ca_trust_file, default: nil
 
     def initialize(opts)
       super(opts)
@@ -91,7 +93,7 @@ module Train::Transports
       port = opts[:port]
       port = (opts[:ssl] ? 5986 : 5985) if port.nil?
       winrm_transport = opts[:winrm_transport].to_sym
-      unless SUPPORTED_WINRM_TRANSPORTS.any? { |t| winrm_transport == t }
+      unless SUPPORTED_WINRM_TRANSPORTS.include?(winrm_transport)
         fail Train::ClientError, "Unsupported transport type: #{winrm_transport.inspect}"
       end
 
@@ -124,6 +126,10 @@ module Train::Transports
         connection_retry_sleep:   opts[:connection_retry_sleep],
         max_wait_until_ready:     opts[:max_wait_until_ready],
         no_ssl_peer_verification: opts[:self_signed],
+        realm:                    opts[:kerberos_realm],
+        service:                  opts[:kerberos_service],
+        ca_trust_file:            opts[:ca_trust_file],
+        ssl_peer_fingerprint:     opts[:ssl_peer_fingerprint],
       }
     end
 
