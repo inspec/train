@@ -11,9 +11,9 @@ github:
   minor_bump_labels:
     - "Version: Bump Minor"
   release_branch:
-    - master:
+    - 1-stable:
         version_constraint: 1.*
-    - 2-release:
+    - master:
         version_constraint: 2.*
 
 merge_actions:
