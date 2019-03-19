@@ -3,3 +3,5 @@ r-train-*.gem
 Gemfile.lock
 .kitchen/
 TAGS
+terraform.tfstate.backup
+.terraform
