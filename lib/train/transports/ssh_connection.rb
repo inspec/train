@@ -50,7 +50,6 @@ class Train::Transports::SSH
       @bastion_host           = @options.delete(:bastion_host)
       @bastion_user           = @options.delete(:bastion_user)
       @bastion_port           = @options.delete(:bastion_port)
-      @data_callback          = @options.delete(:data_callback)
       @cmd_wrapper            = CommandWrapper.load(self, @transport_options)
     end
 
@@ -208,26 +207,12 @@ class Train::Transports::SSH
       end
     end
 
-    def run_command_via_connection(cmd)
-      exit_status = nil
-      stdout = stderr = ''
+    def run_command_via_connection(cmd, &data_handler)
       cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
       logger.debug("[SSH] #{self} (#{cmd})")
 
       reset_session if session.closed?
-      session.open_channel do |channel|
-        # wrap commands if that is configured
-        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
-
-        if @transport_options[:pty]
-          channel.request_pty do |_ch, success|
-            fail Train::Transports::SSHPTYFailed, 'Requesting PTY failed' unless success
-          end
-        end
-
-        exit_status, stdout, stderr = execute_on_channel(channel, cmd)
-      end
-      @session.loop
+      exit_status, stdout, stderr = execute_on_channel(cmd, &data_handler)
 
       # Since `@session.loop` succeeded, reset the IOS command retry counter
       @ios_cmd_retries = 0
@@ -286,30 +271,40 @@ class Train::Transports::SSH
     #         not received.
     #
     # @api private
-    def execute_on_channel(channel, cmd)
+    def execute_on_channel(cmd, &data_handler)
       stdout = stderr = ''
       exit_status = nil
-      channel.exec(cmd) do |_, success|
-        abort 'Couldn\'t execute command on SSH.' unless success
+      session.open_channel do |channel|
+        # wrap commands if that is configured
+        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
 
-        channel.on_data do |_, data|
-          @data_callback.call(data) if @data_callback
-          stdout += data
+        if @transport_options[:pty]
+          channel.request_pty do |_ch, success|
+            fail Train::Transports::SSHPTYFailed, 'Requesting PTY failed' unless success
+          end
         end
+        channel.exec(cmd) do |_, success|
+          abort 'Couldn\'t execute command on SSH.' unless success
+          channel.on_data do |_, data|
+            yield(data) unless data_handler.nil?
+            stdout += data
+          end
 
-        channel.on_extended_data do |_, _type, data|
-          @data_callback.call(data) if @data_callback
-          stderr += data
-        end
+          channel.on_extended_data do |_, _type, data|
+            yield(data) unless data_handler.nil?
+            stderr += data
+          end
 
-        channel.on_request('exit-status') do |_, data|
-          exit_status = data.read_long
-        end
+          channel.on_request('exit-status') do |_, data|
+            exit_status = data.read_long
+          end
 
-        channel.on_request('exit-signal') do |_, data|
-          exit_status = data.read_long
+          channel.on_request('exit-signal') do |_, data|
+            exit_status = data.read_long
+          end
         end
       end
+      session.loop
       [exit_status, stdout, stderr]
     end
   end

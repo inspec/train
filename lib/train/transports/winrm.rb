@@ -62,7 +62,6 @@ module Train::Transports
     option :connection_retries, default: 5
     option :connection_retry_sleep, default: 1
     option :max_wait_until_ready, default: 600
-    option :data_callback, default: nil
 
     def initialize(opts)
       super(opts)
@@ -125,7 +124,6 @@ module Train::Transports
         connection_retry_sleep:   opts[:connection_retry_sleep],
         max_wait_until_ready:     opts[:max_wait_until_ready],
         no_ssl_peer_verification: opts[:self_signed],
-        data_callback:            opts[:data_callback],
       }
     end
 

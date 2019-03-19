@@ -71,7 +71,7 @@ module Train::Transports
         end
       end
 
-      def run_command_via_connection(cmd)
+      def run_command_via_connection(cmd, &_data_handler)
         # Use the runner if it is available
         return @runner.run_command(cmd) if defined?(@runner)
 
