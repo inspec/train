@@ -23,13 +23,12 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'json', '>= 1.8', '< 3.0'
   # chef-client < 12.4.1 require mixlib-shellout-2.0.1
-  spec.add_dependency 'mixlib-shellout', '>= 2.0'
+  spec.add_dependency 'mixlib-shellout', '>= 2.0', '< 4.0'
   spec.add_dependency 'net-ssh', '>= 2.9', '< 6.0'
-  spec.add_dependency 'net-scp', '~> 1.2'
+  spec.add_dependency 'net-scp', '>= 1.2', '< 3.0'
   spec.add_dependency 'winrm', '~> 2.0'
   spec.add_dependency 'winrm-fs', '~> 1.0'
   spec.add_dependency 'docker-api', '~> 1.26'
-  spec.add_dependency 'aws-sdk', '~> 2'
   spec.add_dependency 'azure_mgmt_resources', '~> 0.15'
   spec.add_dependency 'azure_graph_rbac', '~> 0.16'
   spec.add_dependency 'azure_mgmt_key_vault', '~> 0.17'

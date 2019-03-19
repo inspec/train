@@ -2,10 +2,6 @@
 source 'https://rubygems.org'
 gemspec name: 'train'
 
-if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.2.2')
-  gem 'json', '< 2.0'
-end
-
 group :test do
   gem 'minitest', '~> 5.8'
   gem 'rake', '~> 10' # @todo bump this when we bump rubocop
