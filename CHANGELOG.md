@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 1.7.6 -->
+## [v1.7.6](https://github.com/inspec/train/tree/v1.7.6) (2019-03-19)
+
+#### Merged Pull Requests
+- Fix detection of &#39;SLES Expanded Support&#39; of Red Hat [#361](https://github.com/inspec/train/pull/361) ([jabofh](https://github.com/jabofh))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.0 -->
+### Changes since 2.0.0 release
+
+#### Merged Pull Requests
+- Fix detection of &#39;SLES Expanded Support&#39; of Red Hat [#361](https://github.com/inspec/train/pull/361) ([jabofh](https://github.com/jabofh)) <!-- 1.7.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
