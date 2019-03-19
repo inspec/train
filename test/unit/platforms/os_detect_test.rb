@@ -64,6 +64,16 @@ describe 'os_detect' do
         platform[:family].must_equal('redhat')
         platform[:release].must_equal('7.4')
       end
+      it 'sets the correct family, name, and release on SLES ESR RHEL' do
+        files = {
+          '/etc/redhat-release' => "Red Hat Enterprise Linux Server release 7.4 (Maipo)\n# This is a \"SLES Expanded Support platform release 7.4\"\n# The above \"Red Hat Enterprise Linux Server\" string is only used to \n# keep software compatibility.\n",
+          '/etc/os-release' => "NAME=\"Red Hat Enterprise Linux Server\"\nVERSION=\"7.4 (Maipo)\"\nID=\"rhel\"\nID_LIKE=\"fedora\"\nVERSION_ID=\"7.4\"\nPRETTY_NAME=\"Red Hat Enterprise Linux Server 7.4\"\nANSI_COLOR=\"0;31\"\nCPE_NAME=\"cpe:/o:redhat:enterprise_linux:7.4:GA:server\"\nHOME_URL=\"https://www.redhat.com/\"\nBUG_REPORT_URL=\"https://bugzilla.redhat.com/\"\n\nREDHAT_BUGZILLA_PRODUCT=\"Red Hat Enterprise Linux 7\"\nREDHAT_BUGZILLA_PRODUCT_VERSION=7.4\nREDHAT_SUPPORT_PRODUCT=\"Red Hat Enterprise Linux\"\nREDHAT_SUPPORT_PRODUCT_VERSION=7.4\n# This is a \"SLES Expanded Support platform release 7.4\"\n# The above \"Red Hat Enterprise Linux Server\" string is only used to\n# keep software compatibility.\n",
+        }
+        platform = scan_with_files('linux', files)
+        platform[:name].must_equal('redhat')
+        platform[:family].must_equal('redhat')
+        platform[:release].must_equal('7.4')
+      end
     end
   end
 
