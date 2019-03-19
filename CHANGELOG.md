@@ -1,14 +1,15 @@
-<!-- latest_release 2.0.1 -->
-## [v2.0.1](https://github.com/inspec/train/tree/v2.0.1) (2019-03-18)
+<!-- latest_release 2.0.2 -->
+## [v2.0.2](https://github.com/inspec/train/tree/v2.0.2) (2019-03-19)
 
 #### Merged Pull Requests
-- Update gem deps to allow mixlib-shellout 3.x and net-scp 2.x  [#421](https://github.com/inspec/train/pull/421) ([tas50](https://github.com/tas50))
+- [SUSTAIN-955] Add kerberos and additional winrm options [#426](https://github.com/inspec/train/pull/426) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
 <!-- release_rollup since=1.7.2 -->
 ### Changes since 1.7.2 release
 
 #### Merged Pull Requests
+- [SUSTAIN-955] Add kerberos and additional winrm options [#426](https://github.com/inspec/train/pull/426) ([marcparadise](https://github.com/marcparadise)) <!-- 2.0.2 -->
 - Update gem deps to allow mixlib-shellout 3.x and net-scp 2.x  [#421](https://github.com/inspec/train/pull/421) ([tas50](https://github.com/tas50)) <!-- 2.0.1 -->
 - 2.x: Remove AWS transport [#408](https://github.com/inspec/train/pull/408) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.7.5 -->
 - Add api_call cache type [#411](https://github.com/inspec/train/pull/411) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 1.7.4 -->
