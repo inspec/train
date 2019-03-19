@@ -119,10 +119,10 @@ module Train
     # e.g. mock://. To do this, we match it manually and fake the hostname
     if u.scheme && (u.host.nil? || u.host.empty?) && u.path.empty?
       case string
-        when %r{^([a-z]+)://$}
-          string += 'dummy'
-        when /^([a-z]+):$/
-          string += '//dummy'
+      when %r{^([a-z]+)://$}
+        string += 'dummy'
+      when /^([a-z]+):$/
+        string += '//dummy'
       end
       u = Addressable::URI.parse(string)
       u.host = nil
