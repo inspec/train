@@ -167,9 +167,9 @@ module Train::Transports
         non_interactive:        opts[:non_interactive],
         transport_options:      opts,
       }
-      # disable host key verification. The hash key to use
+      # disable host key verification. The hash key and value to use
       # depends on the version of net-ssh in use.
-      connection_options[verify_host_key_option] = opts[:verify_host_key] || false
+      connection_options[verify_host_key_option] = verify_host_key_value(opts[:verify_host_key])
 
       connection_options
     end
@@ -191,6 +191,34 @@ module Train::Transports
       new_option_version = Net::SSH::Version[4, 2, 0]
 
       current_net_ssh >= new_option_version ? :verify_host_key : :paranoid
+    end
+
+    # Likewise, version <5 accepted false; 5+ requires :never or will
+    # issue a deprecation warning. This method allows a lot of common
+    # things through.
+    def verify_host_key_value(given)
+      current_net_ssh = Net::SSH::Version::CURRENT
+      new_value_version = Net::SSH::Version[5, 0, 0]
+
+      if current_net_ssh >= new_value_version
+        # 5.0+ style
+        {
+          # It's not a boolean anymore.
+          'true' => :always,
+          'false' => :never,
+          true => :always,
+          false => :never,
+          # May be correct value, but strings from JSON config
+          'always' => :always,
+          'never' => :never,
+        }.fetch(given, given)
+      else
+        # up to 4.2 style
+        {
+          'true' => true,
+          'false' => false,
+        }.fetch(given, given)
+      end
     end
 
     # Creates a new SSH Connection instance and save it for potential future
