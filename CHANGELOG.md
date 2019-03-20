@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 2.0.3 -->
+## [v2.0.3](https://github.com/inspec/train/tree/v2.0.3) (2019-03-20)
+
+#### Merged Pull Requests
+- [SUSTAIN-955] Provide ssh option to enable host key verify [#427](https://github.com/inspec/train/pull/427) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.2 -->
+### Changes since 2.0.2 release
+
+#### Merged Pull Requests
+- [SUSTAIN-955] Provide ssh option to enable host key verify [#427](https://github.com/inspec/train/pull/427) ([marcparadise](https://github.com/marcparadise)) <!-- 2.0.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
