@@ -44,14 +44,23 @@ describe 'ssh transport' do
 
   describe 'connection options' do
     let(:ssh) { cls.new({ host: 'dummy' }) }
-    let(:connection_options) { ssh.send(:connection_options, {}) }
+    let(:opts) { { } }
+    let(:connection_options) { ssh.send(:connection_options, opts) }
 
     it 'does not set a paranoid option - deprecated in net-ssh 4.2' do
       connection_options.key?(:paranoid).must_equal false
     end
 
-    it 'sets a verify_host_key option, replacement for paranoid' do
+    it 'defaults verify_host_key option to false, and does not set paranoid' do
       connection_options[:verify_host_key].must_equal false
+      connection_options.key?(:paranoid).must_equal false
+    end
+
+    describe "when caller sets verify_host_key in options" do
+      let(:opts) { { verify_host_key: true } }
+      it 'the provided value is used instead of the default' do
+        connection_options[:verify_host_key].must_equal true
+      end
     end
   end
 
