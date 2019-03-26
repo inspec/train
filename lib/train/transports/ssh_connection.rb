@@ -207,44 +207,12 @@ class Train::Transports::SSH
       end
     end
 
-    def run_command_via_connection(cmd) # rubocop:disable AbcSize
-      stdout = stderr = ''
-      exit_status = nil
+    def run_command_via_connection(cmd, &data_handler)
       cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
       logger.debug("[SSH] #{self} (#{cmd})")
 
       reset_session if session.closed?
-      session.open_channel do |channel|
-        # wrap commands if that is configured
-        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
-
-        if @transport_options[:pty]
-          channel.request_pty do |_ch, success|
-            fail Train::Transports::SSHPTYFailed, 'Requesting PTY failed' unless success
-          end
-        end
-
-        channel.exec(cmd) do |_, success|
-          abort 'Couldn\'t execute command on SSH.' unless success
-
-          channel.on_data do |_, data|
-            stdout += data
-          end
-
-          channel.on_extended_data do |_, _type, data|
-            stderr += data
-          end
-
-          channel.on_request('exit-status') do |_, data|
-            exit_status = data.read_long
-          end
-
-          channel.on_request('exit-signal') do |_, data|
-            exit_status = data.read_long
-          end
-        end
-      end
-      @session.loop
+      exit_status, stdout, stderr = execute_on_channel(cmd, &data_handler)
 
       # Since `@session.loop` succeeded, reset the IOS command retry counter
       @ios_cmd_retries = 0
@@ -292,6 +260,52 @@ class Train::Transports::SSH
       options_to_print = @options.clone
       options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
       "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
+    end
+
+    # Given a channel and a command string, it will execute the command on the channel
+    # and accumulate results in  @stdout/@stderr.
+    #
+    # @param channel [Net::SSH::Connection::Channel] an open ssh channel
+    # @param cmd [String] the command to execute
+    # @return [Integer] exit status or nil if exit-status/exit-signal requests
+    #         not received.
+    #
+    # @api private
+    def execute_on_channel(cmd, &data_handler)
+      stdout = stderr = ''
+      exit_status = nil
+      session.open_channel do |channel|
+        # wrap commands if that is configured
+        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
+
+        if @transport_options[:pty]
+          channel.request_pty do |_ch, success|
+            fail Train::Transports::SSHPTYFailed, 'Requesting PTY failed' unless success
+          end
+        end
+        channel.exec(cmd) do |_, success|
+          abort 'Couldn\'t execute command on SSH.' unless success
+          channel.on_data do |_, data|
+            yield(data) unless data_handler.nil?
+            stdout += data
+          end
+
+          channel.on_extended_data do |_, _type, data|
+            yield(data) unless data_handler.nil?
+            stderr += data
+          end
+
+          channel.on_request('exit-status') do |_, data|
+            exit_status = data.read_long
+          end
+
+          channel.on_request('exit-signal') do |_, data|
+            exit_status = data.read_long
+          end
+        end
+      end
+      session.loop
+      [exit_status, stdout, stderr]
     end
   end
 end

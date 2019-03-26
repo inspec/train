@@ -114,10 +114,14 @@ class Train::Plugins::Transport
 
     # This is the main command call for all connections. This will call the private
     # run_command_via_connection on the connection with optional caching
-    def run_command(cmd)
-      return run_command_via_connection(cmd) unless cache_enabled?(:command)
+    #
+    # This command accepts an optional data handler block. When provided,
+    # inbound data will be published vi `data_handler.call(data)`. This can allow
+    # callers to receive and render updates from remote command execution.
+    def run_command(cmd, &data_handler)
+      return run_command_via_connection(cmd, &data_handler) unless cache_enabled?(:command)
 
-      @cache[:command][cmd] ||= run_command_via_connection(cmd)
+      @cache[:command][cmd] ||= run_command_via_connection(cmd, &data_handler)
     end
 
     # This is the main file call for all connections. This will call the private
@@ -150,8 +154,13 @@ class Train::Plugins::Transport
     # Execute a command using this connection.
     #
     # @param command [String] command string to execute
+    # @param &data_handler(data) [Proc] proc that is called when data arrives from
+    # the connection.  This block is optional. Individual transports will need
+    # to explicitly invoke the block in their implementation of run_command_via_connection;
+    # if they do not, the block is ignored and will not be used to report data back to the caller.
+    #
     # @return [CommandResult] contains the result of running the command
-    def run_command_via_connection(_command)
+    def run_command_via_connection(_command, &_data_handler)
       fail NotImplementedError, "#{self.class} does not implement #run_command_via_connection()"
     end
 
