@@ -1,14 +1,15 @@
-<!-- latest_release 2.0.3 -->
-## [v2.0.3](https://github.com/inspec/train/tree/v2.0.3) (2019-03-20)
+<!-- latest_release 2.0.4 -->
+## [v2.0.4](https://github.com/inspec/train/tree/v2.0.4) (2019-03-26)
 
 #### Merged Pull Requests
-- [SUSTAIN-955] Provide ssh option to enable host key verify [#427](https://github.com/inspec/train/pull/427) ([marcparadise](https://github.com/marcparadise))
+- [SUSTAIN-955] Add data callbacks to WinRM and SSH (adopted) [#431](https://github.com/inspec/train/pull/431) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.2 -->
 ### Changes since 2.0.2 release
 
 #### Merged Pull Requests
+- [SUSTAIN-955] Add data callbacks to WinRM and SSH (adopted) [#431](https://github.com/inspec/train/pull/431) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.4 -->
 - [SUSTAIN-955] Provide ssh option to enable host key verify [#427](https://github.com/inspec/train/pull/427) ([marcparadise](https://github.com/marcparadise)) <!-- 2.0.3 -->
 <!-- release_rollup -->
 
