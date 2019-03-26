@@ -95,12 +95,13 @@ class Train::Transports::WinRM
       Train::File::Remote::Windows.new(self, path)
     end
 
-    def run_command_via_connection(command)
+    def run_command_via_connection(command, &data_handler)
       return if command.nil?
       logger.debug("[WinRM] #{self} (#{command})")
       out = ''
 
       response = session.run(command) do |stdout, _|
+        yield(stdout) if data_handler && stdout
         out << stdout if stdout
       end
 

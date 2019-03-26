@@ -73,7 +73,7 @@ module Train::Transports
         force_platform!('vmware', @platform_details)
       end
 
-      def run_command_via_connection(cmd)
+      def run_command_via_connection(cmd, &_data_handler)
         if @powershell_binary == :pwsh
           result = parse_pwsh_output(cmd)
 
