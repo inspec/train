@@ -199,7 +199,6 @@ module Train::Transports
     def verify_host_key_value(given)
       current_net_ssh = Net::SSH::Version::CURRENT
       new_value_version = Net::SSH::Version[5, 0, 0]
-
       if current_net_ssh >= new_value_version
         # 5.0+ style
         {
@@ -217,6 +216,7 @@ module Train::Transports
         {
           'true' => true,
           'false' => false,
+          nil => false,
         }.fetch(given, given)
       end
     end
