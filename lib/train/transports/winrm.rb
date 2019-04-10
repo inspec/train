@@ -64,6 +64,10 @@ module Train::Transports
     option :kerberos_realm, default: nil
     option :kerberos_service, default: nil
     option :ca_trust_file, default: nil
+    # The amount of time in SECONDS for which each operation must get an ack
+    # from the winrm endpoint. Does not mean that the command has
+    # completed in this time, only that the server has ack'd the request.
+    option :operation_timeout, default: nil
 
     def initialize(opts)
       super(opts)

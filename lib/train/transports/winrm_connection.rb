@@ -36,6 +36,7 @@ class Train::Transports::WinRM
       @connection_retries     = @options.delete(:connection_retries)
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
+      @operation_timeout      = @options.delete(:operation_timeout)
     end
 
     # (see Base::Connection#close)
@@ -179,6 +180,7 @@ class Train::Transports::WinRM
           retry_delay: @connection_retry_sleep.to_i,
         }.merge(retry_options)
 
+        opts[:operation_timeout] = @operation_timeout unless @operation_timeout.nil?
         @service = ::WinRM::Connection.new(options.merge(opts))
         @service.logger = logger
         @service.shell(:powershell)
