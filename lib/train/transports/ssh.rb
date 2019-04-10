@@ -210,6 +210,7 @@ module Train::Transports
           # May be correct value, but strings from JSON config
           'always' => :always,
           'never' => :never,
+          nil => :never,
         }.fetch(given, given)
       else
         # up to 4.2 style

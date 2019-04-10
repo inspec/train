@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'helper'
+require_relative '../helper'
 require 'train/transports/ssh'
 
 describe 'ssh transport' do
@@ -60,6 +60,42 @@ describe 'ssh transport' do
       let(:opts) { { verify_host_key: true } }
       it 'the provided value is used instead of the default' do
         connection_options[:verify_host_key].must_equal true
+      end
+    end
+
+    describe "various values are mapped appropriately for verify_host_key" do
+      # This would be better:
+      # Net::SSH::Version.stub_const(:CURRENT, Net::SSH::Version[5,0,1])
+      current_version = Net::SSH::Version::CURRENT
+      threshold_version = Net::SSH::Version[5, 0, 0]
+      if current_version < threshold_version
+        it "maps correctly when net-ssh < 5.0" do
+          {
+            'true' => true,
+            'false' => false,
+            nil => false,
+          }.each do |given, expected|
+            opts = { :verify_host_key => given }
+            seen_opts = ssh.send(:connection_options, opts)
+            seen_opts[:verify_host_key].must_equal expected
+          end
+        end
+      else
+        it "maps correctly when net-ssh > 5.0" do
+          {
+            'true' => :always,
+            'false' => :never,
+            true => :always,
+            false => :never,
+            'always' => :always,
+            'never' => :never,
+            nil => :never,
+          }.each do |given, expected|
+            opts = { :verify_host_key => given }
+            seen_opts = ssh.send(:connection_options, opts)
+            seen_opts[:verify_host_key].must_equal expected
+          end
+        end
       end
     end
   end
