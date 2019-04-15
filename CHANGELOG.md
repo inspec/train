@@ -1,20 +1,18 @@
-<!-- latest_release 2.0.5 -->
-## [v2.0.5](https://github.com/inspec/train/tree/v2.0.5) (2019-04-10)
-
-#### Merged Pull Requests
-- Add a passthrough option for winrm_operation_timeout under winrm [#432](https://github.com/inspec/train/pull/432) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.0.2 -->
-### Changes since 2.0.2 release
-
-#### Merged Pull Requests
-- Add a passthrough option for winrm_operation_timeout under winrm [#432](https://github.com/inspec/train/pull/432) ([marcparadise](https://github.com/marcparadise)) <!-- 2.0.5 -->
-- [SUSTAIN-955] Add data callbacks to WinRM and SSH (adopted) [#431](https://github.com/inspec/train/pull/431) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.4 -->
-- [SUSTAIN-955] Provide ssh option to enable host key verify [#427](https://github.com/inspec/train/pull/427) ([marcparadise](https://github.com/marcparadise)) <!-- 2.0.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.0.5](https://github.com/inspec/train/tree/v2.0.5) (2019-04-15)
+
+#### Merged Pull Requests
+- [SUSTAIN-955] Provide ssh option to enable host key verify [#427](https://github.com/inspec/train/pull/427) ([marcparadise](https://github.com/marcparadise))
+- [SUSTAIN-955] Add data callbacks to WinRM and SSH (adopted) [#431](https://github.com/inspec/train/pull/431) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Add a passthrough option for winrm_operation_timeout under winrm [#432](https://github.com/inspec/train/pull/432) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_stable_release -->
+
 ## [v2.0.2](https://github.com/inspec/train/tree/v2.0.2) (2019-03-19)
 
 #### Merged Pull Requests
@@ -24,7 +22,6 @@
 - Fix detection of &#39;SLES Expanded Support&#39; of Red Hat [#361](https://github.com/inspec/train/pull/361) ([jabofh](https://github.com/jabofh))
 - Update gem deps to allow mixlib-shellout 3.x and net-scp 2.x  [#421](https://github.com/inspec/train/pull/421) ([tas50](https://github.com/tas50))
 - [SUSTAIN-955] Add kerberos and additional winrm options [#426](https://github.com/inspec/train/pull/426) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [v1.7.5](https://github.com/inspec/train/tree/v1.7.5) (2019-03-13)
 
