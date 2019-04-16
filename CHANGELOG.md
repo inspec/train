@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 2.0.6 -->
+## [v2.0.6](https://github.com/inspec/train/tree/v2.0.6) (2019-04-16)
+
+#### Merged Pull Requests
+- Silence verify_host_key warning from net-ssh [#430](https://github.com/inspec/train/pull/430) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.5 -->
+### Changes since 2.0.5 release
+
+#### Merged Pull Requests
+- Silence verify_host_key warning from net-ssh [#430](https://github.com/inspec/train/pull/430) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
