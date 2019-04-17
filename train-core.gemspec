@@ -6,6 +6,10 @@ require 'train/version'
 CORE_TRANSPORTS = [
   'lib/train/transports/local.rb',
   'lib/train/transports/mock.rb',
+  'lib/train/transports/ssh.rb',
+  'lib/train/transports/ssh_connection.rb',
+  'lib/train/transports/winrm.rb',
+  'lib/train/transports/winrm_connection.rb',
 ].freeze
 
 Gem::Specification.new do |spec|
@@ -14,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Dominik Richter']
   spec.email         = ['drichter@chef.io']
   spec.summary       = 'Transport interface to talk to a selected set of backends.'
-  spec.description   = 'A minimal Train with a selected set of backends, ssh, winrm, and docker.'
+  spec.description   = 'A minimal Train with a backends for ssh and winrm.'
   spec.homepage      = 'https://github.com/inspec/train/'
   spec.license       = 'Apache-2.0'
 
@@ -26,7 +30,10 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  # chef-client < 12.4.1 require mixlib-shellout-2.0.1
+  spec.add_dependency 'net-ssh', '>= 2.9', '< 6.0'
+  spec.add_dependency 'net-scp', '>= 1.2', '< 3.0'
+  spec.add_dependency 'winrm', '~> 2.0'
+  spec.add_dependency 'winrm-fs', '~> 1.0'
   spec.add_dependency 'mixlib-shellout', '>= 2.0', '< 4.0'
   spec.add_dependency 'json', '>= 1.8', '< 3.0'
 end
