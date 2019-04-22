@@ -1,27 +1,24 @@
-<!-- latest_release 2.0.8 -->
-## [v2.0.8](https://github.com/inspec/train/tree/v2.0.8) (2019-04-19)
-
-#### Merged Pull Requests
--  Require ed25519 and bcrypt_pbkdf gems for ed25519 support  [#435](https://github.com/inspec/train/pull/435) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.0.5 -->
-### Changes since 2.0.5 release
-
-#### Merged Pull Requests
--  Require ed25519 and bcrypt_pbkdf gems for ed25519 support  [#435](https://github.com/inspec/train/pull/435) ([tas50](https://github.com/tas50)) <!-- 2.0.8 -->
-- add ssh/winrm to core [#433](https://github.com/inspec/train/pull/433) ([marcparadise](https://github.com/marcparadise)) <!-- 2.0.7 -->
-- Silence verify_host_key warning from net-ssh [#430](https://github.com/inspec/train/pull/430) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 2.0.6 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.0.8](https://github.com/inspec/train/tree/v2.0.8) (2019-04-22)
+
+#### Merged Pull Requests
+- Silence verify_host_key warning from net-ssh [#430](https://github.com/inspec/train/pull/430) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- add ssh/winrm to core [#433](https://github.com/inspec/train/pull/433) ([marcparadise](https://github.com/marcparadise))
+-  Require ed25519 and bcrypt_pbkdf gems for ed25519 support  [#435](https://github.com/inspec/train/pull/435) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v2.0.5](https://github.com/inspec/train/tree/v2.0.5) (2019-04-15)
 
 #### Merged Pull Requests
 - [SUSTAIN-955] Provide ssh option to enable host key verify [#427](https://github.com/inspec/train/pull/427) ([marcparadise](https://github.com/marcparadise))
 - [SUSTAIN-955] Add data callbacks to WinRM and SSH (adopted) [#431](https://github.com/inspec/train/pull/431) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Add a passthrough option for winrm_operation_timeout under winrm [#432](https://github.com/inspec/train/pull/432) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [v2.0.2](https://github.com/inspec/train/tree/v2.0.2) (2019-03-19)
 
