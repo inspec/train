@@ -8,6 +8,7 @@ CORE_TRANSPORTS = [
   'lib/train/transports/mock.rb',
   'lib/train/transports/ssh.rb',
   'lib/train/transports/ssh_connection.rb',
+  'lib/train/transports/cisco_ios_connection.rb',
   'lib/train/transports/winrm.rb',
   'lib/train/transports/winrm_connection.rb',
 ].freeze
