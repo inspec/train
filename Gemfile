@@ -21,6 +21,8 @@ group :integration do
   gem 'berkshelf', '>= 6.3.4'
   gem 'test-kitchen', '>= 1.2.4'
   gem 'kitchen-vagrant'
+  gem 'ed25519' # ed25519 ssh key support
+  gem 'bcrypt_pbkdf' # ed25519 ssh key support
 end
 
 group :tools do
