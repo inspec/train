@@ -1,28 +1,25 @@
-<!-- latest_release 2.0.12 -->
-## [v2.0.12](https://github.com/inspec/train/tree/v2.0.12) (2019-04-23)
-
-#### Merged Pull Requests
-- Add missed cisco_ios_connection to train-core. [#436](https://github.com/inspec/train/pull/436) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.0.8 -->
-### Changes since 2.0.8 release
-
-#### Merged Pull Requests
-- Add missed cisco_ios_connection to train-core. [#436](https://github.com/inspec/train/pull/436) ([marcparadise](https://github.com/marcparadise)) <!-- 2.0.12 -->
-- Require Ruby 2.4 or later [#438](https://github.com/inspec/train/pull/438) ([tas50](https://github.com/tas50)) <!-- 2.0.11 -->
-- Remove dependency on ed25519 gems [#439](https://github.com/inspec/train/pull/439) ([tas50](https://github.com/tas50)) <!-- 2.0.10 -->
-- Add project state and SLA [#434](https://github.com/inspec/train/pull/434) ([miah](https://github.com/miah)) <!-- 2.0.9 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.0.12](https://github.com/inspec/train/tree/v2.0.12) (2019-04-23)
+
+#### Merged Pull Requests
+- Add project state and SLA [#434](https://github.com/inspec/train/pull/434) ([miah](https://github.com/miah))
+- Remove dependency on ed25519 gems [#439](https://github.com/inspec/train/pull/439) ([tas50](https://github.com/tas50))
+- Require Ruby 2.4 or later [#438](https://github.com/inspec/train/pull/438) ([tas50](https://github.com/tas50))
+- Add missed cisco_ios_connection to train-core. [#436](https://github.com/inspec/train/pull/436) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_stable_release -->
+
 ## [v2.0.8](https://github.com/inspec/train/tree/v2.0.8) (2019-04-22)
 
 #### Merged Pull Requests
 - Silence verify_host_key warning from net-ssh [#430](https://github.com/inspec/train/pull/430) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - add ssh/winrm to core [#433](https://github.com/inspec/train/pull/433) ([marcparadise](https://github.com/marcparadise))
 -  Require ed25519 and bcrypt_pbkdf gems for ed25519 support  [#435](https://github.com/inspec/train/pull/435) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v2.0.5](https://github.com/inspec/train/tree/v2.0.5) (2019-04-15)
 
