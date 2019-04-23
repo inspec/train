@@ -1,14 +1,15 @@
-<!-- latest_release 2.0.9 -->
-## [v2.0.9](https://github.com/inspec/train/tree/v2.0.9) (2019-04-23)
+<!-- latest_release 2.0.10 -->
+## [v2.0.10](https://github.com/inspec/train/tree/v2.0.10) (2019-04-23)
 
 #### Merged Pull Requests
-- Add project state and SLA [#434](https://github.com/inspec/train/pull/434) ([miah](https://github.com/miah))
+- Remove dependency on ed25519 gems [#439](https://github.com/inspec/train/pull/439) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.8 -->
 ### Changes since 2.0.8 release
 
 #### Merged Pull Requests
+- Remove dependency on ed25519 gems [#439](https://github.com/inspec/train/pull/439) ([tas50](https://github.com/tas50)) <!-- 2.0.10 -->
 - Add project state and SLA [#434](https://github.com/inspec/train/pull/434) ([miah](https://github.com/miah)) <!-- 2.0.9 -->
 <!-- release_rollup -->
 
