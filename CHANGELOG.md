@@ -1,14 +1,15 @@
-<!-- latest_release 2.0.11 -->
-## [v2.0.11](https://github.com/inspec/train/tree/v2.0.11) (2019-04-23)
+<!-- latest_release 2.0.12 -->
+## [v2.0.12](https://github.com/inspec/train/tree/v2.0.12) (2019-04-23)
 
 #### Merged Pull Requests
-- Require Ruby 2.4 or later [#438](https://github.com/inspec/train/pull/438) ([tas50](https://github.com/tas50))
+- Add missed cisco_ios_connection to train-core. [#436](https://github.com/inspec/train/pull/436) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.8 -->
 ### Changes since 2.0.8 release
 
 #### Merged Pull Requests
+- Add missed cisco_ios_connection to train-core. [#436](https://github.com/inspec/train/pull/436) ([marcparadise](https://github.com/marcparadise)) <!-- 2.0.12 -->
 - Require Ruby 2.4 or later [#438](https://github.com/inspec/train/pull/438) ([tas50](https://github.com/tas50)) <!-- 2.0.11 -->
 - Remove dependency on ed25519 gems [#439](https://github.com/inspec/train/pull/439) ([tas50](https://github.com/tas50)) <!-- 2.0.10 -->
 - Add project state and SLA [#434](https://github.com/inspec/train/pull/434) ([miah](https://github.com/miah)) <!-- 2.0.9 -->
