@@ -46,7 +46,8 @@ class Train::Transports::SSH
         # This verifies we are not in privileged exec mode before running the
         # enable command. Otherwise, the password will be in history.
         if run_command_via_connection('show privilege').stdout.split[-1] != '15'
-          run_command_via_connection("enable\r\n#{@enable_password}")
+          # Extra newlines to get back to prompt if incorrect password is used
+          run_command_via_connection("enable\n#{@enable_password}\n\n\n")
         end
       end
 
@@ -65,7 +66,9 @@ class Train::Transports::SSH
 
       logger.debug('[SSH] waiting for prompt')
       until @buf =~ @prompt
-        raise BadEnablePassword if @buf =~ /Bad secrets/
+        if @buf =~ /Bad (secrets|password)|Access denied/
+          raise BadEnablePassword
+        end
         session.connection.process(0)
       end
 
