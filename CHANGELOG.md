@@ -1,14 +1,15 @@
-<!-- latest_release 2.0.13 -->
-## [v2.0.13](https://github.com/inspec/train/tree/v2.0.13) (2019-04-26)
+<!-- latest_release 2.0.14 -->
+## [v2.0.14](https://github.com/inspec/train/tree/v2.0.14) (2019-04-26)
 
 #### Merged Pull Requests
-- Ensure we&#39;re using the latest OS on Appveyor [#441](https://github.com/inspec/train/pull/441) ([miah](https://github.com/miah))
+- Fixes enable password and catches failure [#383](https://github.com/inspec/train/pull/383) ([btm](https://github.com/btm))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.12 -->
 ### Changes since 2.0.12 release
 
 #### Merged Pull Requests
+- Fixes enable password and catches failure [#383](https://github.com/inspec/train/pull/383) ([btm](https://github.com/btm)) <!-- 2.0.14 -->
 - Ensure we&#39;re using the latest OS on Appveyor [#441](https://github.com/inspec/train/pull/441) ([miah](https://github.com/miah)) <!-- 2.0.13 -->
 <!-- release_rollup -->
 
