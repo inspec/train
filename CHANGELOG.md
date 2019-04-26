@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 2.0.13 -->
+## [v2.0.13](https://github.com/inspec/train/tree/v2.0.13) (2019-04-26)
+
+#### Merged Pull Requests
+- Ensure we&#39;re using the latest OS on Appveyor [#441](https://github.com/inspec/train/pull/441) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.0.12 -->
+### Changes since 2.0.12 release
+
+#### Merged Pull Requests
+- Ensure we&#39;re using the latest OS on Appveyor [#441](https://github.com/inspec/train/pull/441) ([miah](https://github.com/miah)) <!-- 2.0.13 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
