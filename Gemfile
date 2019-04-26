@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gemspec name: 'train'
 
 group :test do
+  gem 'coveralls', require: false
   gem 'minitest', '~> 5.8'
   gem 'rake', '~> 10' # @todo bump this when we bump rubocop
   gem 'rubocop', '~> 0.36.0'

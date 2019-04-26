@@ -1,5 +1,7 @@
 # encoding: utf-8
-# author: Dominik Richter
+
+require 'coveralls'
+Coveralls.wear!
 
 require 'minitest/autorun'
 require 'minitest/spec'
