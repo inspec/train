@@ -1,14 +1,15 @@
-<!-- latest_release 2.0.15 -->
-## [v2.0.15](https://github.com/inspec/train/tree/v2.0.15) (2019-04-26)
+<!-- latest_release 2.0.16 -->
+## [v2.0.16](https://github.com/inspec/train/tree/v2.0.16) (2019-04-29)
 
 #### Merged Pull Requests
-- Update backend test to match updated appveyor os [#442](https://github.com/inspec/train/pull/442) ([miah](https://github.com/miah))
+- The Windows release also changed.. [#443](https://github.com/inspec/train/pull/443) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.12 -->
 ### Changes since 2.0.12 release
 
 #### Merged Pull Requests
+- The Windows release also changed.. [#443](https://github.com/inspec/train/pull/443) ([miah](https://github.com/miah)) <!-- 2.0.16 -->
 - Update backend test to match updated appveyor os [#442](https://github.com/inspec/train/pull/442) ([miah](https://github.com/miah)) <!-- 2.0.15 -->
 - Fixes enable password and catches failure [#383](https://github.com/inspec/train/pull/383) ([btm](https://github.com/btm)) <!-- 2.0.14 -->
 - Ensure we&#39;re using the latest OS on Appveyor [#441](https://github.com/inspec/train/pull/441) ([miah](https://github.com/miah)) <!-- 2.0.13 -->
