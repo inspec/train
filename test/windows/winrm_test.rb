@@ -27,9 +27,9 @@ describe 'windows winrm command' do
 
   it 'verify os' do
     os = conn.os
-    os[:name].must_equal 'windows_server_2012_r2_datacenter'
+    os[:name].must_match(/windows_server.*_datacenter/)
     os[:family].must_equal 'windows'
-    os[:release].must_equal '6.3.9600'
+    os[:release].must_match(/\d+(\.\d+)+/)
     os[:arch].must_equal 'x86_64'
   end
 
