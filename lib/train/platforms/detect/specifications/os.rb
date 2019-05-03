@@ -25,6 +25,11 @@ module Train::Platforms::Detect::Specifications
               is_windows = true if ruby_host_os(/mswin|mingw32|windows/)
             end
 
+            # Try to detect windows even for ssh transport
+            if !is_windows && detect_windows == true
+              is_windows = true
+            end
+
             is_windows
           }
       # windows platform

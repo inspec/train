@@ -202,6 +202,8 @@ class Train::Transports::SSH
         Train::File::Remote::Unix.new(self, path)
       elsif os[:name] == 'qnx'
         Train::File::Remote::Qnx.new(self, path)
+      elsif os.windows?
+        Train::File::Remote::Windows.new(self, path)
       else
         Train::File::Remote::Linux.new(self, path)
       end

@@ -121,8 +121,45 @@ module Train::Extras
     end
   end
 
+  # Wrap windows commands.
+  class WindowsCommand < CommandWrapperBase
+    Train::Options.attach(self)
+
+    option :shell_command, default: nil
+
+    def initialize(backend, options)
+      @backend = backend
+      validate_options(options)
+
+      @shell_command = options[:shell_command] # e.g. 'powershell'
+    end
+
+    # (see CommandWrapperBase::run)
+    def run(command)
+      powershell_wrap(command)
+    end
+
+    private
+
+    # Wrap the cmd in an encoded command to allow pipes and quotes
+    def powershell_wrap(cmd)
+      shell = @shell_command || 'powershell'
+
+      # Prevent progress stream from leaking into stderr
+      script = "$ProgressPreference='SilentlyContinue';" + cmd
+
+      # Encode script so PowerShell can use it
+      script = script.encode('UTF-16LE', 'UTF-8')
+      base64_script = Base64.strict_encode64(script)
+
+      cmd = "#{shell} -NoProfile -EncodedCommand #{base64_script}"
+      cmd
+    end
+  end
+
   class CommandWrapper
     include_options LinuxCommand
+    include_options WindowsCommand
 
     def self.load(transport, options)
       if transport.os.unix?
@@ -133,6 +170,9 @@ module Train::Extras
           msg, reason = verification_res
           raise Train::UserError.new("Sudo failed: #{msg}", reason)
         end
+        res
+      elsif transport.os.windows?
+        res = WindowsCommand.new(transport, options)
         res
       end
     end
