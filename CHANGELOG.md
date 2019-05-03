@@ -1,14 +1,15 @@
-<!-- latest_release 2.0.16 -->
-## [v2.0.16](https://github.com/inspec/train/tree/v2.0.16) (2019-04-29)
+<!-- latest_release 2.1.0 -->
+## [v2.1.0](https://github.com/inspec/train/tree/v2.1.0) (2019-05-03)
 
 #### Merged Pull Requests
-- The Windows release also changed.. [#443](https://github.com/inspec/train/pull/443) ([miah](https://github.com/miah))
+- Detect windows also with ssh transport [#416](https://github.com/inspec/train/pull/416) ([StefanScherer](https://github.com/StefanScherer))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.0.12 -->
 ### Changes since 2.0.12 release
 
 #### Merged Pull Requests
+- Detect windows also with ssh transport [#416](https://github.com/inspec/train/pull/416) ([StefanScherer](https://github.com/StefanScherer)) <!-- 2.1.0 -->
 - The Windows release also changed.. [#443](https://github.com/inspec/train/pull/443) ([miah](https://github.com/miah)) <!-- 2.0.16 -->
 - Update backend test to match updated appveyor os [#442](https://github.com/inspec/train/pull/442) ([miah](https://github.com/miah)) <!-- 2.0.15 -->
 - Fixes enable password and catches failure [#383](https://github.com/inspec/train/pull/383) ([btm](https://github.com/btm)) <!-- 2.0.14 -->
