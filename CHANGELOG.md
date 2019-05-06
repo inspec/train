@@ -1,22 +1,20 @@
-<!-- latest_release 2.1.0 -->
-## [v2.1.0](https://github.com/inspec/train/tree/v2.1.0) (2019-05-03)
-
-#### Merged Pull Requests
-- Detect windows also with ssh transport [#416](https://github.com/inspec/train/pull/416) ([StefanScherer](https://github.com/StefanScherer))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.0.12 -->
-### Changes since 2.0.12 release
-
-#### Merged Pull Requests
-- Detect windows also with ssh transport [#416](https://github.com/inspec/train/pull/416) ([StefanScherer](https://github.com/StefanScherer)) <!-- 2.1.0 -->
-- The Windows release also changed.. [#443](https://github.com/inspec/train/pull/443) ([miah](https://github.com/miah)) <!-- 2.0.16 -->
-- Update backend test to match updated appveyor os [#442](https://github.com/inspec/train/pull/442) ([miah](https://github.com/miah)) <!-- 2.0.15 -->
-- Fixes enable password and catches failure [#383](https://github.com/inspec/train/pull/383) ([btm](https://github.com/btm)) <!-- 2.0.14 -->
-- Ensure we&#39;re using the latest OS on Appveyor [#441](https://github.com/inspec/train/pull/441) ([miah](https://github.com/miah)) <!-- 2.0.13 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.0](https://github.com/inspec/train/tree/v2.1.0) (2019-05-06)
+
+#### Merged Pull Requests
+- Ensure we&#39;re using the latest OS on Appveyor [#441](https://github.com/inspec/train/pull/441) ([miah](https://github.com/miah))
+- Fixes enable password and catches failure [#383](https://github.com/inspec/train/pull/383) ([btm](https://github.com/btm))
+- Update backend test to match updated appveyor os [#442](https://github.com/inspec/train/pull/442) ([miah](https://github.com/miah))
+- The Windows release also changed.. [#443](https://github.com/inspec/train/pull/443) ([miah](https://github.com/miah))
+- Detect windows also with ssh transport [#416](https://github.com/inspec/train/pull/416) ([StefanScherer](https://github.com/StefanScherer))
+<!-- latest_stable_release -->
+
 ## [v2.0.12](https://github.com/inspec/train/tree/v2.0.12) (2019-04-23)
 
 #### Merged Pull Requests
@@ -24,7 +22,6 @@
 - Remove dependency on ed25519 gems [#439](https://github.com/inspec/train/pull/439) ([tas50](https://github.com/tas50))
 - Require Ruby 2.4 or later [#438](https://github.com/inspec/train/pull/438) ([tas50](https://github.com/tas50))
 - Add missed cisco_ios_connection to train-core. [#436](https://github.com/inspec/train/pull/436) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [v2.0.8](https://github.com/inspec/train/tree/v2.0.8) (2019-04-22)
 
