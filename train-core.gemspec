@@ -37,6 +37,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "mixlib-shellout", ">= 2.0", "< 4.0"
   spec.add_dependency "net-ssh", ">= 2.9", "< 6.0"
   spec.add_dependency "net-scp", ">= 1.2", "< 3.0"
-  spec.add_dependency "winrm", "~> 2.0"
-  spec.add_dependency "winrm-fs", "~> 1.0"
 end
