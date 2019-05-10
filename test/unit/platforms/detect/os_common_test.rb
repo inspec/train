@@ -21,8 +21,7 @@ describe "os_common" do
     end
 
     it 'return winrm? false when winrm is not loaded' do
-      be = mock('Backend')
-      detector.instance_variable_set(:@backend, be)
+      OsDetectLinuxTester.any_instance.stubs(:backend_name).returns('Something::Else')
       detector.winrm?.must_equal(false)
     end
   end
