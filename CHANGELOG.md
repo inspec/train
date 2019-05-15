@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 2.1.1 -->
+## [v2.1.1](https://github.com/inspec/train/tree/v2.1.1) (2019-05-15)
+
+#### Merged Pull Requests
+- Add Coveralls.io to Train [#440](https://github.com/inspec/train/pull/440) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.0 -->
+### Changes since 2.1.0 release
+
+#### Merged Pull Requests
+- Add Coveralls.io to Train [#440](https://github.com/inspec/train/pull/440) ([miah](https://github.com/miah)) <!-- 2.1.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
