@@ -51,18 +51,6 @@ describe 'ssh transport' do
       connection_options.key?(:paranoid).must_equal false
     end
 
-    it 'defaults verify_host_key option to false, and does not set paranoid' do
-      connection_options[:verify_host_key].must_equal false
-      connection_options.key?(:paranoid).must_equal false
-    end
-
-    describe "when caller sets verify_host_key in options" do
-      let(:opts) { { verify_host_key: true } }
-      it 'the provided value is used instead of the default' do
-        connection_options[:verify_host_key].must_equal true
-      end
-    end
-
     describe "various values are mapped appropriately for verify_host_key" do
       # This would be better:
       # Net::SSH::Version.stub_const(:CURRENT, Net::SSH::Version[5,0,1])
@@ -80,6 +68,9 @@ describe 'ssh transport' do
             seen_opts[:verify_host_key].must_equal expected
           end
         end
+        it 'defaults verify_host_key option to false' do
+          connection_options[:verify_host_key].must_equal false
+        end
       else
         it "maps correctly when net-ssh > 5.0" do
           {
@@ -94,6 +85,9 @@ describe 'ssh transport' do
             opts = { :verify_host_key => given }
             seen_opts = ssh.send(:connection_options, opts)
             seen_opts[:verify_host_key].must_equal expected
+          end
+          it 'defaults verify_host_key option to :never' do
+            connection_options[:verify_host_key].must_equal :never
           end
         end
       end
