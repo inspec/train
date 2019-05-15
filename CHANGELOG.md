@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.4 -->
-## [v2.1.4](https://github.com/inspec/train/tree/v2.1.4) (2019-05-15)
+<!-- latest_release 2.1.5 -->
+## [v2.1.5](https://github.com/inspec/train/tree/v2.1.5) (2019-05-15)
 
 #### Merged Pull Requests
-- Add codeclimate to train [#454](https://github.com/inspec/train/pull/454) ([miah](https://github.com/miah))
+- Fix failing unit tests verify_host_key in ssh [#452](https://github.com/inspec/train/pull/452) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.2 -->
 ### Changes since 2.1.2 release
 
 #### Merged Pull Requests
+- Fix failing unit tests verify_host_key in ssh [#452](https://github.com/inspec/train/pull/452) ([marcparadise](https://github.com/marcparadise)) <!-- 2.1.5 -->
 - Add codeclimate to train [#454](https://github.com/inspec/train/pull/454) ([miah](https://github.com/miah)) <!-- 2.1.4 -->
 - Add Code of Conduct to train [#453](https://github.com/inspec/train/pull/453) ([miah](https://github.com/miah)) <!-- 2.1.3 -->
 <!-- release_rollup -->
