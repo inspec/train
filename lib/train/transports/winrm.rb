@@ -63,7 +63,7 @@ module Train::Transports
     option :ssl_peer_fingerprint, default: nil
     option :kerberos_realm, default: nil
     option :kerberos_service, default: nil
-    option :ca_trust_file, default: nil
+    option :ca_trust_path, default: nil
     # The amount of time in SECONDS for which each operation must get an ack
     # from the winrm endpoint. Does not mean that the command has
     # completed in this time, only that the server has ack'd the request.
@@ -132,7 +132,7 @@ module Train::Transports
         no_ssl_peer_verification: opts[:self_signed],
         realm:                    opts[:kerberos_realm],
         service:                  opts[:kerberos_service],
-        ca_trust_file:            opts[:ca_trust_file],
+        ca_trust_path:            opts[:ca_trust_path],
         ssl_peer_fingerprint:     opts[:ssl_peer_fingerprint],
       }
     end
