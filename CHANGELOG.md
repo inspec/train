@@ -1,19 +1,17 @@
-<!-- latest_release 2.1.2 -->
-## [v2.1.2](https://github.com/inspec/train/tree/v2.1.2) (2019-05-15)
-
-#### Merged Pull Requests
-- Rename ca_trust_file to ca_trust_path [#450](https://github.com/inspec/train/pull/450) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.0 -->
-### Changes since 2.1.0 release
-
-#### Merged Pull Requests
-- Rename ca_trust_file to ca_trust_path [#450](https://github.com/inspec/train/pull/450) ([marcparadise](https://github.com/marcparadise)) <!-- 2.1.2 -->
-- Add Coveralls.io to Train [#440](https://github.com/inspec/train/pull/440) ([miah](https://github.com/miah)) <!-- 2.1.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.2](https://github.com/inspec/train/tree/v2.1.2) (2019-05-15)
+
+#### Merged Pull Requests
+- Add Coveralls.io to Train [#440](https://github.com/inspec/train/pull/440) ([miah](https://github.com/miah))
+- Rename ca_trust_file to ca_trust_path [#450](https://github.com/inspec/train/pull/450) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_stable_release -->
+
 ## [v2.1.0](https://github.com/inspec/train/tree/v2.1.0) (2019-05-06)
 
 #### Merged Pull Requests
@@ -22,7 +20,6 @@
 - Update backend test to match updated appveyor os [#442](https://github.com/inspec/train/pull/442) ([miah](https://github.com/miah))
 - The Windows release also changed.. [#443](https://github.com/inspec/train/pull/443) ([miah](https://github.com/miah))
 - Detect windows also with ssh transport [#416](https://github.com/inspec/train/pull/416) ([StefanScherer](https://github.com/StefanScherer))
-<!-- latest_stable_release -->
 
 ## [v2.0.12](https://github.com/inspec/train/tree/v2.0.12) (2019-04-23)
 
