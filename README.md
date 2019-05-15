@@ -9,6 +9,7 @@ For more information on project states and SLAs, see [this documentation](https:
 [![Build Status](https://travis-ci.org/inspec/train.svg?branch=master)](https://travis-ci.org/inspec/train)
 [![Build Status Master](https://ci.appveyor.com/api/projects/status/github/inspec/train?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/train/branch/master)
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
+[![Coverage Status](https://coveralls.io/repos/github/inspec/train/badge.svg?branch=master)](https://coveralls.io/github/inspec/train?branch=master)
 
 Train lets you talk to your local or remote operating systems and APIs with a unified interface.
 
