@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 2.1.3 -->
+## [v2.1.3](https://github.com/inspec/train/tree/v2.1.3) (2019-05-15)
+
+#### Merged Pull Requests
+- Add Code of Conduct to train [#453](https://github.com/inspec/train/pull/453) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.2 -->
+### Changes since 2.1.2 release
+
+#### Merged Pull Requests
+- Add Code of Conduct to train [#453](https://github.com/inspec/train/pull/453) ([miah](https://github.com/miah)) <!-- 2.1.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
