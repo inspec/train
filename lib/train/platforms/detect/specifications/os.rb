@@ -237,8 +237,10 @@ module Train::Platforms::Detect::Specifications
       plat.family('suse').in_family('linux')
           .detect {
             if !(suse = unix_file_contents('/etc/SuSE-release')).nil?
+              # https://rubular.com/r/UKaYWolCYFMfp1
               version = suse.scan(/VERSION = (\d+)\nPATCHLEVEL = (\d+)/).flatten.join('.')
-              version = suse[/VERSION = ([\d\.]{2,})/, 1] if version == ''
+              # https://rubular.com/r/b5PN3hZDxa5amV
+              version = suse[/VERSION\s?=\s?"?([\d\.]{2,})"?/, 1] if version == ''
               @platform[:release] = version
               true
             end
