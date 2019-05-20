@@ -11,6 +11,14 @@ For more information on project states and SLAs, see [this documentation](https:
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
 [![Coverage Status](https://coveralls.io/repos/github/inspec/train/badge.svg?branch=master)](https://coveralls.io/github/inspec/train?branch=master)
 
+**Umbrella Project**: [Chef Foundataion](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-foundation.md)
+
+**Project State**: [Active](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#active)
+
+**Issues [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md)**: 14 days
+
+**Pull Request [Response Time Maximum](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md)**: 14 days
+
 Train lets you talk to your local or remote operating systems and APIs with a unified interface.
 
 It allows you to:
