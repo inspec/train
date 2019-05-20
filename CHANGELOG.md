@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.6 -->
-## [v2.1.6](https://github.com/inspec/train/tree/v2.1.6) (2019-05-17)
+<!-- latest_release 2.1.7 -->
+## [v2.1.7](https://github.com/inspec/train/tree/v2.1.7) (2019-05-20)
 
 #### Merged Pull Requests
-- Fix fallback regex for OpenSuse [#451](https://github.com/inspec/train/pull/451) ([n-rodriguez](https://github.com/n-rodriguez))
+- Set chef-foundation as the project owner and update expeditor [#456](https://github.com/inspec/train/pull/456) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.2 -->
 ### Changes since 2.1.2 release
 
 #### Merged Pull Requests
+- Set chef-foundation as the project owner and update expeditor [#456](https://github.com/inspec/train/pull/456) ([tas50](https://github.com/tas50)) <!-- 2.1.7 -->
 - Fix fallback regex for OpenSuse [#451](https://github.com/inspec/train/pull/451) ([n-rodriguez](https://github.com/n-rodriguez)) <!-- 2.1.6 -->
 - Fix failing unit tests verify_host_key in ssh [#452](https://github.com/inspec/train/pull/452) ([marcparadise](https://github.com/marcparadise)) <!-- 2.1.5 -->
 - Add codeclimate to train [#454](https://github.com/inspec/train/pull/454) ([miah](https://github.com/miah)) <!-- 2.1.4 -->
