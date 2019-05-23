@@ -148,7 +148,7 @@ class Train::Transports::SSH
     end
 
     # remote_port_forwarding
-    def forward_remote(port, host, remote_port, remote_host="127.0.0.1")
+    def forward_remote(port, host, remote_port, remote_host = '127.0.0.1')
       @session.forward.remote(port, host, remote_port, remote_host)
     end
 
