@@ -30,7 +30,9 @@ describe Train::File::Local::Unix do
       pwres = Struct.new(:name)
       Etc.stub :getpwuid, pwres.new("owner") do
         Etc.stub :getgrgid, pwres.new("group") do
-          File.stub(method, param { yield })
+          File.stub method, param do
+            yield
+          end
         end
       end
     end
