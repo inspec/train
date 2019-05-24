@@ -57,7 +57,6 @@ class Train::Transports::Docker
         raise("Can't find Docker container #{@id}")
       @cmd_wrapper = nil
       @cmd_wrapper = CommandWrapper.load(self, @options)
-      self
     end
 
     def close
