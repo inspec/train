@@ -1,4 +1,3 @@
-# encoding: utf-8
 require "helper"
 require "train/extras"
 require "train/transports/mock"
@@ -7,7 +6,7 @@ describe "stat" do
   let(:cls) { Train::Extras::Stat }
 
   describe "find_type" do
-    let (:random_mode) { (rand * 1000).to_i }
+    let(:random_mode) { (rand * 1000).to_i }
 
     it "detects :unknown types" do
       cls.find_type(random_mode).must_equal :unknown

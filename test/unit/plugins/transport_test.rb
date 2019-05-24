@@ -1,4 +1,3 @@
-# encoding: utf-8
 require "helper"
 
 describe "v1 Transport Plugin" do
@@ -90,22 +89,22 @@ describe "v1 Transport Plugin" do
     end
 
     it "can include options from another module" do
-      nameA, pluginA = train_class
+      name_a, plugin_a = train_class
       b = Class.new(Train.plugin(1)) do
-        include_options(pluginA)
+        include_options(plugin_a)
       end
-      b.default_options[nameA].wont_be_nil
+      b.default_options[name_a].wont_be_nil
     end
 
     it "overwrites existing options when including" do
       old = rand.to_s
       nu = rand.to_s
-      nameA, pluginA = train_class({ default: nu })
+      name_a, plugin_a = train_class({ default: nu })
       b = Class.new(Train.plugin(1)) do
-        option nameA, default: old
-        include_options(pluginA)
+        option name_a, default: old
+        include_options(plugin_a)
       end
-      b.default_options[nameA][:default].must_equal nu
+      b.default_options[name_a][:default].must_equal nu
     end
   end
 end

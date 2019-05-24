@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Train::Platforms::Detect::Helpers
   module Windows
     def detect_windows
@@ -93,28 +91,28 @@ module Train::Platforms::Detect::Helpers
         #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.chef\\chef_guid
       }.each do |path|
         file = @backend.file(path)
-        return file.content.chomp if file.exist? && !file.size.zero?
+        return file.content.chomp if file.exist? && !file.size == 0
       end
       nil
     end
 
     def windows_uuid_from_chef
       file = @backend.file("#{ENV['SYSTEMDRIVE']}\\chef\\cache\\data_collector_metadata.json")
-      return if !file.exist? || file.size.zero?
+      return if !file.exist? || file.size == 0
       json = JSON.parse(file.content)
       json["node_uuid"] if json["node_uuid"]
     end
 
     def windows_uuid_from_wmic
       result = @backend.run_command("wmic csproduct get UUID")
-      return unless result.exit_status.zero?
+      return unless result.exit_status == 0
       result.stdout.split("\r\n")[-1].strip
     end
 
     def windows_uuid_from_registry
       cmd = '(Get-ItemProperty "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography" -Name "MachineGuid")."MachineGuid"'
       result = @backend.run_command(cmd)
-      return unless result.exit_status.zero?
+      return unless result.exit_status == 0
       result.stdout.chomp
     end
   end

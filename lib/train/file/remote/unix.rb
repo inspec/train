@@ -12,7 +12,7 @@ module Train
           @content ||=
             if !exist? || directory?
               nil
-            elsif size.nil? || size.zero?
+            elsif size.nil? || size == 0
               ""
             else
               @backend.run_command("cat #{@spath}").stdout || ""

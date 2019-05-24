@@ -16,7 +16,7 @@ describe "windows local command" do
     # get final config
     target_config = Train.target_config({})
     # initialize train
-    backend = Train.create("local", target_config)
+    Train.create("local", target_config)
   end
   let(:conn) { backend.connection }
 

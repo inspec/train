@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "train/plugins"
 require "digest"
 
@@ -36,7 +34,7 @@ module Train::Transports
 
       # rubocop:disable Metrics/ParameterLists
       # rubocop:disable Lint/Eval
-      set_trace_func proc { |event, _file, _line, id, binding, classname|
+      set_trace_func(proc { |event, _file, _line, id, binding, classname|
         unless classname.to_s.start_with?("Train::Transports::Mock") &&
             (event == "call") &&
             interface_methods[classname.to_s].include?(id)
@@ -49,7 +47,7 @@ module Train::Transports
         args = eval("#{arg_names}.map { |arg| eval(arg) }", binding).join(", ")
         prefix = "-" * (classname.to_s.count(":") - 2) + "> "
         puts("#{prefix}#{id} #{args}")
-      }
+      })
       # rubocop:enable all
     end
   end

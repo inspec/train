@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "train/platforms/detect/helpers/os_linux"
 require "train/platforms/detect/helpers/os_windows"
 require "rbconfig"
@@ -23,12 +21,12 @@ module Train::Platforms::Detect::Helpers
 
       res = @backend.run_command("test -f #{path} && cat #{path}")
       # ignore files that can't be read
-      @files[path] = res.exit_status.zero? ? res.stdout : nil
+      @files[path] = res.exit_status == 0 ? res.stdout : nil
       @files[path]
     end
 
     def unix_file_exist?(path)
-      @backend.run_command("test -f #{path}").exit_status.zero?
+      @backend.run_command("test -f #{path}").exit_status == 0
     end
 
     def command_output(cmd)
@@ -96,7 +94,7 @@ module Train::Platforms::Detect::Helpers
 
     def unix_uuid_from_chef
       file = @backend.file("/var/chef/cache/data_collector_metadata.json")
-      if file.exist? && !file.size.zero?
+      if file.exist? && !file.size == 0
         json = ::JSON.parse(file.content)
         return json["node_uuid"] if json["node_uuid"]
       end
@@ -111,7 +109,7 @@ module Train::Platforms::Detect::Helpers
         /var/db/dbus/machine-id
       }.each do |path|
         file = @backend.file(path)
-        next unless file.exist? && !file.size.zero?
+        next unless file.exist? && !file.size == 0
         return file.content.chomp if path =~ /guid/
         return uuid_from_string(file.content.chomp)
       end
@@ -124,7 +122,7 @@ module Train::Platforms::Detect::Helpers
     def uuid_from_command
       return unless @platform[:uuid_command]
       result = @backend.run_command(@platform[:uuid_command])
-      uuid_from_string(result.stdout.chomp) if result.exit_status.zero? && !result.stdout.empty?
+      uuid_from_string(result.stdout.chomp) if result.exit_status == 0 && !result.stdout.empty?
     end
 
     # This hashes the passed string into SHA1.

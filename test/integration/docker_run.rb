@@ -1,6 +1,3 @@
-# encoding: utf-8
-# author: Dominik Richter
-
 require "docker"
 require "yaml"
 require "concurrent"
@@ -74,7 +71,7 @@ class DockerRunner
     files.push(dst)
     image.insert_local("localPath" => path, "outputPath" => dst)
   rescue StandardError => _
-    retry unless (tries -= 1).zero?
+    retry unless (tries -= 1) == 0
   end
 
   def bootstrap_image(name, image)

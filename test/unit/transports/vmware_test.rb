@@ -96,7 +96,7 @@ describe "Train::Transports::VMware::Connection" do
           }
         ).connection
       }.must_raise(RuntimeError)
-      e.message.must_match /Unable to connect.*Please use `--insecure`/
+      e.message.must_match(/Unable to connect.*Please use `--insecure`/)
     end
 
     it "raises auth error when stderr matches regular expression" do
@@ -109,7 +109,7 @@ describe "Train::Transports::VMware::Connection" do
           }
         ).connection
       }.must_raise(RuntimeError)
-      e.message.must_match /Unable to connect.*Incorrect username/
+      e.message.must_match(/Unable to connect.*Incorrect username/)
     end
 
     it "redacts the password when an unspecified error is raised" do
@@ -122,7 +122,7 @@ describe "Train::Transports::VMware::Connection" do
           }
         ).connection
       }.must_raise(RuntimeError)
-      e.message.must_match /-Password REDACTED/
+      e.message.must_match(/-Password REDACTED/)
     end
   end
 

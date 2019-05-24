@@ -1,8 +1,3 @@
-# encoding: utf-8
-#
-# Author:: Dominik Richter
-# Author:: Christoph Hartmann
-
 require "docker"
 
 module Train::Transports
