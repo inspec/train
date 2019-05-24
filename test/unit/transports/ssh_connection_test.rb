@@ -11,6 +11,7 @@ class MockChannel
     @cmd = cmd
     yield("ignored", true)
   end
+
   def data_handler
     @handler
   end
@@ -25,31 +26,32 @@ class MockChannel
   end
 
   def on_extended_data; end
+
   def on_request(any); end
 end
 
-
-describe 'ssh connection' do
+describe "ssh connection" do
   let(:cls) do
-    plat = Train::Platforms.name('mock').in_family('linux')
+    plat = Train::Platforms.name("mock").in_family("linux")
     plat.add_platform_methods
     Train::Platforms::Detect.stubs(:scan).returns(plat)
     Train::Transports::SSH::Connection
   end
-  let(:conf) {{
+  let(:conf) do
+     {
     host: rand.to_s,
     password: rand.to_s,
-    transport_options: {}
-  }}
+    transport_options: {},
+  } end
 
-  describe '#run_command_via_connection through BaseConnection::run_command' do
+  describe "#run_command_via_connection through BaseConnection::run_command" do
     let(:ssh) { cls.new(conf) }
     # A bit more mocking than I'd like to see, but there's no sane way around
     # it if we want to test output handling behavior.
     let(:inbound_data) { "testdata" }
     let(:channel_mock) { MockChannel.new }
 
-    let(:session_mock) {
+    let(:session_mock) do
       session_mock = mock
       session_mock.stubs(:closed?).returns false
       session_mock.stubs(:open_channel).yields(channel_mock)
@@ -58,7 +60,7 @@ describe 'ssh connection' do
         channel_mock.mock_inbound_data(inbound_data)
       end
       session_mock
-    }
+    end
 
     it "invokes the provided block when a block is provided and data is received" do
       ssh.stubs(:session).returns(session_mock)

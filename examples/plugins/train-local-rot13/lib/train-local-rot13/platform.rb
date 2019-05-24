@@ -20,8 +20,8 @@ module TrainPlugins::LocalRot13
       # This plugin makes up a new platform.  Train (or rather InSpec) only
       # know how to read files on Windows and Un*x (MacOS is a kind of Un*x),
       # so we'll say we're part of those families.
-      Train::Platforms.name('local-rot13').in_family('unix')
-      Train::Platforms.name('local-rot13').in_family('windows')
+      Train::Platforms.name("local-rot13").in_family("unix")
+      Train::Platforms.name("local-rot13").in_family("windows")
 
       # When you know you will only ever run on your dedicated platform
       # (for example, a plugin named train-aws would only run on the AWS
@@ -32,7 +32,7 @@ module TrainPlugins::LocalRot13
       # Use release to report a version number.  You might use the version
       # of the plugin, or a version of an important underlying SDK, or a
       # version of a remote API.
-      force_platform!('local-rot13', release: TrainPlugins::LocalRot13::VERSION)
+      force_platform!("local-rot13", release: TrainPlugins::LocalRot13::VERSION)
     end
   end
 end

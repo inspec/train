@@ -13,7 +13,7 @@ module Train
   class Error < ::StandardError
     attr_reader :reason
 
-    def initialize(message = '', reason = :not_provided)
+    def initialize(message = "", reason = :not_provided)
       super(message)
       @reason = reason
     end

@@ -1,27 +1,27 @@
 # encoding: utf-8
 
-require 'train/plugins'
-require 'ms_rest_azure'
-require 'azure_mgmt_resources'
-require 'azure_graph_rbac'
-require 'azure_mgmt_key_vault'
-require 'socket'
-require 'timeout'
-require 'train/transports/helpers/azure/file_credentials'
-require 'train/transports/clients/azure/graph_rbac'
-require 'train/transports/clients/azure/vault'
+require "train/plugins"
+require "ms_rest_azure"
+require "azure_mgmt_resources"
+require "azure_graph_rbac"
+require "azure_mgmt_key_vault"
+require "socket"
+require "timeout"
+require "train/transports/helpers/azure/file_credentials"
+require "train/transports/clients/azure/graph_rbac"
+require "train/transports/clients/azure/vault"
 
 module Train::Transports
   class Azure < Train.plugin(1)
-    name 'azure'
-    option :tenant_id, default: ENV['AZURE_TENANT_ID']
-    option :client_id, default: ENV['AZURE_CLIENT_ID']
-    option :client_secret, default: ENV['AZURE_CLIENT_SECRET']
-    option :subscription_id, default: ENV['AZURE_SUBSCRIPTION_ID']
-    option :msi_port, default: ENV['AZURE_MSI_PORT'] || '50342'
+    name "azure"
+    option :tenant_id, default: ENV["AZURE_TENANT_ID"]
+    option :client_id, default: ENV["AZURE_CLIENT_ID"]
+    option :client_secret, default: ENV["AZURE_CLIENT_SECRET"]
+    option :subscription_id, default: ENV["AZURE_SUBSCRIPTION_ID"]
+    option :msi_port, default: ENV["AZURE_MSI_PORT"] || "50342"
 
     # This can provide the client id and secret
-    option :credentials_file, default: ENV['AZURE_CRED_FILE']
+    option :credentials_file, default: ENV["AZURE_CRED_FILE"]
 
     def connection(_ = nil)
       @connection ||= Connection.new(@options)
@@ -30,7 +30,7 @@ module Train::Transports
     class Connection < BaseConnection
       attr_reader :options
 
-      DEFAULT_FILE = ::File.join(Dir.home, '.azure', 'credentials')
+      DEFAULT_FILE = ::File.join(Dir.home, ".azure", "credentials")
 
       def initialize(options)
         @apis = {}
@@ -51,14 +51,14 @@ module Train::Transports
         @options[:msi_port] = @options[:msi_port].to_i unless @options[:msi_port].nil?
 
         # additional platform details
-        release = Gem.loaded_specs['azure_mgmt_resources'].version
+        release = Gem.loaded_specs["azure_mgmt_resources"].version
         @platform_details = { release: "azure_mgmt_resources-v#{release}" }
 
         connect
       end
 
       def platform
-        force_platform!('azure', @platform_details)
+        force_platform!("azure", @platform_details)
       end
 
       def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client, opts = {})
@@ -85,13 +85,13 @@ module Train::Transports
       def connect
         if msi_auth?
           # this needs set for azure cloud to authenticate
-          ENV['MSI_VM'] = 'true'
+          ENV["MSI_VM"] = "true"
           provider = ::MsRestAzure::MSITokenProvider.new(@options[:msi_port])
         else
           provider = ::MsRestAzure::ApplicationTokenProvider.new(
             @options[:tenant_id],
             @options[:client_id],
-            @options[:client_secret],
+            @options[:client_secret]
           )
         end
 
@@ -166,7 +166,7 @@ module Train::Transports
       def port_open?(port, seconds = 3)
         Timeout.timeout(seconds) do
           begin
-            TCPSocket.new('localhost', port).close
+            TCPSocket.new("localhost", port).close
             true
           rescue SystemCallError
             false

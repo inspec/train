@@ -14,15 +14,15 @@ module Train
       def option(name, conf = nil, &block)
         d = conf || {}
         unless d.is_a? Hash
-          fail Train::ClientError,
+          raise Train::ClientError,
                "The transport plugin #{self} declared an option #{name} "\
                "and didn't provide a valid configuration hash."
         end
 
-        if !conf.nil? and !conf[:default].nil? and block_given?
-          fail Train::ClientError,
+        if !conf.nil? && !conf[:default].nil? && block_given?
+          raise Train::ClientError,
                "The transport plugin #{self} declared an option #{name} "\
-               'with both a default value and block. Only use one of these.'
+               "with both a default value and block. Only use one of these."
         end
 
         d[:default] = block if block_given?
@@ -37,7 +37,7 @@ module Train
 
       def include_options(other)
         unless other.respond_to?(:default_options)
-          fail "Trying to include options from module #{other.inspect}, "\
+          raise "Trying to include options from module #{other.inspect}, "\
                "which doesn't seem to support options."
         end
         default_options.merge!(other.default_options)
@@ -55,7 +55,7 @@ module Train
       def merge_options(base, opts)
         res = base.merge(opts || {})
         default_options.each do |field, hm|
-          next unless res[field].nil? and hm.key?(:default)
+          next unless res[field].nil? && hm.key?(:default)
           default = hm[:default]
           if default.is_a? Proc
             res[field] = default.call(res)
@@ -68,8 +68,8 @@ module Train
 
       def validate_options(opts)
         default_options.each do |field, hm|
-          if opts[field].nil? and hm[:required]
-            fail Train::ClientError,
+          if opts[field].nil? && hm[:required]
+            raise Train::ClientError,
                  "You must provide a value for #{field.to_s.inspect}."
           end
         end

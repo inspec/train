@@ -1,5 +1,5 @@
-require 'train-test-fixture/platform'
-require 'train/transports/local'
+require "train-test-fixture/platform"
+require "train/transports/local"
 
 module TrainPlugins
   module TestFixture
@@ -14,8 +14,8 @@ module TrainPlugins
 
       def run_command_via_connection(cmd)
         Train::Transports::Local::CommandResult.new(
-          'Mock Command Result stdout',
-          'Mock Command Result stderr',
+          "Mock Command Result stdout",
+          "Mock Command Result stderr",
           17
         )
       end
@@ -27,7 +27,7 @@ module TrainPlugins
       class MockFile < Train::File
         def content
           # Remarkably, the content is always the same.
-          'Lorem Ipsum'
+          "Lorem Ipsum"
         end
       end
     end

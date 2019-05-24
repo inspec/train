@@ -24,8 +24,8 @@ class Train::Transports::SSH
     end
 
     def unique_identifier
-      result = run_command_via_connection('show version | include Processor')
-      result.stdout.split(' ')[-1]
+      result = run_command_via_connection("show version | include Processor")
+      result.stdout.split(" ")[-1]
     end
 
     private
@@ -45,26 +45,26 @@ class Train::Transports::SSH
       if @enable_password
         # This verifies we are not in privileged exec mode before running the
         # enable command. Otherwise, the password will be in history.
-        if run_command_via_connection('show privilege').stdout.split[-1] != '15'
+        if run_command_via_connection("show privilege").stdout.split[-1] != "15"
           # Extra newlines to get back to prompt if incorrect password is used
           run_command_via_connection("enable\n#{@enable_password}\n\n\n")
         end
       end
 
       # Prevent `--MORE--` by removing terminal length limit
-      run_command_via_connection('terminal length 0')
+      run_command_via_connection("terminal length 0")
 
       @session
     end
 
     def run_command_via_connection(cmd, &_data_handler)
       # Ensure buffer is empty before sending data
-      @buf = ''
+      @buf = ""
 
       logger.debug("[SSH] Running `#{cmd}` on #{self}")
       session.send_data(cmd + "\r\n")
 
-      logger.debug('[SSH] waiting for prompt')
+      logger.debug("[SSH] waiting for prompt")
       until @buf =~ @prompt
         if @buf =~ /Bad (secrets|password)|Access denied/
           raise BadEnablePassword
@@ -74,16 +74,16 @@ class Train::Transports::SSH
 
       # Save the buffer and clear it for the next command
       output = @buf.dup
-      @buf = ''
+      @buf = ""
 
       format_result(format_output(output, cmd))
     end
 
     ERROR_MATCHERS = [
-      'Bad IP address',
-      'Incomplete command',
-      'Invalid input detected',
-      'Unrecognized host',
+      "Bad IP address",
+      "Incomplete command",
+      "Invalid input detected",
+      "Unrecognized host",
     ].freeze
 
     # IOS commands do not have an exit code so we must compare the command
@@ -92,9 +92,9 @@ class Train::Transports::SSH
     # result.
     def format_result(result)
       if ERROR_MATCHERS.none? { |e| result.include?(e) }
-        CommandResult.new(result, '', 0)
+        CommandResult.new(result, "", 0)
       else
-        CommandResult.new('', result, 1)
+        CommandResult.new("", result, 1)
       end
     end
 
@@ -107,10 +107,10 @@ class Train::Transports::SSH
       trailing_line_endings = /(\r\n)+$/
 
       output
-        .sub(leading_prompt, '')
-        .sub(command_string, '')
-        .gsub(trailing_prompt, '')
-        .gsub(trailing_line_endings, '')
+        .sub(leading_prompt, "")
+        .sub(command_string, "")
+        .gsub(trailing_prompt, "")
+        .gsub(trailing_line_endings, "")
     end
 
     # Create an SSH channel that writes to @buf when data is received
@@ -121,9 +121,9 @@ class Train::Transports::SSH
           @buf += data
         end
 
-        ch.send_channel_request('shell') do |_, success|
-          raise 'Failed to open SSH shell' unless success
-          logger.debug('[SSH] shell opened')
+        ch.send_channel_request("shell") do |_, success|
+          raise "Failed to open SSH shell" unless success
+          logger.debug("[SSH] shell opened")
         end
       end
     end

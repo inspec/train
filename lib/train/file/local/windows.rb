@@ -9,7 +9,7 @@ module Train
         def sanitize_filename(path)
           return if path.nil?
           # we do not filter :, backslash and forward slash, since they are part of the path
-          @spath = path.gsub(/[<>"|?*]/, '')
+          @spath = path.gsub(/[<>"|?*]/, "")
         end
 
         def product_version

@@ -3,7 +3,7 @@
 module Train::Platforms::Detect::Helpers
   module Linux
     def redhatish_platform(conf)
-      conf =~ /^red hat/i ? 'redhat' : /(\w+)/i.match(conf)[1].downcase
+      conf =~ /^red hat/i ? "redhat" : /(\w+)/i.match(conf)[1].downcase
     end
 
     def redhatish_version(conf)
@@ -20,11 +20,11 @@ module Train::Platforms::Detect::Helpers
     end
 
     def linux_os_release
-      data = unix_file_contents('/etc/os-release')
+      data = unix_file_contents("/etc/os-release")
       return if data.nil?
 
       os_info = parse_os_release_info(data)
-      cisco_info_file = os_info['CISCO_RELEASE_INFO']
+      cisco_info_file = os_info["CISCO_RELEASE_INFO"]
       if cisco_info_file
         os_info.merge!(parse_os_release_info(unix_file_contents(cisco_info_file)))
       end
@@ -37,10 +37,10 @@ module Train::Platforms::Detect::Helpers
 
       raw.lines.each_with_object({}) do |line, memo|
         line.strip!
-        next if line.start_with?('#')
+        next if line.start_with?("#")
         next if line.empty?
-        key, value = line.split('=', 2)
-        memo[key] = value.gsub(/\A"|"\Z/, '') unless value.empty?
+        key, value = line.split("=", 2)
+        memo[key] = value.gsub(/\A"|"\Z/, "") unless value.empty?
       end
     end
 
@@ -49,8 +49,8 @@ module Train::Platforms::Detect::Helpers
       release = /^DISTRIB_RELEASE=["']?(.+?)["']?$/.match(content)
       codename = /^DISTRIB_CODENAME=["']?(.+?)["']?$/.match(content)
       {
-        id:       id.nil? ? nil : id[1],
-        release:  release.nil? ? nil : release[1],
+        id: id.nil? ? nil : id[1],
+        release: release.nil? ? nil : release[1],
         codename: codename.nil? ? nil : codename[1],
       }
     end
@@ -60,17 +60,17 @@ module Train::Platforms::Detect::Helpers
       release = /^Release:\s+(.+)$/.match(content)
       codename = /^Codename:\s+(.+)$/.match(content)
       {
-        id:       id.nil? ? nil : id[1],
-        release:  release.nil? ? nil : release[1],
+        id: id.nil? ? nil : id[1],
+        release: release.nil? ? nil : release[1],
         codename: codename.nil? ? nil : codename[1],
       }
     end
 
     def read_linux_lsb
       return @lsb unless @lsb.empty?
-      if !(raw = unix_file_contents('/etc/lsb-release')).nil?
+      if !(raw = unix_file_contents("/etc/lsb-release")).nil?
         @lsb = lsb_config(raw)
-      elsif !(raw = unix_file_contents('/usr/bin/lsb-release')).nil?
+      elsif !(raw = unix_file_contents("/usr/bin/lsb-release")).nil?
         @lsb = lsb_release(raw)
       end
     end

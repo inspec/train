@@ -2,10 +2,10 @@
 # Its job is to verify that the Connection class is setup correctly.
 
 # Include our test harness
-require_relative '../helper'
+require_relative "../helper"
 
 # Load the class under test, the Connection definition.
-require 'train-local-rot13/connection'
+require "train-local-rot13/connection"
 
 # Because InSpec is a Spec-style test suite, we're going to use MiniTest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.

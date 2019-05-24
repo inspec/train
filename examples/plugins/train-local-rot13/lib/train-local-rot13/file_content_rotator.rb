@@ -1,7 +1,7 @@
 # Here's our helper class for the file object.  This is just some
 # silliness specific to the task of applying rot13 to the file content.
 
-require 'rot13'
+require "rot13"
 
 module TrainPlugins
   module LocalRot13

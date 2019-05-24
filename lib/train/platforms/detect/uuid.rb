@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-require 'digest/sha1'
-require 'securerandom'
-require 'json'
+require "digest/sha1"
+require "securerandom"
+require "json"
 
 module Train::Platforms::Detect
   class UUID
@@ -27,7 +27,7 @@ module Train::Platforms::Detect
           return uuid_from_string(result.stdout.chomp) if result.exit_status.zero? && !result.stdout.empty?
         end
 
-        raise 'Could not find platform uuid! Please set a uuid_command for your platform.'
+        raise "Could not find platform uuid! Please set a uuid_command for your platform."
       end
     end
   end

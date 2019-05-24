@@ -3,27 +3,27 @@
 
 # Load Train.  We certainly need the plugin system, and also several other parts
 # that are tightly coupled.  Train itself is fairly light, and non-invasive.
-require 'train'
+require "train"
 
 # You can select from a number of test harnesses.  Since Train is closely related
 # to InSpec, and InSpec uses Spec-style controls in profile code, you will
 # probably want to use something like minitest/spec, which provides Spec-style
 # tests.
-require 'minitest/spec'
-require 'minitest/autorun'
+require "minitest/spec"
+require "minitest/autorun"
 
 # Data formats commonly used in testing
-require 'json'
-require 'ostruct'
+require "json"
+require "ostruct"
 
 # Utilities often needed
-require 'fileutils'
-require 'tmpdir'
-require 'pathname'
+require "fileutils"
+require "tmpdir"
+require "pathname"
 
 # You might want to put some debugging tools here.  We run tests to find bugs,
 # after all.
-require 'byebug'
+require "byebug"
 
 # Configure MiniTest to expose things like `let`
 class Module
@@ -38,11 +38,11 @@ module TrainPluginBaseHelper
     plugin_test_helper_path = Pathname.new(caller_locations(4, 1).first.absolute_path)
     plugin_src_root = plugin_test_helper_path.parent.parent
     base.let(:plugin_src_path) { plugin_src_root }
-    base.let(:plugin_fixtures_path) { File.join(plugin_src_root, 'test', 'fixtures') }
+    base.let(:plugin_fixtures_path) { File.join(plugin_src_root, "test", "fixtures") }
   end
 
-  let(:train_src_path) { File.expand_path(File.join(__FILE__, '..', '..')) }
-  let(:train_fixtures_path) { File.join(train_src_path, 'test', 'fixtures') }
+  let(:train_src_path) { File.expand_path(File.join(__FILE__, "..", "..")) }
+  let(:train_fixtures_path) { File.join(train_src_path, "test", "fixtures") }
   let(:registry) { Train::Plugins.registry }
 end
 

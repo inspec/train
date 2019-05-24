@@ -12,7 +12,7 @@ module Train
       end
 
       def content
-        @content ||= ::File.read(@path, encoding: 'UTF-8')
+        @content ||= ::File.read(@path, encoding: "UTF-8")
       rescue StandardError => _
         nil
       end
@@ -23,7 +23,7 @@ module Train
           @link_path ||= ::File.realpath(@path)
         rescue Errno::ELOOP => _
           # Leave it blank on symbolic loop, same as readlink
-          @link_path = ''
+          @link_path = ""
         end
       end
 
@@ -42,13 +42,13 @@ module Train
 
       def type
         case ::File.ftype(@path)
-        when 'blockSpecial'
+        when "blockSpecial"
           :block_device
-        when 'characterSpecial'
+        when "characterSpecial"
           :character_device
-        when 'link'
+        when "link"
           :symlink
-        when 'fifo'
+        when "fifo"
           :pipe
         else
           ::File.ftype(@path).to_sym
@@ -76,5 +76,5 @@ end
 
 # subclass requires are loaded after Train::File::Local is defined
 # to avoid superclass mismatch errors
-require 'train/file/local/unix'
-require 'train/file/local/windows'
+require "train/file/local/unix"
+require "train/file/local/windows"

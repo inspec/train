@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'train/platforms/detect/helpers/os_common'
+require "train/platforms/detect/helpers/os_common"
 
 module Train::Platforms::Detect
   class Scanner
@@ -38,7 +38,7 @@ module Train::Platforms::Detect
         return get_platform(plat_result)
       end
 
-      fail Train::PlatformDetectionFailed, 'Sorry, we are unable to detect your platform'
+      raise Train::PlatformDetectionFailed, "Sorry, we are unable to detect your platform"
     end
 
     def scan_children(parent)
@@ -65,8 +65,8 @@ module Train::Platforms::Detect
 
     def check_condition(condition)
       condition.each do |k, v|
-        op, expected = v.strip.split(' ')
-        op = '==' if op == '='
+        op, expected = v.strip.split(" ")
+        op = "==" if op == "="
         return false if @platform[k].nil? || !instance_eval("'#{@platform[k]}' #{op} '#{expected}'")
       end
 

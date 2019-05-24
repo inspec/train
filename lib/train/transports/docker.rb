@@ -3,11 +3,11 @@
 # Author:: Dominik Richter
 # Author:: Christoph Hartmann
 
-require 'docker'
+require "docker"
 
 module Train::Transports
   class Docker < Train.plugin(1)
-    name 'docker'
+    name "docker"
 
     include_options Train::Extras::CommandWrapper
     option :host, required: true
@@ -59,7 +59,7 @@ class Train::Transports::Docker
       super(conf)
       @id = options[:host]
       @container = ::Docker::Container.get(@id) ||
-                   fail("Can't find Docker container #{@id}")
+        raise("Can't find Docker container #{@id}")
       @cmd_wrapper = nil
       @cmd_wrapper = CommandWrapper.load(self, @options)
       self
@@ -93,7 +93,7 @@ class Train::Transports::Docker
       cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
       stdout, stderr, exit_status = @container.exec(
         [
-          '/bin/sh', '-c', cmd
+          "/bin/sh", "-c", cmd
         ])
       CommandResult.new(stdout.join, stderr.join, exit_status)
     rescue ::Docker::Error::DockerError => _

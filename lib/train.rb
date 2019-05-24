@@ -2,12 +2,12 @@
 #
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
-require 'train/version'
-require 'train/options'
-require 'train/plugins'
-require 'train/errors'
-require 'train/platforms'
-require 'uri'
+require "train/version"
+require "train/options"
+require "train/plugins"
+require "train/errors"
+require "train/platforms"
+require "uri"
 
 module Train
   # Create a new transport instance, with the plugin indicated by the
@@ -42,12 +42,12 @@ module Train
     return transport_class unless transport_class.nil?
 
     # Try to load the transport name from the core transports...
-    require 'train/transports/' + transport_name
-    return Train::Plugins.registry[transport_name]
+    require "train/transports/" + transport_name
+    Train::Plugins.registry[transport_name]
   rescue LoadError => _
     begin
       # If it's not in the core transports, try loading from a train plugin gem.
-      gem_name = 'train-' + transport_name
+      gem_name = "train-" + transport_name
       require gem_name
       return Train::Plugins.registry[transport_name]
       # rubocop: disable Lint/HandleExceptions
@@ -92,7 +92,7 @@ module Train
 
     # split up the target's host/scheme configuration
     uri = parse_uri(uri_string)
-    unless uri.host.nil? and uri.scheme.nil?
+    unless uri.host.nil? && uri.scheme.nil?
       creds[:backend]  ||= uri.scheme
       creds[:host]     ||= uri.hostname
       creds[:port]     ||= uri.port
@@ -128,9 +128,9 @@ module Train
     # e.g. mock://. To do this, we match it manually and fake the hostname
     case string
     when %r{^([a-z]+)://$}
-      string += 'dummy'
+      string += "dummy"
     when /^([a-z]+):$/
-      string += '//dummy'
+      string += "//dummy"
     else
       raise Train::UserError, e
     end
@@ -144,15 +144,15 @@ module Train
   # Examine the given credential information, and if all is well,
   # return the transport name.
   # TODO: this actually does no validation of the credential options whatsoever
-  def self.validate_backend(credentials, default_transport_name = 'local')
+  def self.validate_backend(credentials, default_transport_name = "local")
     return default_transport_name if credentials.nil?
     transport_name = credentials[:backend]
 
     # TODO: Determine if it is ever possible (or supported) for transport_name to be 'localhost'
     # TODO: After inspec/inspec/pull/3750 is merged, should be able to remove nil from the list
-    if credentials[:sudo] && [nil, 'local', 'localhost'].include?(transport_name)
-      fail Train::UserError, 'Sudo is only valid when running against a remote host. '\
-        'To run this locally with elevated privileges, run the command with `sudo ...`.'
+    if credentials[:sudo] && [nil, "local", "localhost"].include?(transport_name)
+      raise Train::UserError, "Sudo is only valid when running against a remote host. "\
+        "To run this locally with elevated privileges, run the command with `sudo ...`."
     end
 
     return transport_name if !transport_name.nil?
@@ -160,13 +160,13 @@ module Train
     if !credentials[:target].nil?
       # We should not get here, because if target_uri unpacking was successful,
       # it would have set credentials[:backend]
-      fail Train::UserError, 'Cannot determine backend from target '\
+      raise Train::UserError, "Cannot determine backend from target "\
            "configuration #{credentials[:target]}. Valid example: ssh://192.168.0.1"
     end
 
     if !credentials[:host].nil?
-      fail Train::UserError, 'Host configured, but no backend was provided. Please '\
-           'specify how you want to connect. Valid example: ssh://192.168.0.1'
+      raise Train::UserError, "Host configured, but no backend was provided. Please "\
+           "specify how you want to connect. Valid example: ssh://192.168.0.1"
     end
 
     credentials[:backend] = default_transport_name
@@ -181,7 +181,7 @@ module Train
     conf[:key_files] = []
     conf[:keys] = []
     keys_mixed.each do |key|
-      if !key.nil? and File.file?(key)
+      if !key.nil? && File.file?(key)
         conf[:key_files].push(key)
       else
         conf[:keys].push(key)

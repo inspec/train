@@ -4,13 +4,13 @@
 module Train::Extras
   class Stat
     TYPES = {
-      socket:           00140000,
-      symlink:          00120000,
-      file:             00100000,
-      block_device:     00060000,
-      directory:        00040000,
+      socket: 00140000,
+      symlink: 00120000,
+      file: 00100000,
+      block_device: 00060000,
+      directory: 00040000,
       character_device: 00020000,
-      pipe:             00010000,
+      pipe: 00010000,
     }.freeze
 
     def self.find_type(mode)
@@ -33,8 +33,8 @@ module Train::Extras
     end
 
     def self.linux_stat(shell_escaped_path, backend, follow_symlink)
-      lstat = follow_symlink ? ' -L' : ''
-      format = (backend.os.esx? || backend.os[:name] == 'alpine') ? '-c' : '--printf'
+      lstat = follow_symlink ? " -L" : ""
+      format = (backend.os.esx? || backend.os[:name] == "alpine") ? "-c" : "--printf"
       res = backend.run_command("stat#{lstat} #{shell_escaped_path} 2>/dev/null #{format} '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'")
       # ignore the exit_code: it is != 0 if selinux labels are not supported
       # on the system.
@@ -45,16 +45,16 @@ module Train::Extras
       tmask = fields[1].to_i(16)
       selinux = fields[8]
       ## selinux security context string not available on esxi
-      selinux = nil if selinux == '?' or selinux == '(null)' or selinux == 'C'
+      selinux = nil if (selinux == "?") || (selinux == "(null)") || (selinux == "C")
       {
-        type:  find_type(tmask),
-        mode:  tmask & 07777,
+        type: find_type(tmask),
+        mode: tmask & 07777,
         owner: fields[2],
-        uid:   fields[3].to_i,
+        uid: fields[3].to_i,
         group: fields[4],
-        gid:   fields[5].to_i,
+        gid: fields[5].to_i,
         mtime: fields[7].to_i,
-        size:  fields[0].to_i,
+        size: fields[0].to_i,
         selinux_label: selinux,
       }
     end
@@ -74,7 +74,7 @@ module Train::Extras
       # in combination with:
       #      ...
       #      gu      Display group or user name.
-      lstat = follow_symlink ? ' -L' : ''
+      lstat = follow_symlink ? " -L" : ""
       res = backend.run_command(
         "stat#{lstat} -f '%z\n%p\n%Su\n%u\n%Sg\n%g\n%a\n%m' "\
         "#{shell_escaped_path}")
@@ -87,21 +87,21 @@ module Train::Extras
       tmask = fields[1].to_i(8)
 
       {
-        type:  find_type(tmask),
-        mode:  tmask & 07777,
+        type: find_type(tmask),
+        mode: tmask & 07777,
         owner: fields[2],
-        uid:   fields[3].to_i,
+        uid: fields[3].to_i,
         group: fields[4],
-        gid:   fields[5].to_i,
+        gid: fields[5].to_i,
         mtime: fields[7].to_i,
-        size:  fields[0].to_i,
+        size: fields[0].to_i,
         selinux_label: fields[8],
       }
     end
 
     def self.aix_stat(shell_escaped_path, backend, follow_symlink)
       # Perl here b/c it is default on AIX
-      lstat = follow_symlink ? 'lstat' : 'stat'
+      lstat = follow_symlink ? "lstat" : "stat"
       stat_cmd = <<-EOP
       perl -e '
       @a = #{lstat}(shift) or exit 2;
@@ -115,16 +115,16 @@ module Train::Extras
       return {} if res.exit_status != 0
       fields = res.stdout.split("\n")
       return {} if fields.length != 7
-      tmask  = fields[0].to_i(8)
+      tmask = fields[0].to_i(8)
       {
-        type:  find_type(tmask),
-        mode:  tmask & 07777,
+        type: find_type(tmask),
+        mode: tmask & 07777,
         owner: fields[1],
-        uid:   fields[2].to_i,
+        uid: fields[2].to_i,
         group: fields[3],
-        gid:   fields[4].to_i,
+        gid: fields[4].to_i,
         mtime: fields[5].to_i,
-        size:  fields[6].to_i,
+        size: fields[6].to_i,
         selinux_label: nil,
       }
     end

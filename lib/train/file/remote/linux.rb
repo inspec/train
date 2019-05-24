@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'train/file/remote/unix'
+require "train/file/remote/unix"
 
 module Train
   class File
@@ -10,7 +10,7 @@ module Train
           return @content if defined?(@content)
           @content = @backend.run_command("cat #{@spath} || echo -n").stdout
           return @content unless @content.empty?
-          @content = nil if directory? or size.nil? or size > 0
+          @content = nil if directory? || size.nil? || (size > 0)
           @content
         end
       end

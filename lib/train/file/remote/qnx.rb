@@ -3,28 +3,28 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'train/file/remote/unix'
+require "train/file/remote/unix"
 
 module Train
   class File
     class Remote
       class Qnx < Train::File::Remote::Unix
         def content
-          cat = 'cat'
-          cat = '/proc/boot/cat' if @backend.os[:release].to_i >= 7
+          cat = "cat"
+          cat = "/proc/boot/cat" if @backend.os[:release].to_i >= 7
           @content ||= case
                        when !exist?
                          nil
                        else
-                         @backend.run_command("#{cat} #{@spath}").stdout || ''
+                         @backend.run_command("#{cat} #{@spath}").stdout || ""
                        end
         end
 
         def type
-          if @backend.run_command("file #{@spath}").stdout.include?('directory')
-            return :directory
+          if @backend.run_command("file #{@spath}").stdout.include?("directory")
+            :directory
           else
-            return :file
+            :file
           end
         end
 
@@ -32,7 +32,7 @@ module Train
           mode owner group uid gid mtime size selinux_label link_path mounted stat
         }.each do |field|
           define_method field.to_sym do
-            fail NotImplementedError, "QNX does not implement the #{field}() method yet."
+            raise NotImplementedError, "QNX does not implement the #{field}() method yet."
           end
         end
       end
