@@ -1,13 +1,9 @@
-# encoding: utf-8
-
 require "shellwords"
 
 module Train
   class File
     class Remote
       class Unix < Train::File::Remote
-        attr_reader :path
-
         def sanitize_filename(path)
           @spath = Shellwords.escape(path) || @path
         end
