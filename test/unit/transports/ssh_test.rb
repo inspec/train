@@ -86,9 +86,10 @@ describe 'ssh transport' do
             seen_opts = ssh.send(:connection_options, opts)
             seen_opts[:verify_host_key].must_equal expected
           end
-          it 'defaults verify_host_key option to :never' do
-            connection_options[:verify_host_key].must_equal :never
-          end
+        end
+
+        it 'defaults verify_host_key option to :never' do
+          connection_options[:verify_host_key].must_equal :never
         end
       end
     end
