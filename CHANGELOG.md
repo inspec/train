@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 2.1.8 -->
+## [v2.1.8](https://github.com/inspec/train/tree/v2.1.8) (2019-05-29)
+
+#### Merged Pull Requests
+- Fixing inspec/train to be green again and improving test stability. [#463](https://github.com/inspec/train/pull/463) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.7 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Fixing inspec/train to be green again and improving test stability. [#463](https://github.com/inspec/train/pull/463) ([zenspider](https://github.com/zenspider)) <!-- 2.1.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
