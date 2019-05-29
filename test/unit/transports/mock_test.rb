@@ -40,7 +40,9 @@ describe 'mock transport' do
     end
 
     it 'handles nil commands' do
-      connection.run_command(nil).stdout.must_equal('')
+      assert_output "", /Command not mocked/ do
+        connection.run_command(nil).stdout.must_equal('')
+      end
     end
 
     it 'can mock up nil commands' do
@@ -131,10 +133,12 @@ describe 'mock transport' do
   describe 'when accessing a mocked file' do
     it 'handles a non-existing file' do
       x = rand.to_s
-      f = connection.file(x)
-      f.must_be_kind_of Train::Transports::Mock::Connection::File
-      f.exist?.must_equal false
-      f.path.must_equal x
+      assert_output "", /File not mocked/ do
+        f = connection.file(x)
+        f.must_be_kind_of Train::Transports::Mock::Connection::File
+        f.exist?.must_equal false
+        f.path.must_equal x
+      end
     end
 
     # tests if all fields between the local json and resulting mock file
