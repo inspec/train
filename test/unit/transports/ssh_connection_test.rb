@@ -1,3 +1,4 @@
+require 'helper'
 require 'train/transports/ssh'
 require 'train/transports/ssh_connection'
 

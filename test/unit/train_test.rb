@@ -1,7 +1,9 @@
 # encoding: utf-8
 #
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
-require_relative 'helper'
+require 'helper'
+
+$:.concat Dir["test/fixtures/plugins/*/lib"] # HACK? I honestly can't tell
 
 describe Train do
   before do

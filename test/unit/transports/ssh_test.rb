@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require_relative '../helper'
+require 'helper'
 require 'train/transports/ssh'
 
 describe 'ssh transport' do
