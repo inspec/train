@@ -78,27 +78,27 @@ describe 'azure transport' do
     end
 
     it 'can use azure_client default client' do
-      MANAGEMENT_API_CLIENT = Azure::Resources::Profiles::Latest::Mgmt::Client
+      management_api_client = Azure::Resources::Profiles::Latest::Mgmt::Client
       client = connection.azure_client
-      client.class.must_equal MANAGEMENT_API_CLIENT
+      client.class.must_equal management_api_client
     end
 
     it 'can use azure_client graph client' do
-      GRAPH_API_CLIENT = Azure::GraphRbac::Profiles::Latest::Client
-      client = connection.azure_client(GRAPH_API_CLIENT)
-      client.class.must_equal GRAPH_API_CLIENT
+      graph_api_client = Azure::GraphRbac::Profiles::Latest::Client
+      client = connection.azure_client(graph_api_client)
+      client.class.must_equal graph_api_client
     end
 
     it 'can use azure_client vault client' do
-      VAULT_API_CLIENT = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
-      client = connection.azure_client(VAULT_API_CLIENT, vault_name: 'Test Vault')
-      client.class.must_equal VAULT_API_CLIENT
+      vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
+      client = connection.azure_client(vault_api_client, vault_name: 'Test Vault')
+      client.class.must_equal vault_api_client
     end
 
     it 'cannot instantiate azure_client vault client without a vault name' do
-      VAULT_API_CLIENT = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
+      vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
       assert_raises(Train::UserError) do
-        connection.azure_client(VAULT_API_CLIENT)
+        connection.azure_client(vault_api_client)
       end
     end
   end

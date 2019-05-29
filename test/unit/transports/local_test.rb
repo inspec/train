@@ -8,7 +8,6 @@ class TransportHelper
 
   def initialize(user_opts = {})
     opts = {platform_name: 'mock', family_hierarchy: ['mock']}.merge(user_opts)
-    Train::Platforms::Detect::Specifications::OS.load
     plat = Train::Platforms.name(opts[:platform_name])
     plat.family_hierarchy = opts[:family_hierarchy]
     plat.add_platform_methods

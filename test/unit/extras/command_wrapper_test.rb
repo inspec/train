@@ -81,7 +81,6 @@ describe 'linux command' do
       bpw = Base64.strict_encode64(pw + "\n")
       bcmd = Base64.strict_encode64("echo #{bpw} | base64 --decode | sudo -S #{cmd}")
       lc.run(cmd).must_equal "echo #{bcmd} | base64 --decode | $SHELL --login"
-      p bcmd
     end
 
     it 'wraps commands in a default shell when shell is true' do

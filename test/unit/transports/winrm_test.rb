@@ -28,7 +28,7 @@ describe 'winrm transport' do
     end
 
     it 'has default endpoint' do
-      winrm.options[:endpoint].must_equal nil
+      winrm.options[:endpoint].must_be_nil
     end
 
     it 'has default path set' do
@@ -64,7 +64,7 @@ describe 'winrm transport' do
     end
     it 'has default ca_trust_path set' do
       winrm.options.key?(:ca_trust_path).must_equal true
-      winrm.options[:ca_trust_path].must_equal nil
+      winrm.options[:ca_trust_path].must_be_nil
     end
   end
 
@@ -87,7 +87,6 @@ describe 'winrm transport' do
 
   describe 'when configuring the connection' do
     let(:winrm) {
-      puts "Insantiating cls.new with #{conf}"
       cls.new(conf)
     }
 

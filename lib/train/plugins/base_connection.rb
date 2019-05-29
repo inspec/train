@@ -21,7 +21,7 @@ class Train::Plugins::Transport
     # @yield [self] yields itself for block-style invocation
     def initialize(options = nil)
       @options = options || {}
-      @logger = @options.delete(:logger) || Logger.new(STDOUT)
+      @logger = @options.delete(:logger) || Logger.new($stdout, level: :fatal)
       Train::Platforms::Detect::Specifications::OS.load
       Train::Platforms::Detect::Specifications::Api.load
 

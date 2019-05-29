@@ -8,9 +8,9 @@ require 'mkmf'
 module Train::Transports
   class VMware < Train.plugin(1)
     name 'vmware'
-    option :viserver, default: ENV['VISERVER']
-    option :username, default: ENV['VISERVER_USERNAME']
-    option :password, default: ENV['VISERVER_PASSWORD']
+    option :viserver, default: proc { ENV['VISERVER']          }
+    option :username, default: proc { ENV['VISERVER_USERNAME'] }
+    option :password, default: proc { ENV['VISERVER_PASSWORD'] }
     option :insecure, default: false
 
     def connection(_ = nil)

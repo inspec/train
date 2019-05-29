@@ -22,9 +22,9 @@ task lint: [:rubocop]
 task default: [:test, :lint]
 
 Rake::TestTask.new do |t|
-  t.libs << 'test/unit'
+  t.libs << 'test'
   t.pattern = 'test/unit/**/*_test.rb'
-  t.warning = true
+  t.warning = false
   t.verbose = true
   t.ruby_opts = ['--dev'] if defined?(JRUBY_VERSION)
 end

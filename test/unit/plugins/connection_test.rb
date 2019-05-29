@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative '../helper'
+require 'helper'
 
 describe 'v1 Connection Plugin' do
   describe 'empty v1 connection plugin' do
