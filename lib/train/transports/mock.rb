@@ -105,16 +105,16 @@ class Train::Transports::Mock
 
     def command_not_found(cmd)
       if @options[:verbose]
-        STDERR.puts('Command not mocked:')
-        STDERR.puts('    '+cmd.to_s.split("\n").join("\n    "))
-        STDERR.puts('    SHA: ' + Digest::SHA256.hexdigest(cmd.to_s))
+        $stderr.puts('Command not mocked:')
+        $stderr.puts('    '+cmd.to_s.split("\n").join("\n    "))
+        $stderr.puts('    SHA: ' + Digest::SHA256.hexdigest(cmd.to_s))
       end
       # return a non-zero exit code
       mock_command(cmd, nil, nil, 1)
     end
 
     def file_not_found(path)
-      STDERR.puts('File not mocked: '+path.to_s) if @options[:verbose]
+      $stderr.puts('File not mocked: '+path.to_s) if @options[:verbose]
       File.new(self, path)
     end
 

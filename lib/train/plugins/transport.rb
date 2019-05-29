@@ -21,7 +21,7 @@ class Train::Plugins
     # @return [Transport] the transport object
     def initialize(options = {})
       @options = merge_options({}, options || {})
-      @logger = @options[:logger] || Logger.new(STDOUT, level: :fatal)
+      @logger = @options[:logger] || Logger.new($stdout, level: :fatal)
     end
 
     # Create a connection to the target. Options may be provided
