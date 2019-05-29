@@ -73,6 +73,10 @@ module Train::Platforms
       @platform
     end
 
+    def cisco_ios? # TODO: kinda a hack. needed to prevent tests from corrupting.
+      false
+    end
+
     # Add generic family? and platform methods to an existing platform
     #
     # This is done later to add any custom
