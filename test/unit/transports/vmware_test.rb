@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'helper'
+require 'train/transports/vmware'
 
 describe 'Train::Transports::VMware::Connection' do
   def add_stubs(stub_options)
@@ -30,8 +31,6 @@ describe 'Train::Transports::VMware::Connection' do
     ENV['VISERVER_USERNAME'] = 'testuser'
     ENV['VISERVER_PASSWORD'] = 'supersecurepassword'
 
-    # Need to require this here as it captures the ENV variables on load
-    require 'train/transports/vmware'
     add_stubs(options[:stub_options] || {})
     Train::Transports::VMware.new(options[:transport_options])
   end
