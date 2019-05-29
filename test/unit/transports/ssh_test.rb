@@ -219,6 +219,8 @@ describe 'ssh transport' do
     end
 
     it 'wont connect if it is not possible' do
+      conf[:connection_timeout] = 1
+      conf[:connection_retries] = 1
       conf[:host] = 'localhost'
       conf[:port] = 1
       conf.delete :proxy_command
