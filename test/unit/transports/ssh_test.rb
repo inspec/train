@@ -146,7 +146,7 @@ describe 'ssh transport' do
         "-o", "UserKnownHostsFile=/dev/null",
         "-o", "StrictHostKeyChecking=no",
         "-o", "IdentitiesOnly=yes",
-        "-o", "LogLevel=VERBOSE",
+        "-o", "LogLevel=ERROR",
         "-o", "ForwardAgent=no",
         "-i", conf[:key_files],
         "-o", "ProxyCommand='ssh root@127.0.0.1 -W %h:%p'",
@@ -295,15 +295,17 @@ describe 'ssh transport with bastion' do
         connection.login_command.command.must_equal 'ssh'
       end
 
+make_my_diffs_pretty!
+
       it 'has login command arguments' do
         connection.login_command.arguments.must_equal([
           "-o", "UserKnownHostsFile=/dev/null",
           "-o", "StrictHostKeyChecking=no",
           "-o", "IdentitiesOnly=yes",
-          "-o", "LogLevel=VERBOSE",
+          "-o", "LogLevel=ERROR",
           "-o", "ForwardAgent=no",
           "-i", conf[:key_files],
-          "-o", "ProxyCommand='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o LogLevel=VERBOSE -o ForwardAgent=no -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p'",
+          "-o", "ProxyCommand='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o LogLevel=ERROR -o ForwardAgent=no -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p'",
           "-p", "22",
           "root@#{conf[:host]}",
         ])
@@ -333,7 +335,7 @@ describe 'ssh transport with bastion' do
         mock = MiniTest::Mock.new
         mock.expect(:call, true) do |hostname, username, options|
           options[:proxy].kind_of?(Net::SSH::Proxy::Command) &&
-            "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o LogLevel=VERBOSE -o ForwardAgent=no -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p" == options[:proxy].command_line_template
+            "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o LogLevel=ERROR -o ForwardAgent=no -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p" == options[:proxy].command_line_template
         end
         connection.stubs(:run_command)
         Net::SSH.stub(:start, mock) do
