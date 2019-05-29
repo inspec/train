@@ -1,6 +1,7 @@
 train-*.gem
 r-train-*.gem
 Gemfile.lock
+Gemfile.local
 .kitchen/
 TAGS
 terraform.tfstate.backup
