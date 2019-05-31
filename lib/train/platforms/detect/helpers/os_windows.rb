@@ -91,7 +91,7 @@ module Train::Platforms::Detect::Helpers
         #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.chef\\chef_guid
       }.each do |path|
         file = @backend.file(path)
-        return file.content.chomp if file.exist? && !file.size == 0
+        return file.content.chomp if file.exist? && file.size != 0
       end
       nil
     end

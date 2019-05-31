@@ -94,13 +94,14 @@ module Train::Platforms::Detect::Helpers
 
     def unix_uuid_from_chef
       file = @backend.file("/var/chef/cache/data_collector_metadata.json")
-      if file.exist? && !file.size == 0
+      if file.exist? && file.size != 0
         json = ::JSON.parse(file.content)
         return json["node_uuid"] if json["node_uuid"]
       end
     end
 
     def unix_uuid_from_machine_file
+      # require 'pry';binding.pry
       %W{
         /etc/chef/chef_guid
         #{ENV['HOME']}/.chef/chef_guid
@@ -109,7 +110,7 @@ module Train::Platforms::Detect::Helpers
         /var/db/dbus/machine-id
       }.each do |path|
         file = @backend.file(path)
-        next unless file.exist? && !file.size == 0
+        next unless file.exist? && file.size != 0
         return file.content.chomp if path =~ /guid/
         return uuid_from_string(file.content.chomp)
       end
