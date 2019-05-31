@@ -2,10 +2,10 @@
 # Its job is to verify that the Transport class is setup correctly.
 
 # Include our test harness
-require_relative '../helper'
+require_relative "../helper"
 
 # Load the class under test, the Plugin definition.
-require 'train-local-rot13/transport'
+require "train-local-rot13/transport"
 
 # Because InSpec is a Spec-style test suite, we're going to use MiniTest::Spec
 # here, for familiar look and feel. However, this isn't InSpec (or RSpec) code.
@@ -23,8 +23,8 @@ describe TrainPlugins::LocalRot13::Transport do
 
   it "should be registered with the plugin registry without the train- prtefix" do
     # Note that Train uses String keys here, not Symbols
-    Train::Plugins.registry.keys.wont_include('train-local-rot13')
-    Train::Plugins.registry.keys.must_include('local-rot13')
+    Train::Plugins.registry.keys.wont_include("train-local-rot13")
+    Train::Plugins.registry.keys.must_include("local-rot13")
   end
 
   it "should inherit from the Train plugin base" do

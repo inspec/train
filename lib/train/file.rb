@@ -3,15 +3,15 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require 'train/file/local'
-require 'train/file/remote'
-require 'train/extras/stat'
+require "train/file/local"
+require "train/file/remote"
+require "train/extras/stat"
 
 module Train
   class File # rubocop:disable Metrics/ClassLength
     def initialize(backend, path, follow_symlink = true)
       @backend = backend
-      @path = path || ''
+      @path = path || ""
       @follow_symlink = follow_symlink
 
       sanitize_filename(path)
@@ -30,15 +30,15 @@ module Train
 
     DATA_FIELDS.each do |m|
       define_method m.to_sym do
-        fail NotImplementedError, "File must implement the #{m}() method."
+        raise NotImplementedError, "File must implement the #{m}() method."
       end
     end
 
     def to_json
       res = Hash[DATA_FIELDS.map { |x| [x, method(x).call] }]
       # additional fields provided as input
-      res['type'] = type
-      res['follow_symlink'] = @follow_symlink
+      res["type"] = type
+      res["follow_symlink"] = @follow_symlink
       res
     end
 
@@ -73,36 +73,36 @@ module Train
     end
 
     def version?(version)
-      product_version == version or
-        file_version == version
+      (product_version == version) ||
+        (file_version == version)
     end
 
     def block_device?
-      type.to_s == 'block_device'
+      type.to_s == "block_device"
     end
 
     def character_device?
-      type.to_s == 'character_device'
+      type.to_s == "character_device"
     end
 
     def pipe?
-      type.to_s == 'pipe'
+      type.to_s == "pipe"
     end
 
     def file?
-      type.to_s == 'file'
+      type.to_s == "file"
     end
 
     def socket?
-      type.to_s == 'socket'
+      type.to_s == "socket"
     end
 
     def directory?
-      type.to_s == 'directory'
+      type.to_s == "directory"
     end
 
     def symlink?
-      source.type.to_s == 'symlink'
+      source.type.to_s == "symlink"
     end
 
     def owned_by?(sth)
@@ -134,16 +134,16 @@ module Train
       # Skip processing rest of method if fallback method is selected
       return perform_checksum_ruby(:md5) if defined?(@ruby_checksum_fallback)
 
-      checksum = if @backend.os.family == 'windows'
+      checksum = if @backend.os.family == "windows"
                    perform_checksum_windows(:md5)
                  else
                    @md5_command ||= case @backend.os.family
-                                    when 'darwin'
-                                      'md5 -r'
-                                    when 'solaris'
-                                      'digest -a md5'
+                                    when "darwin"
+                                      "md5 -r"
+                                    when "solaris"
+                                      "digest -a md5"
                                     else
-                                      'md5sum'
+                                      "md5sum"
                                     end
 
                    perform_checksum_unix(@md5_command)
@@ -156,16 +156,16 @@ module Train
       # Skip processing rest of method if fallback method is selected
       return perform_checksum_ruby(:sha256) if defined?(@ruby_checksum_fallback)
 
-      checksum = if @backend.os.family == 'windows'
+      checksum = if @backend.os.family == "windows"
                    perform_checksum_windows(:sha256)
                  else
                    @sha256_command ||= case @backend.os.family
-                                       when 'darwin', 'hpux', 'qnx'
-                                         'shasum -a 256'
-                                       when 'solaris'
-                                         'digest -a sha256'
+                                       when "darwin", "hpux", "qnx"
+                                         "shasum -a 256"
+                                       when "solaris"
+                                         "digest -a sha256"
                                        else
-                                         'sha256sum'
+                                         "sha256sum"
                                        end
 
                    perform_checksum_unix(@sha256_command)
@@ -178,13 +178,13 @@ module Train
 
     def perform_checksum_unix(cmd)
       res = @backend.run_command("#{cmd} #{@path}")
-      res.stdout.split(' ').first if res.exit_status == 0
+      res.stdout.split(" ").first if res.exit_status == 0
     end
 
     def perform_checksum_windows(method)
       cmd = "CertUtil -hashfile #{@path} #{method.to_s.upcase}"
       res = @backend.run_command(cmd)
-      res.stdout.split("\r\n")[1].tr(' ', '') if res.exit_status == 0
+      res.stdout.split("\r\n")[1].tr(" ", "") if res.exit_status == 0
     end
 
     # This pulls the content of the file to the machine running Train and uses

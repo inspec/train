@@ -1,20 +1,20 @@
 # encoding: utf-8
 # author: Dominik Richter
 
-require 'train'
-require_relative 'helper'
+require "train"
+require_relative "helper"
 
-container_id = ENV['CONTAINER'] or
-  fail 'You must provide a container ID via CONTAINER env'
+(container_id = ENV["CONTAINER"]) ||
+  raise("You must provide a container ID via CONTAINER env")
 
 tests = ARGV
-puts ['Running tests:', tests].flatten.join("\n- ")
-puts ''
+puts ["Running tests:", tests].flatten.join("\n- ")
+puts ""
 
 backends = {}
 backends[:docker] = proc { |*args|
   opt = Train.target_config({ host: container_id })
-  Train.create('docker', opt).connection(args[0])
+  Train.create("docker", opt).connection(args[0])
 }
 
 backends.each do |type, get_backend|

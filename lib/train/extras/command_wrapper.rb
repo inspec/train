@@ -2,8 +2,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'base64'
-require 'train/errors'
+require "base64"
+require "train/errors"
 
 module Train::Extras
   # Define the interface of all command wrappers.
@@ -12,7 +12,7 @@ module Train::Extras
     #
     # @return [Any] verification result, nil if all went well, otherwise a message
     def verify
-      fail Train::ClientError, "#{self.class} does not implement #verify()"
+      raise Train::ClientError, "#{self.class} does not implement #verify()"
     end
 
     # Wrap a command and return the augmented command which can be executed.
@@ -20,7 +20,7 @@ module Train::Extras
     # @param [Strin] command that will be wrapper
     # @return [String] result of wrapping the command
     def run(_command)
-      fail Train::ClientError, "#{self.class} does not implement #run(command)"
+      raise Train::ClientError, "#{self.class} does not implement #run(command)"
     end
   end
 
@@ -53,20 +53,20 @@ module Train::Extras
 
     # (see CommandWrapperBase::verify)
     def verify
-      res = @backend.run_command(run('echo'))
+      res = @backend.run_command(run("echo"))
       return nil if res.exit_status == 0
-      rawerr = res.stdout + ' ' + res.stderr
+      rawerr = res.stdout + " " + res.stderr
 
       {
-        'Sorry, try again' => ['Wrong sudo password.', :bad_sudo_password],
-        'sudo: no tty present and no askpass program specified' =>
-          ['Sudo requires a password, please configure it.', :sudo_password_required],
-        'sudo: command not found' =>
+        "Sorry, try again" => ["Wrong sudo password.", :bad_sudo_password],
+        "sudo: no tty present and no askpass program specified" =>
+          ["Sudo requires a password, please configure it.", :sudo_password_required],
+        "sudo: command not found" =>
           ["Can't find sudo command. Please either install and "\
-            'configure it on the target or deactivate sudo.', :sudo_command_not_found],
-        'sudo: sorry, you must have a tty to run sudo' =>
-          ['Sudo requires a TTY. Please see the README on how to configure '\
-            'sudo to allow for non-interactive usage.', :sudo_no_tty],
+            "configure it on the target or deactivate sudo.", :sudo_command_not_found],
+        "sudo: sorry, you must have a tty to run sudo" =>
+          ["Sudo requires a TTY. Please see the README on how to configure "\
+            "sudo to allow for non-interactive usage.", :sudo_no_tty],
       }.each do |sudo, human|
         rawerr = human if rawerr.include? sudo
       end
@@ -91,13 +91,13 @@ module Train::Extras
     # wrap the cmd in a sudo command
     def sudo_wrap(cmd)
       return cmd unless @sudo
-      return cmd if @user == 'root'
+      return cmd if @user == "root"
 
-      res = (@sudo_command || 'sudo') + ' '
+      res = (@sudo_command || "sudo") + " "
 
       res = "#{safe_string(@sudo_password + "\n")} | #{res}-S " unless @sudo_password.nil?
 
-      res << @sudo_options.to_s + ' ' unless @sudo_options.nil?
+      res << @sudo_options.to_s + " " unless @sudo_options.nil?
 
       res + cmd
     end
@@ -107,8 +107,8 @@ module Train::Extras
     def shell_wrap(cmd)
       return cmd unless @shell
 
-      shell = @shell_command || '$SHELL'
-      options = ' ' + @shell_options.to_s unless @shell_options.nil?
+      shell = @shell_command || "$SHELL"
+      options = " " + @shell_options.to_s unless @shell_options.nil?
 
       "#{safe_string(cmd)} | #{shell}#{options}"
     end
@@ -143,13 +143,13 @@ module Train::Extras
 
     # Wrap the cmd in an encoded command to allow pipes and quotes
     def powershell_wrap(cmd)
-      shell = @shell_command || 'powershell'
+      shell = @shell_command || "powershell"
 
       # Prevent progress stream from leaking into stderr
       script = "$ProgressPreference='SilentlyContinue';" + cmd
 
       # Encode script so PowerShell can use it
-      script = script.encode('UTF-16LE', 'UTF-8')
+      script = script.encode("UTF-16LE", "UTF-8")
       base64_script = Base64.strict_encode64(script)
 
       cmd = "#{shell} -NoProfile -EncodedCommand #{base64_script}"

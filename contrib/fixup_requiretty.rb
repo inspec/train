@@ -13,11 +13,11 @@
 # (unless you set TRAIN_SUDO_VERY_MUCH=yes)
 
 # FIXME
-user = ENV['TRAIN_SUDO_USER'] || 'todo-some-clever-default-maybe-current-user'
+user = ENV["TRAIN_SUDO_USER"] || "todo-some-clever-default-maybe-current-user"
 sudoer = "/etc/sudoers.d/#{user}"
 
 log "Warning: a sudoers configuration for user #{user} already exists, "\
-    'doing nothing (override with TRAIN_SUDO_VERY_MUCH=yes)' do
+    "doing nothing (override with TRAIN_SUDO_VERY_MUCH=yes)" do
   only_if "test -f #{sudoer} || grep #{user} /etc/sudoers"
 end
 
@@ -25,7 +25,7 @@ file sudoer do
   content "#{user} ALL=(root) NOPASSWD:ALL\n"\
           "Defaults:#{user} !requiretty\n"
   mode 0600
-  action ENV['TRAIN_SUDO_VERY_MUCH'] == 'yes' ? :create : :create_if_missing
+  action ENV["TRAIN_SUDO_VERY_MUCH"] == "yes" ? :create : :create_if_missing
 
   # Do not add something here if the user is mentioned explicitly in /etc/sudoers
   not_if "grep #{user} /etc/sudoers"

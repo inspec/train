@@ -1,10 +1,10 @@
 # encoding: utf-8
 
-require 'coveralls'
+require "coveralls"
 Coveralls.wear!
 
-require 'minitest/autorun'
-require 'minitest/spec'
+require "minitest/autorun"
+require "minitest/spec"
 
 # Tests configuration:
 module Test
@@ -23,12 +23,12 @@ module Test
 
     def root_group(os)
       case os[:family]
-      when 'freebsd'
-        'wheel'
-      when 'aix'
-        'system'
+      when "freebsd"
+        "wheel"
+      when "aix"
+        "system"
       else
-        'root'
+        "root"
       end
     end
 
@@ -40,22 +40,22 @@ module Test
 
       h = {}
       h.default = Hash.new(nil)
-      h['redhat'] = {}
-      h['redhat'].default = 'unconfined_u:object_r:user_tmp_t:s0'
-      h['redhat']['5.11'] = 'user_u:object_r:tmp_t'
-      h['centos'] = h['fedora'] = h['redhat']
+      h["redhat"] = {}
+      h["redhat"].default = "unconfined_u:object_r:user_tmp_t:s0"
+      h["redhat"]["5.11"] = "user_u:object_r:tmp_t"
+      h["centos"] = h["fedora"] = h["redhat"]
       labels.default = dup(h)
 
-      h['redhat'].default = 'unconfined_u:object_r:tmp_t:s0'
-      labels['/tmp/block_device'] = dup(h)
+      h["redhat"].default = "unconfined_u:object_r:tmp_t:s0"
+      labels["/tmp/block_device"] = dup(h)
 
       h = {}
       h.default = Hash.new(nil)
-      h['redhat'] = {}
-      h['redhat'].default = 'system_u:object_r:null_device_t:s0'
-      h['redhat']['5.11'] = 'system_u:object_r:null_device_t'
-      h['centos'] = h['fedora'] = h['redhat']
-      labels['/dev/null'] = dup(h)
+      h["redhat"] = {}
+      h["redhat"].default = "system_u:object_r:null_device_t:s0"
+      h["redhat"]["5.11"] = "system_u:object_r:null_device_t"
+      h["centos"] = h["fedora"] = h["redhat"]
+      labels["/dev/null"] = dup(h)
 
       labels[path][os[:family]][os[:release]]
     end

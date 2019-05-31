@@ -10,7 +10,7 @@ module Train
         def sanitize_filename(path)
           return if path.nil?
           # we do not filter :, backslash and forward slash, since they are part of the path
-          @spath = path.gsub(/[<>"|?*]/, '')
+          @spath = path.gsub(/[<>"|?*]/, "")
         end
 
         def basename(suffix = nil, sep = '\\')
@@ -28,7 +28,7 @@ module Train
         def exist?
           return @exist if defined?(@exist)
           @exist = @backend.run_command(
-            "(Test-Path -Path \"#{@spath}\").ToString()").stdout.chomp == 'True'
+            "(Test-Path -Path \"#{@spath}\").ToString()").stdout.chomp == "True"
         end
 
         def owner
@@ -39,11 +39,11 @@ module Train
         end
 
         def type
-          if attributes.include?('Archive') && !attributes.include?('Directory')
+          if attributes.include?("Archive") && !attributes.include?("Directory")
             return :file
-          elsif attributes.include?('ReparsePoint')
+          elsif attributes.include?("ReparsePoint")
             return :symlink
-          elsif attributes.include?('Directory')
+          elsif attributes.include?("Directory")
             return :directory
           end
           :unknown

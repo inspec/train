@@ -15,18 +15,18 @@
 # You don't have to worry about most of this.
 
 # This allow us to inherit from Train::Plugins::Transport::BaseConnection
-require 'train'
+require "train"
 
 # Push platform detection out to a mixin, as it tends
 # to develop at a different cadence than the rest
-require 'train-local-rot13/platform'
+require "train-local-rot13/platform"
 
 # This is a support library for our file content meddling
-require 'train-local-rot13/file_content_rotator'
+require "train-local-rot13/file_content_rotator"
 
 # This is a support library for our command meddling
-require 'mixlib/shellout'
-require 'ostruct'
+require "mixlib/shellout"
+require "ostruct"
 
 module TrainPlugins
   module LocalRot13
@@ -74,7 +74,7 @@ module TrainPlugins
           # And meddle with the stdout along the way.
           stdout: Rot13.rotate(run_result.stdout),
           stderr: run_result.stderr,
-          exit_status: run_result.exitstatus,
+          exit_status: run_result.exitstatus
         )
       end
     end

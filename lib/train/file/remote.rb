@@ -3,9 +3,9 @@
 module Train
   class File
     class Remote < Train::File
-      def basename(suffix = nil, sep = '/')
-        fail 'Not yet supported: Suffix in file.basename' unless suffix.nil?
-        @basename ||= detect_filename(path, sep || '/')
+      def basename(suffix = nil, sep = "/")
+        raise "Not yet supported: Suffix in file.basename" unless suffix.nil?
+        @basename ||= detect_filename(path, sep || "/")
       end
 
       def stat
@@ -29,8 +29,8 @@ end
 
 # subclass requires are loaded after Train::File::Remote is defined
 # to avoid superclass mismatch errors
-require 'train/file/remote/aix'
-require 'train/file/remote/linux'
-require 'train/file/remote/qnx'
-require 'train/file/remote/unix'
-require 'train/file/remote/windows'
+require "train/file/remote/aix"
+require "train/file/remote/linux"
+require "train/file/remote/qnx"
+require "train/file/remote/unix"
+require "train/file/remote/windows"

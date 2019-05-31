@@ -3,13 +3,13 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require 'train/plugins'
-require 'train/errors'
-require 'mixlib/shellout'
+require "train/plugins"
+require "train/errors"
+require "mixlib/shellout"
 
 module Train::Transports
   class Local < Train.plugin(1)
-    name 'local'
+    name "local"
 
     class PipeError < Train::TransportError; end
 
@@ -33,7 +33,7 @@ module Train::Transports
       end
 
       def uri
-        'local://'
+        "local://"
       end
 
       private
@@ -41,10 +41,10 @@ module Train::Transports
       def select_runner(options)
         if os.windows?
           # Force a 64 bit poweshell if needed
-          if RUBY_PLATFORM == 'i386-mingw32' && os.arch == 'x86_64'
+          if RUBY_PLATFORM == "i386-mingw32" && os.arch == "x86_64"
             powershell_cmd = "#{ENV['SystemRoot']}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
           else
-            powershell_cmd = 'powershell'
+            powershell_cmd = "powershell"
           end
 
           # Attempt to use a named pipe but fallback to ShellOut if that fails
@@ -67,7 +67,7 @@ module Train::Transports
         when :windows_shell
           WindowsShellRunner.new
         else
-          fail "Runner type `#{command_runner}` not supported"
+          raise "Runner type `#{command_runner}` not supported"
         end
       end
 
@@ -82,7 +82,7 @@ module Train::Transports
         res.run_command
         Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
       rescue Errno::ENOENT => _
-        CommandResult.new('', '', 1)
+        CommandResult.new("", "", 1)
       end
 
       def file_via_connection(path)
@@ -112,10 +112,10 @@ module Train::Transports
       end
 
       class WindowsShellRunner
-        require 'json'
-        require 'base64'
+        require "json"
+        require "base64"
 
-        def initialize(powershell_cmd = 'powershell')
+        def initialize(powershell_cmd = "powershell")
           @powershell_cmd = powershell_cmd
         end
 
@@ -124,7 +124,7 @@ module Train::Transports
           script = "$ProgressPreference='SilentlyContinue';" + script
 
           # Encode script so PowerShell can use it
-          script = script.encode('UTF-16LE', 'UTF-8')
+          script = script.encode("UTF-16LE", "UTF-8")
           base64_script = Base64.strict_encode64(script)
 
           cmd = "#{@powershell_cmd} -NoProfile -EncodedCommand #{base64_script}"
@@ -136,14 +136,14 @@ module Train::Transports
       end
 
       class WindowsPipeRunner
-        require 'json'
-        require 'base64'
-        require 'securerandom'
+        require "json"
+        require "base64"
+        require "securerandom"
 
-        def initialize(powershell_cmd = 'powershell')
+        def initialize(powershell_cmd = "powershell")
           @powershell_cmd = powershell_cmd
           @pipe = acquire_pipe
-          fail PipeError if @pipe.nil?
+          raise PipeError if @pipe.nil?
         end
 
         def run_command(cmd)
@@ -167,7 +167,7 @@ module Train::Transports
           # PowerShell needs time to create pipe.
           100.times do
             begin
-              pipe = open("//./pipe/#{pipe_name}", 'r+')
+              pipe = open("//./pipe/#{pipe_name}", "r+")
               break
             rescue
               sleep 0.1
@@ -178,7 +178,7 @@ module Train::Transports
         end
 
         def start_pipe_server(pipe_name)
-          require 'win32/process'
+          require "win32/process"
 
           script = <<-EOF
             $ErrorActionPreference = 'Stop'
@@ -213,14 +213,14 @@ module Train::Transports
             }
           EOF
 
-          utf8_script = script.encode('UTF-16LE', 'UTF-8')
+          utf8_script = script.encode("UTF-16LE", "UTF-8")
           base64_script = Base64.strict_encode64(utf8_script)
           cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
 
           server_pid = Process.create(command_line: cmd).process_id
 
           # Ensure process is killed when the Train process exits
-          at_exit { Process.kill('KILL', server_pid) }
+          at_exit { Process.kill("KILL", server_pid) }
         end
       end
     end

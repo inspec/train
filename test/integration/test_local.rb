@@ -1,13 +1,13 @@
 # encoding: utf-8
 # author: Dominik Richter
 
-require_relative 'helper'
-require 'train'
+require_relative "helper"
+require "train"
 
 backends = {}
 
 backends[:local] = proc { |*opts|
-  Train.create('local', {}).connection(opts[0])
+  Train.create("local", {}).connection(opts[0])
 }
 
 tests = ARGV

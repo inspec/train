@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-require 'inifile'
-require 'train/transports/helpers/azure/file_parser'
-require 'train/transports/helpers/azure/subscription_number_file_parser'
-require 'train/transports/helpers/azure/subscription_id_file_parser'
+require "inifile"
+require "train/transports/helpers/azure/file_parser"
+require "train/transports/helpers/azure/subscription_number_file_parser"
+require "train/transports/helpers/azure/subscription_id_file_parser"
 
 module Train::Transports
   module Helpers
@@ -13,7 +13,7 @@ module Train::Transports
           return {} if credentials_file.nil?
           return {} unless ::File.readable?(credentials_file)
           credentials     = IniFile.load(::File.expand_path(credentials_file))
-          subscription_id = parser(subscription_id, ENV['AZURE_SUBSCRIPTION_NUMBER'], credentials).subscription_id
+          subscription_id = parser(subscription_id, ENV["AZURE_SUBSCRIPTION_NUMBER"], credentials).subscription_id
           creds(subscription_id, credentials)
         end
 
@@ -30,9 +30,9 @@ module Train::Transports
         def self.creds(subscription_id, credentials)
           {
             subscription_id: subscription_id,
-            tenant_id:       credentials[subscription_id]['tenant_id'],
-            client_id:       credentials[subscription_id]['client_id'],
-            client_secret:   credentials[subscription_id]['client_secret'],
+            tenant_id: credentials[subscription_id]["tenant_id"],
+            client_id: credentials[subscription_id]["client_id"],
+            client_secret: credentials[subscription_id]["client_secret"],
           }
         end
       end

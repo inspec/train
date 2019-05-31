@@ -6,3 +6,5 @@ Gemfile.local
 TAGS
 terraform.tfstate.backup
 .terraform
+.bundle
+.gems

@@ -44,7 +44,7 @@ module Train::Platforms
       @cleaned_name = nil if force
       @cleaned_name ||= begin
                           name = (@platform[:name] || @name)
-                          name.downcase!.tr!(' ', '_') if name =~ /[A-Z ]/
+                          name.downcase!.tr!(" ", "_") if name =~ /[A-Z ]/
                           name
                         end
     end
@@ -59,7 +59,7 @@ module Train::Platforms
       if respond_to?(name)
         send(name)
       else
-        'unknown'
+        "unknown"
       end
     end
 
@@ -88,8 +88,8 @@ module Train::Platforms
       # Add in family methods
       family_list = Train::Platforms.families
       family_list.each_value do |k|
-        next if respond_to?(k.name + '?')
-        define_singleton_method(k.name + '?') do
+        next if respond_to?(k.name + "?")
+        define_singleton_method(k.name + "?") do
           family_hierarchy.include?(k.name)
         end
       end
@@ -103,7 +103,7 @@ module Train::Platforms
       end
 
       # Create method for name if its not already true
-      m = name + '?'
+      m = name + "?"
       return if respond_to?(m)
       define_singleton_method(m) do
         true

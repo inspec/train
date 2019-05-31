@@ -1,13 +1,9 @@
-# encoding: utf-8
-
-require 'shellwords'
+require "shellwords"
 
 module Train
   class File
     class Remote
       class Unix < Train::File::Remote
-        attr_reader :path
-
         def sanitize_filename(path)
           @spath = Shellwords.escape(path) || @path
         end
@@ -16,19 +12,19 @@ module Train
           @content ||=
             if !exist? || directory?
               nil
-            elsif size.nil? || size.zero?
-              ''
+            elsif size.nil? || size == 0
+              ""
             else
-              @backend.run_command("cat #{@spath}").stdout || ''
+              @backend.run_command("cat #{@spath}").stdout || ""
             end
         end
 
         def exist?
-          @exist ||= (
-            f = @follow_symlink ? '' : " || test -L #{@spath}"
-            @backend.run_command("test -e #{@spath}"+f)
+          @exist ||= begin
+            f = @follow_symlink ? "" : " || test -L #{@spath}"
+            @backend.run_command("test -e #{@spath}" + f)
                     .exit_status == 0
-          )
+          end
         end
 
         def mounted
@@ -88,14 +84,14 @@ module Train
           full_path = @backend.run_command("readlink -n #{@spath} -f").stdout
           # Needed for some OSes like OSX that returns relative path
           # when the link and target are in the same directory
-          if !full_path.start_with?('/') && full_path != ''
+          if !full_path.start_with?("/") && full_path != ""
             full_path = ::File.expand_path("../#{full_path}", @spath)
           end
           full_path
         end
 
         UNIX_MODE_OWNERS = {
-          all:   00777,
+          all: 00777,
           owner: 00700,
           group: 00070,
           other: 00007,

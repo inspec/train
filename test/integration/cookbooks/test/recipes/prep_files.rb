@@ -5,52 +5,52 @@
 # Helper recipe to create create a few files in the operating
 # systems, which the runner will test against.
 
-gid = node['platform_family'] == 'aix' ? 'system' : node['root_group']
+gid = node["platform_family"] == "aix" ? "system" : node["root_group"]
 
-file '/tmp/file' do
-  mode '0765'
-  owner 'root'
+file "/tmp/file" do
+  mode "0765"
+  owner "root"
   group gid
-  content 'hello world'
+  content "hello world"
 end
 
-file '/tmp/sfile' do
-  mode '7765'
-  owner 'root'
+file "/tmp/sfile" do
+  mode "7765"
+  owner "root"
   group gid
-  content 'hello suid/sgid/sticky'
+  content "hello suid/sgid/sticky"
 end
 
-file '/tmp/spaced file' do
-  content 'hello space'
+file "/tmp/spaced file" do
+  content "hello space"
 end
 
-directory '/tmp/folder' do
-  mode '0567'
-  owner 'root'
+directory "/tmp/folder" do
+  mode "0567"
+  owner "root"
   group gid
 end
 
-link '/tmp/symlink' do
-  to '/tmp/file'
-  owner 'root'
+link "/tmp/symlink" do
+  to "/tmp/file"
+  owner "root"
   group gid
-  mode '0777'
+  mode "0777"
 end
 
-link '/usr/bin/allyourbase' do
-  to '/usr/bin/sudo'
-  owner 'root'
+link "/usr/bin/allyourbase" do
+  to "/usr/bin/sudo"
+  owner "root"
   group gid
-  mode '0777'
+  mode "0777"
 end
 
-execute 'create pipe/fifo' do
-  command 'mkfifo /tmp/pipe'
-  not_if 'test -e /tmp/pipe'
+execute "create pipe/fifo" do
+  command "mkfifo /tmp/pipe"
+  not_if "test -e /tmp/pipe"
 end
 
-execute 'create block_device' do
+execute "create block_device" do
   command "mknod /tmp/block_device b 7 7 && chmod 0666 /tmp/block_device && chown root:#{gid} /tmp/block_device"
-  not_if 'test -e /tmp/block_device'
+  not_if "test -e /tmp/block_device"
 end

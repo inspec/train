@@ -1,15 +1,15 @@
 # encoding: utf-8
 
-require 'azure_mgmt_key_vault'
+require "azure_mgmt_key_vault"
 
 # Wrapper class for ::Azure::KeyVault::Profiles::Latest::Mgmt::Client allowing custom configuration,
 # for example, defining additional settings for the ::MsRestAzure::ApplicationTokenProvider.
 class Vault
   AUTH_ENDPOINT = MsRestAzure::AzureEnvironments::AzureCloud.active_directory_endpoint_url
-  RESOURCE_ENDPOINT = 'https://vault.azure.net'.freeze
+  RESOURCE_ENDPOINT = "https://vault.azure.net".freeze
 
   def self.client(vault_name, credentials)
-    raise ::Train::UserError, 'Vault Name cannot be nil' if vault_name.nil?
+    raise ::Train::UserError, "Vault Name cannot be nil" if vault_name.nil?
 
     credentials[:credentials] = ::MsRest::TokenCredentials.new(provider(credentials))
     credentials[:base_url] = api_endpoint(vault_name)
@@ -22,7 +22,7 @@ class Vault
       credentials[:tenant_id],
       credentials[:client_id],
       credentials[:client_secret],
-      settings,
+      settings
     )
   end
 

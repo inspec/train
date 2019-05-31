@@ -18,9 +18,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'net/ssh'
-require 'net/scp'
-require 'train/errors'
+require "net/ssh"
+require "net/scp"
+require "train/errors"
 
 module Train::Transports
   # Wrapped exception for any internally raised SSH-related errors.
@@ -34,10 +34,10 @@ module Train::Transports
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class SSH < Train.plugin(1) # rubocop:disable Metrics/ClassLength
-    name 'ssh'
+    name "ssh"
 
-    require 'train/transports/ssh_connection'
-    require 'train/transports/cisco_ios_connection'
+    require "train/transports/ssh_connection"
+    require "train/transports/cisco_ios_connection"
 
     # add options for submodules
     include_options Train::Extras::CommandWrapper
@@ -45,7 +45,7 @@ module Train::Transports
     # common target configuration
     option :host,      required: true
     option :port,      default: 22, required: true
-    option :user,      default: 'root', required: true
+    option :user,      default: "root", required: true
     option :key_files, default: nil
     option :password,  default: nil
 
@@ -60,7 +60,7 @@ module Train::Transports
     option :pty, default: false
     option :proxy_command, default: nil
     option :bastion_host, default: nil
-    option :bastion_user, default: 'root'
+    option :bastion_user, default: "root"
     option :bastion_port, default: 22
     option :non_interactive, default: false
     option :verify_host_key, default: false
@@ -89,34 +89,34 @@ module Train::Transports
       super(options)
 
       key_files = Array(options[:key_files])
-      options[:auth_methods] ||= ['none']
+      options[:auth_methods] ||= ["none"]
 
       unless key_files.empty?
-        options[:auth_methods].push('publickey')
+        options[:auth_methods].push("publickey")
         options[:keys_only] = true if options[:password].nil?
         options[:key_files] = key_files
       end
 
       unless options[:password].nil?
-        options[:auth_methods].push('password', 'keyboard-interactive')
+        options[:auth_methods].push("password", "keyboard-interactive")
       end
 
-      if options[:auth_methods] == ['none']
+      if options[:auth_methods] == ["none"]
         if ssh_known_identities.empty?
-          fail Train::ClientError,
-               'Your SSH Agent has no keys added, and you have not specified a password or a key file'
+          raise Train::ClientError,
+               "Your SSH Agent has no keys added, and you have not specified a password or a key file"
         else
-          logger.debug('[SSH] Using Agent keys as no password or key file have been specified')
-          options[:auth_methods].push('publickey')
+          logger.debug("[SSH] Using Agent keys as no password or key file have been specified")
+          options[:auth_methods].push("publickey")
         end
       end
 
       if options[:pty]
-        logger.warn('[SSH] PTY requested: stderr will be merged into stdout')
+        logger.warn("[SSH] PTY requested: stderr will be merged into stdout")
       end
 
       if [options[:proxy_command], options[:bastion_host]].all? { |type| !type.nil? }
-        fail Train::ClientError, 'Only one of proxy_command or bastion_host needs to be specified'
+        raise Train::ClientError, "Only one of proxy_command or bastion_host needs to be specified"
       end
 
       super
@@ -142,30 +142,30 @@ module Train::Transports
     # @api private
     def connection_options(opts)
       connection_options = {
-        logger:                 logger,
-        user_known_hosts_file:  '/dev/null',
-        hostname:               opts[:host],
-        port:                   opts[:port],
-        username:               opts[:user],
-        compression:            opts[:compression],
-        compression_level:      opts[:compression_level],
-        keepalive:              opts[:keepalive],
-        keepalive_interval:     opts[:keepalive_interval],
-        timeout:                opts[:connection_timeout],
-        connection_retries:     opts[:connection_retries],
+        logger: logger,
+        user_known_hosts_file: "/dev/null",
+        hostname: opts[:host],
+        port: opts[:port],
+        username: opts[:user],
+        compression: opts[:compression],
+        compression_level: opts[:compression_level],
+        keepalive: opts[:keepalive],
+        keepalive_interval: opts[:keepalive_interval],
+        timeout: opts[:connection_timeout],
+        connection_retries: opts[:connection_retries],
         connection_retry_sleep: opts[:connection_retry_sleep],
-        max_wait_until_ready:   opts[:max_wait_until_ready],
-        auth_methods:           opts[:auth_methods],
-        keys_only:              opts[:keys_only],
-        keys:                   opts[:key_files],
-        password:               opts[:password],
-        forward_agent:          opts[:forward_agent],
-        proxy_command:          opts[:proxy_command],
-        bastion_host:           opts[:bastion_host],
-        bastion_user:           opts[:bastion_user],
-        bastion_port:           opts[:bastion_port],
-        non_interactive:        opts[:non_interactive],
-        transport_options:      opts,
+        max_wait_until_ready: opts[:max_wait_until_ready],
+        auth_methods: opts[:auth_methods],
+        keys_only: opts[:keys_only],
+        keys: opts[:key_files],
+        password: opts[:password],
+        forward_agent: opts[:forward_agent],
+        proxy_command: opts[:proxy_command],
+        bastion_host: opts[:bastion_host],
+        bastion_user: opts[:bastion_user],
+        bastion_port: opts[:bastion_port],
+        non_interactive: opts[:non_interactive],
+        transport_options: opts,
       }
       # disable host key verification. The hash key and value to use
       # depends on the version of net-ssh in use.
@@ -203,20 +203,20 @@ module Train::Transports
         # 5.0+ style
         {
           # It's not a boolean anymore.
-          'true' => :always,
-          'false' => :never,
+          "true" => :always,
+          "false" => :never,
           true => :always,
           false => :never,
           # May be correct value, but strings from JSON config
-          'always' => :always,
-          'never' => :never,
+          "always" => :always,
+          "never" => :never,
           nil => :never,
         }.fetch(given, given)
       else
         # up to 4.2 style
         {
-          'true' => true,
-          'false' => false,
+          "true" => true,
+          "false" => false,
           nil => false,
         }.fetch(given, given)
       end

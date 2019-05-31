@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-require 'train/errors'
-require 'train/extras'
-require 'train/file'
-require 'logger'
+require "train/errors"
+require "train/extras"
+require "train/file"
+require "logger"
 
 class Train::Plugins::Transport
   # A Connection instance can be generated and re-generated, given new
@@ -64,12 +64,12 @@ class Train::Plugins::Transport
     # Enable caching types for Train. Currently we support
     # :api_call, :file and :command types
     def enable_cache(type)
-      fail Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
+      raise Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
       @cache_enabled[type.to_sym] = true
     end
 
     def disable_cache(type)
-      fail Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
+      raise Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
       @cache_enabled[type.to_sym] = false
       clear_cache(type.to_sym)
     end
@@ -81,13 +81,13 @@ class Train::Plugins::Transport
 
     def to_json
       {
-        'files' => Hash[@cache[:file].map { |x, y| [x, y.to_json] }],
+        "files" => Hash[@cache[:file].map { |x, y| [x, y.to_json] }],
       }
     end
 
     def load_json(j)
-      require 'train/transports/mock'
-      j['files'].each do |path, jf|
+      require "train/transports/mock"
+      j["files"].each do |path, jf|
         @cache[:file][path] = Train::Transports::Mock::Connection::File.from_json(jf)
       end
     end
@@ -137,7 +137,7 @@ class Train::Plugins::Transport
     #
     # @return [LoginCommand] array of command line tokens
     def login_command
-      fail NotImplementedError, "#{self.class} does not implement #login_command()"
+      raise NotImplementedError, "#{self.class} does not implement #login_command()"
     end
 
     # Block and return only when the remote host is prepared and ready to
@@ -161,7 +161,7 @@ class Train::Plugins::Transport
     #
     # @return [CommandResult] contains the result of running the command
     def run_command_via_connection(_command, &_data_handler)
-      fail NotImplementedError, "#{self.class} does not implement #run_command_via_connection()"
+      raise NotImplementedError, "#{self.class} does not implement #run_command_via_connection()"
     end
 
     # Interact with files on the target. Read, write, and get metadata
@@ -170,7 +170,7 @@ class Train::Plugins::Transport
     # @param [String] path which is being inspected
     # @return [FileCommon] file object that allows for interaction
     def file_via_connection(_path, *_args)
-      fail NotImplementedError, "#{self.class} does not implement #file_via_connection(...)"
+      raise NotImplementedError, "#{self.class} does not implement #file_via_connection(...)"
     end
 
     def clear_cache(type)

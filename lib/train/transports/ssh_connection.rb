@@ -18,9 +18,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require 'net/ssh'
-require 'net/scp'
-require 'timeout'
+require "net/ssh"
+require "net/scp"
+require "timeout"
 
 class Train::Transports::SSH
   # A Connection instance can be generated and re-generated, given new
@@ -63,17 +63,17 @@ class Train::Transports::SSH
     end
 
     def ssh_opts
-      level = logger.debug? ? 'VERBOSE' : 'ERROR'
-      fwd_agent = options[:forward_agent] ? 'yes' : 'no'
+      level = logger.debug? ? "VERBOSE" : "ERROR"
+      fwd_agent = options[:forward_agent] ? "yes" : "no"
 
       args  = %w{ -o UserKnownHostsFile=/dev/null }
       args += %w{ -o StrictHostKeyChecking=no }
       args += %w{ -o IdentitiesOnly=yes } if options[:keys]
       args += %w{ -o BatchMode=yes } if options[:non_interactive]
-      args += %W( -o LogLevel=#{level} )
-      args += %W( -o ForwardAgent=#{fwd_agent} ) if options.key?(:forward_agent)
+      args += %W{ -o LogLevel=#{level} }
+      args += %W{ -o ForwardAgent=#{fwd_agent} } if options.key?(:forward_agent)
       Array(options[:keys]).each do |ssh_key|
-        args += %W( -i #{ssh_key} )
+        args += %W{ -i #{ssh_key} }
       end
       args
     end
@@ -86,19 +86,19 @@ class Train::Transports::SSH
       return @proxy_command unless @proxy_command.nil?
       args = %w{ ssh }
       args += ssh_opts
-      args += %W( #{@bastion_user}@#{@bastion_host} )
-      args += %W( -p #{@bastion_port} )
+      args += %W{ #{@bastion_user}@#{@bastion_host} }
+      args += %W{ -p #{@bastion_port} }
       args += %w{ -W %h:%p }
-      args.join(' ')
+      args.join(" ")
     end
 
     # (see Base::Connection#login_command)
     def login_command
       args = ssh_opts
-      args += %W( -o ProxyCommand='#{generate_proxy_command}' ) if check_proxy
-      args += %W( -p #{@port} )
-      args += %W( #{@username}@#{@hostname} )
-      LoginCommand.new('ssh', args)
+      args += %W{ -o ProxyCommand='#{generate_proxy_command}' } if check_proxy
+      args += %W{ -p #{@port} }
+      args += %W{ #{@username}@#{@hostname} }
+      LoginCommand.new("ssh", args)
     end
 
     # (see Base::Connection#upload)
@@ -138,7 +138,7 @@ class Train::Transports::SSH
         retries: @max_wait_until_ready / delay,
         delay:   delay,
         message: "Waiting for SSH service on #{@hostname}:#{@port}, " \
-                 "retrying in #{delay} seconds",
+                 "retrying in #{delay} seconds"
       )
       run_command(PING_COMMAND.dup)
     end
@@ -172,14 +172,14 @@ class Train::Transports::SSH
     def establish_connection(opts)
       logger.debug("[SSH] opening connection to #{self}")
       if check_proxy
-        require 'net/ssh/proxy/command'
+        require "net/ssh/proxy/command"
         @options[:proxy] = Net::SSH::Proxy::Command.new(generate_proxy_command)
       end
       Net::SSH.start(@hostname, @username, @options.clone.delete_if { |_key, value| value.nil? })
     rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH => e
       if (opts[:retries] -= 1) <= 0
         logger.warn("[SSH] connection failed, terminating (#{e.inspect})")
-        raise Train::Transports::SSHFailed, 'SSH session could not be established'
+        raise Train::Transports::SSHFailed, "SSH session could not be established"
       end
 
       if opts[:message]
@@ -200,7 +200,7 @@ class Train::Transports::SSH
         Train::File::Remote::Aix.new(self, path)
       elsif os.solaris?
         Train::File::Remote::Unix.new(self, path)
-      elsif os[:name] == 'qnx'
+      elsif os[:name] == "qnx"
         Train::File::Remote::Qnx.new(self, path)
       elsif os.windows?
         Train::File::Remote::Windows.new(self, path)
@@ -210,7 +210,7 @@ class Train::Transports::SSH
     end
 
     def run_command_via_connection(cmd, &data_handler)
-      cmd.dup.force_encoding('binary') if cmd.respond_to?(:force_encoding)
+      cmd.dup.force_encoding("binary") if cmd.respond_to?(:force_encoding)
       logger.debug("[SSH] #{self} (#{cmd})")
 
       reset_session if session.closed?
@@ -228,7 +228,7 @@ class Train::Transports::SSH
       # transport. This retries the command if this is the case.
       # See:
       #  https://github.com/inspec/train/pull/271
-      logger.debug('[SSH] Possible Cisco IOS race condition, retrying command')
+      logger.debug("[SSH] Possible Cisco IOS race condition, retrying command")
 
       # Only attempt retry up to 5 times to avoid infinite loop
       @ios_cmd_retries += 1
@@ -246,7 +246,7 @@ class Train::Transports::SSH
     def session(retry_options = {})
       @session ||= establish_connection({
         retries: @connection_retries.to_i,
-        delay:   @connection_retry_sleep.to_i,
+        delay: @connection_retry_sleep.to_i,
       }.merge(retry_options))
     end
 
@@ -260,7 +260,7 @@ class Train::Transports::SSH
     # @api private
     def to_s
       options_to_print = @options.clone
-      options_to_print[:password] = '<hidden>' if options_to_print.key?(:password)
+      options_to_print[:password] = "<hidden>" if options_to_print.key?(:password)
       "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
     end
 
@@ -274,7 +274,7 @@ class Train::Transports::SSH
     #
     # @api private
     def execute_on_channel(cmd, &data_handler)
-      stdout = stderr = ''
+      stdout = stderr = ""
       exit_status = nil
       session.open_channel do |channel|
         # wrap commands if that is configured
@@ -282,11 +282,11 @@ class Train::Transports::SSH
 
         if @transport_options[:pty]
           channel.request_pty do |_ch, success|
-            fail Train::Transports::SSHPTYFailed, 'Requesting PTY failed' unless success
+            raise Train::Transports::SSHPTYFailed, "Requesting PTY failed" unless success
           end
         end
         channel.exec(cmd) do |_, success|
-          abort 'Couldn\'t execute command on SSH.' unless success
+          abort "Couldn't execute command on SSH." unless success
           channel.on_data do |_, data|
             yield(data) unless data_handler.nil?
             stdout += data
@@ -297,11 +297,11 @@ class Train::Transports::SSH
             stderr += data
           end
 
-          channel.on_request('exit-status') do |_, data|
+          channel.on_request("exit-status") do |_, data|
             exit_status = data.read_long
           end
 
-          channel.on_request('exit-signal') do |_, data|
+          channel.on_request("exit-signal") do |_, data|
             exit_status = data.read_long
           end
         end

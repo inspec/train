@@ -3,11 +3,11 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 # Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
-require 'train/errors'
+require "train/errors"
 
 module Train
   class Plugins
-    require 'train/plugins/transport'
+    require "train/plugins/transport"
 
     class << self
       # Retrieve the current plugin registry, containing all plugin names
@@ -30,10 +30,10 @@ module Train
   # @return [Transport] the versioned transport base class
   def self.plugin(version = 1)
     if version != 1
-      fail ClientError,
-           'Only understand train plugin version 1. You are trying to '\
+      raise ClientError,
+           "Only understand train plugin version 1. You are trying to "\
            "initialize a train plugin #{version}, which is not supported "\
-           'in the current release of train.'
+           "in the current release of train."
     end
     ::Train::Plugins::Transport
   end

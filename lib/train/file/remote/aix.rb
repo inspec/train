@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'train/file/remote/unix'
+require "train/file/remote/unix"
 
 module Train
   class File

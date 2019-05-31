@@ -3,17 +3,17 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 # Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
-require 'logger'
-require 'train/errors'
-require 'train/extras'
-require 'train/options'
+require "logger"
+require "train/errors"
+require "train/extras"
+require "train/options"
 
 class Train::Plugins
   class Transport
     include Train::Extras
     Train::Options.attach(self)
 
-    require 'train/plugins/base_connection'
+    require "train/plugins/base_connection"
 
     # Initialize a new Transport object
     #
@@ -30,7 +30,7 @@ class Train::Plugins
     # @param [Hash] _options = nil provide optional configuration params
     # @return [Connection] the connection for this configuration
     def connection(_options = nil)
-      fail Train::ClientError, "#{self.class} does not implement #connection()"
+      raise Train::ClientError, "#{self.class} does not implement #connection()"
     end
 
     # Register the inheriting class with as a train plugin using the

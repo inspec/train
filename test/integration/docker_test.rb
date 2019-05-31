@@ -1,12 +1,12 @@
 # encoding: utf-8
-require_relative 'docker_run'
+require_relative "docker_run"
 tests = ARGV
 
 def test_container(container, tests)
   puts "--> run test on docker #{container.id}"
   pid = Process.fork do
-    ENV['CONTAINER'] = container.id
-    require_relative 'docker_test_container.rb'
+    ENV["CONTAINER"] = container.id
+    require_relative "docker_test_container.rb"
     Process.exit
   end
 
@@ -21,4 +21,4 @@ end
 
 failures = results.compact
 failures.each { |f| puts "\033[31;1m#{f}\033[0m\n\n" }
-failures.empty? or fail 'Test failures'
+failures.empty? || raise("Test failures")

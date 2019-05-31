@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-require 'shellwords'
-require 'train/extras/stat'
+require "shellwords"
+require "train/extras/stat"
 
 module Train
   class File
@@ -36,9 +36,9 @@ module Train
             gid: file_stat.gid,
           }
 
-          lstat = @follow_symlink ? ' -L' : ''
+          lstat = @follow_symlink ? " -L" : ""
           res = @backend.run_command("stat#{lstat} #{@spath} 2>/dev/null --printf '%C'")
-          if res.exit_status == 0 && !res.stdout.empty? && res.stdout != '?'
+          if res.exit_status == 0 && !res.stdout.empty? && res.stdout != "?"
             @stat[:selinux_label] = res.stdout.strip
           end
 
@@ -79,7 +79,7 @@ module Train
         end
 
         UNIX_MODE_OWNERS = {
-          all:   00777,
+          all: 00777,
           owner: 00700,
           group: 00070,
           other: 00007,

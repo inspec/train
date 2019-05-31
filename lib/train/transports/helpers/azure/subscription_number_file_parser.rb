@@ -13,7 +13,7 @@ module Train::Transports
 
         def validate!
           if @index == 0
-            raise 'Index must be greater than 0.'
+            raise "Index must be greater than 0."
           end
 
           if @index > @credentials.sections.length
