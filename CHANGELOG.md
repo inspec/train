@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.9 -->
-## [v2.1.9](https://github.com/inspec/train/tree/v2.1.9) (2019-05-29)
+<!-- latest_release 2.1.10 -->
+## [v2.1.10](https://github.com/inspec/train/tree/v2.1.10) (2019-05-31)
 
 #### Merged Pull Requests
-- More cleanup of test output and stability fixes [#464](https://github.com/inspec/train/pull/464) ([zenspider](https://github.com/zenspider))
+- Minor cleanup of logic in OSCommon#unix_uuid. [#465](https://github.com/inspec/train/pull/465) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.7 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Minor cleanup of logic in OSCommon#unix_uuid. [#465](https://github.com/inspec/train/pull/465) ([zenspider](https://github.com/zenspider)) <!-- 2.1.10 -->
 - More cleanup of test output and stability fixes [#464](https://github.com/inspec/train/pull/464) ([zenspider](https://github.com/zenspider)) <!-- 2.1.9 -->
 - Fixing inspec/train to be green again and improving test stability. [#463](https://github.com/inspec/train/pull/463) ([zenspider](https://github.com/zenspider)) <!-- 2.1.8 -->
 <!-- release_rollup -->
