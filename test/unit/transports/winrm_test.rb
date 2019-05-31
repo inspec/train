@@ -28,7 +28,7 @@ describe "winrm transport" do
       winrm.options[:host].must_equal "dummy"
     end
 
-    it 'has default endpoint' do
+    it "has default endpoint" do
       winrm.options[:endpoint].must_be_nil
     end
 
@@ -86,7 +86,7 @@ describe "winrm transport" do
 
   end
 
-  describe 'when configuring the connection' do
+  describe "when configuring the connection" do
     let(:winrm) do
       cls.new(conf)
     end

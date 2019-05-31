@@ -89,7 +89,7 @@ module Train::Platforms::Detect::Helpers
       (unix_uuid_from_chef         ||
        unix_uuid_from_machine_file ||
        uuid_from_command           ||
-       raise(Train::TransportError, 'Cannot find a UUID for your node.'))
+       raise(Train::TransportError, "Cannot find a UUID for your node."))
     end
 
     def unix_uuid_from_chef
