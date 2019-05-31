@@ -87,16 +87,17 @@ describe "winrm transport" do
   end
 
   describe 'when configuring the connection' do
-    let(:winrm) {
+    let(:winrm) do
       cls.new(conf)
     end
 
     let(:conf) do
-       {
-      winrm_transport: :negotiate,
-      host: rand.to_s,
-      password: rand.to_s,
-    } end
+      {
+        winrm_transport: :negotiate,
+        host: rand.to_s,
+        password: rand.to_s,
+      }
+    end
 
     def connection_option_value(name)
       winrm.send(:connection_options, conf)[name]

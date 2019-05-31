@@ -5,7 +5,7 @@ require "train/transports/ssh"
 
 describe "CiscoIOSConnection" do
   let(:cls) do
-    plat = Train::Platforms.name('mock').in_family('cisco_ios')
+    plat = Train::Platforms.name("mock").in_family("cisco_ios")
     plat.add_platform_methods
     plat.stubs(:cisco_ios?).returns(true)
     Train::Platforms::Detect.stubs(:scan).returns(plat)

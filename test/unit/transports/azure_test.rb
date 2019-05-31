@@ -77,25 +77,25 @@ describe "azure transport" do
       cache[:api_call].count.must_equal 0
     end
 
-    it 'can use azure_client default client' do
+    it "can use azure_client default client" do
       management_api_client = Azure::Resources::Profiles::Latest::Mgmt::Client
       client = connection.azure_client
       client.class.must_equal management_api_client
     end
 
-    it 'can use azure_client graph client' do
+    it "can use azure_client graph client" do
       graph_api_client = Azure::GraphRbac::Profiles::Latest::Client
       client = connection.azure_client(graph_api_client)
       client.class.must_equal graph_api_client
     end
 
-    it 'can use azure_client vault client' do
+    it "can use azure_client vault client" do
       vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
-      client = connection.azure_client(vault_api_client, vault_name: 'Test Vault')
+      client = connection.azure_client(vault_api_client, vault_name: "Test Vault")
       client.class.must_equal vault_api_client
     end
 
-    it 'cannot instantiate azure_client vault client without a vault name' do
+    it "cannot instantiate azure_client vault client without a vault name" do
       vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
       assert_raises(Train::UserError) do
         connection.azure_client(vault_api_client)

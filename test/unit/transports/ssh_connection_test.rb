@@ -1,6 +1,6 @@
-require 'helper'
-require 'train/transports/ssh'
-require 'train/transports/ssh_connection'
+require "helper"
+require "train/transports/ssh"
+require "train/transports/ssh_connection"
 
 # Mocha limitations don't let us mock a function
 # such that it can receive a block, so here's a minimal

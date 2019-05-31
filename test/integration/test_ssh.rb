@@ -7,9 +7,9 @@ require "logger"
 
 backends = {}
 backend_conf = {
-  'target'    => ENV['target']    || 'vagrant@localhost',
-  'key_files' => ENV['key_files'] || '/root/.ssh/id_rsa',
-  'logger'    => Logger.new($stdout),
+  "target" => ENV["target"] || "vagrant@localhost",
+  "key_files" => ENV["key_files"] || "/root/.ssh/id_rsa",
+  "logger" => Logger.new($stdout),
 }
 
 backend_conf["target"] = "ssh://" + backend_conf["target"]

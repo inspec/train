@@ -7,7 +7,7 @@ class TransportHelper
   attr_accessor :transport
 
   def initialize(user_opts = {})
-    opts = {platform_name: 'mock', family_hierarchy: ['mock']}.merge(user_opts)
+    opts = { platform_name: "mock", family_hierarchy: ["mock"] }.merge(user_opts)
     plat = Train::Platforms.name(opts[:platform_name])
     plat.family_hierarchy = opts[:family_hierarchy]
     plat.add_platform_methods

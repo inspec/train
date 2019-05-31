@@ -39,9 +39,9 @@ describe "mock transport" do
       connection.mock_command("test", out).must_equal res
     end
 
-    it 'handles nil commands' do
+    it "handles nil commands" do
       assert_output "", /Command not mocked/ do
-        connection.run_command(nil).stdout.must_equal('')
+        connection.run_command(nil).stdout.must_equal("")
       end
     end
 

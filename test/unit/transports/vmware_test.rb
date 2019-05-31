@@ -1,6 +1,6 @@
 # encoding: utf-8
-require 'helper'
-require 'train/transports/vmware'
+require "helper"
+require "train/transports/vmware"
 
 describe "Train::Transports::VMware::Connection" do
   def add_stubs(stub_options)

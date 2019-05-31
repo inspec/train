@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-require 'helper'
-require 'train/transports/ssh'
+require "helper"
+require "train/transports/ssh"
 
 describe "ssh transport" do
   let(:cls) do
@@ -89,7 +89,7 @@ describe "ssh transport" do
           end
         end
 
-        it 'defaults verify_host_key option to :never' do
+        it "defaults verify_host_key option to :never" do
           connection_options[:verify_host_key].must_equal :never
         end
       end
@@ -219,10 +219,10 @@ describe "ssh transport" do
       proc { cls_agent.connection }.must_raise Train::ClientError
     end
 
-    it 'wont connect if it is not possible' do
+    it "wont connect if it is not possible" do
       conf[:connection_timeout] = 1
       conf[:connection_retries] = 1
-      conf[:host] = 'localhost'
+      conf[:host] = "localhost"
       conf[:port] = 1
       conf.delete :proxy_command
       conn = cls.new(conf).connection
@@ -299,9 +299,9 @@ describe "ssh transport with bastion" do
         connection.login_command.command.must_equal "ssh"
       end
 
-make_my_diffs_pretty!
+      make_my_diffs_pretty!
 
-      it 'has login command arguments' do
+      it "has login command arguments" do
         connection.login_command.arguments.must_equal([
           "-o", "UserKnownHostsFile=/dev/null",
           "-o", "StrictHostKeyChecking=no",
