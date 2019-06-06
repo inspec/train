@@ -42,11 +42,7 @@ module Train::Platforms
 
     def clean_name(force: false)
       @cleaned_name = nil if force
-      @cleaned_name ||= begin
-                          name = (@platform[:name] || @name)
-                          name.downcase!.tr!(" ", "_") if name =~ /[A-Z ]/
-                          name
-                        end
+      @cleaned_name ||= (@platform[:name] || @name).downcase.tr(" ", "_")
     end
 
     def uuid
