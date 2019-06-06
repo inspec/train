@@ -29,7 +29,9 @@ module Train
     }.freeze
 
     DATA_FIELDS.each do |m|
-      define_method m.to_sym do
+      next if m == "path"
+
+      define_method m do
         raise NotImplementedError, "File must implement the #{m}() method."
       end
     end
