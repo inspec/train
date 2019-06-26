@@ -1,22 +1,20 @@
-<!-- latest_release 2.1.12 -->
-## [v2.1.12](https://github.com/inspec/train/tree/v2.1.12) (2019-06-26)
-
-#### Merged Pull Requests
-- Fix to raise specific error when ssh user is not provided and root is used as default user. [#466](https://github.com/inspec/train/pull/466) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.7 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Fix to raise specific error when ssh user is not provided and root is used as default user. [#466](https://github.com/inspec/train/pull/466) ([Vasu1105](https://github.com/Vasu1105)) <!-- 2.1.12 -->
-- Apply Chefstyle to train [#459](https://github.com/inspec/train/pull/459) ([miah](https://github.com/miah)) <!-- 2.1.11 -->
-- Minor cleanup of logic in OSCommon#unix_uuid. [#465](https://github.com/inspec/train/pull/465) ([zenspider](https://github.com/zenspider)) <!-- 2.1.10 -->
-- More cleanup of test output and stability fixes [#464](https://github.com/inspec/train/pull/464) ([zenspider](https://github.com/zenspider)) <!-- 2.1.9 -->
-- Fixing inspec/train to be green again and improving test stability. [#463](https://github.com/inspec/train/pull/463) ([zenspider](https://github.com/zenspider)) <!-- 2.1.8 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.12](https://github.com/inspec/train/tree/v2.1.12) (2019-06-26)
+
+#### Merged Pull Requests
+- Fixing inspec/train to be green again and improving test stability. [#463](https://github.com/inspec/train/pull/463) ([zenspider](https://github.com/zenspider))
+- More cleanup of test output and stability fixes [#464](https://github.com/inspec/train/pull/464) ([zenspider](https://github.com/zenspider))
+- Minor cleanup of logic in OSCommon#unix_uuid. [#465](https://github.com/inspec/train/pull/465) ([zenspider](https://github.com/zenspider))
+- Apply Chefstyle to train [#459](https://github.com/inspec/train/pull/459) ([miah](https://github.com/miah))
+- Fix to raise specific error when ssh user is not provided and root is used as default user. [#466](https://github.com/inspec/train/pull/466) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v2.1.7](https://github.com/inspec/train/tree/v2.1.7) (2019-05-23)
 
 #### Merged Pull Requests
@@ -25,7 +23,6 @@
 - Fix failing unit tests verify_host_key in ssh [#452](https://github.com/inspec/train/pull/452) ([marcparadise](https://github.com/marcparadise))
 - Fix fallback regex for OpenSuse [#451](https://github.com/inspec/train/pull/451) ([n-rodriguez](https://github.com/n-rodriguez))
 - Set chef-foundation as the project owner and update expeditor [#456](https://github.com/inspec/train/pull/456) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v2.1.2](https://github.com/inspec/train/tree/v2.1.2) (2019-05-15)
 
