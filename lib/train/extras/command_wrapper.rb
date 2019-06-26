@@ -162,16 +162,16 @@ module Train::Extras
     include_options WindowsCommand
 
     def self.load(transport, options)
-      if transport.os.unix?
+      if transport.platform.unix?
         return nil unless LinuxCommand.active?(options)
         res = LinuxCommand.new(transport, options)
         verification_res = res.verify
         if verification_res
           msg, reason = verification_res
-          raise Train::UserError.new("Sudo failed: #{msg}", reason)
+          raise Train::UserError, "Sudo failed: #{msg}", reason
         end
         res
-      elsif transport.os.windows?
+      elsif transport.platform.windows?
         res = WindowsCommand.new(transport, options)
         res
       end
