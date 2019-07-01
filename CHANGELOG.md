@@ -1,18 +1,16 @@
-<!-- latest_release 2.1.13 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v2.1.13](https://github.com/inspec/train/tree/v2.1.13) (2019-07-01)
 
 #### Merged Pull Requests
 - Add github templates &amp; fix the expeditor version bump script [#469](https://github.com/inspec/train/pull/469) ([tas50](https://github.com/tas50))
-<!-- latest_release -->
-
-<!-- release_rollup since=2.1.7 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Add github templates &amp; fix the expeditor version bump script [#469](https://github.com/inspec/train/pull/469) ([tas50](https://github.com/tas50)) <!-- 2.1.13 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v2.1.12](https://github.com/inspec/train/tree/v2.1.12) (2019-06-26)
 
 #### Merged Pull Requests
@@ -21,7 +19,6 @@
 - Minor cleanup of logic in OSCommon#unix_uuid. [#465](https://github.com/inspec/train/pull/465) ([zenspider](https://github.com/zenspider))
 - Apply Chefstyle to train [#459](https://github.com/inspec/train/pull/459) ([miah](https://github.com/miah))
 - Fix to raise specific error when ssh user is not provided and root is used as default user. [#466](https://github.com/inspec/train/pull/466) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v2.1.7](https://github.com/inspec/train/tree/v2.1.7) (2019-05-23)
 
