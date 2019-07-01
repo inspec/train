@@ -2,7 +2,7 @@ module Train::Platforms::Detect::Helpers
   module Windows
     def detect_windows
       # try to detect windows, use cmd.exe to also support Microsoft OpenSSH
-      res = @backend.run_command("cmd.exe /c ver")
+      res = @backend.run_command("cmd.exe /c ver", pty: false)
       return false if (res.exit_status != 0) || res.stdout.empty?
 
       # if the ver contains `Windows`, we know its a Windows system
@@ -30,7 +30,7 @@ module Train::Platforms::Detect::Helpers
     # @see https://msdn.microsoft.com/en-us/library/bb742610.aspx#EEAA
     # Thanks to Matt Wrock (https://github.com/mwrock) for this hint
     def read_wmic
-      res = @backend.run_command("wmic os get * /format:list")
+      res = @backend.run_command("wmic os get * /format:list", pty: false)
       if res.exit_status == 0
         sys_info = {}
         res.stdout.lines.each do |line|
@@ -42,7 +42,7 @@ module Train::Platforms::Detect::Helpers
         # additional info on windows
         @platform[:build] = sys_info[:BuildNumber]
         @platform[:name] = sys_info[:Caption]
-        @platform[:name] = @platform[:name].gsub("Microsoft", "").strip unless @platform[:name].empty?
+        @platform[:name] = @platform[:name].gsub("Microsoft", "").strip unless @platform[:name].nil?
         @platform[:arch] = read_wmic_cpu
       end
     end
@@ -50,7 +50,7 @@ module Train::Platforms::Detect::Helpers
     # `OSArchitecture` from `read_wmic` does not match a normal standard
     # For example, `x86_64` shows as `64-bit`
     def read_wmic_cpu
-      res = @backend.run_command("wmic cpu get architecture /format:list")
+      res = @backend.run_command("wmic cpu get architecture /format:list", pty: false)
       if res.exit_status == 0
         sys_info = {}
         res.stdout.lines.each do |line|

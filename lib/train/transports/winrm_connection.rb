@@ -97,7 +97,7 @@ class Train::Transports::WinRM
       Train::File::Remote::Windows.new(self, path)
     end
 
-    def run_command_via_connection(command, &data_handler)
+    def run_command_via_connection(command, **_opts, &data_handler)
       return if command.nil?
 
       logger.debug("[WinRM] #{self} (#{command})")

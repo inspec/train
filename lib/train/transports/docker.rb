@@ -83,7 +83,7 @@ class Train::Transports::Docker
       end
     end
 
-    def run_command_via_connection(cmd, &_data_handler)
+    def run_command_via_connection(cmd, **_opts, &_data_handler)
       cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
       stdout, stderr, exit_status = @container.exec(
         [

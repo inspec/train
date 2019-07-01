@@ -57,7 +57,7 @@ class Train::Transports::SSH
       @session
     end
 
-    def run_command_via_connection(cmd, &_data_handler)
+    def run_command_via_connection(cmd, **_opts, &_data_handler)
       # Ensure buffer is empty before sending data
       @buf = ""
 

@@ -211,12 +211,12 @@ class Train::Transports::SSH
       end
     end
 
-    def run_command_via_connection(cmd, &data_handler)
+    def run_command_via_connection(cmd, **opts, &data_handler)
       cmd.dup.force_encoding("binary") if cmd.respond_to?(:force_encoding)
       logger.debug("[SSH] #{self} (#{cmd})")
 
       reset_session if session.closed?
-      exit_status, stdout, stderr = execute_on_channel(cmd, &data_handler)
+      exit_status, stdout, stderr = execute_on_channel(cmd, opts, &data_handler)
 
       # Since `@session.loop` succeeded, reset the IOS command retry counter
       @ios_cmd_retries = 0
@@ -275,18 +275,20 @@ class Train::Transports::SSH
     #         not received.
     #
     # @api private
-    def execute_on_channel(cmd, &data_handler)
+    def execute_on_channel(cmd, **opts, &data_handler)
       stdout = stderr = ""
       exit_status = nil
       session.open_channel do |channel|
         # wrap commands if that is configured
         cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
 
-        if @transport_options[:pty]
+        # In case of Windows SSH we are checking opts[:pty] flag
+        if opts[:pty].nil? ? opts[:pty] : @transport_options[:pty]
           channel.request_pty do |_ch, success|
             raise Train::Transports::SSHPTYFailed, "Requesting PTY failed" unless success
           end
         end
+
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
           channel.on_data do |_, data|

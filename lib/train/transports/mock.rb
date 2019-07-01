@@ -124,7 +124,7 @@ class Train::Transports::Mock
 
     private
 
-    def run_command_via_connection(cmd, &_data_handler)
+    def run_command_via_connection(cmd, **_opts, &_data_handler)
       @cache[:command][Digest::SHA256.hexdigest cmd.to_s] ||
         command_not_found(cmd)
     end
