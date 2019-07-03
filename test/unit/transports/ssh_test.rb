@@ -158,7 +158,7 @@ describe "ssh transport" do
 
     it "sets the right auth_methods when password is specified" do
       conf[:key_files] = nil
-      cls.new(conf).connection.method(:options).call[:auth_methods].must_equal ["none", "password", "keyboard-interactive"]
+      cls.new(conf).connection.method(:options).call[:auth_methods].must_equal %w{none password keyboard-interactive}
     end
 
     it "sets the right auth_methods when keys are specified" do
@@ -317,7 +317,7 @@ describe "ssh transport with bastion" do
 
       it "sets the right auth_methods when password is specified" do
         conf[:key_files] = nil
-        cls.new(conf).connection.method(:options).call[:auth_methods].must_equal ["none", "password", "keyboard-interactive"]
+        cls.new(conf).connection.method(:options).call[:auth_methods].must_equal %w{none password keyboard-interactive}
       end
 
       it "sets the right auth_methods when keys are specified" do
