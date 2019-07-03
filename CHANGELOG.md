@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 2.1.14 -->
+## [v2.1.14](https://github.com/inspec/train/tree/v2.1.14) (2019-07-03)
+
+#### Merged Pull Requests
+- Resolve chefstyle warnings in 0.13 [#470](https://github.com/inspec/train/pull/470) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.13 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Resolve chefstyle warnings in 0.13 [#470](https://github.com/inspec/train/pull/470) ([tas50](https://github.com/tas50)) <!-- 2.1.14 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
