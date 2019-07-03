@@ -5,7 +5,7 @@ gemspec name: "train"
 group :test do
   gem "coveralls", require: false
   gem "minitest", "~> 5.8"
-  gem "rake", "~> 10"
+  gem "rake", "~> 12"
   gem "chefstyle", "0.13.2"
   gem "simplecov", "~> 0.10"
   gem "concurrent-ruby", "~> 1.0"
@@ -19,11 +19,8 @@ group :test do
 end
 
 group :integration do
-  gem "berkshelf", "~> 6.3.0"
-  gem "test-kitchen", ">= 1.2.4"
-  gem "kitchen-vagrant"
-  gem "ed25519" # ed25519 ssh key support
-  gem "bcrypt_pbkdf" # ed25519 ssh key support
+  gem "berkshelf", "~> 6.3" # when we drop Ruby 2.4 support this can become >= 7.0
+  gem "test-kitchen", ">= 1.25" # 1.25 is necessary for license support in Test Kitchen
 end
 
 group :tools do
