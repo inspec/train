@@ -1,5 +1,4 @@
 ---
-sudo: required
 language: ruby
 cache: bundler
 
@@ -17,14 +16,6 @@ branches:
 
 matrix:
   include:
-  - rvm: 2.4.5
-    before_install:
-      - gem install bundler
-      - gem --version
-  - rvm: 2.5.5
-    before_install:
-      - gem install bundler
-      - gem --version
   - rvm: 2.6
     script: bundle exec rake $SUITE
     env: SUITE="test"
