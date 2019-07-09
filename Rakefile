@@ -14,7 +14,7 @@ RuboCop::RakeTask.new(:lint) do |task|
 end
 #
 # run tests
-task default: [:test, :lint]
+task default: %i{test lint}
 
 Rake::TestTask.new do |t|
   t.libs << "test"
@@ -59,7 +59,7 @@ namespace :test do
 
     sh_cmd = "cd #{path} && target=#{args[:target]} key_files=#{key_files}"
 
-    sh_cmd += " debug=#{ENV['debug']}" if ENV["debug"]
+    sh_cmd += " debug=#{ENV["debug"]}" if ENV["debug"]
     sh_cmd += " ruby -I ../../lib test_ssh.rb tests/"
     sh_cmd += ENV["test"] || "*"
 

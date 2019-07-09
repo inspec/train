@@ -11,7 +11,9 @@ module Train::Transports
       class FileCredentials
         def self.parse(subscription_id: nil, credentials_file: nil, **_)
           return {} if credentials_file.nil?
+
           return {} unless ::File.readable?(credentials_file)
+
           credentials     = IniFile.load(::File.expand_path(credentials_file))
           subscription_id = parser(subscription_id, ENV["AZURE_SUBSCRIPTION_NUMBER"], credentials).subscription_id
           creds(subscription_id, credentials)

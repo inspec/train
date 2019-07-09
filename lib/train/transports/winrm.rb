@@ -175,8 +175,7 @@ module Train::Transports
         " or add the following to your Gemfile if you are using Bundler:" \
         " `gem 'winrm-fs', '#{spec_version}'`."
       )
-      raise Train::UserError,
-            "Could not load or activate WinRM::FS (#{e.message})"
+      raise Train::UserError, "Could not load or activate WinRM::FS (#{e.message})"
     end
 
     # Load WinRM::Transport code.

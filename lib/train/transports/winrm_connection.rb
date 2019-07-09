@@ -42,6 +42,7 @@ class Train::Transports::WinRM
     # (see Base::Connection#close)
     def close
       return if @session.nil?
+
       session.close
     ensure
       @session = nil
@@ -58,8 +59,8 @@ class Train::Transports::WinRM
         login_command_for_linux
       else
         raise ActionFailed,
-             "Remote login not supported in #{self.class} " \
-             "from host OS '#{RbConfig::CONFIG['host_os']}'."
+          "Remote login not supported in #{self.class} " \
+          "from host OS '#{RbConfig::CONFIG["host_os"]}'."
       end
     end
 
@@ -98,6 +99,7 @@ class Train::Transports::WinRM
 
     def run_command_via_connection(command, &data_handler)
       return if command.nil?
+
       logger.debug("[WinRM] #{self} (#{command})")
       out = ""
 

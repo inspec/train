@@ -15,9 +15,10 @@
 # FIXME
 user = ENV["TRAIN_SUDO_USER"] || "todo-some-clever-default-maybe-current-user"
 sudoer = "/etc/sudoers.d/#{user}"
+warning = "Warning: a sudoers configuration for user #{user} already exists, "\
+  "doing nothing (override with TRAIN_SUDO_VERY_MUCH=yes)"
 
-log "Warning: a sudoers configuration for user #{user} already exists, "\
-    "doing nothing (override with TRAIN_SUDO_VERY_MUCH=yes)" do
+log warning do
   only_if "test -f #{sudoer} || grep #{user} /etc/sudoers"
 end
 

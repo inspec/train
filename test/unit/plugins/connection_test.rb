@@ -40,7 +40,7 @@ describe "v1 Connection Plugin" do
 
     it "provides a default logger" do
       connection.method(:logger).call
-                .must_be_instance_of(Logger)
+        .must_be_instance_of(Logger)
     end
 
     it "provides direct platform" do
@@ -54,9 +54,9 @@ describe "v1 Connection Plugin" do
     end
 
     it "must use the user-provided logger" do
-      l = rand
-      cls.new({ logger: l })
-         .method(:logger).call.must_equal(l)
+      logger = rand
+      cls.new({ logger: logger })
+        .method(:logger).call.must_equal(logger)
     end
 
     describe "cached_client helper" do

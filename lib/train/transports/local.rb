@@ -42,7 +42,7 @@ module Train::Transports
         if os.windows?
           # Force a 64 bit poweshell if needed
           if RUBY_PLATFORM == "i386-mingw32" && os.arch == "x86_64"
-            powershell_cmd = "#{ENV['SystemRoot']}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+            powershell_cmd = "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
           else
             powershell_cmd = "powershell"
           end

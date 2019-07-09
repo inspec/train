@@ -38,7 +38,9 @@ module Train::Platforms::Detect::Helpers
       raw.lines.each_with_object({}) do |line, memo|
         line.strip!
         next if line.start_with?("#")
+
         next if line.empty?
+
         key, value = line.split("=", 2)
         memo[key] = value.gsub(/\A"|"\Z/, "") unless value.empty?
       end
@@ -68,6 +70,7 @@ module Train::Platforms::Detect::Helpers
 
     def read_linux_lsb
       return @lsb unless @lsb.empty?
+
       if !(raw = unix_file_contents("/etc/lsb-release")).nil?
         @lsb = lsb_config(raw)
       elsif !(raw = unix_file_contents("/usr/bin/lsb-release")).nil?

@@ -83,7 +83,7 @@ module Train::Platforms
   def self.print_children(parent, pad = 2)
     parent.children.each do |key, value|
       obj = key
-      puts "#{' ' * pad}-> #{obj.title}#{value unless value.empty?}"
+      puts "#{" " * pad}-> #{obj.title}#{value unless value.empty?}"
       print_children(obj, pad + 2) if defined?(obj.children) && !obj.children.nil?
     end
   end
