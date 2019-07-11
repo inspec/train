@@ -217,6 +217,30 @@ describe "os_detect" do
         platform[:release].must_equal("cisco123")
       end
     end
+
+    describe "when on a suse build" do
+      it "sets the correct family/release for SLES" do
+        files = {
+          "/etc/os-release" => "NAME=\"SLES\"\nVERSION=\"15.1\"\nID=\"sles\"\nID_LIKE=\"suse\"\n",
+        }
+        platform = scan_with_files("linux", files)
+
+        platform[:name].must_equal("suse")
+        platform[:family].must_equal("suse")
+        platform[:release].must_equal("15.1")
+      end
+
+      it "sets the correct family/release for openSUSE" do
+        files = {
+          "/etc/os-release" => "NAME=\"openSUSE Leap\"\nVERSION=\"15.1\"\nID=\"opensuse-leap\"\nID_LIKE=\"suse opensuse\"\n",
+        }
+        platform = scan_with_files("linux", files)
+
+        platform[:name].must_equal("opensuse")
+        platform[:family].must_equal("suse")
+        platform[:release].must_equal("15.1")
+      end
+    end
   end
 
   describe "qnx" do

@@ -236,22 +236,18 @@ module Train::Platforms::Detect::Specifications
       # suse family
       plat.family("suse").in_family("linux")
           .detect do
-            if !(suse = unix_file_contents("/etc/SuSE-release")).nil?
-              # https://rubular.com/r/UKaYWolCYFMfp1
-              version = suse.scan(/VERSION = (\d+)\nPATCHLEVEL = (\d+)/).flatten.join(".")
-              # https://rubular.com/r/b5PN3hZDxa5amV
-              version = suse[/VERSION\s?=\s?"?([\d\.]{2,})"?/, 1] if version == ""
-              @platform[:release] = version
+            if linux_os_release && linux_os_release["ID_LIKE"] =~ /suse/i
+              @platform[:release] = linux_os_release["VERSION"]
               true
             end
           end
       plat.name("opensuse").title("OpenSUSE Linux").in_family("suse")
           .detect do
-            true if unix_file_contents("/etc/SuSE-release") =~ /^opensuse/i
+            true if linux_os_release && linux_os_release["NAME"] =~ /^opensuse/i
           end
       plat.name("suse").title("Suse Linux").in_family("suse")
           .detect do
-            true if unix_file_contents("/etc/SuSE-release") =~ /suse/i
+            true if linux_os_release && linux_os_release["NAME"] =~ /^sles/i
           end
 
       # arch
