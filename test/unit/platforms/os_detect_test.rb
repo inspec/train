@@ -154,16 +154,6 @@ describe "os_detect" do
       end
     end
 
-    describe "windows" do
-      it "sets the correct family/release for windows " do
-        platform = scan_with_windows()
-
-        platform[:name].must_equal("windows_6.3.9600")
-        platform[:family].must_equal("windows")
-        platform[:release].must_equal("6.3.9600")
-      end
-    end
-
     describe "everything else" do
       it "sets the correct family/release for debian " do
         platform = debian_scan("some_debian", "12.99")
@@ -172,6 +162,16 @@ describe "os_detect" do
         platform[:family].must_equal("debian")
         platform[:release].must_equal("11")
       end
+    end
+  end
+
+  describe "windows" do
+    it "sets the correct family/release for windows " do
+      platform = scan_with_windows()
+
+      platform[:name].must_equal("windows_6.3.9600")
+      platform[:family].must_equal("windows")
+      platform[:release].must_equal("6.3.9600")
     end
   end
 
