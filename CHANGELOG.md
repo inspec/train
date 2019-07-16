@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.15 -->
-## [v2.1.15](https://github.com/inspec/train/tree/v2.1.15) (2019-07-16)
+<!-- latest_release 2.1.16 -->
+## [v2.1.16](https://github.com/inspec/train/tree/v2.1.16) (2019-07-16)
 
 #### Merged Pull Requests
-- Add verify script for pipeline [#477](https://github.com/inspec/train/pull/477) ([miah](https://github.com/miah))
+- chefstyle -a [#478](https://github.com/inspec/train/pull/478) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.13 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- chefstyle -a [#478](https://github.com/inspec/train/pull/478) ([miah](https://github.com/miah)) <!-- 2.1.16 -->
 - Add verify script for pipeline [#477](https://github.com/inspec/train/pull/477) ([miah](https://github.com/miah)) <!-- 2.1.15 -->
 - Resolve chefstyle warnings in 0.13 [#470](https://github.com/inspec/train/pull/470) ([tas50](https://github.com/tas50)) <!-- 2.1.14 -->
 <!-- release_rollup -->
