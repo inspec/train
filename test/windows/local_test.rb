@@ -67,7 +67,7 @@ describe "windows local command" do
         .returns("acquired")
 
       override_platform("i386-mingw32")
-      powershell.must_equal "#{ENV['SystemRoot']}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+      powershell.must_equal "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
     end
 
     it "use normal powershell with ShellRunner" do
@@ -89,7 +89,7 @@ describe "windows local command" do
 
       override_platform("i386-mingw32")
       runner.class.must_equal Train::Transports::Local::Connection::WindowsShellRunner
-      powershell.must_equal "#{ENV['SystemRoot']}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+      powershell.must_equal "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
     end
   end
 

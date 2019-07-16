@@ -59,6 +59,7 @@ module Train::Platforms::Detect
     def scan_family_children(plat)
       child_result = scan_children(plat) unless plat.children.nil?
       return if child_result.nil?
+
       @family_hierarchy << plat.name
       child_result
     end

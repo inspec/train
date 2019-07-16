@@ -23,7 +23,7 @@ module Train
           @exist ||= begin
             f = @follow_symlink ? "" : " || test -L #{@spath}"
             @backend.run_command("test -e #{@spath}" + f)
-                    .exit_status == 0
+              .exit_status == 0
           end
         end
 
@@ -58,6 +58,7 @@ module Train
 
         def shallow_link_path
           return nil unless symlink?
+
           @shallow_link_path ||=
             @backend.run_command("readlink #{@spath}").stdout.chomp
         end
@@ -74,6 +75,7 @@ module Train
 
         def path
           return @path unless @follow_symlink && symlink?
+
           @link_path ||= read_target_path
         end
 

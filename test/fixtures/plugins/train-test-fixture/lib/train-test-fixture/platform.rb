@@ -10,8 +10,7 @@ module TrainPlugins
         Train::Platforms.name("test-fixture").in_family("windows")
         force_platform!("test-fixture",
           release: TrainPlugins::TestFixture::VERSION,
-          arch: "mock"
-        )
+          arch: "mock")
       end
     end
   end

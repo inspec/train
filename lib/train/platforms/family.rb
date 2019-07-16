@@ -19,6 +19,7 @@ module Train::Platforms
 
     def title(title = nil)
       return @title if title.nil?
+
       @title = title
       self
     end

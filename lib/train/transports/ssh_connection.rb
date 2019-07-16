@@ -56,6 +56,7 @@ class Train::Transports::SSH
     # (see Base::Connection#close)
     def close
       return if @session.nil?
+
       logger.debug("[SSH] closing connection to #{self}")
       session.close
     ensure
@@ -84,6 +85,7 @@ class Train::Transports::SSH
 
     def generate_proxy_command
       return @proxy_command unless @proxy_command.nil?
+
       args = %w{ ssh }
       args += ssh_opts
       args += %W{ #{@bastion_user}@#{@bastion_host} }

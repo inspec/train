@@ -8,6 +8,7 @@ module Train::Platforms::Detect::Helpers
       # if the ver contains `Windows`, we know its a Windows system
       version = res.stdout.strip
       return false unless version.downcase =~ /windows/
+
       @platform[:family] = "windows"
 
       # try to extract release from eg. `Microsoft Windows [Version 6.3.9600]`
@@ -82,13 +83,14 @@ module Train::Platforms::Detect::Helpers
       uuid = windows_uuid_from_wmic if uuid.nil?
       uuid = windows_uuid_from_registry if uuid.nil?
       raise Train::TransportError, "Cannot find a UUID for your node." if uuid.nil?
+
       uuid
     end
 
     def windows_uuid_from_machine_file
       %W{
-        #{ENV['SYSTEMDRIVE']}\\chef\\chef_guid
-        #{ENV['HOMEDRIVE']}#{ENV['HOMEPATH']}\\.chef\\chef_guid
+        #{ENV["SYSTEMDRIVE"]}\\chef\\chef_guid
+        #{ENV["HOMEDRIVE"]}#{ENV["HOMEPATH"]}\\.chef\\chef_guid
       }.each do |path|
         file = @backend.file(path)
         return file.content.chomp if file.exist? && file.size != 0
@@ -97,8 +99,9 @@ module Train::Platforms::Detect::Helpers
     end
 
     def windows_uuid_from_chef
-      file = @backend.file("#{ENV['SYSTEMDRIVE']}\\chef\\cache\\data_collector_metadata.json")
+      file = @backend.file("#{ENV["SYSTEMDRIVE"]}\\chef\\cache\\data_collector_metadata.json")
       return if !file.exist? || file.size == 0
+
       json = JSON.parse(file.content)
       json["node_uuid"] if json["node_uuid"]
     end
@@ -106,6 +109,7 @@ module Train::Platforms::Detect::Helpers
     def windows_uuid_from_wmic
       result = @backend.run_command("wmic csproduct get UUID")
       return unless result.exit_status == 0
+
       result.stdout.split("\r\n")[-1].strip
     end
 
@@ -113,6 +117,7 @@ module Train::Platforms::Detect::Helpers
       cmd = '(Get-ItemProperty "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography" -Name "MachineGuid")."MachineGuid"'
       result = @backend.run_command(cmd)
       return unless result.exit_status == 0
+
       result.stdout.chomp
     end
   end

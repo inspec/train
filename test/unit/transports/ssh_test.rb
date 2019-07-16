@@ -11,12 +11,13 @@ describe "ssh transport" do
     Train::Transports::SSH
   end
   let(:conf) do
-     {
-    host: rand.to_s,
-    password: rand.to_s,
-    key_files: rand.to_s,
-    proxy_command: "ssh root@127.0.0.1 -W %h:%p",
-  } end
+    {
+   host: rand.to_s,
+   password: rand.to_s,
+   key_files: rand.to_s,
+   proxy_command: "ssh root@127.0.0.1 -W %h:%p",
+    }
+  end
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
   describe "default options" do
@@ -152,7 +153,7 @@ describe "ssh transport" do
         "-i", conf[:key_files],
         "-o", "ProxyCommand='ssh root@127.0.0.1 -W %h:%p'",
         "-p", "22",
-        "root@#{conf[:host]}",
+        "root@#{conf[:host]}"
       ])
     end
 
@@ -179,7 +180,7 @@ describe "ssh transport" do
     it "sets up a proxy when ssh proxy command is specified" do
       mock = MiniTest::Mock.new
       mock.expect(:call, true) do |hostname, username, options|
-        options[:proxy].kind_of?(Net::SSH::Proxy::Command) &&
+        options[:proxy].is_a?(Net::SSH::Proxy::Command) &&
           "ssh root@127.0.0.1 -W %h:%p" == options[:proxy].command_line_template
       end
       connection.stubs(:run_command)
@@ -240,12 +241,13 @@ describe "ssh transport with bastion" do
   end
 
   let(:conf) do
-     {
-    host: rand.to_s,
-    password: rand.to_s,
-    key_files: rand.to_s,
-    bastion_host: "bastion_dummy",
-  } end
+    {
+   host: rand.to_s,
+   password: rand.to_s,
+   key_files: rand.to_s,
+   bastion_host: "bastion_dummy",
+    }
+  end
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
   describe "bastion" do
@@ -311,7 +313,7 @@ describe "ssh transport with bastion" do
           "-i", conf[:key_files],
           "-o", "ProxyCommand='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o LogLevel=ERROR -o ForwardAgent=no -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p'",
           "-p", "22",
-          "root@#{conf[:host]}",
+          "root@#{conf[:host]}"
         ])
       end
 
@@ -338,7 +340,7 @@ describe "ssh transport with bastion" do
       it "sets up a proxy when ssh proxy command is specified" do
         mock = MiniTest::Mock.new
         mock.expect(:call, true) do |hostname, username, options|
-          options[:proxy].kind_of?(Net::SSH::Proxy::Command) &&
+          options[:proxy].is_a?(Net::SSH::Proxy::Command) &&
             "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o LogLevel=ERROR -o ForwardAgent=no -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p" == options[:proxy].command_line_template
         end
         connection.stubs(:run_command)
@@ -360,13 +362,14 @@ describe "ssh transport with bastion and proxy" do
   end
 
   let(:conf) do
-     {
-    host: rand.to_s,
-    password: rand.to_s,
-    key_files: rand.to_s,
-    bastion_host: "bastion_dummy",
-    proxy_command: "dummy",
-  } end
+    {
+   host: rand.to_s,
+   password: rand.to_s,
+   key_files: rand.to_s,
+   bastion_host: "bastion_dummy",
+   proxy_command: "dummy",
+    }
+  end
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
   describe "bastion and proxy" do

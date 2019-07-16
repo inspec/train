@@ -18,8 +18,8 @@ sudoer = "/etc/sudoers.d/#{user}"
 
 log "Warning: a sudoers configuration for user #{user} already exists, "\
     "doing nothing (override with TRAIN_SUDO_VERY_MUCH=yes)" do
-  only_if "test -f #{sudoer} || grep #{user} /etc/sudoers"
-end
+      only_if "test -f #{sudoer} || grep #{user} /etc/sudoers"
+    end
 
 file sudoer do
   content "#{user} ALL=(root) NOPASSWD:ALL\n"\

@@ -55,6 +55,7 @@ module Train::Extras
     def verify
       res = @backend.run_command(run("echo"))
       return nil if res.exit_status == 0
+
       rawerr = res.stdout + " " + res.stderr
 
       {
@@ -164,6 +165,7 @@ module Train::Extras
     def self.load(transport, options)
       if transport.platform.unix?
         return nil unless LinuxCommand.active?(options)
+
         res = LinuxCommand.new(transport, options)
         verification_res = res.verify
         if verification_res

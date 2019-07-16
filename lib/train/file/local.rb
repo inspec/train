@@ -19,6 +19,7 @@ module Train
 
       def link_path
         return nil unless symlink?
+
         begin
           @link_path ||= ::File.realpath(@path)
         rescue Errno::ELOOP => _
@@ -29,6 +30,7 @@ module Train
 
       def shallow_link_path
         return nil unless symlink?
+
         @link_path ||= ::File.readlink(@path)
       end
 

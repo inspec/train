@@ -76,6 +76,7 @@ module Train
 
     group_keys_and_keyfiles(conf) # TODO: move logic into SSH plugin
     return conf if conf[:target].to_s.empty?
+
     unpack_target_from_uri(conf[:target], conf).merge(conf)
   end
 
@@ -146,6 +147,7 @@ module Train
   # TODO: this actually does no validation of the credential options whatsoever
   def self.validate_backend(credentials, default_transport_name = "local")
     return default_transport_name if credentials.nil?
+
     transport_name = credentials[:backend]
 
     # TODO: Determine if it is ever possible (or supported) for transport_name to be 'localhost'
@@ -155,16 +157,16 @@ module Train
         "To run this locally with elevated privileges, run the command with `sudo ...`."
     end
 
-    return transport_name if !transport_name.nil?
+    return transport_name unless transport_name.nil?
 
-    if !credentials[:target].nil?
+    unless credentials[:target].nil?
       # We should not get here, because if target_uri unpacking was successful,
       # it would have set credentials[:backend]
       raise Train::UserError, "Cannot determine backend from target "\
            "configuration #{credentials[:target]}. Valid example: ssh://192.168.0.1"
     end
 
-    if !credentials[:host].nil?
+    unless credentials[:host].nil?
       raise Train::UserError, "Host configured, but no backend was provided. Please "\
            "specify how you want to connect. Valid example: ssh://192.168.0.1"
     end
