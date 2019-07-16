@@ -8,24 +8,29 @@ module Train
         # @see https://msdn.microsoft.com/en-us/library/windows/desktop/aa365247(v=vs.85).aspx#naming_conventions
         def sanitize_filename(path)
           return if path.nil?
+
           # we do not filter :, backslash and forward slash, since they are part of the path
           @spath = path.gsub(/[<>"|?*]/, "")
         end
 
         def product_version
           @product_version ||= @backend.run_command(
-            "[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\"#{@spath}\").ProductVersion").stdout.chomp
+            "[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\"#{@spath}\").ProductVersion"
+          ).stdout.chomp
         end
 
         def file_version
           @file_version ||= @backend.run_command(
-            "[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\"#{@spath}\").FileVersion").stdout.chomp
+            "[System.Diagnostics.FileVersionInfo]::GetVersionInfo(\"#{@spath}\").FileVersion"
+          ).stdout.chomp
         end
 
         def owner
           owner = @backend.run_command(
-            "Get-Acl \"#{@spath}\" | select -expand Owner").stdout.strip
+            "Get-Acl \"#{@spath}\" | select -expand Owner"
+          ).stdout.strip
           return if owner.empty?
+
           owner
         end
 

@@ -84,6 +84,7 @@ module Train::Transports
       # Let's allow for other clients too
       def gcp_client(klass)
         return klass.new unless cache_enabled?(:api_call)
+
         @cache[:api_call][klass.to_s.to_sym] ||= klass.new
       end
 

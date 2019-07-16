@@ -65,11 +65,13 @@ class Train::Plugins::Transport
     # :api_call, :file and :command types
     def enable_cache(type)
       raise Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
+
       @cache_enabled[type.to_sym] = true
     end
 
     def disable_cache(type)
       raise Train::UnknownCacheType, "#{type} is not a valid cache type" unless @cache_enabled.keys.include?(type.to_sym)
+
       @cache_enabled[type.to_sym] = false
       clear_cache(type.to_sym)
     end

@@ -38,11 +38,12 @@ describe "ssh connection" do
     Train::Transports::SSH::Connection
   end
   let(:conf) do
-     {
-    host: rand.to_s,
-    password: rand.to_s,
-    transport_options: {},
-  } end
+    {
+   host: rand.to_s,
+   password: rand.to_s,
+   transport_options: {},
+    }
+  end
 
   describe "#run_command_via_connection through BaseConnection::run_command" do
     let(:ssh) { cls.new(conf) }

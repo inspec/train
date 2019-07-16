@@ -37,27 +37,32 @@ module Train::Platforms::Detect::Helpers
       if @backend.class.to_s == "Train::Transports::SSH::Connection" && res =~ /Please login as the user/
         raise Train::UserError, "SSH failed: #{res}"
       end
+
       res.strip! unless res.nil?
       res
     end
 
     def unix_uname_s
       return @uname[:s] if @uname.key?(:s)
+
       @uname[:s] = command_output("uname -s")
     end
 
     def unix_uname_r
       return @uname[:r] if @uname.key?(:r)
+
       @uname[:r] = command_output("uname -r")
     end
 
     def unix_uname_m
       return @uname[:m] if @uname.key?(:m)
+
       @uname[:m] = command_output("uname -m")
     end
 
     def brocade_version
       return @cache[:brocade] if @cache.key?(:brocade)
+
       res = command_output("version")
 
       m = res.match(/^Fabric OS:\s+v(\S+)$/)
@@ -70,6 +75,7 @@ module Train::Platforms::Detect::Helpers
 
     def cisco_show_version
       return @cache[:cisco] if @cache.key?(:cisco)
+
       res = command_output("show version")
 
       m = res.match(/Cisco IOS Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+)/)
@@ -110,7 +116,7 @@ module Train::Platforms::Detect::Helpers
       # require 'pry';binding.pry
       %W{
         /etc/chef/chef_guid
-        #{ENV['HOME']}/.chef/chef_guid
+        #{ENV["HOME"]}/.chef/chef_guid
         /etc/machine-id
         /var/lib/dbus/machine-id
         /var/db/dbus/machine-id
@@ -118,6 +124,7 @@ module Train::Platforms::Detect::Helpers
         file = @backend.file(path)
         next unless file.exist? && file.size != 0
         return file.content.chomp if path =~ /guid/
+
         return uuid_from_string(file.content.chomp)
       end
       nil
@@ -128,6 +135,7 @@ module Train::Platforms::Detect::Helpers
     # we turn into a UUID.
     def uuid_from_command
       return unless @platform[:uuid_command]
+
       result = @backend.run_command(@platform[:uuid_command])
       uuid_from_string(result.stdout.chomp) if result.exit_status == 0 && !result.stdout.empty?
     end

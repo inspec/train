@@ -65,6 +65,7 @@ module Train::Platforms
 
     def title(title = nil)
       return @title if title.nil?
+
       @title = title
       self
     end
@@ -89,6 +90,7 @@ module Train::Platforms
       family_list = Train::Platforms.families
       family_list.each_value do |k|
         next if respond_to?(k.name + "?")
+
         define_singleton_method(k.name + "?") do
           family_hierarchy.include?(k.name)
         end
@@ -97,6 +99,7 @@ module Train::Platforms
       # Helper methods for direct platform info
       @platform.each_key do |m|
         next if respond_to?(m)
+
         define_singleton_method(m) do
           @platform[m]
         end
@@ -105,6 +108,7 @@ module Train::Platforms
       # Create method for name if its not already true
       m = name + "?"
       return if respond_to?(m)
+
       define_singleton_method(m) do
         true
       end

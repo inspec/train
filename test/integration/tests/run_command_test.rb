@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 describe "run_command" do
-  let(:backend) { get_backend.call() }
+  let(:backend) { get_backend.call }
 
   it "can echo commands" do
     res = backend.run_command("echo hello world")

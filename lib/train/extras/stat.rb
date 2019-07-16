@@ -26,6 +26,7 @@ module Train::Extras
       return bsd_stat(shell_escaped_path, backend, follow_symlink) if backend.os.bsd?
       # linux,solaris 11 and esx will use standard linux stats
       return linux_stat(shell_escaped_path, backend, follow_symlink) if backend.os.unix? || backend.os.esx?
+
       # all other cases we don't handle
       # TODO: print an error if we get here, as it shouldn't be invoked
       # on non-unix
@@ -77,7 +78,8 @@ module Train::Extras
       lstat = follow_symlink ? " -L" : ""
       res = backend.run_command(
         "stat#{lstat} -f '%z\n%p\n%Su\n%u\n%Sg\n%g\n%a\n%m' "\
-        "#{shell_escaped_path}")
+        "#{shell_escaped_path}"
+      )
 
       return {} if res.exit_status != 0
 
@@ -113,8 +115,10 @@ module Train::Extras
 
       res = backend.run_command(stat_cmd)
       return {} if res.exit_status != 0
+
       fields = res.stdout.split("\n")
       return {} if fields.length != 7
+
       tmask = fields[0].to_i(8)
       {
         type: find_type(tmask),

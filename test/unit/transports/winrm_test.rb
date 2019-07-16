@@ -11,10 +11,11 @@ describe "winrm transport" do
     Train::Transports::WinRM
   end
   let(:conf) do
-     {
-    host: rand.to_s,
-    password: rand.to_s,
-  } end
+    {
+   host: rand.to_s,
+   password: rand.to_s,
+    }
+  end
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
   describe "default options" do

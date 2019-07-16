@@ -31,9 +31,9 @@ module Train
   def self.plugin(version = 1)
     if version != 1
       raise ClientError,
-           "Only understand train plugin version 1. You are trying to "\
-           "initialize a train plugin #{version}, which is not supported "\
-           "in the current release of train."
+        "Only understand train plugin version 1. You are trying to "\
+        "initialize a train plugin #{version}, which is not supported "\
+        "in the current release of train."
     end
     ::Train::Plugins::Transport
   end

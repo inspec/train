@@ -40,10 +40,12 @@ module Train::Transports
             interface_methods[classname.to_s].include?(id)
           next
         end
+
         # kindly borrowed from the wonderful simple-tracer by matugm
         arg_names = eval(
           "method(__method__).parameters.map { |arg| arg[1].to_s }",
-          binding)
+          binding
+        )
         args = eval("#{arg_names}.map { |arg| eval(arg) }", binding).join(", ")
         prefix = "-" * (classname.to_s.count(":") - 2) + "> "
         puts("#{prefix}#{id} #{args}")
@@ -141,8 +143,8 @@ class Train::Transports::Mock::Connection
   class File < Train::File
     def self.from_json(json)
       res = new(json["backend"],
-                json["path"],
-                json["follow_symlink"])
+        json["path"],
+        json["follow_symlink"])
       res.type = json["type"]
       Train::File::DATA_FIELDS.each do |f|
         m = (f.tr("?", "") + "=").to_sym

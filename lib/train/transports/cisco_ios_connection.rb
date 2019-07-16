@@ -69,6 +69,7 @@ class Train::Transports::SSH
         if @buf =~ /Bad (secrets|password)|Access denied/
           raise BadEnablePassword
         end
+
         session.connection.process(0)
       end
 
@@ -123,6 +124,7 @@ class Train::Transports::SSH
 
         ch.send_channel_request("shell") do |_, success|
           raise "Failed to open SSH shell" unless success
+
           logger.debug("[SSH] shell opened")
         end
       end

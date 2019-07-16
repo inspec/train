@@ -12,9 +12,10 @@ describe "winrm connection" do
     Train::Transports::WinRM::Connection
   end
   let(:conf) do
-     {
-    hostname: rand.to_s,
-  } end
+    {
+   hostname: rand.to_s,
+    }
+  end
   describe "#run_command_via_connection through BaseConnection::run_command" do
     let(:winrm) { cls.new(conf) }
     let(:session_mock) do

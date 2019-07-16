@@ -27,10 +27,10 @@ describe TrainPlugins::LocalRot13::Connection do
   end
 
   # Since this is a Local-type connection, we MUST implement these three.
-  [
-    :file_via_connection,
-    :run_command_via_connection,
-  ].each do |method_name|
+  %i{
+    file_via_connection
+    run_command_via_connection
+  }.each do |method_name|
     it "should provide a #{method_name}() method" do
       # false passed to instance_methods says 'don't use inheritance'
       connection_class.instance_methods(false).must_include(method_name)
