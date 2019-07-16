@@ -19,7 +19,7 @@ group :test do
 end
 
 group :integration do
-  gem "berkshelf", ">= 6.3.4"
+  gem "berkshelf", "~> 6.3.0"
   gem "test-kitchen", ">= 1.2.4"
   gem "kitchen-vagrant"
   gem "ed25519" # ed25519 ssh key support
