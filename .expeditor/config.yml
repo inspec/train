@@ -34,15 +34,13 @@ merge_actions:
         - "Expeditor/Skip Version Bump"
         - "Expeditor/Skip All"
   - bash:.expeditor/update_version.sh:
-      only_if:
-        - built_in:bump_version
+      only_if: built_in:bump_version
   - built_in:update_changelog:
       ignore_labels:
         - "Expeditor/Skip Changelog"
         - "Expeditor/Skip All"
   - built_in:build_gem:
-      only_if:
-        - built_in:bump_version
+      only_if: built_in:bump_version
 
 promote:
   actions:
