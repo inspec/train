@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.16 -->
-## [v2.1.16](https://github.com/inspec/train/tree/v2.1.16) (2019-07-16)
+<!-- latest_release 2.1.17 -->
+## [v2.1.17](https://github.com/inspec/train/tree/v2.1.17) (2019-07-17)
 
 #### Merged Pull Requests
-- chefstyle -a [#478](https://github.com/inspec/train/pull/478) ([miah](https://github.com/miah))
+- TRYING to get things normalized across chef, inspec, and train. [#480](https://github.com/inspec/train/pull/480) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.13 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- TRYING to get things normalized across chef, inspec, and train. [#480](https://github.com/inspec/train/pull/480) ([zenspider](https://github.com/zenspider)) <!-- 2.1.17 -->
 - chefstyle -a [#478](https://github.com/inspec/train/pull/478) ([miah](https://github.com/miah)) <!-- 2.1.16 -->
 - Add verify script for pipeline [#477](https://github.com/inspec/train/pull/477) ([miah](https://github.com/miah)) <!-- 2.1.15 -->
 - Resolve chefstyle warnings in 0.13 [#470](https://github.com/inspec/train/pull/470) ([tas50](https://github.com/tas50)) <!-- 2.1.14 -->
