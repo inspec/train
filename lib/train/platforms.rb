@@ -10,32 +10,31 @@ require "train/platforms/family"
 require "train/platforms/platform"
 
 module Train::Platforms
-  class << self
-    # Retrieve the current platform list
-    #
-    # @return [Hash] map with platform names and their objects
-    def list
-      @list ||= {}
-    end
+  # Retrieve the current platform list
+  #
+  # @return [Hash] map with platform names and their objects
+  def self.list
+    @list ||= {}
+  end
 
-    # Retrieve the current family list
-    #
-    # @return [Hash] map with family names and their objects
-    def families
-      @families ||= {}
-    end
+  # Retrieve the current family list
+  #
+  # @return [Hash] map with family names and their objects
+  def self.families
+    @families ||= {}
+  end
 
-    # Clear all platform settings. Only used for testing.
-    def __reset
-      @list = {}
-      @families = {}
-    end
+  # Clear all platform settings. Only used for testing.
+  def self.__reset
+    @list = {}
+    @families = {}
   end
 
   # Create or update a platform
   #
   # @return Train::Platform
   def self.name(name, condition = {})
+    # TODO: refactor this against family. They're stupidly similar
     # Check the list to see if one is already created
     plat = list[name]
     unless plat.nil?
@@ -66,9 +65,10 @@ module Train::Platforms
   #
   # @return [Hash] with top level family and platforms
   def self.top_platforms
-    top_platforms = list.select { |_key, value| value.families.empty? }
-    top_platforms.merge!(families.select { |_key, value| value.families.empty? })
-    top_platforms
+    empty_list =     list.select { |_key, value| value.families.empty? }
+    empty_fams = families.select { |_key, value| value.families.empty? }
+
+    empty_list.merge empty_fams
   end
 
   # List all platforms and families in a readable output
