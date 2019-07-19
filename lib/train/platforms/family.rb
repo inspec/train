@@ -23,5 +23,9 @@ module Train::Platforms
       @title = title
       self
     end
+
+    def inspect
+      "%p[%s]" % [self.class, name]
+    end
   end
 end
