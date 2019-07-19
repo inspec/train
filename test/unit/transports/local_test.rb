@@ -36,6 +36,10 @@ describe "local transport" do
     connection.wait_until_ready.must_be_nil
   end
 
+  it "inspects with readable output" do
+    connection.inspect.must_match(/Train::Transports::Local::Connection\[\w+\]/)
+  end
+
   it "can be closed" do
     connection.close.must_be_nil
   end
