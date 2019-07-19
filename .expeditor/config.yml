@@ -40,8 +40,7 @@ merge_actions:
         - "Expeditor/Skip Changelog"
         - "Expeditor/Skip All"
   - built_in:build_gem:
-      only_if:
-        - built_in:bump_version
+      only_if: built_in:bump_version
 
 promote:
   actions:
