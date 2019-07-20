@@ -7,7 +7,10 @@ describe "CiscoIOSConnection" do
   let(:cls) do
     plat = Train::Platforms.name("mock").in_family("cisco_ios")
     plat.add_platform_methods
-    plat.stubs(:cisco_ios?).returns(true)
+    def plat.cisco_ios?
+      true
+    end
+
     Train::Platforms::Detect.stubs(:scan).returns(plat)
     Train::Transports::SSH
   end
@@ -42,10 +45,9 @@ describe "CiscoIOSConnection" do
   end
 
   describe "#format_result" do
-    it "returns correctly when result is `good`" do
-      output = "good"
-      Train::Extras::CommandResult.expects(:new).with(output, "", 0)
-      connection.send(:format_result, "good")
+    it "returns correctly when result is 'good'" do
+      exp = Train::Extras::CommandResult.new("good", "", 0)
+      assert_equal exp, connection.send(:format_result, "good")
     end
 
     it "returns correctly when result matches /Bad IP address/" do
