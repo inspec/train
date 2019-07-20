@@ -10,5 +10,9 @@ require "byebug"
 
 require "train"
 
-# needed to force unix? and others to be created
-Train::Platforms::Detect::Specifications::OS.load
+class Minitest::Spec
+  before do
+    Train::Platforms.__reset
+    Train::Platforms::Detect::Specifications::OS.load
+  end
+end
