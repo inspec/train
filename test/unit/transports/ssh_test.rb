@@ -10,14 +10,16 @@ describe "ssh transport" do
     Train::Platforms::Detect.stubs(:scan).returns(plat)
     Train::Transports::SSH
   end
+
   let(:conf) do
     {
-   host: rand.to_s,
-   password: rand.to_s,
-   key_files: rand.to_s,
-   proxy_command: "ssh root@127.0.0.1 -W %h:%p",
+      host: rand.to_s,
+      password: rand.to_s,
+      key_files: rand.to_s,
+      proxy_command: "ssh root@127.0.0.1 -W %h:%p",
     }
   end
+
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
 
   describe "default options" do
