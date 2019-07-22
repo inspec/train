@@ -103,6 +103,10 @@ class Train::Plugins::Transport
       plat
     end
 
+    def inspect
+      "%s[%s]" % [self.class, (@options[:backend] || "Unknown")]
+    end
+
     alias direct_platform force_platform!
 
     # Get information on the operating system which this transport connects to.

@@ -4,6 +4,8 @@ require "helper"
 
 # Required because this test file acesses classes under Azure::
 require "azure_mgmt_resources"
+require "azure_graph_rbac"
+require "azure_mgmt_key_vault"
 
 describe "azure transport" do
   def transport(options = nil)

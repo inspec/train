@@ -74,10 +74,6 @@ module Train::Platforms
       @platform
     end
 
-    def cisco_ios? # TODO: kinda a hack. needed to prevent tests from corrupting.
-      false
-    end
-
     # Add generic family? and platform methods to an existing platform
     #
     # This is done later to add any custom
@@ -89,9 +85,11 @@ module Train::Platforms
       # Add in family methods
       family_list = Train::Platforms.families
       family_list.each_value do |k|
-        next if respond_to?(k.name + "?")
+        name = "#{k.name}?"
 
-        define_singleton_method(k.name + "?") do
+        next if respond_to?(name)
+
+        define_singleton_method(name) do
           family_hierarchy.include?(k.name)
         end
       end
