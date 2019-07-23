@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.22 -->
-## [v2.1.22](https://github.com/inspec/train/tree/v2.1.22) (2019-07-23)
+<!-- latest_release 2.1.23 -->
+## [v2.1.23](https://github.com/inspec/train/tree/v2.1.23) (2019-07-23)
 
 #### Merged Pull Requests
-- Fix up windows testing on buildkite [#487](https://github.com/inspec/train/pull/487) ([zenspider](https://github.com/zenspider))
+- Remove coverage from general test runs and add its own pipeline [#486](https://github.com/inspec/train/pull/486) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.19 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Remove coverage from general test runs and add its own pipeline [#486](https://github.com/inspec/train/pull/486) ([miah](https://github.com/miah)) <!-- 2.1.23 -->
 - Fix up windows testing on buildkite [#487](https://github.com/inspec/train/pull/487) ([zenspider](https://github.com/zenspider)) <!-- 2.1.22 -->
 - garbo [#485](https://github.com/inspec/train/pull/485) ([miah](https://github.com/miah)) <!-- 2.1.21 -->
 - Add Windows to the verify pipeline [#484](https://github.com/inspec/train/pull/484) ([miah](https://github.com/miah)) <!-- 2.1.20 -->
