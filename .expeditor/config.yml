@@ -53,3 +53,9 @@ pipelines:
   - verify:
       description: Pull Request validation tests
       public: true
+
+  - coverage:
+      description: Generate test coverage report
+      public: true
+      env:
+       - CI_ENABLE_COVERAGE: true

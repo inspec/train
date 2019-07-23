@@ -1,6 +1,15 @@
 # encoding: utf-8
-require "coveralls"
-Coveralls.wear!
+if ENV["CI_ENABLE_COVERAGE"]
+  require "coveralls"
+  SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter,
+  ])
+
+  SimpleCov.start do
+    add_filter "/test/"
+  end
+end
 
 require "minitest/autorun"
 require "minitest/spec"
