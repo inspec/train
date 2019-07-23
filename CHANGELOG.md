@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 2.1.20 -->
+## [v2.1.20](https://github.com/inspec/train/tree/v2.1.20) (2019-07-23)
+
+#### Merged Pull Requests
+- Add Windows to the verify pipeline [#484](https://github.com/inspec/train/pull/484) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=2.1.19 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Add Windows to the verify pipeline [#484](https://github.com/inspec/train/pull/484) ([miah](https://github.com/miah)) <!-- 2.1.20 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
