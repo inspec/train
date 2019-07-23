@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.18 -->
-## [v2.1.18](https://github.com/inspec/train/tree/v2.1.18) (2019-07-22)
+<!-- latest_release 2.1.19 -->
+## [v2.1.19](https://github.com/inspec/train/tree/v2.1.19) (2019-07-23)
 
 #### Merged Pull Requests
-- This fixes cisco_ios? being defined to return true by default [#481](https://github.com/inspec/train/pull/481) ([zenspider](https://github.com/zenspider))
+- Add inspec-notify to the notify_channel list [#483](https://github.com/inspec/train/pull/483) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.13 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Add inspec-notify to the notify_channel list [#483](https://github.com/inspec/train/pull/483) ([zenspider](https://github.com/zenspider)) <!-- 2.1.19 -->
 - This fixes cisco_ios? being defined to return true by default [#481](https://github.com/inspec/train/pull/481) ([zenspider](https://github.com/zenspider)) <!-- 2.1.18 -->
 - TRYING to get things normalized across chef, inspec, and train. [#480](https://github.com/inspec/train/pull/480) ([zenspider](https://github.com/zenspider)) <!-- 2.1.17 -->
 - chefstyle -a [#478](https://github.com/inspec/train/pull/478) ([miah](https://github.com/miah)) <!-- 2.1.16 -->
