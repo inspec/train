@@ -147,7 +147,13 @@ describe "mock transport" do
     RES = Train::Transports::Mock::Connection::File.from_json(JSON_DATA)
     %w{ content mode owner group }.each do |f|
       it "can be initialized from json (field #{f})" do
-        RES.method(f).call.must_equal JSON_DATA[f]
+        r = RES.send(f)
+        d = JSON_DATA[f]
+        if d
+          r.must_equal d
+        else
+          r.must_be_nil # I think just group on windows
+        end
       end
     end
   end
