@@ -1,28 +1,25 @@
-<!-- latest_release 2.1.19 -->
-## [v2.1.19](https://github.com/inspec/train/tree/v2.1.19) (2019-07-23)
-
-#### Merged Pull Requests
-- Add inspec-notify to the notify_channel list [#483](https://github.com/inspec/train/pull/483) ([zenspider](https://github.com/zenspider))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.13 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Add inspec-notify to the notify_channel list [#483](https://github.com/inspec/train/pull/483) ([zenspider](https://github.com/zenspider)) <!-- 2.1.19 -->
-- This fixes cisco_ios? being defined to return true by default [#481](https://github.com/inspec/train/pull/481) ([zenspider](https://github.com/zenspider)) <!-- 2.1.18 -->
-- TRYING to get things normalized across chef, inspec, and train. [#480](https://github.com/inspec/train/pull/480) ([zenspider](https://github.com/zenspider)) <!-- 2.1.17 -->
-- chefstyle -a [#478](https://github.com/inspec/train/pull/478) ([miah](https://github.com/miah)) <!-- 2.1.16 -->
-- Add verify script for pipeline [#477](https://github.com/inspec/train/pull/477) ([miah](https://github.com/miah)) <!-- 2.1.15 -->
-- Resolve chefstyle warnings in 0.13 [#470](https://github.com/inspec/train/pull/470) ([tas50](https://github.com/tas50)) <!-- 2.1.14 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v2.1.19](https://github.com/inspec/train/tree/v2.1.19) (2019-07-23)
+
+#### Merged Pull Requests
+- Resolve chefstyle warnings in 0.13 [#470](https://github.com/inspec/train/pull/470) ([tas50](https://github.com/tas50))
+- Add verify script for pipeline [#477](https://github.com/inspec/train/pull/477) ([miah](https://github.com/miah))
+- chefstyle -a [#478](https://github.com/inspec/train/pull/478) ([miah](https://github.com/miah))
+- TRYING to get things normalized across chef, inspec, and train. [#480](https://github.com/inspec/train/pull/480) ([zenspider](https://github.com/zenspider))
+- This fixes cisco_ios? being defined to return true by default [#481](https://github.com/inspec/train/pull/481) ([zenspider](https://github.com/zenspider))
+- Add inspec-notify to the notify_channel list [#483](https://github.com/inspec/train/pull/483) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v2.1.13](https://github.com/inspec/train/tree/v2.1.13) (2019-07-01)
 
 #### Merged Pull Requests
 - Add github templates &amp; fix the expeditor version bump script [#469](https://github.com/inspec/train/pull/469) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v2.1.12](https://github.com/inspec/train/tree/v2.1.12) (2019-06-26)
 
