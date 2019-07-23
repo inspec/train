@@ -1,9 +1,6 @@
-#!/bin/bash
-
-set -ueo pipefail
-
 echo "--- system details"
-uname -a
+$Properties = 'Caption', 'CSName', 'Version', 'BuildType', 'OSArchitecture'
+Get-CimInstance Win32_OperatingSystem | Select-Object $Properties | Format-Table -AutoSize
 ruby -v
 bundle --version
 
@@ -13,3 +10,4 @@ bundle install --jobs=7 --retry=3 --without tools integration
 echo "+++ bundle exec rake"
 bundle exec rake
 
+exit $LASTEXITCODE
