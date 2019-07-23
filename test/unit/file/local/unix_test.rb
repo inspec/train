@@ -18,6 +18,11 @@ describe Train::File::Local::Unix do
   end
 
   describe "file metadata" do
+    before do
+      # something about the way meta_stub works blows out on windows
+      skip "not on windows" if windows?
+    end
+
     let(:transport) { Train::Transports::Local.new }
     let(:connection) { transport.connection }
 
