@@ -43,6 +43,8 @@ merge_actions:
         - "Expeditor/Skip All"
   - built_in:build_gem:
       only_if: built_in:bump_version
+  - trigger_pipeline:coverage:
+      - post_commit: true
 
 promote:
   actions:
