@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.28 -->
-## [v2.1.28](https://github.com/inspec/train/tree/v2.1.28) (2019-07-24)
+<!-- latest_release 2.1.29 -->
+## [v2.1.29](https://github.com/inspec/train/tree/v2.1.29) (2019-07-24)
 
 #### Merged Pull Requests
-- Load simplecov too [#493](https://github.com/inspec/train/pull/493) ([miah](https://github.com/miah))
+- less clever to worry about here since this isn&#39;t InSpec ;) [#494](https://github.com/inspec/train/pull/494) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.19 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- less clever to worry about here since this isn&#39;t InSpec ;) [#494](https://github.com/inspec/train/pull/494) ([miah](https://github.com/miah)) <!-- 2.1.29 -->
 - Load simplecov too [#493](https://github.com/inspec/train/pull/493) ([miah](https://github.com/miah)) <!-- 2.1.28 -->
 - chmod 755 coverage.sh [#492](https://github.com/inspec/train/pull/492) ([miah](https://github.com/miah)) <!-- 2.1.27 -->
 - Use our coverage.sh rather than embedded commands [#491](https://github.com/inspec/train/pull/491) ([miah](https://github.com/miah)) <!-- 2.1.26 -->
