@@ -12,7 +12,7 @@ Bundler::GemHelper.install_tasks name: "train"
 RuboCop::RakeTask.new(:lint) do |task|
   task.options << "--display-cop-names"
 end
-#
+
 # run tests
 task default: %i{test lint}
 
