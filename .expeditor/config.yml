@@ -58,14 +58,4 @@ pipelines:
 
   - coverage:
       description: Generate test coverage report
-      secrets:
-        coveralls:
-          path: secret/coveralls/train
-          field: repo_token
-      env:
-       - CI_ENABLE_COVERAGE: true
-       - CI_NAME: Buildkite
-       - CI_BUILD_NUMBER: $BUILDKITE_BUILD_NUMBER
-       - CI_BUILD_URL: $BUILDKITE_BUILD_URL
-       - CI_BRANCH: $BUILDKITE_BRANCH
 
