@@ -12,7 +12,6 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:2.6-stretch
           environment:
             - CI_ENABLE_COVERAGE="true"
             - CI_NAME="Buildkite"
