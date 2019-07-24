@@ -1,5 +1,6 @@
 # encoding: utf-8
 if ENV["CI_ENABLE_COVERAGE"]
+  require "simplecov/no_defaults"
   require "coveralls"
   SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::HTMLFormatter,
