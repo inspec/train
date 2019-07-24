@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.25 -->
-## [v2.1.25](https://github.com/inspec/train/tree/v2.1.25) (2019-07-24)
+<!-- latest_release 2.1.26 -->
+## [v2.1.26](https://github.com/inspec/train/tree/v2.1.26) (2019-07-24)
 
 #### Merged Pull Requests
-- yah-mail [#490](https://github.com/inspec/train/pull/490) ([miah](https://github.com/miah))
+- Use our coverage.sh rather than embedded commands [#491](https://github.com/inspec/train/pull/491) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.19 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Use our coverage.sh rather than embedded commands [#491](https://github.com/inspec/train/pull/491) ([miah](https://github.com/miah)) <!-- 2.1.26 -->
 - yah-mail [#490](https://github.com/inspec/train/pull/490) ([miah](https://github.com/miah)) <!-- 2.1.25 -->
 - Testing coverage pipeline [#488](https://github.com/inspec/train/pull/488) ([miah](https://github.com/miah)) <!-- 2.1.24 -->
 - Remove coverage from general test runs and add its own pipeline [#486](https://github.com/inspec/train/pull/486) ([miah](https://github.com/miah)) <!-- 2.1.23 -->
