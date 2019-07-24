@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.31 -->
-## [v2.1.31](https://github.com/inspec/train/tree/v2.1.31) (2019-07-24)
+<!-- latest_release 2.1.32 -->
+## [v2.1.32](https://github.com/inspec/train/tree/v2.1.32) (2019-07-24)
 
 #### Merged Pull Requests
-- Add newline to Rakefile [#496](https://github.com/inspec/train/pull/496) ([miah](https://github.com/miah))
+- I understand how vault secrets in expeditor work now. [#497](https://github.com/inspec/train/pull/497) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.19 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- I understand how vault secrets in expeditor work now. [#497](https://github.com/inspec/train/pull/497) ([miah](https://github.com/miah)) <!-- 2.1.32 -->
 - Add newline to Rakefile [#496](https://github.com/inspec/train/pull/496) ([miah](https://github.com/miah)) <!-- 2.1.31 -->
 - Move coverage private and use our repo_token [#495](https://github.com/inspec/train/pull/495) ([miah](https://github.com/miah)) <!-- 2.1.30 -->
 - less clever to worry about here since this isn&#39;t InSpec ;) [#494](https://github.com/inspec/train/pull/494) ([miah](https://github.com/miah)) <!-- 2.1.29 -->
