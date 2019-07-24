@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.33 -->
-## [v2.1.33](https://github.com/inspec/train/tree/v2.1.33) (2019-07-24)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- that image isnt supported for accounts/secrets [#498](https://github.com/inspec/train/pull/498) ([miah](https://github.com/miah))
+- the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.19 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - that image isnt supported for accounts/secrets [#498](https://github.com/inspec/train/pull/498) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - I understand how vault secrets in expeditor work now. [#497](https://github.com/inspec/train/pull/497) ([miah](https://github.com/miah)) <!-- 2.1.32 -->
 - Add newline to Rakefile [#496](https://github.com/inspec/train/pull/496) ([miah](https://github.com/miah)) <!-- 2.1.31 -->
