@@ -2,6 +2,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- get more debugging details [#502](https://github.com/inspec/train/pull/502) ([miah](https://github.com/miah))
 - Move this secrets stuff into the label [#501](https://github.com/inspec/train/pull/501) ([miah](https://github.com/miah))
 - correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah))
 - the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah))
@@ -11,6 +12,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- get more debugging details [#502](https://github.com/inspec/train/pull/502) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - Move this secrets stuff into the label [#501](https://github.com/inspec/train/pull/501) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
