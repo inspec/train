@@ -126,6 +126,7 @@ class Train::Plugins::Transport
     # callers to receive and render updates from remote command execution.
     def run_command(cmd, **opts, &data_handler)
       return run_command_via_connection(cmd, opts, &data_handler) unless cache_enabled?(:command)
+
       @cache[:command][cmd] ||= run_command_via_connection(cmd, opts, &data_handler)
     end
 
