@@ -282,8 +282,10 @@ class Train::Transports::SSH
         # wrap commands if that is configured
         cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
 
-        # In case of Windows SSH we are checking opts[:pty] flag
-        if opts[:pty].nil? ? opts[:pty] : @transport_options[:pty]
+        # Windows SSH need pty to be set to false so we are overiding deault pty value which is set to true by default.
+        pty = !opts[:pty].nil? ? opts[:pty] : @transport_options[:pty]
+
+        if pty
           channel.request_pty do |_ch, success|
             raise Train::Transports::SSHPTYFailed, "Requesting PTY failed" unless success
           end
