@@ -7,6 +7,9 @@ uname -a
 ruby -v
 bundle --version
 
+echo "--- system environment"
+env
+
 echo "--- bundle install"
 bundle install --jobs=7 --retry=3 --without tools integration
 
