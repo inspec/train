@@ -1,15 +1,14 @@
 ---
-expeditor:
-  secrets:
-    COVERALLS_REPO_TOKEN:
-      path: secret/coveralls/inspec/train
-      field: repo_token
 
 steps:
   - label: coverage
     commands:
       - /workdir/.expeditor/buildkite/coverage.sh
     expeditor:
+      secrets:
+        COVERALLS_REPO_TOKEN:
+          path: secret/coveralls/inspec/train
+          field: repo_token
       executor:
         docker:
           environment:
