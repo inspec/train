@@ -2,6 +2,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah))
 - the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
@@ -9,6 +10,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - that image isnt supported for accounts/secrets [#498](https://github.com/inspec/train/pull/498) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - I understand how vault secrets in expeditor work now. [#497](https://github.com/inspec/train/pull/497) ([miah](https://github.com/miah)) <!-- 2.1.32 -->
