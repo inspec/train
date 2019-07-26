@@ -1,7 +1,8 @@
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 2.1.34 -->
+## [v2.1.34](https://github.com/inspec/train/tree/v2.1.34) (2019-07-26)
 
 #### Merged Pull Requests
+- Add codeclimate setup. [#460](https://github.com/inspec/train/pull/460) ([miah](https://github.com/miah))
 - get more debugging details [#502](https://github.com/inspec/train/pull/502) ([miah](https://github.com/miah))
 - Move this secrets stuff into the label [#501](https://github.com/inspec/train/pull/501) ([miah](https://github.com/miah))
 - correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah))
@@ -12,6 +13,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Add codeclimate setup. [#460](https://github.com/inspec/train/pull/460) ([miah](https://github.com/miah)) <!-- 2.1.34 -->
 - get more debugging details [#502](https://github.com/inspec/train/pull/502) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - Move this secrets stuff into the label [#501](https://github.com/inspec/train/pull/501) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
