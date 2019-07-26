@@ -239,8 +239,8 @@ module Train::Platforms::Detect::Specifications
           unless (suse = unix_file_contents("/etc/SuSE-release")).nil?
             # https://rubular.com/r/UKaYWolCYFMfp1
             version = suse.scan(/VERSION = (\d+)\nPATCHLEVEL = (\d+)/).flatten.join(".")
-            # https://rubular.com/r/b5PN3hZDxa5amV
-            version = suse[/VERSION\s?=\s?"?([\d\.]{2,})"?/, 1] if version == ""
+            # https://rubular.com/r/xegcPXKEXJrJl5
+            version = suse[/VERSION *= *("?)([\d\.]{2,})\1$/, 2] if version == ""
             @platform[:release] = version
             true
           end
