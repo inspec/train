@@ -1,18 +1,15 @@
-<!-- latest_release 2.1.34 -->
-## [v2.1.34](https://github.com/inspec/train/tree/v2.1.34) (2019-07-26)
+<!-- latest_release 2.1.35 -->
+## [v2.1.35](https://github.com/inspec/train/tree/v2.1.35) (2019-07-26)
 
 #### Merged Pull Requests
-- Add codeclimate setup. [#460](https://github.com/inspec/train/pull/460) ([miah](https://github.com/miah))
-- get more debugging details [#502](https://github.com/inspec/train/pull/502) ([miah](https://github.com/miah))
-- Move this secrets stuff into the label [#501](https://github.com/inspec/train/pull/501) ([miah](https://github.com/miah))
-- correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah))
-- the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah))
+- Minor cleanup to regexp for correctness. [#458](https://github.com/inspec/train/pull/458) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.19 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Minor cleanup to regexp for correctness. [#458](https://github.com/inspec/train/pull/458) ([zenspider](https://github.com/zenspider)) <!-- 2.1.35 -->
 - Add codeclimate setup. [#460](https://github.com/inspec/train/pull/460) ([miah](https://github.com/miah)) <!-- 2.1.34 -->
 - get more debugging details [#502](https://github.com/inspec/train/pull/502) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
 - Move this secrets stuff into the label [#501](https://github.com/inspec/train/pull/501) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
