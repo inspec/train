@@ -19,7 +19,8 @@ github:
   # allow bumping the minor release via label
   minor_bump_labels:
     - "Expeditor/Bump Minor Version"
-
+  major_bump_labels:
+    - "Expeditor/Bump Major Version"
   release_branch:
     - 1-stable:
         version_constraint: 1.*
