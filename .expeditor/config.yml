@@ -24,8 +24,10 @@ github:
   release_branch:
     - 1-stable:
         version_constraint: 1.*
-    - master:
+    - 2-stable:
         version_constraint: 2.*
+    - master:
+        version_constraint: 3.*
 
 changelog:
   rollup_header: Changes not yet released to rubygems.org
