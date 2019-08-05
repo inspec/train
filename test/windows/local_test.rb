@@ -15,7 +15,7 @@ require "train/transports/local"
 describe "windows local command" do
   let(:backend) do
     # get final config
-    target_config = Train.target_config({logger: Logger.new(STDERR, level: :info)})
+    target_config = Train.target_config({ logger: Logger.new(STDERR, level: :info) })
     # initialize train
     Train.create("local", target_config)
   end

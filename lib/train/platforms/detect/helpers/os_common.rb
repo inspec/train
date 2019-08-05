@@ -12,7 +12,7 @@ module Train::Platforms::Detect::Helpers
     end
 
     def winrm?
-      backend_name == 'TrainPlugins::WinRM::Connection'
+      backend_name == "TrainPlugins::WinRM::Connection"
     end
 
     def backend_name

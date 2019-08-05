@@ -14,14 +14,14 @@ end
 describe "os_common" do
   let(:detector) { OsDetectLinuxTester.new }
 
-  describe 'winrm? check' do
-    it 'return winrm? true' do
-      OsDetectLinuxTester.any_instance.stubs(:backend_name).returns('TrainPlugins::WinRM::Connection')
+  describe "winrm? check" do
+    it "return winrm? true" do
+      OsDetectLinuxTester.any_instance.stubs(:backend_name).returns("TrainPlugins::WinRM::Connection")
       detector.winrm?.must_equal(true)
     end
 
-    it 'return winrm? false when winrm is not loaded' do
-      OsDetectLinuxTester.any_instance.stubs(:backend_name).returns('Something::Else')
+    it "return winrm? false when winrm is not loaded" do
+      OsDetectLinuxTester.any_instance.stubs(:backend_name).returns("Something::Else")
       detector.winrm?.must_equal(false)
     end
   end
