@@ -177,7 +177,7 @@ describe "os_detect" do
 
   describe "windows" do
     it "sets the correct family/release for windows " do
-      platform = scan_with_windows()
+      platform = scan_with_windows
 
       platform[:name].must_equal("windows_6.3.9600")
       platform[:family].must_equal("windows")
