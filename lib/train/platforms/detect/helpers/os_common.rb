@@ -12,7 +12,11 @@ module Train::Platforms::Detect::Helpers
     end
 
     def winrm?
-      @backend.class.to_s == "Train::Transports::WinRM::Connection"
+      backend_name == "TrainPlugins::WinRM::Connection"
+    end
+
+    def backend_name
+      @backend.class.name
     end
 
     def unix_file_contents(path)

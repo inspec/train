@@ -7,6 +7,7 @@ require "minitest/spec"
 require "mocha/setup"
 require "train"
 require "tempfile"
+require "logger"
 
 # Loading here to ensure methods exist to be stubbed
 require "train/transports/local"
@@ -14,7 +15,7 @@ require "train/transports/local"
 describe "windows local command" do
   let(:backend) do
     # get final config
-    target_config = Train.target_config({})
+    target_config = Train.target_config({ logger: Logger.new(STDERR, level: :info) })
     # initialize train
     Train.create("local", target_config)
   end
@@ -22,7 +23,7 @@ describe "windows local command" do
 
   it "verify os" do
     os = conn.os
-    os[:name].must_match(/windows_server.*_datacenter/)
+    os[:name].must_match(/windows_server.*/)
     os[:family].must_equal "windows"
     os[:release].must_match(/\d+(\.\d+)+/)
     os[:arch].must_equal "x86_64"
