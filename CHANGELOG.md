@@ -1,14 +1,15 @@
-<!-- latest_release 3.0.0 -->
-## [v3.0.0](https://github.com/inspec/train/tree/v3.0.0) (2019-08-06)
+<!-- latest_release 3.0.1 -->
+## [v3.0.1](https://github.com/inspec/train/tree/v3.0.1) (2019-08-06)
 
 #### Merged Pull Requests
-- Remove WinRM support in favor of train-winrm plugin [#448](https://github.com/inspec/train/pull/448) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Use /etc/os-release for SUSE detection (Adopted) [#505](https://github.com/inspec/train/pull/505) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.19 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Use /etc/os-release for SUSE detection (Adopted) [#505](https://github.com/inspec/train/pull/505) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.1 -->
 - Remove WinRM support in favor of train-winrm plugin [#448](https://github.com/inspec/train/pull/448) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.0 -->
 - Remove travis and appveyor [#503](https://github.com/inspec/train/pull/503) ([miah](https://github.com/miah)) <!-- 2.1.36 -->
 - Minor cleanup to regexp for correctness. [#458](https://github.com/inspec/train/pull/458) ([zenspider](https://github.com/zenspider)) <!-- 2.1.35 -->
