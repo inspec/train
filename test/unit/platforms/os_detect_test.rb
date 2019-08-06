@@ -175,6 +175,16 @@ describe "os_detect" do
     end
   end
 
+  describe "windows" do
+    it "sets the correct family/release for windows " do
+      platform = scan_with_windows()
+
+      platform[:name].must_equal("windows_6.3.9600")
+      platform[:family].must_equal("windows")
+      platform[:release].must_equal("6.3.9600")
+    end
+  end
+
   describe "/etc/coreos/update.conf" do
     it "sets the correct family/release for coreos" do
       lsb_release = "DISTRIB_ID=Container Linux by CoreOS\nDISTRIB_RELEASE=27.9"
@@ -215,6 +225,55 @@ describe "os_detect" do
         platform[:name].must_equal("wrlinux")
         platform[:family].must_equal("redhat")
         platform[:release].must_equal("cisco123")
+      end
+    end
+
+    describe "when on a suse build" do
+      describe "when /etc/os-release is present" do
+        it "sets the correct family/release for SLES" do
+          files = {
+            "/etc/os-release" => "NAME=\"SLES\"\nVERSION=\"15.1\"\nID=\"sles\"\nID_LIKE=\"suse\"\n",
+          }
+          platform = scan_with_files("linux", files)
+
+          platform[:name].must_equal("suse")
+          platform[:family].must_equal("suse")
+          platform[:release].must_equal("15.1")
+        end
+
+        it "sets the correct family/release for openSUSE" do
+          files = {
+            "/etc/os-release" => "NAME=\"openSUSE Leap\"\nVERSION=\"15.1\"\nID=\"opensuse-leap\"\nID_LIKE=\"suse opensuse\"\n",
+          }
+          platform = scan_with_files("linux", files)
+
+          platform[:name].must_equal("opensuse")
+          platform[:family].must_equal("suse")
+          platform[:release].must_equal("15.1")
+        end
+      end
+      describe "when /etc/os-release is not present" do
+        it "sets the correct family/release for SLES" do
+          files = {
+            "/etc/SuSE-release" => "SUSE Linux Enterprise Server 11 (x86_64)\nVERSION = 11\nPATCHLEVEL = 2",
+          }
+          platform = scan_with_files("linux", files)
+
+          platform[:name].must_equal("suse")
+          platform[:family].must_equal("suse")
+          platform[:release].must_equal("11.2")
+        end
+
+        it "sets the correct family/release for openSUSE" do
+          files = {
+            "/etc/SuSE-release" => "openSUSE 10.2 (x86_64)\nVERSION = 10.2",
+          }
+          platform = scan_with_files("linux", files)
+
+          platform[:name].must_equal("opensuse")
+          platform[:family].must_equal("suse")
+          platform[:release].must_equal("10.2")
+        end
       end
     end
   end
