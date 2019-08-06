@@ -1,14 +1,15 @@
-<!-- latest_release 2.1.36 -->
-## [v2.1.36](https://github.com/inspec/train/tree/v2.1.36) (2019-07-29)
+<!-- latest_release 3.0.0 -->
+## [v3.0.0](https://github.com/inspec/train/tree/v3.0.0) (2019-08-06)
 
 #### Merged Pull Requests
-- Remove travis and appveyor [#503](https://github.com/inspec/train/pull/503) ([miah](https://github.com/miah))
+- Remove WinRM support in favor of train-winrm plugin [#448](https://github.com/inspec/train/pull/448) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=2.1.19 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Remove WinRM support in favor of train-winrm plugin [#448](https://github.com/inspec/train/pull/448) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.0 -->
 - Remove travis and appveyor [#503](https://github.com/inspec/train/pull/503) ([miah](https://github.com/miah)) <!-- 2.1.36 -->
 - Minor cleanup to regexp for correctness. [#458](https://github.com/inspec/train/pull/458) ([zenspider](https://github.com/zenspider)) <!-- 2.1.35 -->
 - Add codeclimate setup. [#460](https://github.com/inspec/train/pull/460) ([miah](https://github.com/miah)) <!-- 2.1.34 -->
