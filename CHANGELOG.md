@@ -1,40 +1,38 @@
-<!-- latest_release 3.0.1 -->
-## [v3.0.1](https://github.com/inspec/train/tree/v3.0.1) (2019-08-06)
-
-#### Merged Pull Requests
-- Use /etc/os-release for SUSE detection (Adopted) [#505](https://github.com/inspec/train/pull/505) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=2.1.19 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Use /etc/os-release for SUSE detection (Adopted) [#505](https://github.com/inspec/train/pull/505) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.1 -->
-- Remove WinRM support in favor of train-winrm plugin [#448](https://github.com/inspec/train/pull/448) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.0.0 -->
-- Remove travis and appveyor [#503](https://github.com/inspec/train/pull/503) ([miah](https://github.com/miah)) <!-- 2.1.36 -->
-- Minor cleanup to regexp for correctness. [#458](https://github.com/inspec/train/pull/458) ([zenspider](https://github.com/zenspider)) <!-- 2.1.35 -->
-- Add codeclimate setup. [#460](https://github.com/inspec/train/pull/460) ([miah](https://github.com/miah)) <!-- 2.1.34 -->
-- get more debugging details [#502](https://github.com/inspec/train/pull/502) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
-- Move this secrets stuff into the label [#501](https://github.com/inspec/train/pull/501) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
-- correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
-- the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
-- that image isnt supported for accounts/secrets [#498](https://github.com/inspec/train/pull/498) ([miah](https://github.com/miah)) <!-- 2.1.33 -->
-- I understand how vault secrets in expeditor work now. [#497](https://github.com/inspec/train/pull/497) ([miah](https://github.com/miah)) <!-- 2.1.32 -->
-- Add newline to Rakefile [#496](https://github.com/inspec/train/pull/496) ([miah](https://github.com/miah)) <!-- 2.1.31 -->
-- Move coverage private and use our repo_token [#495](https://github.com/inspec/train/pull/495) ([miah](https://github.com/miah)) <!-- 2.1.30 -->
-- less clever to worry about here since this isn&#39;t InSpec ;) [#494](https://github.com/inspec/train/pull/494) ([miah](https://github.com/miah)) <!-- 2.1.29 -->
-- Load simplecov too [#493](https://github.com/inspec/train/pull/493) ([miah](https://github.com/miah)) <!-- 2.1.28 -->
-- chmod 755 coverage.sh [#492](https://github.com/inspec/train/pull/492) ([miah](https://github.com/miah)) <!-- 2.1.27 -->
-- Use our coverage.sh rather than embedded commands [#491](https://github.com/inspec/train/pull/491) ([miah](https://github.com/miah)) <!-- 2.1.26 -->
-- yah-mail [#490](https://github.com/inspec/train/pull/490) ([miah](https://github.com/miah)) <!-- 2.1.25 -->
-- Testing coverage pipeline [#488](https://github.com/inspec/train/pull/488) ([miah](https://github.com/miah)) <!-- 2.1.24 -->
-- Remove coverage from general test runs and add its own pipeline [#486](https://github.com/inspec/train/pull/486) ([miah](https://github.com/miah)) <!-- 2.1.23 -->
-- Fix up windows testing on buildkite [#487](https://github.com/inspec/train/pull/487) ([zenspider](https://github.com/zenspider)) <!-- 2.1.22 -->
-- garbo [#485](https://github.com/inspec/train/pull/485) ([miah](https://github.com/miah)) <!-- 2.1.21 -->
-- Add Windows to the verify pipeline [#484](https://github.com/inspec/train/pull/484) ([miah](https://github.com/miah)) <!-- 2.1.20 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.1](https://github.com/inspec/train/tree/v3.0.1) (2019-08-07)
+
+#### Merged Pull Requests
+- Add Windows to the verify pipeline [#484](https://github.com/inspec/train/pull/484) ([miah](https://github.com/miah))
+- garbo [#485](https://github.com/inspec/train/pull/485) ([miah](https://github.com/miah))
+- Fix up windows testing on buildkite [#487](https://github.com/inspec/train/pull/487) ([zenspider](https://github.com/zenspider))
+- Remove coverage from general test runs and add its own pipeline [#486](https://github.com/inspec/train/pull/486) ([miah](https://github.com/miah))
+- Testing coverage pipeline [#488](https://github.com/inspec/train/pull/488) ([miah](https://github.com/miah))
+- yah-mail [#490](https://github.com/inspec/train/pull/490) ([miah](https://github.com/miah))
+- Use our coverage.sh rather than embedded commands [#491](https://github.com/inspec/train/pull/491) ([miah](https://github.com/miah))
+- chmod 755 coverage.sh [#492](https://github.com/inspec/train/pull/492) ([miah](https://github.com/miah))
+- Load simplecov too [#493](https://github.com/inspec/train/pull/493) ([miah](https://github.com/miah))
+- less clever to worry about here since this isn&#39;t InSpec ;) [#494](https://github.com/inspec/train/pull/494) ([miah](https://github.com/miah))
+- Move coverage private and use our repo_token [#495](https://github.com/inspec/train/pull/495) ([miah](https://github.com/miah))
+- Add newline to Rakefile [#496](https://github.com/inspec/train/pull/496) ([miah](https://github.com/miah))
+- I understand how vault secrets in expeditor work now. [#497](https://github.com/inspec/train/pull/497) ([miah](https://github.com/miah))
+- that image isnt supported for accounts/secrets [#498](https://github.com/inspec/train/pull/498) ([miah](https://github.com/miah))
+- the secret doesnt seem to be propagating to docker? [#499](https://github.com/inspec/train/pull/499) ([miah](https://github.com/miah))
+- correct the path to the secret in vault [#500](https://github.com/inspec/train/pull/500) ([miah](https://github.com/miah))
+- Move this secrets stuff into the label [#501](https://github.com/inspec/train/pull/501) ([miah](https://github.com/miah))
+- get more debugging details [#502](https://github.com/inspec/train/pull/502) ([miah](https://github.com/miah))
+- Add codeclimate setup. [#460](https://github.com/inspec/train/pull/460) ([miah](https://github.com/miah))
+- Minor cleanup to regexp for correctness. [#458](https://github.com/inspec/train/pull/458) ([zenspider](https://github.com/zenspider))
+- Remove travis and appveyor [#503](https://github.com/inspec/train/pull/503) ([miah](https://github.com/miah))
+- Remove WinRM support in favor of train-winrm plugin [#448](https://github.com/inspec/train/pull/448) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Use /etc/os-release for SUSE detection (Adopted) [#505](https://github.com/inspec/train/pull/505) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v2.1.19](https://github.com/inspec/train/tree/v2.1.19) (2019-07-23)
 
 #### Merged Pull Requests
@@ -44,7 +42,6 @@
 - TRYING to get things normalized across chef, inspec, and train. [#480](https://github.com/inspec/train/pull/480) ([zenspider](https://github.com/zenspider))
 - This fixes cisco_ios? being defined to return true by default [#481](https://github.com/inspec/train/pull/481) ([zenspider](https://github.com/zenspider))
 - Add inspec-notify to the notify_channel list [#483](https://github.com/inspec/train/pull/483) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v2.1.13](https://github.com/inspec/train/tree/v2.1.13) (2019-07-01)
 
