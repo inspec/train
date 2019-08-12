@@ -98,6 +98,12 @@ module Train::Platforms::Detect::Helpers
         return @cache[:cisco] = { version: v, type: "nexus" }
       end
 
+      m = res.match(/Cisco Adaptive Security Appliance Software Version (\d+\.\d+)/)
+      unless m.nil?
+        model = res.match(/Hardware:\s+(ASA\d+)/)
+        return @cache[:cisco] = { version: m[1], model: model[1], type: "asa" }
+      end
+
       @cache[:cisco] = nil
     end
 
