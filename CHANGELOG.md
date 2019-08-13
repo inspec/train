@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.0.2 -->
+## [v3.0.2](https://github.com/inspec/train/tree/v3.0.2) (2019-08-13)
+
+#### Merged Pull Requests
+- Fix raise invalid arguments [#508](https://github.com/inspec/train/pull/508) ([vsingh-msys](https://github.com/vsingh-msys))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.0.1 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Fix raise invalid arguments [#508](https://github.com/inspec/train/pull/508) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.0.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
