@@ -1,18 +1,16 @@
-<!-- latest_release 3.0.2 -->
-## [v3.0.2](https://github.com/inspec/train/tree/v3.0.2) (2019-08-13)
-
-#### Merged Pull Requests
-- Fix raise invalid arguments [#508](https://github.com/inspec/train/pull/508) ([vsingh-msys](https://github.com/vsingh-msys))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Fix raise invalid arguments [#508](https://github.com/inspec/train/pull/508) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.0.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.2](https://github.com/inspec/train/tree/v3.0.2) (2019-08-15)
+
+#### Merged Pull Requests
+- Fix raise invalid arguments [#508](https://github.com/inspec/train/pull/508) ([vsingh-msys](https://github.com/vsingh-msys))
+<!-- latest_stable_release -->
+
 ## [v3.0.1](https://github.com/inspec/train/tree/v3.0.1) (2019-08-07)
 
 #### Merged Pull Requests
@@ -39,7 +37,6 @@
 - Remove travis and appveyor [#503](https://github.com/inspec/train/pull/503) ([miah](https://github.com/miah))
 - Remove WinRM support in favor of train-winrm plugin [#448](https://github.com/inspec/train/pull/448) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Use /etc/os-release for SUSE detection (Adopted) [#505](https://github.com/inspec/train/pull/505) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v2.1.19](https://github.com/inspec/train/tree/v2.1.19) (2019-07-23)
 
