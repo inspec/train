@@ -82,7 +82,7 @@ module Train::Platforms::Detect::Helpers
 
       # Limit result size using output modifier (since IOS 12.0), if supported
       res = command_output("show version | grep [Vv]ersion|Hardware")
-      res = command_output("show version") unless res.match(/Version/i)
+      res = command_output("show version") unless res.include? 'Cisco'
 
       m = res.match(/Cisco IOS Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+)/)
       unless m.nil?
