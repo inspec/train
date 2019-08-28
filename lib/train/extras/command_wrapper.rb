@@ -169,8 +169,8 @@ module Train::Extras
         res = LinuxCommand.new(transport, options)
         verification_res = res.verify
         if verification_res
-          msg, _reason = verification_res
-          raise Train::UserError, "Sudo failed: #{msg}"
+          msg, reason = verification_res
+          raise Train::UserError.new("Sudo failed: #{msg}", reason)
         end
         res
       elsif transport.platform.windows?
