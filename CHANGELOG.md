@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.0.3 -->
+## [v3.0.3](https://github.com/inspec/train/tree/v3.0.3) (2019-08-28)
+
+#### Merged Pull Requests
+- Ensure UserError is raised with a reason value [#511](https://github.com/inspec/train/pull/511) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.0.2 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Ensure UserError is raised with a reason value [#511](https://github.com/inspec/train/pull/511) ([marcparadise](https://github.com/marcparadise)) <!-- 3.0.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
