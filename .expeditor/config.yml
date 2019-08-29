@@ -51,6 +51,11 @@ promote:
     - built_in:rollover_changelog
     - built_in:publish_rubygems
 
+subscriptions:
+ - workload: pull_request_opened:{{agent_id}}:*
+   actions:
+     - post_github_comment:.expeditor/templates/pull_request.mustache
+
 pipelines:
   - verify:
       description: Pull Request validation tests
@@ -58,4 +63,3 @@ pipelines:
 
   - coverage:
       description: Generate test coverage report
-
