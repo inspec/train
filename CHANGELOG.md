@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.0.4 -->
+## [v3.0.4](https://github.com/inspec/train/tree/v3.0.4) (2019-08-29)
+
+#### Merged Pull Requests
+- Let expeditor respond to pull request [#512](https://github.com/inspec/train/pull/512) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.0.3 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Let expeditor respond to pull request [#512](https://github.com/inspec/train/pull/512) ([miah](https://github.com/miah)) <!-- 3.0.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
