@@ -1,23 +1,20 @@
-<!-- latest_release 3.0.3 -->
-## [v3.0.3](https://github.com/inspec/train/tree/v3.0.3) (2019-08-28)
-
-#### Merged Pull Requests
-- Ensure UserError is raised with a reason value [#511](https://github.com/inspec/train/pull/511) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Ensure UserError is raised with a reason value [#511](https://github.com/inspec/train/pull/511) ([marcparadise](https://github.com/marcparadise)) <!-- 3.0.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.0.3](https://github.com/inspec/train/tree/v3.0.3) (2019-08-29)
+
+#### Merged Pull Requests
+- Ensure UserError is raised with a reason value [#511](https://github.com/inspec/train/pull/511) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_stable_release -->
+
 ## [v3.0.2](https://github.com/inspec/train/tree/v3.0.2) (2019-08-15)
 
 #### Merged Pull Requests
 - Fix raise invalid arguments [#508](https://github.com/inspec/train/pull/508) ([vsingh-msys](https://github.com/vsingh-msys))
-<!-- latest_stable_release -->
 
 ## [v3.0.1](https://github.com/inspec/train/tree/v3.0.1) (2019-08-07)
 
