@@ -6,8 +6,7 @@
 
 For more information on project states and SLAs, see [this documentation](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md).
 
-[![Build Status](https://travis-ci.org/inspec/train.svg?branch=master)](https://travis-ci.org/inspec/train)
-[![Build Status Master](https://ci.appveyor.com/api/projects/status/github/inspec/train?branch=master&svg=true&passingText=master%20-%20Ok&pendingText=master%20-%20Pending&failingText=master%20-%20Failing)](https://ci.appveyor.com/project/Chef/train/branch/master)
+[![Build status](https://badge.buildkite.com/ee9d6f49d995b23e943955b12d5aaadf4314d12b7cc99b03be.svg?branch=master)](https://buildkite.com/chef-oss/inspec-train-master-verify)
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
 [![Coverage Status](https://coveralls.io/repos/github/inspec/train/badge.svg?branch=master)](https://coveralls.io/github/inspec/train?branch=master)
 
@@ -225,4 +224,3 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
