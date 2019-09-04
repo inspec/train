@@ -33,7 +33,7 @@ module Train::Transports
       }
 
       # rubocop:disable Metrics/ParameterLists
-      # rubocop:disable Lint/Eval
+      # rubocop:disable Security/Eval
       set_trace_func(proc { |event, _file, _line, id, binding, classname|
         unless classname.to_s.start_with?("Train::Transports::Mock") &&
             (event == "call") &&
