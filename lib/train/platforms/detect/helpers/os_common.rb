@@ -23,7 +23,11 @@ module Train::Platforms::Detect::Helpers
       # keep a log of files incase multiple checks call the same one
       return @files[path] if @files.key?(path)
 
-      res = @backend.run_command("test -f #{path} && cat #{path}")
+      if ARGV.include? "--sudo"
+        res = @backend.run_command("sudo test -f #{path} && sudo cat #{path}")
+      else
+        res = @backend.run_command("test -f #{path} && cat #{path}")
+      end
       # ignore files that can't be read
       @files[path] = res.exit_status == 0 ? res.stdout : nil
       @files[path]
@@ -49,19 +53,31 @@ module Train::Platforms::Detect::Helpers
     def unix_uname_s
       return @uname[:s] if @uname.key?(:s)
 
-      @uname[:s] = command_output("uname -s")
+      if ARGV.include? "--sudo"
+        @uname[:s] = command_output("sudo uname -s")
+      else
+        @uname[:s] = command_output("uname -s")
+      end
     end
 
     def unix_uname_r
       return @uname[:r] if @uname.key?(:r)
 
-      @uname[:r] = command_output("uname -r")
+      if ARGV.include? "--sudo"
+        @uname[:r] = command_output("sudo uname -r")
+      else
+        @uname[:r] = command_output("uname -r")
+      end
     end
 
     def unix_uname_m
       return @uname[:m] if @uname.key?(:m)
 
-      @uname[:m] = command_output("uname -m")
+      if ARGV.include? "--sudo"
+        @uname[:m] = command_output("sudo uname -m")
+      else
+        @uname[:m] = command_output("uname -m")
+      end
     end
 
     def brocade_version
