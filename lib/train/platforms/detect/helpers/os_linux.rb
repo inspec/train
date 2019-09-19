@@ -41,7 +41,7 @@ module Train::Platforms::Detect::Helpers
         next if line.empty?
 
         key, value = line.split("=", 2)
-        memo[key] = value.gsub(/\A"|"\Z/, "") unless value.empty?
+        memo[key] = value.gsub(/\A"|"\Z/, "") unless value.nil?
       end
     end
 
