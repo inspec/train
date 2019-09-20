@@ -37,11 +37,11 @@ module Train::Platforms::Detect::Helpers
 
       raw.lines.each_with_object({}) do |line, memo|
         line.strip!
+        next if line.nil? || line.empty?
         next if line.start_with?("#")
-        next if line.empty?
 
         key, value = line.split("=", 2)
-        memo[key] = value.gsub(/\A"|"\Z/, "") unless value.nil?
+        memo[key] = value.gsub(/\A"|"\Z/, "") unless value.nil? || value.empty?
       end
     end
 
