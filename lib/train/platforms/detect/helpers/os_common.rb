@@ -24,6 +24,7 @@ module Train::Platforms::Detect::Helpers
       return @files[path] if @files.key?(path)
 
       res = @backend.run_command("test -f #{path} && cat #{path}")
+      
       # ignore files that can't be read
       @files[path] = res.exit_status == 0 ? res.stdout : nil
       @files[path]
@@ -48,7 +49,6 @@ module Train::Platforms::Detect::Helpers
 
     def unix_uname_s
       return @uname[:s] if @uname.key?(:s)
-
       @uname[:s] = command_output("uname -s")
     end
 
@@ -60,7 +60,7 @@ module Train::Platforms::Detect::Helpers
 
     def unix_uname_m
       return @uname[:m] if @uname.key?(:m)
-
+      
       @uname[:m] = command_output("uname -m")
     end
 
