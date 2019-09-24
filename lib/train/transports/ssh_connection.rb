@@ -287,9 +287,8 @@ class Train::Transports::SSH
         # wrap commands if that is configured
         if !@cmd_wrapper.nil?
           cmd = @cmd_wrapper.run(cmd)
-        # check if sudo or specific is configured so we can assume Linux/Unix
-	# so we use should use Linux wrapper to use the corresponding options
-        elsif @transport_options[:sudo] || @transport_options[:shell]
+        else if @transport_options[:sudo] || @transport_options[:shell]
+          # if sudo or shell is in the options we can assume Linux/Unix as platform
           cmd = LinuxCommand.new(self, @transport_options).run(cmd)
         end
 
