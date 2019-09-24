@@ -24,7 +24,6 @@ module Train::Platforms::Detect::Helpers
       return @files[path] if @files.key?(path)
 
       res = @backend.run_command("test -f #{path} && cat #{path}")
-
       # ignore files that can't be read
       @files[path] = res.exit_status == 0 ? res.stdout : nil
       @files[path]
