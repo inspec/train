@@ -1,14 +1,14 @@
 module Train::Platforms::Detect::Helpers
   module Windows
     def detect_windows
+      # we may get tricked by WSL, so lets check
+      res = @backend.run_command('which cmd.exe')
+      return false if res.exit_status.zero?
+
       # try to detect windows, use cmd.exe to also support Microsoft OpenSSH
       res = @backend.run_command("cmd.exe /c ver")
       return false if (res.exit_status != 0) || res.stdout.empty?
-      
-      # we may be tricked by WSL here, if it is WSL, we get a result
-      res = @backend.run_command('which cmd.exe')
-      return false if res.exit_status.zero?
-      
+
       # if the ver contains `Windows`, we know its a Windows system
       version = res.stdout.strip
       return false unless version.downcase =~ /windows/
