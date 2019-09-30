@@ -1,14 +1,15 @@
-<!-- latest_release 3.1.1 -->
-## [v3.1.1](https://github.com/inspec/train/tree/v3.1.1) (2019-09-04)
+<!-- latest_release 3.1.2 -->
+## [v3.1.2](https://github.com/inspec/train/tree/v3.1.2) (2019-09-30)
 
 #### Merged Pull Requests
-- Fix chefstyle warnings [#514](https://github.com/inspec/train/pull/514) ([tas50](https://github.com/tas50))
+- Add reason field while raising Train::ClientError. [#517](https://github.com/inspec/train/pull/517) ([samshinde](https://github.com/samshinde))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.0.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Add reason field while raising Train::ClientError. [#517](https://github.com/inspec/train/pull/517) ([samshinde](https://github.com/samshinde)) <!-- 3.1.2 -->
 - Fix chefstyle warnings [#514](https://github.com/inspec/train/pull/514) ([tas50](https://github.com/tas50)) <!-- 3.1.1 -->
 - add def forward_remote to Transports::SSH [#457](https://github.com/inspec/train/pull/457) ([sawanoboly](https://github.com/sawanoboly)) <!-- 3.1.0 -->
 - Let expeditor respond to pull request [#512](https://github.com/inspec/train/pull/512) ([miah](https://github.com/miah)) <!-- 3.0.4 -->
