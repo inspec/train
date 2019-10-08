@@ -35,9 +35,10 @@ module Train::Platforms::Detect::Helpers
       )
       return false if (command.exit_status != 0) || command.stdout.empty?
 
+      payload = JSON.parse(command.stdout)
       @platform[:family] = "windows"
-      @platform[:release] = command["Version"]
-      @platform[:name] = command["Caption"]
+      @platform[:release] = payload["Version"]
+      @platform[:name] = payload["Caption"]
 
       read_wmic
       true
