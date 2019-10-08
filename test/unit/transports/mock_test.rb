@@ -8,25 +8,25 @@ describe "mock transport" do
   let(:connection) { transport.connection }
 
   it "can be instantiated" do
-    transport.wont_be_nil
+    _(transport).wont_be_nil
   end
 
   it "can create a connection" do
-    connection.wont_be_nil
+    _(connection).wont_be_nil
   end
 
   it "provides a uri" do
-    connection.uri.must_equal "mock://"
+    _(connection.uri).must_equal "mock://"
   end
 
   it "provides a run_command_via_connection method" do
     methods = connection.class.private_instance_methods(false)
-    methods.include?(:run_command_via_connection).must_equal true
+    _(methods.include?(:run_command_via_connection)).must_equal true
   end
 
   it "provides a file_via_connection method" do
     methods = connection.class.private_instance_methods(false)
-    methods.include?(:file_via_connection).must_equal true
+    _(methods.include?(:file_via_connection)).must_equal true
   end
 
   describe "when running a mocked command" do
@@ -36,12 +36,12 @@ describe "mock transport" do
       out = rand
       cls = Train::Transports::Mock::Connection::Command
       res = cls.new(out, "", 0)
-      connection.mock_command("test", out).must_equal res
+      _(connection.mock_command("test", out)).must_equal res
     end
 
     it "handles nil commands" do
       assert_output "", /Command not mocked/ do
-        connection.run_command(nil).stdout.must_equal("")
+        _(connection.run_command(nil).stdout).must_equal("")
       end
     end
 
@@ -49,28 +49,28 @@ describe "mock transport" do
       out = rand
       connection.mock_command("", rand) # don't pull this result! always mock the input
       connection.mock_command(nil, out) # pull this result
-      connection.run_command(nil).stdout.must_equal(out)
+      _(connection.run_command(nil).stdout).must_equal(out)
     end
 
     it "gets results for stdout" do
       out = rand
       cmd = rand
       connection.mock_command(cmd, out)
-      connection.run_command(cmd).stdout.must_equal(out)
+      _(connection.run_command(cmd).stdout).must_equal(out)
     end
 
     it "gets results for stderr" do
       err = rand
       cmd = rand
       connection.mock_command(cmd, nil, err)
-      connection.run_command(cmd).stderr.must_equal(err)
+      _(connection.run_command(cmd).stderr).must_equal(err)
     end
 
     it "gets results for exit_status" do
       code = rand
       cmd = rand
       connection.mock_command(cmd, nil, nil, code)
-      connection.run_command(cmd).exit_status.must_equal(code)
+      _(connection.run_command(cmd).exit_status).must_equal(code)
     end
 
     it "can mock a command via its SHA2 sum" do
@@ -78,55 +78,55 @@ describe "mock transport" do
       cmd = rand.to_s
       shacmd = Digest::SHA256.hexdigest cmd
       connection.mock_command(shacmd, out)
-      connection.run_command(cmd).stdout.must_equal(out)
+      _(connection.run_command(cmd).stdout).must_equal(out)
     end
   end
 
   describe "when accessing a mocked os" do
     it "has the default mock os faily set to mock" do
-      connection.os[:name].must_equal "mock"
-      connection.platform[:name].must_equal "mock"
+      _(connection.os[:name]).must_equal "mock"
+      _(connection.platform[:name]).must_equal "mock"
     end
 
     it "sets the OS to the mocked value" do
       connection.mock_os({ name: "centos", family: "redhat" })
-      connection.os.linux?.must_equal true
-      connection.os.redhat?.must_equal true
-      connection.os[:family].must_equal "redhat"
+      _(connection.os.linux?).must_equal true
+      _(connection.os.redhat?).must_equal true
+      _(connection.os[:family]).must_equal "redhat"
     end
 
     it "allows the setting of the name" do
       connection.mock_os({ name: "foo" })
-      connection.os[:name].must_equal "foo"
+      _(connection.os[:name]).must_equal "foo"
     end
 
     it "allows setting of the family" do
       connection.mock_os({ family: "foo" })
-      connection.os[:family].must_equal "foo"
+      _(connection.os[:family]).must_equal "foo"
     end
 
     it "allows setting of the release" do
       connection.mock_os({ release: "1.2.3" })
-      connection.os[:release].must_equal "1.2.3"
+      _(connection.os[:release]).must_equal "1.2.3"
     end
 
     it "allows setting of the arch" do
       connection.mock_os({ arch: "amd123" })
-      connection.os[:arch].must_equal "amd123"
+      _(connection.os[:arch]).must_equal "amd123"
     end
 
     it "allow setting of multiple values" do
       connection.mock_os({ name: "foo", family: "bar" })
-      connection.os[:name].must_equal "foo"
-      connection.os[:family].must_equal "bar"
-      connection.os[:arch].must_equal "unknown"
-      connection.os[:release].must_equal "unknown"
+      _(connection.os[:name]).must_equal "foo"
+      _(connection.os[:family]).must_equal "bar"
+      _(connection.os[:arch]).must_equal "unknown"
+      _(connection.os[:release]).must_equal "unknown"
     end
 
     it "properly handles a nil value" do
       connection.mock_os(nil)
-      connection.os[:name].must_equal "mock"
-      connection.os[:family].must_equal "mock"
+      _(connection.os[:name]).must_equal "mock"
+      _(connection.os[:family]).must_equal "mock"
     end
   end
 
@@ -135,9 +135,9 @@ describe "mock transport" do
       x = rand.to_s
       assert_output "", /File not mocked/ do
         f = connection.file(x)
-        f.must_be_kind_of Train::Transports::Mock::Connection::File
-        f.exist?.must_equal false
-        f.path.must_equal x
+        _(f).must_be_kind_of Train::Transports::Mock::Connection::File
+        _(f.exist?).must_equal false
+        _(f.path).must_equal x
       end
     end
 
@@ -150,9 +150,9 @@ describe "mock transport" do
         r = RES.send(f)
         d = JSON_DATA[f]
         if d
-          r.must_equal d
+          _(r).must_equal d
         else
-          r.must_be_nil # I think just group on windows
+          _(r).must_be_nil # I think just group on windows
         end
       end
     end

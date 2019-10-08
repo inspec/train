@@ -14,21 +14,21 @@ describe Train::File::Remote::Aix do
   it "returns a nil link_path if the object is not a symlink" do
     file = cls.new(backend, "path")
     file.stubs(:symlink?).returns(false)
-    file.link_path.must_be_nil
+    _(file.link_path).must_be_nil
   end
 
   it "returns a correct link_path" do
     file = cls.new(backend, "path")
     file.stubs(:symlink?).returns(true)
     backend.mock_command("perl -e 'print readlink shift' path", "our_link_path")
-    file.link_path.must_equal "our_link_path"
+    _(file.link_path).must_equal "our_link_path"
   end
 
   it "returns a correct shallow_link_path" do
     file = cls.new(backend, "path")
     file.stubs(:symlink?).returns(true)
     backend.mock_command("perl -e 'print readlink shift' path", "our_link_path")
-    file.link_path.must_equal "our_link_path"
+    _(file.link_path).must_equal "our_link_path"
   end
 
   describe "#md5sum" do
@@ -44,13 +44,13 @@ describe Train::File::Remote::Aix do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("md5sum /tmp/testfile", "", "", 1)
       Digest::MD5.expects(:new).returns(ruby_md5_mock)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
 
     it "calculates the correct md5sum on the `aix` platform family" do
       output = "#{md5_checksum} /tmp/testfile"
       backend.mock_command("md5sum /tmp/testfile", output)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
   end
 
@@ -69,13 +69,13 @@ describe Train::File::Remote::Aix do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("sha256sum /tmp/testfile", "", "", 1)
       Digest::SHA256.expects(:new).returns(ruby_sha256_mock)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
 
     it "calculates the correct sha256sum on the `aix` platform family" do
       output = "#{sha256_checksum} /tmp/testfile"
       backend.mock_command("sha256sum /tmp/testfile", output)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
   end
 end

@@ -24,7 +24,7 @@ describe Train::File::Remote::Windows do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("CertUtil -hashfile #{filepath} MD5", "", "", 1)
       Digest::MD5.expects(:new).returns(ruby_md5_mock)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
 
     it "calculates the correct md5sum on the `windows` platform family" do
@@ -35,7 +35,7 @@ describe Train::File::Remote::Windows do
       EOC
 
       backend.mock_command("CertUtil -hashfile #{filepath} MD5", output)
-      cls.new(backend, filepath).md5sum.must_equal md5_checksum
+      _(cls.new(backend, filepath).md5sum).must_equal md5_checksum
     end
   end
 
@@ -55,7 +55,7 @@ describe Train::File::Remote::Windows do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("CertUtil -hashfile #{filepath} SHA256", "", "", 1)
       Digest::SHA256.expects(:new).returns(ruby_sha256_mock)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
 
     it "calculates the correct sha256sum on the `windows` platform family" do
@@ -66,7 +66,7 @@ describe Train::File::Remote::Windows do
       EOC
 
       backend.mock_command("CertUtil -hashfile #{filepath} SHA256", output)
-      cls.new(backend, filepath).sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, filepath).sha256sum).must_equal sha256_checksum
     end
   end
 end

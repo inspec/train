@@ -26,10 +26,10 @@ describe "os_detect_windows" do
 
     it "sets the correct family/release for windows" do
       detector.detect_windows
-      detector.platform[:family].must_equal("windows")
-      detector.platform[:name].must_equal("Windows Server 2012 R2 Standard")
-      detector.platform[:arch].must_equal("x86_64")
-      detector.platform[:release].must_equal("6.3.9600")
+      _(detector.platform[:family]).must_equal("windows")
+      _(detector.platform[:name]).must_equal("Windows Server 2012 R2 Standard")
+      _(detector.platform[:arch]).must_equal("x86_64")
+      _(detector.platform[:release]).must_equal("6.3.9600")
     end
   end
 
@@ -44,10 +44,10 @@ describe "os_detect_windows" do
 
     it "sets the correct family/release for windows" do
       detector.detect_windows
-      detector.platform[:family].must_equal("windows")
-      detector.platform[:name].must_equal("Windows Server 2008 R2 Standard")
-      detector.platform[:arch].must_equal("x86_64")
-      detector.platform[:release].must_equal("6.1.7601")
+      _(detector.platform[:family]).must_equal("windows")
+      _(detector.platform[:name]).must_equal("Windows Server 2008 R2 Standard")
+      _(detector.platform[:arch]).must_equal("x86_64")
+      _(detector.platform[:release]).must_equal("6.1.7601")
     end
   end
 
@@ -62,10 +62,10 @@ describe "os_detect_windows" do
 
     it "sets the correct family/release for windows" do
       detector.detect_windows
-      detector.platform[:family].must_equal("windows")
-      detector.platform[:name].must_equal("Windows 7 Enterprise")
-      detector.platform[:arch].must_equal("i386")
-      detector.platform[:release].must_equal("6.1.7601")
+      _(detector.platform[:family]).must_equal("windows")
+      _(detector.platform[:name]).must_equal("Windows 7 Enterprise")
+      _(detector.platform[:arch]).must_equal("i386")
+      _(detector.platform[:release]).must_equal("6.1.7601")
     end
   end
 
@@ -80,10 +80,10 @@ describe "os_detect_windows" do
 
     it "sets the correct family/release for windows" do
       detector.detect_windows
-      detector.platform[:family].must_equal("windows")
-      detector.platform[:name].must_equal("Windows 10 Pro")
-      detector.platform[:arch].must_equal("x86_64")
-      detector.platform[:release].must_equal("10.0.10240")
+      _(detector.platform[:family]).must_equal("windows")
+      _(detector.platform[:name]).must_equal("Windows 10 Pro")
+      _(detector.platform[:arch]).must_equal("x86_64")
+      _(detector.platform[:release]).must_equal("10.0.10240")
     end
   end
 
@@ -98,10 +98,10 @@ describe "os_detect_windows" do
 
     it "fallback to version number if wmic is not available" do
       detector.detect_windows
-      detector.platform[:family].must_equal("windows")
-      detector.platform[:name].must_equal("Windows 4.10.1998")
-      detector.platform[:arch].must_be_nil
-      detector.platform[:release].must_equal("4.10.1998")
+      _(detector.platform[:family]).must_equal("windows")
+      _(detector.platform[:name]).must_equal("Windows 4.10.1998")
+      _(detector.platform[:arch]).must_be_nil
+      _(detector.platform[:release]).must_equal("4.10.1998")
     end
   end
 end

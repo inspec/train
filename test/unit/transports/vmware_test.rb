@@ -38,10 +38,10 @@ describe "Train::Transports::VMware::Connection" do
   describe "#initialize" do
     it "defaults to ENV options" do
       options = create_transport.connection.instance_variable_get(:@options)
-      options[:viserver].must_equal "10.0.0.10"
-      options[:username].must_equal "testuser"
-      options[:password].must_equal "supersecurepassword"
-      options[:insecure].must_equal false
+      _(options[:viserver]).must_equal "10.0.0.10"
+      _(options[:username]).must_equal "testuser"
+      _(options[:password]).must_equal "supersecurepassword"
+      _(options[:insecure]).must_equal false
     end
 
     it "allows for overriding options" do
@@ -54,10 +54,10 @@ describe "Train::Transports::VMware::Connection" do
         }
       )
       options = transport.connection.instance_variable_get(:@options)
-      options[:viserver].must_equal "10.1.1.1"
-      options[:username].must_equal "anotheruser"
-      options[:password].must_equal "notsecurepassword"
-      options[:insecure].must_equal false
+      _(options[:viserver]).must_equal "10.1.1.1"
+      _(options[:username]).must_equal "anotheruser"
+      _(options[:password]).must_equal "notsecurepassword"
+      _(options[:insecure]).must_equal false
     end
 
     it "ignores certificate validation if --insecure is used" do
@@ -67,7 +67,7 @@ describe "Train::Transports::VMware::Connection" do
         .returns(nil)
       transport = create_transport(transport_options: { insecure: true })
       options = transport.connection.instance_variable_get(:@options)
-      options[:insecure].must_equal true
+      _(options[:insecure]).must_equal true
     end
 
     it "uses the Local connection when Windows PowerShell is found" do
@@ -81,13 +81,15 @@ describe "Train::Transports::VMware::Connection" do
     end
   end
 
+  # rubocop:disable Style/BlockDelimiters
+
   describe "#connect" do
     def mock_connect_result(stderr, exit_status)
       OpenStruct.new(stderr: stderr, exit_status: exit_status)
     end
 
     it "raises certificate error when stderr matches regular expression" do
-      e = proc {
+      e = _ {
         create_transport(
           stub_options: {
             mock_connect_result: mock_connect_result(
@@ -96,11 +98,11 @@ describe "Train::Transports::VMware::Connection" do
           }
         ).connection
       }.must_raise(RuntimeError)
-      e.message.must_match(/Unable to connect.*Please use `--insecure`/)
+      _(e.message).must_match(/Unable to connect.*Please use `--insecure`/)
     end
 
     it "raises auth error when stderr matches regular expression" do
-      e = proc {
+      e = _ {
         create_transport(
           stub_options: {
             mock_connect_result: mock_connect_result(
@@ -109,11 +111,11 @@ describe "Train::Transports::VMware::Connection" do
           }
         ).connection
       }.must_raise(RuntimeError)
-      e.message.must_match(/Unable to connect.*Incorrect username/)
+      _(e.message).must_match(/Unable to connect.*Incorrect username/)
     end
 
     it "redacts the password when an unspecified error is raised" do
-      e = proc {
+      e = _ {
         create_transport(
           stub_options: {
             mock_connect_result: mock_connect_result(
@@ -122,17 +124,17 @@ describe "Train::Transports::VMware::Connection" do
           }
         ).connection
       }.must_raise(RuntimeError)
-      e.message.must_match(/-Password REDACTED/)
+      _(e.message).must_match(/-Password REDACTED/)
     end
   end
 
   describe "#platform" do
     it "returns correct platform details" do
       platform = create_transport.connection.platform
-      platform.clean_name.must_equal "vmware"
-      platform.family_hierarchy.must_equal %w{cloud api}
-      platform.platform.must_equal(release: "vmware-powercli-10.1.1.8827525")
-      platform.vmware?.must_equal true
+      _(platform.clean_name).must_equal "vmware"
+      _(platform.family_hierarchy).must_equal %w{cloud api}
+      _(platform.platform).must_equal(release: "vmware-powercli-10.1.1.8827525")
+      _(platform.vmware?).must_equal true
     end
   end
 
@@ -146,13 +148,13 @@ describe "Train::Transports::VMware::Connection" do
         stub_options: { mock_uuid_result: mock_uuid_result }
       ).connection
 
-      connection.unique_identifier.must_equal(uuid)
+      _(connection.unique_identifier).must_equal(uuid)
     end
   end
 
   describe "#uri" do
     it "returns the correct URI" do
-      create_transport.connection.uri.must_equal "vmware://testuser@10.0.0.10"
+      _(create_transport.connection.uri).must_equal "vmware://testuser@10.0.0.10"
     end
   end
 end

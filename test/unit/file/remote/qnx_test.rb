@@ -16,29 +16,29 @@ describe Train::File::Remote::Qnx do
     backend.mock_command("cat path", out)
     file = cls.new(backend, "path")
     file.stubs(:exist?).returns(true)
-    file.content.must_equal out
+    _(file.content).must_equal out
   end
 
   it "returns nil contents when the file does not exist" do
     file = cls.new(backend, "path")
     file.stubs(:exist?).returns(false)
-    file.content.must_be_nil
+    _(file.content).must_be_nil
   end
 
   it "returns a file type" do
     backend.mock_command("file path", "blah directory blah")
-    cls.new(backend, "path").type.must_equal :directory
+    _(cls.new(backend, "path").type).must_equal :directory
   end
 
   it "returns a directory type" do
     backend.mock_command("file path", "blah regular file blah")
-    cls.new(backend, "path").type.must_equal :file
+    _(cls.new(backend, "path").type).must_equal :file
   end
 
   it "raises exception for unimplemented methods" do
     file = cls.new(backend, "path")
     %w{mode owner group uid gid mtime size selinux_label link_path mounted stat}.each do |m|
-      proc { file.send(m) }.must_raise NotImplementedError
+      _ { file.send(m) }.must_raise NotImplementedError
     end
   end
 
@@ -55,7 +55,7 @@ describe Train::File::Remote::Qnx do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("md5sum /tmp/testfile", "", "", 1)
       Digest::MD5.expects(:new).returns(ruby_md5_mock)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
   end
 
@@ -74,7 +74,7 @@ describe Train::File::Remote::Qnx do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("sha256sum /tmp/testfile", "", "", 1)
       Digest::SHA256.expects(:new).returns(ruby_sha256_mock)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
   end
 end
