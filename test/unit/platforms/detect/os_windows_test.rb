@@ -87,6 +87,25 @@ describe "os_detect_windows" do
     end
   end
 
+  describe "Windows 10 with Powershell" do
+    let(:detector) do
+      detector = OsDetectWindowsTester.new
+      detector.backend.mock_command("Get-WmiObject Win32_OperatingSystem | Select Caption,Version | ConvertTo-Json", "{\"Caption\":\"Microsoft Windows 10 Pro\", \"Version\": \"10.0.18362\"}", "", 0)
+      detector.backend.mock_command("wmic os get * /format:list", "\r\r\nBuildNumber=10240\r\r\nCaption=Microsoft Windows 10 Pro\r\r\nOSArchitecture=64-bit\r\r\nVersion=10.0.18362\r\r\n\r\r\n" , "", 0)
+      detector.backend.mock_command("wmic cpu get architecture /format:list", "\r\r\nArchitecture=9\r\r\n" , "", 0)
+      detector
+    end
+
+    it "sets the correct family/release for windows" do
+      detector.detect_windows
+      detector.platform[:family].must_equal("windows")
+      detector.platform[:name].must_equal("Windows 10 Pro")
+      detector.platform[:arch].must_equal("x86_64")
+      detector.platform[:release].must_equal("10.0.18362")
+    end
+
+  end
+
   describe "windows 98" do
     let(:detector) do
       detector = OsDetectWindowsTester.new
