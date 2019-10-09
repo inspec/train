@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.1.4 -->
+## [v3.1.4](https://github.com/inspec/train/tree/v3.1.4) (2019-10-09)
+
+#### Merged Pull Requests
+- Add powershell detection [#523](https://github.com/inspec/train/pull/523) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.1.3 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Add powershell detection [#523](https://github.com/inspec/train/pull/523) ([miah](https://github.com/miah)) <!-- 3.1.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
