@@ -1,18 +1,16 @@
-<!-- latest_release 3.1.4 -->
-## [v3.1.4](https://github.com/inspec/train/tree/v3.1.4) (2019-10-09)
-
-#### Merged Pull Requests
-- Add powershell detection [#523](https://github.com/inspec/train/pull/523) ([miah](https://github.com/miah))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.1.3 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Add powershell detection [#523](https://github.com/inspec/train/pull/523) ([miah](https://github.com/miah)) <!-- 3.1.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.1.4](https://github.com/inspec/train/tree/v3.1.4) (2019-10-10)
+
+#### Merged Pull Requests
+- Add powershell detection [#523](https://github.com/inspec/train/pull/523) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
 ## [v3.1.3](https://github.com/inspec/train/tree/v3.1.3) (2019-10-03)
 
 #### Merged Pull Requests
@@ -21,7 +19,6 @@
 - Fix chefstyle warnings [#514](https://github.com/inspec/train/pull/514) ([tas50](https://github.com/tas50))
 - Add reason field while raising Train::ClientError. [#517](https://github.com/inspec/train/pull/517) ([samshinde](https://github.com/samshinde))
 - Fix method called on string in os parse function [#519](https://github.com/inspec/train/pull/519) ([noisleahcim](https://github.com/noisleahcim))
-<!-- latest_stable_release -->
 
 ## [v3.0.3](https://github.com/inspec/train/tree/v3.0.3) (2019-08-29)
 
