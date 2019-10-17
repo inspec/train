@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.1.5 -->
+## [v3.1.5](https://github.com/inspec/train/tree/v3.1.5) (2019-10-17)
+
+#### Merged Pull Requests
+- Stop using global expectation methods and switch to using _. [#524](https://github.com/inspec/train/pull/524) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.1.4 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Stop using global expectation methods and switch to using _. [#524](https://github.com/inspec/train/pull/524) ([zenspider](https://github.com/zenspider)) <!-- 3.1.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
