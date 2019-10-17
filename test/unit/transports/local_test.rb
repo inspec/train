@@ -21,41 +21,41 @@ describe "local transport" do
   let(:connection) { transport.connection }
 
   it "can be instantiated" do
-    transport.wont_be_nil
+    _(transport).wont_be_nil
   end
 
   it "gets the connection" do
-    connection.must_be_kind_of Train::Transports::Local::Connection
+    _(connection).must_be_kind_of Train::Transports::Local::Connection
   end
 
   it "provides a uri" do
-    connection.uri.must_equal "local://"
+    _(connection.uri).must_equal "local://"
   end
 
   it "doesnt wait to be read" do
-    connection.wait_until_ready.must_be_nil
+    _(connection.wait_until_ready).must_be_nil
   end
 
   it "inspects with readable output" do
-    connection.inspect.must_match(/Train::Transports::Local::Connection\[\w+\]/)
+    _(connection.inspect).must_match(/Train::Transports::Local::Connection\[\w+\]/)
   end
 
   it "can be closed" do
-    connection.close.must_be_nil
+    _(connection.close).must_be_nil
   end
 
   it "has no login command" do
-    connection.login_command.must_be_nil
+    _(connection.login_command).must_be_nil
   end
 
   it "provides a run_command_via_connection method" do
     methods = connection.class.private_instance_methods(false)
-    methods.include?(:run_command_via_connection).must_equal true
+    _(methods.include?(:run_command_via_connection)).must_equal true
   end
 
   it "provides a file_via_connection method" do
     methods = connection.class.private_instance_methods(false)
-    methods.include?(:file_via_connection).must_equal true
+    _(methods.include?(:file_via_connection)).must_equal true
   end
 
   describe "when overriding runner selection" do
@@ -105,7 +105,7 @@ describe "local transport" do
     end
 
     it "throws a RuntimeError when an invalid runner type is passed" do
-      proc { Train::Transports::Local::Connection.new(command_runner: :nope ) }
+      _ { Train::Transports::Local::Connection.new(command_runner: :nope ) }
         .must_raise(RuntimeError, "Runner type `:nope` not supported")
     end
   end
@@ -126,7 +126,7 @@ describe "local transport" do
         cmd_runner.expect :stdout, x
         cmd_runner.expect :stderr, nil
         cmd_runner.expect :exitstatus, nil
-        connection.run_command(rand).stdout.must_equal x
+        _(connection.run_command(rand).stdout).must_equal x
       end
     end
 
@@ -136,7 +136,7 @@ describe "local transport" do
         cmd_runner.expect :stdout, nil
         cmd_runner.expect :stderr, x
         cmd_runner.expect :exitstatus, nil
-        connection.run_command(rand).stderr.must_equal x
+        _(connection.run_command(rand).stderr).must_equal x
       end
     end
 
@@ -146,7 +146,7 @@ describe "local transport" do
         cmd_runner.expect :stdout, nil
         cmd_runner.expect :stderr, nil
         cmd_runner.expect :exitstatus, x
-        connection.run_command(rand).exit_status.must_equal x
+        _(connection.run_command(rand).exit_status).must_equal x
       end
     end
   end

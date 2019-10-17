@@ -19,74 +19,74 @@ describe Train::File::Remote::Linux do
   end
 
   it "works on nil path" do
-    cls.new(backend, nil).path.must_equal ""
+    _(cls.new(backend, nil).path).must_equal ""
   end
 
   it "provides the full path" do
-    cls.new(backend, "/dir/file").path.must_equal "/dir/file"
+    _(cls.new(backend, "/dir/file").path).must_equal "/dir/file"
   end
 
   it "provides the basename to a unix path" do
-    cls.new(backend, "/dir/file").basename.must_equal "file"
+    _(cls.new(backend, "/dir/file").basename).must_equal "file"
   end
 
   it "reads file contents" do
     out = rand.to_s
     backend.mock_command("cat path || echo -n", out)
-    cls.new(backend, "path").content.must_equal out
+    _(cls.new(backend, "path").content).must_equal out
   end
 
   it "reads file contents" do
     backend.mock_command("cat path || echo -n", "")
     mock_stat("-L path", "", "some error...", 1)
-    cls.new(backend, "path").content.must_be_nil
+    _(cls.new(backend, "path").content).must_be_nil
   end
 
   it "reads file contents" do
     out = rand.to_s
     backend.mock_command('cat /spaced\\ path || echo -n', out)
-    cls.new(backend, "/spaced path").content.must_equal out
+    _(cls.new(backend, "/spaced path").content).must_equal out
   end
 
   it "checks for file existance" do
     backend.mock_command("test -e path", true)
-    cls.new(backend, "path").exist?.must_equal true
+    _(cls.new(backend, "path").exist?).must_equal true
   end
 
   it "checks for file existance" do
     backend.mock_command("test -e path", nil, nil, 1)
-    cls.new(backend, "path").exist?.must_equal false
+    _(cls.new(backend, "path").exist?).must_equal false
   end
 
   it "retrieves the link path via #path()" do
     out = rand.to_s
     mock_stat("path", "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\n?")
     backend.mock_command("readlink -n path -f", out)
-    cls.new(backend, "path").path.must_equal File.join(Dir.pwd, out)
+    _(cls.new(backend, "path").path).must_equal File.join(Dir.pwd, out)
   end
 
   it "retrieves the link path" do
     out = rand.to_s
     mock_stat("path", "13\na1ff\nz\n1001\nz\n1001\n1444573475\n1444573475\n?")
     backend.mock_command("readlink -n path -f", out)
-    cls.new(backend, "path").link_path.must_equal File.join(Dir.pwd, out)
+    _(cls.new(backend, "path").link_path).must_equal File.join(Dir.pwd, out)
   end
 
   it "provide the source path" do
-    cls.new(backend, "path").source_path.must_equal "path"
+    _(cls.new(backend, "path").source_path).must_equal "path"
   end
 
   it "checks a mounted path" do
     backend.mock_command("mount | grep -- ' on /mount/path '", rand.to_s)
-    cls.new(backend, "/mount/path").mounted?.must_equal true
+    _(cls.new(backend, "/mount/path").mounted?).must_equal true
   end
 
   it "has nil product version" do
-    cls.new(backend, "path").product_version.must_be_nil
+    _(cls.new(backend, "path").product_version).must_be_nil
   end
 
   it "has nil file version" do
-    cls.new(backend, "path").file_version.must_be_nil
+    _(cls.new(backend, "path").file_version).must_be_nil
   end
 
   describe "stat on a file" do
@@ -94,39 +94,39 @@ describe Train::File::Remote::Linux do
     let(:f) { cls.new(backend, "path") }
 
     it "retrieves the file type" do
-      f.type.must_equal :symlink
+      _(f.type).must_equal :symlink
     end
 
     it "retrieves the file mode" do
-      f.mode.must_equal 00777
+      _(f.mode).must_equal 00777
     end
 
     it "retrieves the file owner" do
-      f.owner.must_equal "z"
+      _(f.owner).must_equal "z"
     end
 
     it "retrieves the file uid" do
-      f.uid.must_equal 1001
+      _(f.uid).must_equal 1001
     end
 
     it "retrieves the file group" do
-      f.group.must_equal "z2"
+      _(f.group).must_equal "z2"
     end
 
     it "retrieves the file gid" do
-      f.gid.must_equal 1002
+      _(f.gid).must_equal 1002
     end
 
     it "retrieves the file mtime" do
-      f.mtime.must_equal 1444573475
+      _(f.mtime).must_equal 1444573475
     end
 
     it "retrieves the file size" do
-      f.size.must_equal 13
+      _(f.size).must_equal 13
     end
 
     it "retrieves the file selinux_label" do
-      f.selinux_label.must_equal "labels"
+      _(f.selinux_label).must_equal "labels"
     end
   end
 
@@ -135,39 +135,39 @@ describe Train::File::Remote::Linux do
     let(:f) { cls.new(backend, "path").source }
 
     it "retrieves the file type" do
-      f.type.must_equal :symlink
+      _(f.type).must_equal :symlink
     end
 
     it "retrieves the file mode" do
-      f.mode.must_equal 00777
+      _(f.mode).must_equal 00777
     end
 
     it "retrieves the file owner" do
-      f.owner.must_equal "z"
+      _(f.owner).must_equal "z"
     end
 
     it "retrieves the file uid" do
-      f.uid.must_equal 1001
+      _(f.uid).must_equal 1001
     end
 
     it "retrieves the file group" do
-      f.group.must_equal "z2"
+      _(f.group).must_equal "z2"
     end
 
     it "retrieves the file gid" do
-      f.gid.must_equal 1002
+      _(f.gid).must_equal 1002
     end
 
     it "retrieves the file mtime" do
-      f.mtime.must_equal 1444573475
+      _(f.mtime).must_equal 1444573475
     end
 
     it "retrieves the file size" do
-      f.size.must_equal 13
+      _(f.size).must_equal 13
     end
 
     it "retrieves the file selinux_label" do
-      f.selinux_label.must_equal "labels"
+      _(f.selinux_label).must_equal "labels"
     end
   end
 
@@ -184,13 +184,13 @@ describe Train::File::Remote::Linux do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("md5sum /tmp/testfile", "", "", 1)
       Digest::MD5.expects(:new).returns(ruby_md5_mock)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
 
     it "calculates the correct md5sum on the `linux` platform family" do
       output = "#{md5_checksum} /tmp/testfile"
       backend.mock_command("md5sum /tmp/testfile", output)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
   end
 
@@ -209,13 +209,13 @@ describe Train::File::Remote::Linux do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("sha256sum /tmp/testfile", "", "", 1)
       Digest::SHA256.expects(:new).returns(ruby_sha256_mock)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
 
     it "calculates the correct sha256sum on the `linux` platform family" do
       output = "#{sha256_checksum} /tmp/testfile"
       backend.mock_command("sha256sum /tmp/testfile", output)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
   end
 end

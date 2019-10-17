@@ -32,9 +32,9 @@ describe "os_detect" do
       path = "/etc/enterprise-release"
       platform = scan_with_files("linux", { path => "release 7" })
 
-      platform[:name].must_equal("oracle")
-      platform[:family].must_equal("redhat")
-      platform[:release].must_equal("7")
+      _(platform[:name]).must_equal("oracle")
+      _(platform[:family]).must_equal("redhat")
+      _(platform[:release]).must_equal("7")
     end
   end
 
@@ -46,9 +46,9 @@ describe "os_detect" do
           "/etc/os-release" => "NAME=\"CentOS Linux\"\nVERSION=\"7 (Core)\"\nID=\"centos\"\nID_LIKE=\"rhel fedora\"\n",
         }
         platform = scan_with_files("linux", files)
-        platform[:name].must_equal("centos")
-        platform[:family].must_equal("redhat")
-        platform[:release].must_equal("7.2.1511")
+        _(platform[:name]).must_equal("centos")
+        _(platform[:family]).must_equal("redhat")
+        _(platform[:release]).must_equal("7.2.1511")
       end
       it "sets the correct family, name, and release on scientific linux" do
         files = {
@@ -56,9 +56,9 @@ describe "os_detect" do
           "/etc/os-release" => "NAME=\"Scientific Linux\"\nVERSION=\"7.4 (Nitrogen)\"\nID=\"rhel\"\nID_LIKE=\"scientific centos fedora\"\nVERSION_ID=\"7.4\"\nPRETTY_NAME=\"Scientific Linux 7.4 (Nitrogen)\"\nANSI_COLOR=\"0;31\"\nCPE_NAME=\"cpe:/o:scientificlinux:scientificlinux:7.4:GA\"\nHOME_URL=\"http://www.scientificlinux.org//\"\nBUG_REPORT_URL=\"mailto:scientific-linux-devel@listserv.fnal.gov\"\n\nREDHAT_BUGZILLA_PRODUCT=\"Scientific Linux 7\"\nREDHAT_BUGZILLA_PRODUCT_VERSION=7.4\nREDHAT_SUPPORT_PRODUCT=\"Scientific Linux\"\nREDHAT_SUPPORT_PRODUCT_VERSION=\"7.4\"\n",
         }
         platform = scan_with_files("linux", files)
-        platform[:name].must_equal("scientific")
-        platform[:family].must_equal("redhat")
-        platform[:release].must_equal("7.4")
+        _(platform[:name]).must_equal("scientific")
+        _(platform[:family]).must_equal("redhat")
+        _(platform[:release]).must_equal("7.4")
       end
       it "sets the correct family, name, and release on CloudLinux" do
         files = {
@@ -66,9 +66,9 @@ describe "os_detect" do
           "/etc/os-release" => "NAME=\"CloudLinux\"\nVERSION=\"7.4 (Georgy Grechko)\"\nID=\"cloudlinux\"\nID_LIKE=\"rhel fedora centos\"\nVERSION_ID=\"7.4\"\nPRETTY_NAME=\"CloudLinux 7.4 (Georgy Grechko)\"\nANSI_COLOR=\"0;31\"\nCPE_NAME=\"cpe:/o:cloudlinux:cloudlinux:7.4:GA:server\"\nHOME_URL=\"https://www.cloudlinux.com//\"\nBUG_REPORT_URL=\"https://www.cloudlinux.com/support\"\n",
         }
         platform = scan_with_files("linux", files)
-        platform[:name].must_equal("cloudlinux")
-        platform[:family].must_equal("redhat")
-        platform[:release].must_equal("7.4")
+        _(platform[:name]).must_equal("cloudlinux")
+        _(platform[:family]).must_equal("redhat")
+        _(platform[:release]).must_equal("7.4")
       end
       it "sets the correct family, name, and release on SLES ESR RHEL" do
         files = {
@@ -76,9 +76,9 @@ describe "os_detect" do
           "/etc/os-release" => "NAME=\"Red Hat Enterprise Linux Server\"\nVERSION=\"7.4 (Maipo)\"\nID=\"rhel\"\nID_LIKE=\"fedora\"\nVERSION_ID=\"7.4\"\nPRETTY_NAME=\"Red Hat Enterprise Linux Server 7.4\"\nANSI_COLOR=\"0;31\"\nCPE_NAME=\"cpe:/o:redhat:enterprise_linux:7.4:GA:server\"\nHOME_URL=\"https://www.redhat.com/\"\nBUG_REPORT_URL=\"https://bugzilla.redhat.com/\"\n\nREDHAT_BUGZILLA_PRODUCT=\"Red Hat Enterprise Linux 7\"\nREDHAT_BUGZILLA_PRODUCT_VERSION=7.4\nREDHAT_SUPPORT_PRODUCT=\"Red Hat Enterprise Linux\"\nREDHAT_SUPPORT_PRODUCT_VERSION=7.4\n# This is a \"SLES Expanded Support platform release 7.4\"\n# The above \"Red Hat Enterprise Linux Server\" string is only used to\n# keep software compatibility.\n",
         }
         platform = scan_with_files("linux", files)
-        platform[:name].must_equal("redhat")
-        platform[:family].must_equal("redhat")
-        platform[:release].must_equal("7.4")
+        _(platform[:name]).must_equal("redhat")
+        _(platform[:family]).must_equal("redhat")
+        _(platform[:release]).must_equal("7.4")
       end
     end
   end
@@ -90,9 +90,9 @@ describe "os_detect" do
           "/System/Library/CoreServices/SystemVersion.plist" => "<string>Mac OS X</string>",
         }
         platform = scan_with_files("darwin", files)
-        platform[:name].must_equal("mac_os_x")
-        platform[:family].must_equal("darwin")
-        platform[:release].must_equal("test-release")
+        _(platform[:name]).must_equal("mac_os_x")
+        _(platform[:family]).must_equal("darwin")
+        _(platform[:release]).must_equal("test-release")
       end
     end
 
@@ -102,10 +102,10 @@ describe "os_detect" do
           "/usr/bin/sw_vers" => "ProductVersion: 17.0.1\nBuildVersion: alpha.x1",
         }
         platform = scan_with_files("darwin", files)
-        platform[:name].must_equal("darwin")
-        platform[:family].must_equal("darwin")
-        platform[:release].must_equal("17.0.1")
-        platform[:build].must_equal("alpha.x1")
+        _(platform[:name]).must_equal("darwin")
+        _(platform[:family]).must_equal("darwin")
+        _(platform[:release]).must_equal("17.0.1")
+        _(platform[:build]).must_equal("alpha.x1")
       end
     end
   end
@@ -124,9 +124,9 @@ describe "os_detect" do
       it "sets the correct family/release for ubuntu" do
         platform = debian_scan("ubuntu", "16.04")
 
-        platform[:name].must_equal("ubuntu")
-        platform[:family].must_equal("debian")
-        platform[:release].must_equal("16.04")
+        _(platform[:name]).must_equal("ubuntu")
+        _(platform[:family]).must_equal("debian")
+        _(platform[:release]).must_equal("16.04")
       end
     end
 
@@ -134,9 +134,9 @@ describe "os_detect" do
       it "sets the correct family/release for linuxmint" do
         platform = debian_scan("linuxmint", "12")
 
-        platform[:name].must_equal("linuxmint")
-        platform[:family].must_equal("debian")
-        platform[:release].must_equal("12")
+        _(platform[:name]).must_equal("linuxmint")
+        _(platform[:family]).must_equal("debian")
+        _(platform[:release]).must_equal("12")
       end
     end
 
@@ -148,9 +148,9 @@ describe "os_detect" do
         }
         platform = scan_with_files("linux", files)
 
-        platform[:name].must_equal("raspbian")
-        platform[:family].must_equal("debian")
-        platform[:release].must_equal("13.6")
+        _(platform[:name]).must_equal("raspbian")
+        _(platform[:family]).must_equal("debian")
+        _(platform[:release]).must_equal("13.6")
       end
     end
 
@@ -158,9 +158,9 @@ describe "os_detect" do
       it "sets the correct family/release for windows " do
         platform = scan_with_windows
 
-        platform[:name].must_equal("windows_6.3.9600")
-        platform[:family].must_equal("windows")
-        platform[:release].must_equal("6.3.9600")
+        _(platform[:name]).must_equal("windows_6.3.9600")
+        _(platform[:family]).must_equal("windows")
+        _(platform[:release]).must_equal("6.3.9600")
       end
     end
 
@@ -168,9 +168,9 @@ describe "os_detect" do
       it "sets the correct family/release for debian " do
         platform = debian_scan("some_debian", "12.99")
 
-        platform[:name].must_equal("debian")
-        platform[:family].must_equal("debian")
-        platform[:release].must_equal("11")
+        _(platform[:name]).must_equal("debian")
+        _(platform[:family]).must_equal("debian")
+        _(platform[:release]).must_equal("11")
       end
     end
   end
@@ -179,9 +179,9 @@ describe "os_detect" do
     it "sets the correct family/release for windows " do
       platform = scan_with_windows
 
-      platform[:name].must_equal("windows_6.3.9600")
-      platform[:family].must_equal("windows")
-      platform[:release].must_equal("6.3.9600")
+      _(platform[:name]).must_equal("windows_6.3.9600")
+      _(platform[:family]).must_equal("windows")
+      _(platform[:release]).must_equal("6.3.9600")
     end
   end
 
@@ -194,9 +194,9 @@ describe "os_detect" do
       }
       platform = scan_with_files("linux", files)
 
-      platform[:name].must_equal("coreos")
-      platform[:family].must_equal("linux")
-      platform[:release].must_equal("27.9")
+      _(platform[:name]).must_equal("coreos")
+      _(platform[:family]).must_equal("linux")
+      _(platform[:release]).must_equal("27.9")
     end
   end
 
@@ -209,8 +209,8 @@ describe "os_detect" do
         }
         platform = scan_with_files("linux", files)
 
-        platform[:name].must_equal("linux")
-        platform[:family].must_equal("linux")
+        _(platform[:name]).must_equal("linux")
+        _(platform[:family]).must_equal("linux")
       end
     end
 
@@ -222,9 +222,9 @@ describe "os_detect" do
         }
         platform = scan_with_files("linux", files)
 
-        platform[:name].must_equal("wrlinux")
-        platform[:family].must_equal("redhat")
-        platform[:release].must_equal("cisco123")
+        _(platform[:name]).must_equal("wrlinux")
+        _(platform[:family]).must_equal("redhat")
+        _(platform[:release]).must_equal("cisco123")
       end
     end
 
@@ -236,9 +236,9 @@ describe "os_detect" do
           }
           platform = scan_with_files("linux", files)
 
-          platform[:name].must_equal("suse")
-          platform[:family].must_equal("suse")
-          platform[:release].must_equal("15.1")
+          _(platform[:name]).must_equal("suse")
+          _(platform[:family]).must_equal("suse")
+          _(platform[:release]).must_equal("15.1")
         end
 
         it "sets the correct family/release for openSUSE" do
@@ -247,9 +247,9 @@ describe "os_detect" do
           }
           platform = scan_with_files("linux", files)
 
-          platform[:name].must_equal("opensuse")
-          platform[:family].must_equal("suse")
-          platform[:release].must_equal("15.1")
+          _(platform[:name]).must_equal("opensuse")
+          _(platform[:family]).must_equal("suse")
+          _(platform[:release]).must_equal("15.1")
         end
       end
       describe "when /etc/os-release is not present" do
@@ -259,9 +259,9 @@ describe "os_detect" do
           }
           platform = scan_with_files("linux", files)
 
-          platform[:name].must_equal("suse")
-          platform[:family].must_equal("suse")
-          platform[:release].must_equal("11.2")
+          _(platform[:name]).must_equal("suse")
+          _(platform[:family]).must_equal("suse")
+          _(platform[:release]).must_equal("11.2")
         end
 
         it "sets the correct family/release for openSUSE" do
@@ -270,9 +270,9 @@ describe "os_detect" do
           }
           platform = scan_with_files("linux", files)
 
-          platform[:name].must_equal("opensuse")
-          platform[:family].must_equal("suse")
-          platform[:release].must_equal("10.2")
+          _(platform[:name]).must_equal("opensuse")
+          _(platform[:family]).must_equal("suse")
+          _(platform[:release]).must_equal("10.2")
         end
       end
     end
@@ -282,9 +282,9 @@ describe "os_detect" do
     it "sets the correct info for qnx platform" do
       platform = scan_with_files("qnx", {})
 
-      platform[:name].must_equal("qnx")
-      platform[:family].must_equal("qnx")
-      platform[:release].must_equal("test-release")
+      _(platform[:name]).must_equal("qnx")
+      _(platform[:family]).must_equal("qnx")
+      _(platform[:release]).must_equal("test-release")
     end
   end
 
@@ -294,9 +294,9 @@ describe "os_detect" do
       mock.mock_command("show version", "Cisco IOS Software, C3750E Software (C3750E-UNIVERSALK9-M), Version 12.2(58)SE")
       platform = Train::Platforms::Detect.scan(mock)
 
-      platform[:name].must_equal("cisco_ios")
-      platform[:family].must_equal("cisco")
-      platform[:release].must_equal("12.2")
+      _(platform[:name]).must_equal("cisco_ios")
+      _(platform[:family]).must_equal("cisco")
+      _(platform[:release]).must_equal("12.2")
     end
 
     it "recognizes Cisco IOS XE" do
@@ -304,9 +304,9 @@ describe "os_detect" do
       mock.mock_command("show version", "Cisco IOS Software, IOS-XE Software, Catalyst L3 Switch Software (CAT3K_CAA-UNIVERSALK9-M), Version 03.03.03SE RELEASE SOFTWARE (fc2)")
       platform = Train::Platforms::Detect.scan(mock)
 
-      platform[:name].must_equal("cisco_ios_xe")
-      platform[:family].must_equal("cisco")
-      platform[:release].must_equal("03.03.03SE")
+      _(platform[:name]).must_equal("cisco_ios_xe")
+      _(platform[:family]).must_equal("cisco")
+      _(platform[:release]).must_equal("03.03.03SE")
     end
 
     it "recognizes Cisco Nexus" do
@@ -314,9 +314,9 @@ describe "os_detect" do
       mock.mock_command("show version", "Cisco Nexus Operating System (NX-OS) Software\n  system:      version 5.2(1)N1(8b)\n")
       platform = Train::Platforms::Detect.scan(mock)
 
-      platform[:name].must_equal("cisco_nexus")
-      platform[:family].must_equal("cisco")
-      platform[:release].must_equal("5.2")
+      _(platform[:name]).must_equal("cisco_nexus")
+      _(platform[:family]).must_equal("cisco")
+      _(platform[:release]).must_equal("5.2")
     end
   end
 
@@ -326,9 +326,9 @@ describe "os_detect" do
       mock.mock_command("version", "Kernel:     2.6.14.2\nFabric OS:  v7.4.2a\nMade on:    Thu Jun 29 19:22:14 2017\nFlash:      Sat Sep 9 17:30:42 2017\nBootProm:   1.0.11")
       platform = Train::Platforms::Detect.scan(mock)
 
-      platform[:name].must_equal("brocade_fos")
-      platform[:family].must_equal("brocade")
-      platform[:release].must_equal("7.4.2a")
+      _(platform[:name]).must_equal("brocade_fos")
+      _(platform[:family]).must_equal("brocade")
+      _(platform[:release]).must_equal("7.4.2a")
     end
   end
 end

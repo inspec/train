@@ -5,31 +5,31 @@ describe "run_command" do
 
   it "can echo commands" do
     res = backend.run_command("echo hello world")
-    res.stdout.must_equal("hello world\n")
-    res.stderr.must_equal("")
-    res.exit_status.must_equal(0)
+    _(res.stdout).must_equal("hello world\n")
+    _(res.stderr).must_equal("")
+    _(res.exit_status).must_equal(0)
   end
 
   it "can run frozen commands" do
     res = backend.run_command("echo hello world".freeze)
-    res.stdout.must_equal("hello world\n")
-    res.stderr.must_equal("")
-    res.exit_status.must_equal(0)
+    _(res.stdout).must_equal("hello world\n")
+    _(res.stderr).must_equal("")
+    _(res.exit_status).must_equal(0)
   end
 
   it "can echo commands to stderr" do
     # TODO: Specinfra often fails on this test.
     # Fix and re-enable it.
     res = backend.run_command(">&2 echo hello world")
-    res.stdout.must_equal("")
-    res.stderr.must_equal("hello world\n")
-    res.exit_status.must_equal(0)
+    _(res.stdout).must_equal("")
+    _(res.stderr).must_equal("hello world\n")
+    _(res.exit_status).must_equal(0)
   end
 
   it "prints a correct exit status" do
     res = backend.run_command("exit 123")
-    res.stdout.must_equal("")
-    res.stderr.must_equal("")
-    res.exit_status.must_equal(123)
+    _(res.stdout).must_equal("")
+    _(res.stderr).must_equal("")
+    _(res.exit_status).must_equal(123)
   end
 end

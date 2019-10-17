@@ -25,27 +25,27 @@ describe Train::File::Remote::Unix do
     let(:fc) { mockup(type: :file) }
 
     it "check owner mode calculation" do
-      fc.unix_mode_mask("owner", "x").must_equal 0100
-      fc.unix_mode_mask("owner", "w").must_equal 0200
-      fc.unix_mode_mask("owner", "r").must_equal 0400
+      _(fc.unix_mode_mask("owner", "x")).must_equal 0100
+      _(fc.unix_mode_mask("owner", "w")).must_equal 0200
+      _(fc.unix_mode_mask("owner", "r")).must_equal 0400
     end
 
     it "check group mode calculation" do
-      fc.unix_mode_mask("group", "x").must_equal 0010
-      fc.unix_mode_mask("group", "w").must_equal 0020
-      fc.unix_mode_mask("group", "r").must_equal 0040
+      _(fc.unix_mode_mask("group", "x")).must_equal 0010
+      _(fc.unix_mode_mask("group", "w")).must_equal 0020
+      _(fc.unix_mode_mask("group", "r")).must_equal 0040
     end
 
     it "check other mode calculation" do
-      fc.unix_mode_mask("other", "x").must_equal 0001
-      fc.unix_mode_mask("other", "w").must_equal 0002
-      fc.unix_mode_mask("other", "r").must_equal 0004
+      _(fc.unix_mode_mask("other", "x")).must_equal 0001
+      _(fc.unix_mode_mask("other", "w")).must_equal 0002
+      _(fc.unix_mode_mask("other", "r")).must_equal 0004
     end
 
     it "check all mode calculation" do
-      fc.unix_mode_mask("all", "x").must_equal 0111
-      fc.unix_mode_mask("all", "w").must_equal 0222
-      fc.unix_mode_mask("all", "r").must_equal 0444
+      _(fc.unix_mode_mask("all", "x")).must_equal 0111
+      _(fc.unix_mode_mask("all", "w")).must_equal 0222
+      _(fc.unix_mode_mask("all", "r")).must_equal 0444
     end
   end
 
@@ -62,14 +62,14 @@ describe Train::File::Remote::Unix do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("md5 -r /tmp/testfile", "", "", 1)
       Digest::MD5.expects(:new).returns(ruby_md5_mock)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
 
     it "calculates the correct md5sum on the `darwin` platform family" do
       output = "#{md5_checksum} /tmp/testfile"
       backend.mock_os(family: "darwin")
       backend.mock_command("md5 -r /tmp/testfile", output)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
 
     it "calculates the correct md5sum on the `solaris` platform family" do
@@ -77,7 +77,7 @@ describe Train::File::Remote::Unix do
       output = "#{md5_checksum}"
       backend.mock_os(family: "solaris")
       backend.mock_command("digest -a md5 /tmp/testfile", output)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
   end
 
@@ -96,14 +96,14 @@ describe Train::File::Remote::Unix do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("shasum -a 256 /tmp/testfile", "", "", 1)
       Digest::SHA256.expects(:new).returns(ruby_sha256_mock)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
 
     it "calculates the correct sha256sum on the `darwin` platform family" do
       output = "#{sha256_checksum} /tmp/testfile"
       backend.mock_os(family: "darwin")
       backend.mock_command("shasum -a 256 /tmp/testfile", output)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
 
     it "calculates the correct sha256sum on the `solaris` platform family" do
@@ -111,7 +111,7 @@ describe Train::File::Remote::Unix do
       output = "#{sha256_checksum}"
       backend.mock_os(family: "solaris")
       backend.mock_command("digest -a sha256 /tmp/testfile", output)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
   end
 end

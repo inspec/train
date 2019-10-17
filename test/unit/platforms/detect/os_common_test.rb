@@ -17,12 +17,12 @@ describe "os_common" do
   describe "winrm? check" do
     it "return winrm? true" do
       OsDetectLinuxTester.any_instance.stubs(:backend_name).returns("TrainPlugins::WinRM::Connection")
-      detector.winrm?.must_equal(true)
+      _(detector.winrm?).must_equal(true)
     end
 
     it "return winrm? false when winrm is not loaded" do
       OsDetectLinuxTester.any_instance.stubs(:backend_name).returns("Something::Else")
-      detector.winrm?.must_equal(false)
+      _(detector.winrm?).must_equal(false)
     end
   end
 
@@ -34,14 +34,14 @@ describe "os_common" do
       be.stubs(:run_command).with("test -f /etc/fstab && cat /etc/fstab").returns(output)
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@files, {})
-      detector.unix_file_contents("/etc/fstab").must_equal("test")
+      _(detector.unix_file_contents("/etc/fstab")).must_equal("test")
     end
 
     it "return new file contents cached" do
       be = mock("Backend")
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@files, { "/etc/profile" => "test" })
-      detector.unix_file_contents("/etc/profile").must_equal("test")
+      _(detector.unix_file_contents("/etc/profile")).must_equal("test")
     end
   end
 
@@ -50,7 +50,7 @@ describe "os_common" do
       be = mock("Backend")
       be.stubs(:run_command).with("test -f /etc/test").returns(mock("Output", exit_status: 0))
       detector.instance_variable_set(:@backend, be)
-      detector.unix_file_exist?("/etc/test").must_equal(true)
+      _(detector.unix_file_exist?("/etc/test")).must_equal(true)
     end
   end
 
@@ -60,7 +60,7 @@ describe "os_common" do
       be.stubs(:run_command).with("uname -m").returns(mock("Output", stdout: "x86_64\n"))
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@uname, {})
-      detector.unix_uname_m.must_equal("x86_64")
+      _(detector.unix_uname_m).must_equal("x86_64")
     end
 
     it "uname s call" do
@@ -68,7 +68,7 @@ describe "os_common" do
       be.stubs(:run_command).with("uname -s").returns(mock("Output", stdout: "linux"))
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@uname, {})
-      detector.unix_uname_s.must_equal("linux")
+      _(detector.unix_uname_s).must_equal("linux")
     end
 
     it "uname r call" do
@@ -76,7 +76,7 @@ describe "os_common" do
       be.stubs(:run_command).with("uname -r").returns(mock("Output", stdout: "17.0.0\n"))
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@uname, {})
-      detector.unix_uname_r.must_equal("17.0.0")
+      _(detector.unix_uname_r).must_equal("17.0.0")
     end
   end
 end

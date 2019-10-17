@@ -25,34 +25,34 @@ describe "azure transport" do
 
   describe "options" do
     it "defaults to env options" do
-      options[:tenant_id].must_equal "test_tenant_id"
-      options[:client_id].must_equal "test_client_id"
-      options[:client_secret].must_equal "test_client_secret"
-      options[:subscription_id].must_equal "test_subscription_id"
+      _(options[:tenant_id]).must_equal "test_tenant_id"
+      _(options[:client_id]).must_equal "test_client_id"
+      _(options[:client_secret]).must_equal "test_client_secret"
+      _(options[:subscription_id]).must_equal "test_subscription_id"
     end
 
     it "allows for options override" do
       transport = transport(subscription_id: "102", client_id: "717")
       options = transport.connection.instance_variable_get(:@options)
-      options[:tenant_id].must_equal "test_tenant_id"
-      options[:client_id].must_equal "717"
-      options[:client_secret].must_equal "test_client_secret"
-      options[:subscription_id].must_equal "102"
+      _(options[:tenant_id]).must_equal "test_tenant_id"
+      _(options[:client_id]).must_equal "717"
+      _(options[:client_secret]).must_equal "test_client_secret"
+      _(options[:subscription_id]).must_equal "102"
     end
 
     it "allows uri parse override" do
       transport = transport(host: "999")
       options = transport.connection.instance_variable_get(:@options)
-      options[:tenant_id].must_equal "test_tenant_id"
-      options[:subscription_id].must_equal "999"
+      _(options[:tenant_id]).must_equal "test_tenant_id"
+      _(options[:subscription_id]).must_equal "999"
     end
   end
 
   describe "platform" do
     it "returns platform" do
       plat = connection.platform
-      plat.name.must_equal "azure"
-      plat.family_hierarchy.must_equal %w{cloud api}
+      _(plat.name).must_equal "azure"
+      _(plat.family_hierarchy).must_equal %w{cloud api}
     end
   end
 
@@ -67,34 +67,34 @@ describe "azure transport" do
     it "can use azure_client with caching" do
       connection.instance_variable_set(:@credentials, {})
       client = connection.azure_client(AzureResource)
-      client.is_a?(AzureResource).must_equal true
-      cache[:api_call].count.must_equal 1
+      _(client.is_a?(AzureResource)).must_equal true
+      _(cache[:api_call].count).must_equal 1
     end
 
     it "can use azure_client without caching" do
       connection.instance_variable_set(:@credentials, {})
       connection.disable_cache(:api_call)
       client = connection.azure_client(AzureResource)
-      client.is_a?(AzureResource).must_equal true
-      cache[:api_call].count.must_equal 0
+      _(client.is_a?(AzureResource)).must_equal true
+      _(cache[:api_call].count).must_equal 0
     end
 
     it "can use azure_client default client" do
       management_api_client = Azure::Resources::Profiles::Latest::Mgmt::Client
       client = connection.azure_client
-      client.class.must_equal management_api_client
+      _(client.class).must_equal management_api_client
     end
 
     it "can use azure_client graph client" do
       graph_api_client = Azure::GraphRbac::Profiles::Latest::Client
       client = connection.azure_client(graph_api_client)
-      client.class.must_equal graph_api_client
+      _(client.class).must_equal graph_api_client
     end
 
     it "can use azure_client vault client" do
       vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
       client = connection.azure_client(vault_api_client, vault_name: "Test Vault")
-      client.class.must_equal vault_api_client
+      _(client.class).must_equal vault_api_client
     end
 
     it "cannot instantiate azure_client vault client without a vault name" do
@@ -109,13 +109,13 @@ describe "azure transport" do
     it "validate credentials" do
       connection.connect
       token = credentials[:credentials].instance_variable_get(:@token_provider)
-      token.class.must_equal MsRestAzure::ApplicationTokenProvider
+      _(token.class).must_equal MsRestAzure::ApplicationTokenProvider
 
-      credentials[:credentials].class.must_equal MsRest::TokenCredentials
-      credentials[:tenant_id].must_equal "test_tenant_id"
-      credentials[:client_id].must_equal "test_client_id"
-      credentials[:client_secret].must_equal "test_client_secret"
-      credentials[:subscription_id].must_equal "test_subscription_id"
+      _(credentials[:credentials].class).must_equal MsRest::TokenCredentials
+      _(credentials[:tenant_id]).must_equal "test_tenant_id"
+      _(credentials[:client_id]).must_equal "test_client_id"
+      _(credentials[:client_secret]).must_equal "test_client_secret"
+      _(credentials[:subscription_id]).must_equal "test_subscription_id"
     end
 
     it "validate msi credentials" do
@@ -125,26 +125,26 @@ describe "azure transport" do
 
       connection.connect
       token = credentials[:credentials].instance_variable_get(:@token_provider)
-      token.class.must_equal MsRestAzure::MSITokenProvider
+      _(token.class).must_equal MsRestAzure::MSITokenProvider
 
-      credentials[:credentials].class.must_equal MsRest::TokenCredentials
-      credentials[:tenant_id].must_equal "test_tenant_id"
-      credentials[:subscription_id].must_equal "test_subscription_id"
-      credentials[:client_id].must_be_nil
-      credentials[:client_secret].must_be_nil
-      options[:msi_port].must_equal 50342
+      _(credentials[:credentials].class).must_equal MsRest::TokenCredentials
+      _(credentials[:tenant_id]).must_equal "test_tenant_id"
+      _(credentials[:subscription_id]).must_equal "test_subscription_id"
+      _(credentials[:client_id]).must_be_nil
+      _(credentials[:client_secret]).must_be_nil
+      _(options[:msi_port]).must_equal 50342
     end
   end
 
   describe "unique_identifier" do
     it "returns a subscription id" do
-      connection.unique_identifier.must_equal "test_subscription_id"
+      _(connection.unique_identifier).must_equal "test_subscription_id"
     end
 
     it "returns a tenant id" do
       options = connection.instance_variable_get(:@options)
       options[:subscription_id] = nil
-      connection.unique_identifier.must_equal "test_tenant_id"
+      _(connection.unique_identifier).must_equal "test_tenant_id"
     end
   end
 end

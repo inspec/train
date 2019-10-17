@@ -23,16 +23,16 @@ describe "windows local command" do
 
   it "verify os" do
     os = conn.os
-    os[:name].must_match(/windows_server.*/)
-    os[:family].must_equal "windows"
-    os[:release].must_match(/\d+(\.\d+)+/)
-    os[:arch].must_equal "x86_64"
+    _(os[:name]).must_match(/windows_server.*/)
+    _(os[:family]).must_equal "windows"
+    _(os[:release]).must_match(/\d+(\.\d+)+/)
+    _(os[:arch]).must_equal "x86_64"
   end
 
   it "run echo test" do
     cmd = conn.run_command('Write-Output "test"')
-    cmd.stdout.must_equal "test\r\n"
-    cmd.stderr.must_equal ""
+    _(cmd.stdout).must_equal "test\r\n"
+    _(cmd.stderr).must_equal ""
   end
 
   describe "force 64 bit powershell command" do
@@ -58,7 +58,7 @@ describe "windows local command" do
         .returns("acquired")
 
       override_platform("x64-mingw32")
-      powershell.must_equal "powershell"
+      _(powershell).must_equal "powershell"
     end
 
     it "use 64bit powershell with PipeRunner" do
@@ -68,7 +68,7 @@ describe "windows local command" do
         .returns("acquired")
 
       override_platform("i386-mingw32")
-      powershell.must_equal "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+      _(powershell).must_equal "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
     end
 
     it "use normal powershell with ShellRunner" do
@@ -78,8 +78,8 @@ describe "windows local command" do
         .returns(nil)
 
       override_platform("x64-mingw32")
-      runner.class.must_equal Train::Transports::Local::Connection::WindowsShellRunner
-      powershell.must_equal "powershell"
+      _(runner.class).must_equal Train::Transports::Local::Connection::WindowsShellRunner
+      _(powershell).must_equal "powershell"
     end
 
     it "use 64bit powershell with ShellRunner" do
@@ -89,15 +89,15 @@ describe "windows local command" do
         .returns(nil)
 
       override_platform("i386-mingw32")
-      runner.class.must_equal Train::Transports::Local::Connection::WindowsShellRunner
-      powershell.must_equal "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+      _(runner.class).must_equal Train::Transports::Local::Connection::WindowsShellRunner
+      _(powershell).must_equal "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
     end
   end
 
   it "use powershell piping" do
     cmd = conn.run_command("New-Object -Type PSObject | Add-Member -MemberType NoteProperty -Name A -Value (Write-Output 'PropertyA') -PassThru | Add-Member -MemberType NoteProperty -Name B -Value (Write-Output 'PropertyB') -PassThru | ConvertTo-Json")
-    cmd.stdout.must_equal "{\r\n    \"A\":  \"PropertyA\",\r\n    \"B\":  \"PropertyB\"\r\n}\r\n"
-    cmd.stderr.must_equal ""
+    _(cmd.stdout).must_equal "{\r\n    \"A\":  \"PropertyA\",\r\n    \"B\":  \"PropertyB\"\r\n}\r\n"
+    _(cmd.stderr).must_equal ""
   end
 
   it "can execute a command using a named pipe" do
@@ -109,9 +109,9 @@ describe "windows local command" do
       .never
 
     cmd = conn.run_command('Write-Output "Create pipe"')
-    File.exist?("//./pipe/inspec_via_pipe").must_equal true
-    cmd.stdout.must_equal "Create pipe\r\n"
-    cmd.stderr.must_equal ""
+    _(File.exist?("//./pipe/inspec_via_pipe")).must_equal true
+    _(cmd.stdout).must_equal "Create pipe\r\n"
+    _(cmd.stderr).must_equal ""
   end
 
   it "can execute a command via ShellRunner if pipe creation fails" do
@@ -128,8 +128,8 @@ describe "windows local command" do
       .must_raise(Train::Transports::Local::PipeError)
 
     cmd = conn.run_command('Write-Output "test"')
-    cmd.stdout.must_equal "test\r\n"
-    cmd.stderr.must_equal ""
+    _(cmd.stdout).must_equal "test\r\n"
+    _(cmd.stderr).must_equal ""
   end
 
   describe "file" do
@@ -142,75 +142,75 @@ describe "windows local command" do
     let(:file) { conn.file(@temp.path) }
 
     it "exists" do
-      file.exist?.must_equal(true)
+      _(file.exist?).must_equal(true)
     end
 
     it "is a file" do
-      file.file?.must_equal(true)
+      _(file.file?).must_equal(true)
     end
 
     it "has type :file" do
-      file.type.must_equal(:file)
+      _(file.type).must_equal(:file)
     end
 
     it "has content" do
-      file.content.must_equal("hello world")
+      _(file.content).must_equal("hello world")
     end
 
     it "returns basename of file" do
       file_name = ::File.basename(@temp)
-      file.basename.must_equal(file_name)
+      _(file.basename).must_equal(file_name)
     end
 
     it "has owner name" do
-      file.owner.wont_be_nil
+      _(file.owner).wont_be_nil
     end
 
     it "has no group name" do
-      file.group.must_be_nil
+      _(file.group).must_be_nil
     end
 
     it "has no mode" do
-      file.mode.wont_be_nil
+      _(file.mode).wont_be_nil
     end
 
     it "has an md5sum" do
-      file.md5sum.wont_be_nil
+      _(file.md5sum).wont_be_nil
     end
 
     it "has an sha256sum" do
-      file.sha256sum.wont_be_nil
+      _(file.sha256sum).wont_be_nil
     end
 
     it "has no modified time" do
-      file.mtime.wont_be_nil
+      _(file.mtime).wont_be_nil
     end
 
     it "has no size" do
-      file.size.wont_be_nil
+      _(file.size).wont_be_nil
     end
 
     it "has size 11" do
       size = ::File.size(@temp)
-      file.size.must_equal size
+      _(file.size).must_equal size
     end
 
     it "has no selinux_label handling" do
-      file.selinux_label.must_be_nil
+      _(file.selinux_label).must_be_nil
     end
 
     it "has product_version" do
-      file.product_version.wont_be_nil
+      _(file.product_version).wont_be_nil
     end
 
     it "has file_version" do
-      file.file_version.wont_be_nil
+      _(file.file_version).wont_be_nil
     end
 
     it "provides a json representation" do
       j = file.to_json
-      j.must_be_kind_of Hash
-      j["type"].must_equal :file
+      _(j).must_be_kind_of Hash
+      _(j["type"]).must_equal :file
     end
 
     after do
@@ -228,7 +228,7 @@ describe "windows local command" do
     let(:file) { conn.file(@temp.path) }
 
     it 'provides the full path with whitespace for path #{@temp.path}' do
-      file.path.must_equal @temp.path
+      _(file.path).must_equal @temp.path
     end
 
     after do

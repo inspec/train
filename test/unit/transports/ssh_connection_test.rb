@@ -69,9 +69,9 @@ describe "ssh connection" do
       # run_command b/c run_command_via_connection is private.
       ssh.run_command("test") do |data|
         called = true
-        data.must_equal inbound_data
+        _(data).must_equal inbound_data
       end
-      called.must_equal true
+      _(called).must_equal true
 
     end
   end
