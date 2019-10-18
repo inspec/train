@@ -14,29 +14,29 @@ describe "file common" do
 
   it "check escaping of invalid chars in path" do
     wf = cls.new(nil, nil)
-    wf.sanitize_filename("c:/test") .must_equal "c:/test"
-    wf.sanitize_filename("c:/test directory") .must_equal "c:/test directory"
+    _(wf.sanitize_filename("c:/test") ).must_equal "c:/test"
+    _(wf.sanitize_filename("c:/test directory") ).must_equal "c:/test directory"
     %w{ < > " * ?}.each do |char|
-      wf.sanitize_filename("c:/test#{char}directory") .must_equal "c:/testdirectory"
+      _(wf.sanitize_filename("c:/test#{char}directory") ).must_equal "c:/testdirectory"
     end
   end
 
   it "returns file version" do
     out = rand.to_s
     backend.mock_command('[System.Diagnostics.FileVersionInfo]::GetVersionInfo("path").FileVersion', out)
-    cls.new(backend, "path").file_version.must_equal out
+    _(cls.new(backend, "path").file_version).must_equal out
   end
 
   it "returns product version" do
     out = rand.to_s
     backend.mock_command('[System.Diagnostics.FileVersionInfo]::GetVersionInfo("path").FileVersion', out)
-    cls.new(backend, "path").file_version.must_equal out
+    _(cls.new(backend, "path").file_version).must_equal out
   end
 
   it "returns owner of file" do
     out = rand.to_s
     backend.mock_command('Get-Acl "path" | select -expand Owner', out)
-    cls.new(backend, "path").owner.must_equal out
+    _(cls.new(backend, "path").owner).must_equal out
   end
 
   describe "#md5sum" do
@@ -53,7 +53,7 @@ describe "file common" do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command("CertUtil -hashfile #{filepath} MD5", "", "", 1)
       Digest::MD5.expects(:new).returns(ruby_md5_mock)
-      cls.new(backend, "/tmp/testfile").md5sum.must_equal md5_checksum
+      _(cls.new(backend, "/tmp/testfile").md5sum).must_equal md5_checksum
     end
 
     it "calculates the correct md5sum on the `windows` platform family" do
@@ -64,7 +64,7 @@ describe "file common" do
       EOC
 
       backend.mock_command("CertUtil -hashfile #{filepath} MD5", output)
-      cls.new(backend, filepath).md5sum.must_equal md5_checksum
+      _(cls.new(backend, filepath).md5sum).must_equal md5_checksum
     end
   end
 
@@ -84,7 +84,7 @@ describe "file common" do
     it "defaults to a Ruby based checksum if other methods fail" do
       backend.mock_command('CertUtil -hashfile #{filepath} SHA256', "", "", 1)
       Digest::SHA256.expects(:new).returns(ruby_sha256_mock)
-      cls.new(backend, "/tmp/testfile").sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, "/tmp/testfile").sha256sum).must_equal sha256_checksum
     end
 
     it "calculates the correct sha256sum on the `windows` platform family" do
@@ -95,7 +95,7 @@ describe "file common" do
       EOC
 
       backend.mock_command("CertUtil -hashfile #{filepath} SHA256", output)
-      cls.new(backend, filepath).sha256sum.must_equal sha256_checksum
+      _(cls.new(backend, filepath).sha256sum).must_equal sha256_checksum
     end
   end
 end

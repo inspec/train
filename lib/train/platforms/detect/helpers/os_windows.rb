@@ -1,12 +1,17 @@
 module Train::Platforms::Detect::Helpers
   module Windows
     def detect_windows
-      # we may get tricked by WSL, so lets check
+      check_cmd || check_powershell
+    end
+
+    def check_cmd
+      # we may get tricked by Windows Subsystem for Linux, so lets check:
       res = @backend.run_command("which cmd.exe")
       return false if res.exit_status == 0
 
       # try to detect windows, use cmd.exe to also support Microsoft OpenSSH
       res = @backend.run_command("cmd.exe /c ver")
+
       return false if (res.exit_status != 0) || res.stdout.empty?
 
       # if the ver contains `Windows`, we know its a Windows system
@@ -17,16 +22,29 @@ module Train::Platforms::Detect::Helpers
 
       # try to extract release from eg. `Microsoft Windows [Version 6.3.9600]`
       release = /\[(?<name>.*)\]/.match(version)
-      unless release[:name].nil?
+      if release[:name]
         # release is 6.3.9600 now
         @platform[:release] = release[:name].downcase.gsub("version", "").strip
         # fallback, if we are not able to extract the name from wmic later
         @platform[:name] = "Windows #{@platform[:release]}"
       end
 
-      # try to use wmic, but lets keep it optional
       read_wmic
+      true
+    end
 
+    def check_powershell
+      command = @backend.run_command(
+        "Get-WmiObject Win32_OperatingSystem | Select Caption,Version | ConvertTo-Json"
+      )
+      return false if (command.exit_status != 0) || command.stdout.empty?
+
+      payload = JSON.parse(command.stdout)
+      @platform[:family] = "windows"
+      @platform[:release] = payload["Version"]
+      @platform[:name] = payload["Caption"]
+
+      read_wmic
       true
     end
 

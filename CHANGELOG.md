@@ -1,25 +1,37 @@
-<!-- latest_release 3.1.1 -->
-## [v3.1.1](https://github.com/inspec/train/tree/v3.1.1) (2019-09-04)
+<!-- latest_release 3.1.5 -->
+## [v3.1.5](https://github.com/inspec/train/tree/v3.1.5) (2019-10-17)
 
 #### Merged Pull Requests
-- Fix chefstyle warnings [#514](https://github.com/inspec/train/pull/514) ([tas50](https://github.com/tas50))
+- Stop using global expectation methods and switch to using _. [#524](https://github.com/inspec/train/pull/524) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup since=3.0.3 -->
+<!-- release_rollup since=3.1.4 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
-- Fix chefstyle warnings [#514](https://github.com/inspec/train/pull/514) ([tas50](https://github.com/tas50)) <!-- 3.1.1 -->
-- add def forward_remote to Transports::SSH [#457](https://github.com/inspec/train/pull/457) ([sawanoboly](https://github.com/sawanoboly)) <!-- 3.1.0 -->
-- Let expeditor respond to pull request [#512](https://github.com/inspec/train/pull/512) ([miah](https://github.com/miah)) <!-- 3.0.4 -->
+- Stop using global expectation methods and switch to using _. [#524](https://github.com/inspec/train/pull/524) ([zenspider](https://github.com/zenspider)) <!-- 3.1.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.1.4](https://github.com/inspec/train/tree/v3.1.4) (2019-10-10)
+
+#### Merged Pull Requests
+- Add powershell detection [#523](https://github.com/inspec/train/pull/523) ([miah](https://github.com/miah))
+<!-- latest_stable_release -->
+
+## [v3.1.3](https://github.com/inspec/train/tree/v3.1.3) (2019-10-03)
+
+#### Merged Pull Requests
+- Let expeditor respond to pull request [#512](https://github.com/inspec/train/pull/512) ([miah](https://github.com/miah))
+- add def forward_remote to Transports::SSH [#457](https://github.com/inspec/train/pull/457) ([sawanoboly](https://github.com/sawanoboly))
+- Fix chefstyle warnings [#514](https://github.com/inspec/train/pull/514) ([tas50](https://github.com/tas50))
+- Add reason field while raising Train::ClientError. [#517](https://github.com/inspec/train/pull/517) ([samshinde](https://github.com/samshinde))
+- Fix method called on string in os parse function [#519](https://github.com/inspec/train/pull/519) ([noisleahcim](https://github.com/noisleahcim))
+
 ## [v3.0.3](https://github.com/inspec/train/tree/v3.0.3) (2019-08-29)
 
 #### Merged Pull Requests
 - Ensure UserError is raised with a reason value [#511](https://github.com/inspec/train/pull/511) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [v3.0.2](https://github.com/inspec/train/tree/v3.0.2) (2019-08-15)
 
