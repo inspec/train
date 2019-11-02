@@ -106,6 +106,24 @@ describe "linux command" do
       _(lc.run(cmd)).must_equal "echo #{bcmd} | base64 --decode | /bin/bash --login"
     end
   end
+
+  describe "#verify" do
+    def mock_connect_result(stderr, exit_status)
+      OpenStruct.new(stdout: "", stderr: stderr, exit_status: exit_status)
+    end
+
+    it "returns nil on success" do
+      backend.stubs(:run_command).returns(mock_connect_result(nil, 0))
+      lc = cls.new(backend, { sudo: true })
+      _(lc.verify).must_be_nil
+    end
+
+    it "custom error for bad sudo password" do
+      backend.stubs(:run_command).returns(mock_connect_result("Sorry, try again", 1))
+      lc = cls.new(backend, { sudo: true })
+      _ { lc.verify }.must_raise Train::UserError
+    end
+  end
 end
 
 describe "windows command" do
