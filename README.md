@@ -182,7 +182,7 @@ Train is heavily based on the work of:
 
 * [test-kitchen](https://github.com/test-kitchen/test-kitchen)
 
-    by [Fletcher Nichol](fnichol@nichol.ca)
+    by [Fletcher Nichol](mailto:fnichol@nichol.ca)
     and [a great community of contributors](https://github.com/test-kitchen/test-kitchen/graphs/contributors)
 
 * [ohai](https://github.com/chef/ohai)
