@@ -199,10 +199,12 @@ module Train::Transports
               $scriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
               try {
                 $stdout = & $scriptBlock | Out-String
-                $result = @{ 'stdout' = $stdout ; 'stderr' = ''; 'exitstatus' = 0 }
+                $exit_code = $LastExitCode
+                $result = @{ 'stdout' = $stdout ; 'stderr' = ''; 'exitstatus' = $exit_code }
               } catch {
                 $stderr = $_ | Out-String
-                $result = @{ 'stdout' = ''; 'stderr' = $stderr; 'exitstatus' = 1 }
+                $exit_code = $LastExitCode
+                $result = @{ 'stdout' = ''; 'stderr' = $stderr; 'exitstatus' = $exit_code }
               }
               $resultJSON = $result | ConvertTo-JSON
 
