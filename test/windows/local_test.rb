@@ -35,6 +35,20 @@ describe "windows local command" do
     _(cmd.stderr).must_equal ""
   end
 
+  it "run script without exit code" do
+    cmd = conn.run_command("powershell -file test/fixtures/PowerShell/exit_zero.ps1")
+    _(cmd.stdout).must_equal "Hello\r\n"
+    _(cmd.stderr).must_equal ""
+    _(cmd.exit_status).must_equal 0
+  end
+
+  it "run script without exit code" do
+    cmd = conn.run_command("powershell -file test/fixtures/PowerShell/exit_fortytwo.ps1")
+    _(cmd.stdout).must_equal "Goodbye\r\n"
+    _(cmd.stderr).must_equal ""
+    _(cmd.exit_status).must_equal 42
+  end
+
   describe "force 64 bit powershell command" do
     let(:runner) { conn.instance_variable_get(:@runner) }
     let(:powershell) { runner.instance_variable_get(:@powershell_cmd) }
