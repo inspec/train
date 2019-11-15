@@ -200,6 +200,10 @@ module Train::Transports
               try {
                 $stdout = & $scriptBlock | Out-String
                 $exit_code = $LastExitCode
+                if ($exit_code -eq $null)
+                {
+                  $exit_code = 0
+                }
                 $result = @{ 'stdout' = $stdout ; 'stderr' = ''; 'exitstatus' = $exit_code }
               } catch {
                 $stderr = $_ | Out-String

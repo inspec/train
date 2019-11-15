@@ -33,6 +33,7 @@ describe "windows local command" do
     cmd = conn.run_command('Write-Output "test"')
     _(cmd.stdout).must_equal "test\r\n"
     _(cmd.stderr).must_equal ""
+    _(cmd.exit_status).must_equal 0
   end
 
   it "run script without exit code" do
