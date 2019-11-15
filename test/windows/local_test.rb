@@ -50,6 +50,13 @@ describe "windows local command" do
     _(cmd.exit_status).must_equal 42
   end
 
+  it "returns exit code 1 for a script that throws" do
+    cmd = conn.run_command("powershell -file test/fixtures/PowerShell/throws.ps1")
+    _(cmd.stdout).must_match(/Next line throws/)
+    _(cmd.stderr).must_equal ""
+    _(cmd.exit_status).must_equal 1
+  end
+
   describe "force 64 bit powershell command" do
     let(:runner) { conn.instance_variable_get(:@runner) }
     let(:powershell) { runner.instance_variable_get(:@powershell_cmd) }
