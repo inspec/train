@@ -1,26 +1,23 @@
-<!-- latest_release 3.1.8 -->
-## [v3.1.8](https://github.com/inspec/train/tree/v3.1.8) (2019-11-13)
-
-#### Merged Pull Requests
-- Fix contributor url pointing to 404 [#532](https://github.com/inspec/train/pull/532) ([vsingh-msys](https://github.com/vsingh-msys))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.1.4 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Fix contributor url pointing to 404 [#532](https://github.com/inspec/train/pull/532) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.1.8 -->
-- Update google-api-client version. [#531](https://github.com/inspec/train/pull/531) ([skpaterson](https://github.com/skpaterson)) <!-- 3.1.7 -->
-- Adds activesupport gem to allow XML&gt;JSON parsing from Azure APIs [#534](https://github.com/inspec/train/pull/534) ([r-fennell](https://github.com/r-fennell)) <!-- 3.1.6 -->
-- Stop using global expectation methods and switch to using _. [#524](https://github.com/inspec/train/pull/524) ([zenspider](https://github.com/zenspider)) <!-- 3.1.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.1.8](https://github.com/inspec/train/tree/v3.1.8) (2019-11-18)
+
+#### Merged Pull Requests
+- Stop using global expectation methods and switch to using _. [#524](https://github.com/inspec/train/pull/524) ([zenspider](https://github.com/zenspider))
+- Adds activesupport gem to allow XML&gt;JSON parsing from Azure APIs [#534](https://github.com/inspec/train/pull/534) ([r-fennell](https://github.com/r-fennell))
+- Update google-api-client version. [#531](https://github.com/inspec/train/pull/531) ([skpaterson](https://github.com/skpaterson))
+- Fix contributor url pointing to 404 [#532](https://github.com/inspec/train/pull/532) ([vsingh-msys](https://github.com/vsingh-msys))
+<!-- latest_stable_release -->
+
 ## [v3.1.4](https://github.com/inspec/train/tree/v3.1.4) (2019-10-10)
 
 #### Merged Pull Requests
 - Add powershell detection [#523](https://github.com/inspec/train/pull/523) ([miah](https://github.com/miah))
-<!-- latest_stable_release -->
 
 ## [v3.1.3](https://github.com/inspec/train/tree/v3.1.3) (2019-10-03)
 
