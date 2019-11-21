@@ -53,6 +53,7 @@ promote:
   actions:
     - built_in:rollover_changelog
     - built_in:publish_rubygems
+    - built_in:create_github_release
 
 subscriptions:
  - workload: pull_request_opened:{{agent_id}}:*
