@@ -23,10 +23,8 @@ module Train::Platforms
     end
 
     def find_family_hierarchy(platform = self)
-      families = platform.families.each_with_object([]) do |(k, _v), memo|
-        memo << k.name
-        memo << find_family_hierarchy(k) unless k.families.empty?
-      end
+      families = platform.families.map { |k, v| [k.name, find_family_hierarchy(k)] }
+
       @family_hierarchy = families.flatten
     end
 

@@ -98,10 +98,10 @@ describe "os_detect_windows" do
 
     it "sets the correct family/release for windows" do
       detector.detect_windows
-      detector.platform[:family].must_equal("windows")
-      detector.platform[:name].must_equal("Windows 10 Pro")
-      detector.platform[:arch].must_equal("x86_64")
-      detector.platform[:release].must_equal("10.0.18362")
+      _(detector.platform[:family]).must_equal("windows")
+      _(detector.platform[:name]).must_equal("Windows 10 Pro")
+      _(detector.platform[:arch]).must_equal("x86_64")
+      _(detector.platform[:release]).must_equal("10.0.18362")
     end
 
   end
