@@ -121,35 +121,35 @@ describe "linux command" do
     it "error message for bad sudo password" do
       backend.stubs(:run_command).returns(mock_connect_result("Sorry, try again", 1))
       lc = cls.new(backend, { sudo: true })
-      err = _ { lc.verify }.must_raise Train::UserError
+      err = _ { lc.verify! }.must_raise Train::UserError
       _(err.message).must_match(/Sudo failed: Wrong sudo password./)
     end
 
     it "error message for sudo password required" do
       backend.stubs(:run_command).returns(mock_connect_result("sudo: no tty present and no askpass program specified", 1))
       lc = cls.new(backend, { sudo: true })
-      err = _ { lc.verify }.must_raise Train::UserError
+      err = _ { lc.verify! }.must_raise Train::UserError
       _(err.message).must_match(/Sudo requires a password, please configure it./)
     end
 
     it "error message for sudo: command not found" do
       backend.stubs(:run_command).returns(mock_connect_result("sudo: command not found", 1))
       lc = cls.new(backend, { sudo: true })
-      err = _ { lc.verify }.must_raise Train::UserError
+      err = _ { lc.verify! }.must_raise Train::UserError
       _(err.message).must_match(/Can't find sudo command. Please either install and configure it on the target or deactivate sudo./)
     end
 
     it "error message for requires tty" do
       backend.stubs(:run_command).returns(mock_connect_result("sudo: sorry, you must have a tty to run sudo", 1))
       lc = cls.new(backend, { sudo: true })
-      err = _ { lc.verify }.must_raise Train::UserError
+      err = _ { lc.verify! }.must_raise Train::UserError
       _(err.message).must_match(/Sudo failed: Sudo requires a TTY. Please see the README/)
     end
 
     it "error message for other sudo related errors" do
       backend.stubs(:run_command).returns(mock_connect_result("Other sudo related error", 1))
       lc = cls.new(backend, { sudo: true })
-      err = _ { lc.verify }.must_raise Train::UserError
+      err = _ { lc.verify! }.must_raise Train::UserError
       _(err.message).must_match(/Other sudo related error/)
     end
   end
