@@ -70,11 +70,17 @@ class Train::Transports::Mock
       "mock://"
     end
 
+    DEFAULTS = {
+      name: "mock",
+      family: "mock",
+      release: "unknown",
+      arch: "unknown",
+    }.freeze
+
     def mock_os(value = {})
-      # if a user passes a nil value, set to an empty hash so the merge still succeeds
-      value ||= {}
-      value.each { |k, v| value[k] = "unknown" if v.nil? }
-      value = { name: "mock", family: "mock", release: "unknown", arch: "unknown" }.merge(value)
+      value = DEFAULTS
+        .merge(value || {})
+        .transform_values { |v| v || "unknown" }
 
       platform = Train::Platforms.name(value[:name])
       platform.find_family_hierarchy

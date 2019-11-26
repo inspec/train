@@ -23,10 +23,8 @@ module Train::Platforms
     end
 
     def find_family_hierarchy(platform = self)
-      families = platform.families.each_with_object([]) do |(k, _v), memo|
-        memo << k.name
-        memo << find_family_hierarchy(k) unless k.families.empty?
-      end
+      families = platform.families.map { |k, v| [k.name, find_family_hierarchy(k)] }
+
       @family_hierarchy = families.flatten
     end
 
@@ -42,11 +40,7 @@ module Train::Platforms
 
     def clean_name(force: false)
       @cleaned_name = nil if force
-      @cleaned_name ||= begin
-                          name = (@platform[:name] || @name)
-                          name.downcase!.tr!(" ", "_") if name =~ /[A-Z ]/
-                          name
-                        end
+      @cleaned_name ||= (@platform[:name] || @name).downcase.tr(" ", "_")
     end
 
     def uuid
