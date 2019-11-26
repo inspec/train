@@ -285,12 +285,7 @@ class Train::Transports::SSH
       exit_status = nil
       session.open_channel do |channel|
         # wrap commands if that is configured
-        if !@cmd_wrapper.nil?
-          cmd = @cmd_wrapper.run(cmd)
-        elsif @transport_options[:sudo] || @transport_options[:shell]
-          # if sudo or shell is in the options we can assume Linux/Unix
-          cmd = LinuxCommand.new(self, @transport_options).run(cmd)
-        end
+        cmd = @cmd_wrapper.run(cmd) if @cmd_wrapper
 
         if @transport_options[:pty]
           channel.request_pty do |_ch, success|
