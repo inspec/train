@@ -1,14 +1,15 @@
-<!-- latest_release 3.1.10 -->
-## [v3.1.10](https://github.com/inspec/train/tree/v3.1.10) (2019-11-22)
+<!-- latest_release 3.1.11 -->
+## [v3.1.11](https://github.com/inspec/train/tree/v3.1.11) (2019-11-26)
 
 #### Merged Pull Requests
-- Added create_github_release action to stable promotion. [#536](https://github.com/inspec/train/pull/536) ([zenspider](https://github.com/zenspider))
+- Minor cleanup [#537](https://github.com/inspec/train/pull/537) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.1.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Minor cleanup [#537](https://github.com/inspec/train/pull/537) ([zenspider](https://github.com/zenspider)) <!-- 3.1.11 -->
 - Added create_github_release action to stable promotion. [#536](https://github.com/inspec/train/pull/536) ([zenspider](https://github.com/zenspider)) <!-- 3.1.10 -->
 - Fix inspec detect on SLES [#515](https://github.com/inspec/train/pull/515) ([christian-wtd](https://github.com/christian-wtd)) <!-- 3.1.9 -->
 <!-- release_rollup -->
