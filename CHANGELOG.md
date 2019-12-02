@@ -1,14 +1,15 @@
-<!-- latest_release 3.1.13 -->
-## [v3.1.13](https://github.com/inspec/train/tree/v3.1.13) (2019-12-02)
+<!-- latest_release 3.2.0 -->
+## [v3.2.0](https://github.com/inspec/train/tree/v3.2.0) (2019-12-02)
 
 #### Merged Pull Requests
-- Add azure_mgmt_security to train.gemspec [#541](https://github.com/inspec/train/pull/541) ([rmoles](https://github.com/rmoles))
+- Bump minor version [#543](https://github.com/inspec/train/pull/543) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.1.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Bump minor version [#543](https://github.com/inspec/train/pull/543) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.0 -->
 - Add azure_mgmt_security to train.gemspec [#541](https://github.com/inspec/train/pull/541) ([rmoles](https://github.com/rmoles)) <!-- 3.1.13 -->
 - Rolling back #515. [#539](https://github.com/inspec/train/pull/539) ([zenspider](https://github.com/zenspider)) <!-- 3.1.12 -->
 - Minor cleanup [#537](https://github.com/inspec/train/pull/537) ([zenspider](https://github.com/zenspider)) <!-- 3.1.11 -->
