@@ -18,9 +18,9 @@ github:
   version_tag_format: "v{{version}}"
   # allow bumping the minor release via label
   minor_bump_labels:
-    - "Expeditor/Bump Minor Version"
+    - "Expeditor: Bump Minor Version"
   major_bump_labels:
-    - "Expeditor/Bump Major Version"
+    - "Expeditor: Bump Major Version"
   release_branch:
     - 1-stable:
         version_constraint: 1.*
@@ -36,14 +36,14 @@ changelog:
 merge_actions:
   - built_in:bump_version:
       ignore_labels:
-        - "Expeditor/Skip Version Bump"
-        - "Expeditor/Skip All"
+        - "Expeditor: Skip Version Bump"
+        - "Expeditor: Skip All"
   - bash:.expeditor/update_version.sh:
       only_if: built_in:bump_version
   - built_in:update_changelog:
       ignore_labels:
-        - "Expeditor/Skip Changelog"
-        - "Expeditor/Skip All"
+        - "Expeditor: Skip Changelog"
+        - "Expeditor: Skip All"
   - built_in:build_gem:
       only_if: built_in:bump_version
   - trigger_pipeline:coverage:
