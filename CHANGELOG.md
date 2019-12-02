@@ -1,14 +1,15 @@
-<!-- latest_release 3.1.12 -->
-## [v3.1.12](https://github.com/inspec/train/tree/v3.1.12) (2019-11-26)
+<!-- latest_release 3.1.13 -->
+## [v3.1.13](https://github.com/inspec/train/tree/v3.1.13) (2019-12-02)
 
 #### Merged Pull Requests
-- Rolling back #515. [#539](https://github.com/inspec/train/pull/539) ([zenspider](https://github.com/zenspider))
+- Add azure_mgmt_security to train.gemspec [#541](https://github.com/inspec/train/pull/541) ([rmoles](https://github.com/rmoles))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.1.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Add azure_mgmt_security to train.gemspec [#541](https://github.com/inspec/train/pull/541) ([rmoles](https://github.com/rmoles)) <!-- 3.1.13 -->
 - Rolling back #515. [#539](https://github.com/inspec/train/pull/539) ([zenspider](https://github.com/zenspider)) <!-- 3.1.12 -->
 - Minor cleanup [#537](https://github.com/inspec/train/pull/537) ([zenspider](https://github.com/zenspider)) <!-- 3.1.11 -->
 - Added create_github_release action to stable promotion. [#536](https://github.com/inspec/train/pull/536) ([zenspider](https://github.com/zenspider)) <!-- 3.1.10 -->
