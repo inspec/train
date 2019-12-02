@@ -37,6 +37,7 @@ Train supports:
 * AWS as an API
 * Azure as an API
 * VMware via PowerCLI
+* Habitat
 
 # Examples
 
