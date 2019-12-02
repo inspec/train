@@ -1,23 +1,21 @@
-<!-- latest_release 3.2.0 -->
-## [v3.2.0](https://github.com/inspec/train/tree/v3.2.0) (2019-12-02)
-
-#### Merged Pull Requests
-- Bump minor version [#543](https://github.com/inspec/train/pull/543) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.1.8 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Bump minor version [#543](https://github.com/inspec/train/pull/543) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.0 -->
-- Add azure_mgmt_security to train.gemspec [#541](https://github.com/inspec/train/pull/541) ([rmoles](https://github.com/rmoles)) <!-- 3.1.13 -->
-- Rolling back #515. [#539](https://github.com/inspec/train/pull/539) ([zenspider](https://github.com/zenspider)) <!-- 3.1.12 -->
-- Minor cleanup [#537](https://github.com/inspec/train/pull/537) ([zenspider](https://github.com/zenspider)) <!-- 3.1.11 -->
-- Added create_github_release action to stable promotion. [#536](https://github.com/inspec/train/pull/536) ([zenspider](https://github.com/zenspider)) <!-- 3.1.10 -->
-- Fix inspec detect on SLES [#515](https://github.com/inspec/train/pull/515) ([christian-wtd](https://github.com/christian-wtd)) <!-- 3.1.9 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.0](https://github.com/inspec/train/tree/v3.2.0) (2019-12-02)
+
+#### Merged Pull Requests
+- Fix inspec detect on SLES [#515](https://github.com/inspec/train/pull/515) ([christian-wtd](https://github.com/christian-wtd))
+- Added create_github_release action to stable promotion. [#536](https://github.com/inspec/train/pull/536) ([zenspider](https://github.com/zenspider))
+- Minor cleanup [#537](https://github.com/inspec/train/pull/537) ([zenspider](https://github.com/zenspider))
+- Rolling back #515. [#539](https://github.com/inspec/train/pull/539) ([zenspider](https://github.com/zenspider))
+- Add azure_mgmt_security to train.gemspec [#541](https://github.com/inspec/train/pull/541) ([rmoles](https://github.com/rmoles))
+- Bump minor version [#543](https://github.com/inspec/train/pull/543) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v3.1.8](https://github.com/inspec/train/tree/v3.1.8) (2019-11-18)
 
 #### Merged Pull Requests
@@ -25,7 +23,6 @@
 - Adds activesupport gem to allow XML&gt;JSON parsing from Azure APIs [#534](https://github.com/inspec/train/pull/534) ([r-fennell](https://github.com/r-fennell))
 - Update google-api-client version. [#531](https://github.com/inspec/train/pull/531) ([skpaterson](https://github.com/skpaterson))
 - Fix contributor url pointing to 404 [#532](https://github.com/inspec/train/pull/532) ([vsingh-msys](https://github.com/vsingh-msys))
-<!-- latest_stable_release -->
 
 ## [v3.1.4](https://github.com/inspec/train/tree/v3.1.4) (2019-10-10)
 
