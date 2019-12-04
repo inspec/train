@@ -28,27 +28,29 @@ module Train::Extras
   class LinuxCommand < CommandWrapperBase
     Train::Options.attach(self)
 
-    option :shell, default: false
+    option :shell,         default: false
     option :shell_options, default: nil
     option :shell_command, default: nil
-    option :sudo, default: false
-    option :sudo_options, default: nil
+    option :sudo,          default: false
+    option :sudo_options,  default: nil
     option :sudo_password, default: nil
-    option :sudo_command, default: nil
+    option :sudo_command,  default: nil
     option :user
+
+    attr_reader :backend
 
     def initialize(backend, options)
       @backend = backend
       validate_options(options)
 
-      @shell = options[:shell]
+      @shell         = options[:shell]
       @shell_options = options[:shell_options] # e.g. '--login'
       @shell_command = options[:shell_command] # e.g. '/bin/sh'
-      @sudo = options[:sudo]
-      @sudo_options = options[:sudo_options]
+      @sudo          = options[:sudo]
+      @sudo_options  = options[:sudo_options]
       @sudo_password = options[:sudo_password]
-      @sudo_command = options[:sudo_command]
-      @user = options[:user]
+      @sudo_command  = options[:sudo_command]
+      @user          = options[:user]
     end
 
     # (see CommandWrapperBase::verify)
@@ -96,9 +98,12 @@ module Train::Extras
 
       res = (@sudo_command || "sudo") + " "
 
-      res = "#{safe_string(@sudo_password + "\n")} | #{res}-S " unless @sudo_password.nil?
+      if @sudo_password
+        str = safe_string(@sudo_password + "\n")
+        res = "#{str} | #{res}-S "
+      end
 
-      res << @sudo_options.to_s + " " unless @sudo_options.nil?
+      res << "#{@sudo_options} " if @sudo_options
 
       res + cmd
     end
@@ -109,7 +114,7 @@ module Train::Extras
       return cmd unless @shell
 
       shell = @shell_command || "$SHELL"
-      options = " " + @shell_options.to_s unless @shell_options.nil?
+      options = " #{@shell_options}" if @shell_options
 
       "#{safe_string(cmd)} | #{shell}#{options}"
     end
