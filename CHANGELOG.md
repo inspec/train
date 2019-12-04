@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.2.1 -->
+## [v3.2.1](https://github.com/inspec/train/tree/v3.2.1) (2019-12-04)
+
+#### Merged Pull Requests
+- Correctly verify ssh w/ sudo [#544](https://github.com/inspec/train/pull/544) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.0 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Correctly verify ssh w/ sudo [#544](https://github.com/inspec/train/pull/544) ([zenspider](https://github.com/zenspider)) <!-- 3.2.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
