@@ -31,11 +31,16 @@ class Train::Transports::SSH
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
     attr_reader :hostname
+    attr_reader :transport_options
+
     def initialize(options)
       # Track IOS command retries to prevent infinite loop on IOError. This must
       # be done before `super()` because the parent runs detection commands.
       @ios_cmd_retries = 0
+
       super(options)
+
+      @session                = nil
       @username               = @options.delete(:username)
       @hostname               = @options.delete(:hostname)
       @port                   = @options[:port] # don't delete from options
@@ -43,13 +48,12 @@ class Train::Transports::SSH
       @connection_retry_sleep = @options.delete(:connection_retry_sleep)
       @max_wait_until_ready   = @options.delete(:max_wait_until_ready)
       @max_ssh_sessions       = @options.delete(:max_ssh_connections) { 9 }
-      @session                = nil
       @transport_options      = @options.delete(:transport_options)
-      @cmd_wrapper            = nil
       @proxy_command          = @options.delete(:proxy_command)
       @bastion_host           = @options.delete(:bastion_host)
       @bastion_user           = @options.delete(:bastion_user)
       @bastion_port           = @options.delete(:bastion_port)
+
       @cmd_wrapper            = CommandWrapper.load(self, @transport_options)
     end
 
@@ -69,8 +73,8 @@ class Train::Transports::SSH
 
       args  = %w{ -o UserKnownHostsFile=/dev/null }
       args += %w{ -o StrictHostKeyChecking=no }
-      args += %w{ -o IdentitiesOnly=yes } if options[:keys]
-      args += %w{ -o BatchMode=yes } if options[:non_interactive]
+      args += %w{ -o IdentitiesOnly=yes }        if options[:keys]
+      args += %w{ -o BatchMode=yes }             if options[:non_interactive]
       args += %W{ -o LogLevel=#{level} }
       args += %W{ -o ForwardAgent=#{fwd_agent} } if options.key?(:forward_agent)
       Array(options[:keys]).each do |ssh_key|
@@ -154,6 +158,12 @@ class Train::Transports::SSH
       @session.forward.remote(port, host, remote_port, remote_host)
     end
 
+    def obscured_options
+      options_to_print = @options.clone
+      options_to_print[:password] = "<hidden>" if options_to_print.key?(:password)
+      options_to_print
+    end
+
     private
 
     PING_COMMAND = "echo '[SSH] Established'".freeze
@@ -178,6 +188,7 @@ class Train::Transports::SSH
     # @api private
     def establish_connection(opts)
       logger.debug("[SSH] opening connection to #{self}")
+      logger.debug("[SSH] using options %p" % [obscured_options])
       if check_proxy
         require "net/ssh/proxy/command"
         @options[:proxy] = Net::SSH::Proxy::Command.new(generate_proxy_command)
@@ -218,9 +229,9 @@ class Train::Transports::SSH
 
     def run_command_via_connection(cmd, &data_handler)
       cmd.dup.force_encoding("binary") if cmd.respond_to?(:force_encoding)
-      logger.debug("[SSH] #{self} (#{cmd})")
 
       reset_session if session.closed?
+
       exit_status, stdout, stderr = execute_on_channel(cmd, &data_handler)
 
       # Since `@session.loop` succeeded, reset the IOS command retry counter
@@ -266,9 +277,7 @@ class Train::Transports::SSH
     #
     # @api private
     def to_s
-      options_to_print = @options.clone
-      options_to_print[:password] = "<hidden>" if options_to_print.key?(:password)
-      "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
+      "#{@username}@#{@hostname}"
     end
 
     # Given a channel and a command string, it will execute the command on the channel
@@ -280,27 +289,31 @@ class Train::Transports::SSH
     #         not received.
     #
     # @api private
-    def execute_on_channel(cmd, &data_handler)
-      stdout = stderr = ""
+    def execute_on_channel(cmd)
+      stdout = ""
+      stderr = ""
       exit_status = nil
       session.open_channel do |channel|
         # wrap commands if that is configured
         cmd = @cmd_wrapper.run(cmd) if @cmd_wrapper
+
+        logger.debug("[SSH] #{self} cmd = #{cmd}")
 
         if @transport_options[:pty]
           channel.request_pty do |_ch, success|
             raise Train::Transports::SSHPTYFailed, "Requesting PTY failed" unless success
           end
         end
+
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
           channel.on_data do |_, data|
-            yield(data) unless data_handler.nil?
+            yield(data) if block_given?
             stdout += data
           end
 
           channel.on_extended_data do |_, _type, data|
-            yield(data) unless data_handler.nil?
+            yield(data) if block_given?
             stderr += data
           end
 
