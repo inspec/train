@@ -193,12 +193,11 @@ describe "ssh transport" do
     end
   end
 
-  describe "converting connection to string for logging" do
+  describe "obscured_options" do
     it "masks passwords" do
-      assert_output(/.*:password=>"<hidden>".*/) do
-        connection = cls.new(conf).connection
-        puts "#{connection}"
-      end
+      connection = cls.new(conf).connection
+
+      assert_equal "<hidden>", connection.obscured_options[:password]
     end
   end
 

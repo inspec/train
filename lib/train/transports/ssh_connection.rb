@@ -158,6 +158,12 @@ class Train::Transports::SSH
       @session.forward.remote(port, host, remote_port, remote_host)
     end
 
+    def obscured_options
+      options_to_print = @options.clone
+      options_to_print[:password] = "<hidden>" if options_to_print.key?(:password)
+      options_to_print
+    end
+
     private
 
     PING_COMMAND = "echo '[SSH] Established'".freeze
@@ -182,6 +188,7 @@ class Train::Transports::SSH
     # @api private
     def establish_connection(opts)
       logger.debug("[SSH] opening connection to #{self}")
+      logger.debug("[SSH] using options %p" % [obscured_options])
       if check_proxy
         require "net/ssh/proxy/command"
         @options[:proxy] = Net::SSH::Proxy::Command.new(generate_proxy_command)
@@ -270,9 +277,7 @@ class Train::Transports::SSH
     #
     # @api private
     def to_s
-      options_to_print = @options.clone
-      options_to_print[:password] = "<hidden>" if options_to_print.key?(:password)
-      "#{@username}@#{@hostname}<#{options_to_print.inspect}>"
+      "#{@username}@#{@hostname}"
     end
 
     # Given a channel and a command string, it will execute the command on the channel
