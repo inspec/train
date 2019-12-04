@@ -53,9 +53,28 @@ module Train::Extras
       @user          = options[:user]
     end
 
+    def with_sudo_pty
+      old_pty = backend.transport_options[:pty]
+      backend.transport_options[:pty] = true if @sudo
+
+      yield
+    ensure
+      backend.transport_options[:pty] = old_pty
+    end
+
     # (see CommandWrapperBase::verify)
     def verify
-      res = @backend.run_command(run("echo"))
+      cmd = if @sudo
+              # Wrap it up. It needs /dev/null on the outside to disable stdin
+              "bash -c '(#{run("-v")}) < /dev/null'"
+            else
+              run("echo")
+            end
+
+      # rubocop:disable Style/BlockDelimiters
+      res = with_sudo_pty {
+        @backend.run_command(cmd)
+      }
       return nil if res.exit_status == 0
 
       rawerr = res.stdout + " " + res.stderr
