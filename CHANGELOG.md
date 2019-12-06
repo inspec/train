@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.1 -->
-## [v3.2.1](https://github.com/inspec/train/tree/v3.2.1) (2019-12-04)
+<!-- latest_release 3.2.2 -->
+## [v3.2.2](https://github.com/inspec/train/tree/v3.2.2) (2019-12-06)
 
 #### Merged Pull Requests
-- Correctly verify ssh w/ sudo [#544](https://github.com/inspec/train/pull/544) ([zenspider](https://github.com/zenspider))
+- Adding bundle artifact caching to BK. [#545](https://github.com/inspec/train/pull/545) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Adding bundle artifact caching to BK. [#545](https://github.com/inspec/train/pull/545) ([zenspider](https://github.com/zenspider)) <!-- 3.2.2 -->
 - Correctly verify ssh w/ sudo [#544](https://github.com/inspec/train/pull/544) ([zenspider](https://github.com/zenspider)) <!-- 3.2.1 -->
 <!-- release_rollup -->
 
