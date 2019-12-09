@@ -146,6 +146,12 @@ module Train::Transports
           raise PipeError if @pipe.nil?
         end
 
+        # @param  cmd The command to execute
+        # @return Local::ComandResult with stdout, stderr and exitstatus
+        #         Note that exitstatus ($?) in PowerShell is boolean, but we use a numeric exit code.
+        #         A command that succeeds without setting an exit code will have exitstatus 0
+        #         A command that exits with an exit code will have that value as exitstatus
+        #         A command that fails (e.g. throws exception) before setting an exit code will have exitstatus 1
         def run_command(cmd)
           script = "$ProgressPreference='SilentlyContinue';" + cmd
           encoded_script = Base64.strict_encode64(script)
@@ -199,10 +205,16 @@ module Train::Transports
               $scriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
               try {
                 $stdout = & $scriptBlock | Out-String
-                $result = @{ 'stdout' = $stdout ; 'stderr' = ''; 'exitstatus' = 0 }
+                $exit_code = $LastExitCode
+                if ($exit_code -eq $null)
+                {
+                  $exit_code = 0
+                }
+                $result = @{ 'stdout' = $stdout ; 'stderr' = ''; 'exitstatus' = $exit_code }
               } catch {
                 $stderr = $_ | Out-String
-                $result = @{ 'stdout' = ''; 'stderr' = $stderr; 'exitstatus' = 1 }
+                $exit_code = $LastExitCode
+                $result = @{ 'stdout' = ''; 'stderr' = $stderr; 'exitstatus' = $exit_code }
               }
               $resultJSON = $result | ConvertTo-JSON
 
