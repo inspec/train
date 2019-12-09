@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.2 -->
-## [v3.2.2](https://github.com/inspec/train/tree/v3.2.2) (2019-12-06)
+<!-- latest_release 3.2.3 -->
+## [v3.2.3](https://github.com/inspec/train/tree/v3.2.3) (2019-12-09)
 
 #### Merged Pull Requests
-- Adding bundle artifact caching to BK. [#545](https://github.com/inspec/train/pull/545) ([zenspider](https://github.com/zenspider))
+- Return exit code for local Windows command [#533](https://github.com/inspec/train/pull/533) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Return exit code for local Windows command [#533](https://github.com/inspec/train/pull/533) ([james-stocks](https://github.com/james-stocks)) <!-- 3.2.3 -->
 - Adding bundle artifact caching to BK. [#545](https://github.com/inspec/train/pull/545) ([zenspider](https://github.com/zenspider)) <!-- 3.2.2 -->
 - Correctly verify ssh w/ sudo [#544](https://github.com/inspec/train/pull/544) ([zenspider](https://github.com/zenspider)) <!-- 3.2.1 -->
 <!-- release_rollup -->
