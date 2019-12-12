@@ -1,26 +1,23 @@
-<!-- latest_release 3.2.5 -->
-## [v3.2.5](https://github.com/inspec/train/tree/v3.2.5) (2019-12-12)
-
-#### Merged Pull Requests
-- Move built_in:create_github_release to a workload? [#547](https://github.com/inspec/train/pull/547) ([zenspider](https://github.com/zenspider))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.3 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Move built_in:create_github_release to a workload? [#547](https://github.com/inspec/train/pull/547) ([zenspider](https://github.com/zenspider)) <!-- 3.2.5 -->
-- Add extended metadata [#546](https://github.com/inspec/train/pull/546) ([tas50](https://github.com/tas50)) <!-- 3.2.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.5](https://github.com/inspec/train/tree/v3.2.5) (2019-12-12)
+
+#### Merged Pull Requests
+- Add extended metadata [#546](https://github.com/inspec/train/pull/546) ([tas50](https://github.com/tas50))
+- Move built_in:create_github_release to a workload? [#547](https://github.com/inspec/train/pull/547) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v3.2.3](https://github.com/inspec/train/tree/v3.2.3) (2019-12-12)
 
 #### Merged Pull Requests
 - Correctly verify ssh w/ sudo [#544](https://github.com/inspec/train/pull/544) ([zenspider](https://github.com/zenspider))
 - Adding bundle artifact caching to BK. [#545](https://github.com/inspec/train/pull/545) ([zenspider](https://github.com/zenspider))
 - Return exit code for local Windows command [#533](https://github.com/inspec/train/pull/533) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v3.2.0](https://github.com/inspec/train/tree/v3.2.0) (2019-12-02)
 
