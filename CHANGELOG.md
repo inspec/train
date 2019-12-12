@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.4 -->
-## [v3.2.4](https://github.com/inspec/train/tree/v3.2.4) (2019-12-12)
+<!-- latest_release 3.2.5 -->
+## [v3.2.5](https://github.com/inspec/train/tree/v3.2.5) (2019-12-12)
 
 #### Merged Pull Requests
-- Add extended metadata [#546](https://github.com/inspec/train/pull/546) ([tas50](https://github.com/tas50))
+- Move built_in:create_github_release to a workload? [#547](https://github.com/inspec/train/pull/547) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Move built_in:create_github_release to a workload? [#547](https://github.com/inspec/train/pull/547) ([zenspider](https://github.com/zenspider)) <!-- 3.2.5 -->
 - Add extended metadata [#546](https://github.com/inspec/train/pull/546) ([tas50](https://github.com/tas50)) <!-- 3.2.4 -->
 <!-- release_rollup -->
 
