@@ -20,8 +20,14 @@ Gem::Specification.new do |spec|
   spec.email         = ["drichter@chef.io"]
   spec.summary       = "Transport interface to talk to a selected set of backends."
   spec.description   = "A minimal Train with a backends for ssh and winrm."
-  spec.homepage      = "https://github.com/inspec/train/"
   spec.license       = "Apache-2.0"
+
+  spec.metadata = {
+    "homepage_uri" => "https://github.com/inspec/train",
+    "changelog_uri" => "https://github.com/inspec/train/blob/master/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/inspec/train",
+    "bug_tracker_uri" => "https://github.com/inspec/train/issues",
+  }
 
   spec.required_ruby_version = ">= 2.4"
 
