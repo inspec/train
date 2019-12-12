@@ -1,20 +1,18 @@
-<!-- latest_release 3.2.3 -->
-## [v3.2.3](https://github.com/inspec/train/tree/v3.2.3) (2019-12-09)
-
-#### Merged Pull Requests
-- Return exit code for local Windows command [#533](https://github.com/inspec/train/pull/533) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.0 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Return exit code for local Windows command [#533](https://github.com/inspec/train/pull/533) ([james-stocks](https://github.com/james-stocks)) <!-- 3.2.3 -->
-- Adding bundle artifact caching to BK. [#545](https://github.com/inspec/train/pull/545) ([zenspider](https://github.com/zenspider)) <!-- 3.2.2 -->
-- Correctly verify ssh w/ sudo [#544](https://github.com/inspec/train/pull/544) ([zenspider](https://github.com/zenspider)) <!-- 3.2.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.3](https://github.com/inspec/train/tree/v3.2.3) (2019-12-12)
+
+#### Merged Pull Requests
+- Correctly verify ssh w/ sudo [#544](https://github.com/inspec/train/pull/544) ([zenspider](https://github.com/zenspider))
+- Adding bundle artifact caching to BK. [#545](https://github.com/inspec/train/pull/545) ([zenspider](https://github.com/zenspider))
+- Return exit code for local Windows command [#533](https://github.com/inspec/train/pull/533) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v3.2.0](https://github.com/inspec/train/tree/v3.2.0) (2019-12-02)
 
 #### Merged Pull Requests
@@ -24,7 +22,6 @@
 - Rolling back #515. [#539](https://github.com/inspec/train/pull/539) ([zenspider](https://github.com/zenspider))
 - Add azure_mgmt_security to train.gemspec [#541](https://github.com/inspec/train/pull/541) ([rmoles](https://github.com/rmoles))
 - Bump minor version [#543](https://github.com/inspec/train/pull/543) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.1.8](https://github.com/inspec/train/tree/v3.1.8) (2019-11-18)
 
