@@ -10,8 +10,14 @@ Gem::Specification.new do |spec|
   spec.email         = ["drichter@chef.io"]
   spec.summary       = "Transport interface to talk to different backends."
   spec.description   = "Transport interface to talk to different backends."
-  spec.homepage      = "https://github.com/inspec/train/"
   spec.license       = "Apache-2.0"
+
+  spec.metadata = {
+    "homepage_uri" => "https://github.com/inspec/train",
+    "changelog_uri" => "https://github.com/inspec/train/blob/master/CHANGELOG.md",
+    "source_code_uri" => "https://github.com/inspec/train",
+    "bug_tracker_uri" => "https://github.com/inspec/train/issues",
+  }
 
   spec.files = %w{LICENSE} + Dir.glob("lib/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
 
