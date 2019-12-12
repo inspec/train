@@ -49,20 +49,19 @@ merge_actions:
   - trigger_pipeline:coverage:
       post_commit: true
 
-promote:
-  actions:
-    - built_in:rollover_changelog
-    - built_in:publish_rubygems
-    - built_in:create_github_release
-
 subscriptions:
- - workload: pull_request_opened:{{agent_id}}:*
-   actions:
-     - post_github_comment:.expeditor/templates/pull_request.mustache
-     - built_in:github_auto_assign_author:
-         only_if_team_member:
-           - inspec/owners
-           - inspec/inspec-core-team
+  - workload: pull_request_opened:{{agent_id}}:*
+    actions:
+      - post_github_comment:.expeditor/templates/pull_request.mustache
+      - built_in:github_auto_assign_author:
+          only_if_team_member:
+            - inspec/owners
+            - inspec/inspec-core-team
+  - workload: project_promoted:{{agent_id}}:*
+    actions:
+      - built_in:rollover_changelog
+      - built_in:publish_rubygems
+      - built_in:create_github_release
 
 pipelines:
   - verify:
