@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require "train/platforms/detect/helpers/os_common"
+require_relative "helpers/os_common"
 
 module Train::Platforms::Detect
   class Scanner

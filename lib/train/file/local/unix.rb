@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 require "shellwords"
-require "train/extras/stat"
+require_relative "../../extras/stat"
 
 module Train
   class File

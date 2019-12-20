@@ -78,5 +78,5 @@ end
 
 # subclass requires are loaded after Train::File::Local is defined
 # to avoid superclass mismatch errors
-require "train/file/local/unix"
-require "train/file/local/windows"
+require_relative "local/unix"
+require_relative "local/windows"

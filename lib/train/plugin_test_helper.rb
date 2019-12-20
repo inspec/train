@@ -3,7 +3,7 @@
 
 # Load Train.  We certainly need the plugin system, and also several other parts
 # that are tightly coupled.  Train itself is fairly light, and non-invasive.
-require "train"
+require_relative "../train"
 
 # You can select from a number of test harnesses.  Since Train is closely related
 # to InSpec, and InSpec uses Spec-style controls in profile code, you will

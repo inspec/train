@@ -3,7 +3,7 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require "train/file/remote/unix"
+require_relative "unix"
 
 module Train
   class File

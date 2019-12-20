@@ -1,13 +1,13 @@
 # encoding: utf-8
 
-require "train/platforms/common"
-require "train/platforms/detect"
-require "train/platforms/detect/scanner"
-require "train/platforms/detect/specifications/os"
-require "train/platforms/detect/specifications/api"
-require "train/platforms/detect/uuid"
-require "train/platforms/family"
-require "train/platforms/platform"
+require_relative "platforms/common"
+require_relative "platforms/detect"
+require_relative "platforms/detect/scanner"
+require_relative "platforms/detect/specifications/os"
+require_relative "platforms/detect/specifications/api"
+require_relative "platforms/detect/uuid"
+require_relative "platforms/family"
+require_relative "platforms/platform"
 
 module Train::Platforms
   # Retrieve the current platform list

@@ -20,7 +20,7 @@
 
 require "net/ssh"
 require "net/scp"
-require "train/errors"
+require_relative "../errors"
 
 module Train::Transports
   # Wrapped exception for any internally raised SSH-related errors.
@@ -36,8 +36,8 @@ module Train::Transports
   class SSH < Train.plugin(1) # rubocop:disable Metrics/ClassLength
     name "ssh"
 
-    require "train/transports/ssh_connection"
-    require "train/transports/cisco_ios_connection"
+    require_relative "ssh_connection"
+    require_relative "cisco_ios_connection"
 
     # add options for submodules
     include_options Train::Extras::CommandWrapper

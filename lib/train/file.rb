@@ -3,9 +3,9 @@
 # author: Christoph Hartmann
 # author: Dominik Richter
 
-require "train/file/local"
-require "train/file/remote"
-require "train/extras/stat"
+require_relative "file/local"
+require_relative "file/remote"
+require_relative "extras/stat"
 
 module Train
   class File # rubocop:disable Metrics/ClassLength

@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-require "train/errors"
-require "train/extras"
-require "train/file"
+require_relative "../errors"
+require_relative "../extras"
+require_relative "../file"
 require "logger"
 
 class Train::Plugins::Transport
@@ -88,7 +88,7 @@ class Train::Plugins::Transport
     end
 
     def load_json(j)
-      require "train/transports/mock"
+      require_relative "../transports/mock"
       j["files"].each do |path, jf|
         @cache[:file][path] = Train::Transports::Mock::Connection::File.from_json(jf)
       end

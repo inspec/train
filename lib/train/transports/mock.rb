@@ -1,4 +1,4 @@
-require "train/plugins"
+require_relative "../plugins"
 require "digest"
 
 module Train::Transports

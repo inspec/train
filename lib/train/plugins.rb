@@ -3,11 +3,11 @@
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 # Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
-require "train/errors"
+require_relative "errors"
 
 module Train
   class Plugins
-    require "train/plugins/transport"
+    require_relative "plugins/transport"
 
     class << self
       # Retrieve the current plugin registry, containing all plugin names

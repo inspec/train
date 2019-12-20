@@ -4,16 +4,16 @@
 # Author:: Christoph Hartmann (<chris@lollyrock.com>)
 
 require "logger"
-require "train/errors"
-require "train/extras"
-require "train/options"
+require_relative "../errors"
+require_relative "../extras"
+require_relative "../options"
 
 class Train::Plugins
   class Transport
     include Train::Extras
     Train::Options.attach(self)
 
-    require "train/plugins/base_connection"
+    require_relative "base_connection"
 
     # Initialize a new Transport object
     #

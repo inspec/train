@@ -33,8 +33,8 @@ end
 
 # subclass requires are loaded after Train::File::Remote is defined
 # to avoid superclass mismatch errors
-require "train/file/remote/aix"
-require "train/file/remote/linux"
-require "train/file/remote/qnx"
-require "train/file/remote/unix"
-require "train/file/remote/windows"
+require_relative "remote/aix"
+require_relative "remote/linux"
+require_relative "remote/qnx"
+require_relative "remote/unix"
+require_relative "remote/windows"
