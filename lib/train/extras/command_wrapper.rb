@@ -3,7 +3,7 @@
 # author: Christoph Hartmann
 
 require "base64"
-require "train/errors"
+require_relative "../errors"
 
 module Train::Extras
   # Define the interface of all command wrappers.

@@ -1,5 +1,5 @@
-require "train/platforms/detect/helpers/os_linux"
-require "train/platforms/detect/helpers/os_windows"
+require_relative "os_linux"
+require_relative "os_windows"
 require "rbconfig"
 
 module Train::Platforms::Detect::Helpers

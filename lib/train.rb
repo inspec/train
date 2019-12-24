@@ -2,11 +2,11 @@
 #
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)
 
-require "train/version"
-require "train/options"
-require "train/plugins"
-require "train/errors"
-require "train/platforms"
+require_relative "train/version"
+require_relative "train/options"
+require_relative "train/plugins"
+require_relative "train/errors"
+require_relative "train/platforms"
 require "uri"
 
 module Train

@@ -1,5 +1,5 @@
 # encoding: utf-8
-require "train/plugins"
+require_relative "../plugins"
 require "open3"
 require "ostruct"
 require "json"
@@ -35,7 +35,7 @@ module Train::Transports
         @powershell_binary = detect_powershell_binary
 
         if @powershell_binary == :powershell
-          require "train/transports/local"
+          require_relative "local"
           @powershell = Train::Transports::Local::Connection.new(options)
         end
 

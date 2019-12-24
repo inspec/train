@@ -3,8 +3,8 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require "train/plugins"
-require "train/errors"
+require_relative "../plugins"
+require_relative "../errors"
 require "mixlib/shellout"
 
 module Train::Transports
