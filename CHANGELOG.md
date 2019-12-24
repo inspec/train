@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.2.6 -->
+## [v3.2.6](https://github.com/inspec/train/tree/v3.2.6) (2019-12-24)
+
+#### Merged Pull Requests
+- Substitute require for require_relative [#549](https://github.com/inspec/train/pull/549) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.5 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Substitute require for require_relative [#549](https://github.com/inspec/train/pull/549) ([tas50](https://github.com/tas50)) <!-- 3.2.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
