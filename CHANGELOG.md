@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.6 -->
-## [v3.2.6](https://github.com/inspec/train/tree/v3.2.6) (2019-12-24)
+<!-- latest_release 3.2.7 -->
+## [v3.2.7](https://github.com/inspec/train/tree/v3.2.7) (2019-12-31)
 
 #### Merged Pull Requests
-- Substitute require for require_relative [#549](https://github.com/inspec/train/pull/549) ([tas50](https://github.com/tas50))
+- allow overriding follow_symlink on Train::File [#550](https://github.com/inspec/train/pull/550) ([miah](https://github.com/miah))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.5 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- allow overriding follow_symlink on Train::File [#550](https://github.com/inspec/train/pull/550) ([miah](https://github.com/miah)) <!-- 3.2.7 -->
 - Substitute require for require_relative [#549](https://github.com/inspec/train/pull/549) ([tas50](https://github.com/tas50)) <!-- 3.2.6 -->
 <!-- release_rollup -->
 
