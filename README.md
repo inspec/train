@@ -10,7 +10,7 @@ For more information on project states and SLAs, see [this documentation](https:
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
 [![Coverage Status](https://coveralls.io/repos/github/inspec/train/badge.svg?branch=master)](https://coveralls.io/github/inspec/train?branch=master)
 
-**Umbrella Project**: [Chef Foundataion](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-foundation.md)
+**Umbrella Project**: [Chef Foundation](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-foundation.md)
 
 **Project State**: [Active](https://github.com/chef/chef-oss-practices/blob/master/repo-management/repo-states.md#active)
 
