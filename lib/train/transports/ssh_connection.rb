@@ -164,6 +164,15 @@ class Train::Transports::SSH
       options_to_print
     end
 
+    def with_sudo_pty
+      old_pty = backend.transport_options[:pty]
+      backend.transport_options[:pty] = true if @sudo
+
+      yield
+    ensure
+      backend.transport_options[:pty] = old_pty
+    end
+
     private
 
     PING_COMMAND = "echo '[SSH] Established'".freeze

@@ -53,15 +53,6 @@ module Train::Extras
       @user          = options[:user]
     end
 
-    def with_sudo_pty
-      old_pty = backend.transport_options[:pty]
-      backend.transport_options[:pty] = true if @sudo
-
-      yield
-    ensure
-      backend.transport_options[:pty] = old_pty
-    end
-
     # (see CommandWrapperBase::verify)
     def verify
       cmd = if @sudo
@@ -72,7 +63,7 @@ module Train::Extras
             end
 
       # rubocop:disable Style/BlockDelimiters
-      res = with_sudo_pty {
+      res = @backend.with_sudo_pty {
         @backend.run_command(cmd)
       }
       return nil if res.exit_status == 0
