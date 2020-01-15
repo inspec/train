@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.10 -->
-## [v3.2.10](https://github.com/inspec/train/tree/v3.2.10) (2020-01-15)
+<!-- latest_release 3.2.11 -->
+## [v3.2.11](https://github.com/inspec/train/tree/v3.2.11) (2020-01-15)
 
 #### Merged Pull Requests
-- Add azure_mgmt_storage to train.gemspec [#552](https://github.com/inspec/train/pull/552) ([rmoles](https://github.com/rmoles))
+- Refactor with_sudo_pty to BaseConnection (no-op) and SshConnection. [#554](https://github.com/inspec/train/pull/554) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.5 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Refactor with_sudo_pty to BaseConnection (no-op) and SshConnection. [#554](https://github.com/inspec/train/pull/554) ([zenspider](https://github.com/zenspider)) <!-- 3.2.11 -->
 - Add azure_mgmt_storage to train.gemspec [#552](https://github.com/inspec/train/pull/552) ([rmoles](https://github.com/rmoles)) <!-- 3.2.10 -->
 - LinuxCommand#verify cleaned up [#530](https://github.com/inspec/train/pull/530) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.2.9 -->
 - Fix README typo [#551](https://github.com/inspec/train/pull/551) ([multani](https://github.com/multani)) <!-- 3.2.8 -->
