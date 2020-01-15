@@ -318,6 +318,16 @@ module Train::Platforms::Detect::Specifications
           end
         end
 
+      # yocto family if they haven't modified the base Poky project
+      plat.name("yocto").title("Yocto Project Linux").in_family("linux")
+        .detect do
+          if unix_file_contents("/etc/issue").match?("Poky")
+            # assuming the Poky version is preferred over the /etc/version build
+            @platform[:release] = unix_file_contents("/etc/issue").match('\d+(\.\d+)+')[0]
+            true
+          end
+        end
+
       # brocade family detected here if device responds to 'uname' command,
       # happens when logging in as root
       plat.family("brocade").title("Brocade Family").in_family("linux")
@@ -457,7 +467,7 @@ module Train::Platforms::Detect::Specifications
       # bsd family
       plat.family("bsd").in_family("unix")
         .detect do
-            # we need a better way to determin this family
+            # we need a better way to determine this family
             # for now we are going to just try each platform
           true
         end

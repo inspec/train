@@ -278,6 +278,18 @@ describe "os_detect" do
     end
   end
 
+  describe "yocto" do
+    it "sets the correct family, name, and release on yocto" do
+      files = {
+        "/etc/issue" => "Poky (Yocto Project Reference Distro) 2.7 \\n \\l",
+      }
+      platform = scan_with_files("linux", files)
+      _(platform[:name]).must_equal("yocto")
+      _(platform[:family]).must_equal("linux")
+      _(platform[:release]).must_equal("2.7")
+    end
+  end
+
   describe "qnx" do
     it "sets the correct info for qnx platform" do
       platform = scan_with_files("qnx", {})
