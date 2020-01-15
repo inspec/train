@@ -38,6 +38,10 @@ class Train::Plugins::Transport
       end
     end
 
+    def with_sudo_pty
+      yield
+    end
+
     # Returns cached client if caching enabled. Otherwise returns whatever is
     # given in the block.
     #
