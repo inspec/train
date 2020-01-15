@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.9 -->
-## [v3.2.9](https://github.com/inspec/train/tree/v3.2.9) (2020-01-15)
+<!-- latest_release 3.2.10 -->
+## [v3.2.10](https://github.com/inspec/train/tree/v3.2.10) (2020-01-15)
 
 #### Merged Pull Requests
-- LinuxCommand#verify cleaned up [#530](https://github.com/inspec/train/pull/530) ([vsingh-msys](https://github.com/vsingh-msys))
+- Add azure_mgmt_storage to train.gemspec [#552](https://github.com/inspec/train/pull/552) ([rmoles](https://github.com/rmoles))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.5 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Add azure_mgmt_storage to train.gemspec [#552](https://github.com/inspec/train/pull/552) ([rmoles](https://github.com/rmoles)) <!-- 3.2.10 -->
 - LinuxCommand#verify cleaned up [#530](https://github.com/inspec/train/pull/530) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.2.9 -->
 - Fix README typo [#551](https://github.com/inspec/train/pull/551) ([multani](https://github.com/multani)) <!-- 3.2.8 -->
 - allow overriding follow_symlink on Train::File [#550](https://github.com/inspec/train/pull/550) ([miah](https://github.com/miah)) <!-- 3.2.7 -->
