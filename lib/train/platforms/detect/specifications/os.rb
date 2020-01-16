@@ -76,6 +76,13 @@ module Train::Platforms::Detect::Specifications
             true
           end
         end
+      plat.name("kali").title("Kali Linux").in_family("debian")
+        .detect do
+          if linux_os_release && linux_os_release["ID"].eql?("kali")
+            @platform[:release] = linux_os_release["VERSION"]
+            true
+          end
+        end
       plat.name("raspbian").title("Raspbian Linux").in_family("debian")
         .detect do
           if (linux_os_release && linux_os_release["NAME"] =~ /raspbian/i) || \
