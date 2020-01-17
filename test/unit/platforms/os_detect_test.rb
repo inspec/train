@@ -202,7 +202,7 @@ describe "os_detect" do
 
   describe "/etc/os-release" do
     describe "when not on a wrlinux build" do
-      it "fail back to genaric linux" do
+      it "fail back to generic linux" do
         os_release = "ID_LIKE=cisco-unkwown\nVERSION=unknown"
         files = {
           "/etc/os-release" => os_release,
@@ -285,8 +285,21 @@ describe "os_detect" do
       }
       platform = scan_with_files("linux", files)
       _(platform[:name]).must_equal("yocto")
-      _(platform[:family]).must_equal("linux")
+      _(platform[:family]).must_equal("yocto")
       _(platform[:release]).must_equal("2.7")
+    end
+  end
+
+  describe "balenaos" do
+    it "sets the correct family, name, and release on balenaos" do
+      files = {
+        "/etc/issue" => "balenaOS 2.46.1 \n \l",
+        "/etc/os-release" => "ID=\"balena-os\"\nNAME=\"balenaOS\"\nVERSION=\"2.46.1+rev1\"\nVERSION_ID=\"2.46.1+rev1\"\nPRETTY_NAME=\"balenaOS 2.46.1+rev1\"\nMACHINE=\"raspberrypi3\"\nVARIANT=\"Development\"\nVARIANT_ID=\"dev\"\nMETA_BALENA_VERSION=\"2.46.1\"\nRESIN_BOARD_REV=\"e194600\"\nMETA_RESIN_REV=\"f2295d2\"\nSLUG=\"raspberrypi3\"\n",
+      }
+      platform = scan_with_files("linux", files)
+      _(platform[:name]).must_equal("balenaos")
+      _(platform[:family]).must_equal("yocto")
+      _(platform[:release]).must_equal("2.46.1")
     end
   end
 
