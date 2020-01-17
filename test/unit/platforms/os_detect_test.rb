@@ -86,22 +86,24 @@ describe "os_detect" do
   describe "darwin" do
     describe "mac_os_x" do
       it "sets the correct family, name, and release on os_x" do
-        files = {
-          "/System/Library/CoreServices/SystemVersion.plist" => "<string>Mac OS X</string>",
-        }
-        platform = scan_with_files("darwin", files)
+        mock = Train::Transports::Mock::Connection.new
+        mock.mock_command("uname -s", "darwin")
+        mock.mock_command("/usr/bin/sw_vers", "ProductName:	Mac OS X\nProductVersion:	10.14.6\nBuildVersion:	18G2022")
+        platform = Train::Platforms::Detect.scan(mock)
+
         _(platform[:name]).must_equal("mac_os_x")
         _(platform[:family]).must_equal("darwin")
-        _(platform[:release]).must_equal("test-release")
+        _(platform[:release]).must_equal("10.14.6")
       end
     end
 
     describe "generic darwin" do
       it "sets the correct family, name, and release on darwin" do
-        files = {
-          "/usr/bin/sw_vers" => "ProductVersion: 17.0.1\nBuildVersion: alpha.x1",
-        }
-        platform = scan_with_files("darwin", files)
+        mock = Train::Transports::Mock::Connection.new
+        mock.mock_command("uname -s", "darwin")
+        mock.mock_command("/usr/bin/sw_vers", "ProductVersion: 17.0.1\nBuildVersion: alpha.x1")
+        platform = Train::Platforms::Detect.scan(mock)
+
         _(platform[:name]).must_equal("darwin")
         _(platform[:family]).must_equal("darwin")
         _(platform[:release]).must_equal("17.0.1")

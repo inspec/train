@@ -464,7 +464,7 @@ module Train::Platforms::Detect::Specifications
       plat.family("darwin").in_family("bsd")
         .detect do
           if unix_uname_s =~ /darwin/i
-            cmd = unix_file_contents("/usr/bin/sw_vers")
+            cmd = command_output("/usr/bin/sw_vers")
             unless cmd.nil?
               m = cmd.match(/^ProductVersion:\s+(.+)$/)
               @platform[:release] = m.nil? ? nil : m[1]
@@ -478,7 +478,7 @@ module Train::Platforms::Detect::Specifications
         end
       plat.name("mac_os_x").title("macOS X").in_family("darwin")
         .detect do
-          cmd = unix_file_contents("/System/Library/CoreServices/SystemVersion.plist")
+          cmd = command_output("/usr/bin/sw_vers")
           @platform[:uuid_command] = "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'"
           true if cmd =~ /Mac OS X/i
         end
