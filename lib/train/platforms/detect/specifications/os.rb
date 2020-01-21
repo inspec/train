@@ -326,6 +326,17 @@ module Train::Platforms::Detect::Specifications
         end
     end
 
+    def self.register_path(name, title, family, path, regexp)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          rel = unix_file_contents(path)
+          if m = regexp.match(rel)
+            @platform[:release] = m[1]
+            true
+          end
+        end
+    end
+
     def self.load_other_unix
       # openvms
       plat.name("openvms").title("OpenVMS").in_family("unix")
@@ -379,30 +390,12 @@ module Train::Platforms::Detect::Specifications
             true
           end
         end
-      plat.name("omnios").title("Omnios").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          unless (m = /^\s*(OmniOS).*r(\d+).*$/.match(rel)).nil?
-            @platform[:release] = m[2]
-            true
-          end
-        end
-      plat.name("openindiana").title("Openindiana").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          unless (m = /^\s*(OpenIndiana).*oi_(\d+).*$/.match(rel)).nil?
-            @platform[:release] = m[2]
-            true
-          end
-        end
-      plat.name("opensolaris").title("Open Solaris").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          unless (m = /^\s*(OpenSolaris).*snv_(\d+).*$/.match(rel)).nil?
-            @platform[:release] = m[2]
-            true
-          end
-        end
+
+      register_path("omnios", "Omnios", "solaris", "/etc/release", /^\s*OmniOS.*r(\d+).*$/)
+      register_path("openindiana", "Openindiana", "solaris", "/etc/release", /^\s*OpenIndiana.*oi_(\d+).*$/)
+
+      register_path("opensolaris", "Open Solaris", "solaris", "/etc/release", /^\s*OpenSolaris.*snv_(\d+).*$/)
+
       plat.name("nexentacore").title("Nexentacore").in_family("solaris")
         .detect do
           rel = unix_file_contents("/etc/release")
