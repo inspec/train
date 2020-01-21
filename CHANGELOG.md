@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.11 -->
-## [v3.2.11](https://github.com/inspec/train/tree/v3.2.11) (2020-01-15)
+<!-- latest_release 3.2.12 -->
+## [v3.2.12](https://github.com/inspec/train/tree/v3.2.12) (2020-01-21)
 
 #### Merged Pull Requests
-- Refactor with_sudo_pty to BaseConnection (no-op) and SshConnection. [#554](https://github.com/inspec/train/pull/554) ([zenspider](https://github.com/zenspider))
+- Yocto Project family and Yocto Linux and balenaOS platform detection [#558](https://github.com/inspec/train/pull/558) ([mattray](https://github.com/mattray))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.5 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Yocto Project family and Yocto Linux and balenaOS platform detection [#558](https://github.com/inspec/train/pull/558) ([mattray](https://github.com/mattray)) <!-- 3.2.12 -->
 - Refactor with_sudo_pty to BaseConnection (no-op) and SshConnection. [#554](https://github.com/inspec/train/pull/554) ([zenspider](https://github.com/zenspider)) <!-- 3.2.11 -->
 - Add azure_mgmt_storage to train.gemspec [#552](https://github.com/inspec/train/pull/552) ([rmoles](https://github.com/rmoles)) <!-- 3.2.10 -->
 - LinuxCommand#verify cleaned up [#530](https://github.com/inspec/train/pull/530) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.2.9 -->
