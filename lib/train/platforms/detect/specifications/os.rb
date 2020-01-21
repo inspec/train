@@ -67,15 +67,23 @@ module Train::Platforms::Detect::Specifications
     end
 
     def self.load_linux
-      register_lsb = lambda { |name, title, family, regex|
+      register_lsb_or_content = lambda { |name, title, family, path, regexp|
         plat.name(name).title(title).in_family(family)
           .detect do
             lsb = read_linux_lsb
-            if lsb && lsb[:id] =~ regex
+            if lsb && lsb[:id] =~ regexp
               @platform[:release] = lsb[:release]
+              true
+            elsif path && (raw = unix_file_contents(path)) =~ regexp
+              @platform[:name] = redhatish_platform(raw)
+              @platform[:release] = redhatish_version(raw)
               true
             end
           end
+      }
+
+      register_lsb = lambda { |name, title, family, regexp|
+        register_lsb_or_content.call(name, title, family, nil, regexp)
       }
 
       # linux master family
@@ -210,30 +218,10 @@ module Train::Platforms::Detect::Specifications
             true
           end
         end
-      plat.name("amazon").title("Amazon Linux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /amazon/i
-            @platform[:release] = lsb[:release]
-            true
-          elsif (raw = unix_file_contents("/etc/system-release")) =~ /amazon/i
-            @platform[:name] = redhatish_platform(raw)
-            @platform[:release] = redhatish_version(raw)
-            true
-          end
-        end
-      plat.name("cloudlinux").title("CloudLinux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /cloudlinux/i
-            @platform[:release] = lsb[:release]
-            true
-          elsif (raw = unix_file_contents("/etc/redhat-release")) =~ /cloudlinux/i
-            @platform[:name] = redhatish_platform(raw)
-            @platform[:release] = redhatish_version(raw)
-            true
-          end
-        end
+
+      register_lsb_or_content.call("amazon", "Amazon Linux", "redhat", "/etc/system-release", /amazon/i)
+      register_lsb_or_content.call("cloudlinux", "CloudLinux", "redhat", "/etc/redhat-release", /cloudlinux/i)
+
       # keep redhat at the end as a fallback for anything with a redhat-release
       plat.name("redhat").title("Red Hat Linux").in_family("redhat")
         .detect do
