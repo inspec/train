@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-# rubocop:disable Style/Next
+# rubocop:disable Style/ParenthesesAroundCondition
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/ClassLength
@@ -20,8 +20,6 @@ module Train::Platforms::Detect::Specifications
       load_windows
       load_unix
       load_other
-
-      plat
     end
 
     def self.load_windows
@@ -42,6 +40,7 @@ module Train::Platforms::Detect::Specifications
 
           is_windows
         end
+
       # windows platform
       plat.name("windows").in_family("windows")
         .detect do
@@ -503,6 +502,19 @@ module Train::Platforms::Detect::Specifications
       register_bsd("netbsd", "Netbsd", "bsd", /netbsd/i)
     end
 
+    def self.register_cisco(name, title, family, detect, type, uuid)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          v = send(detect)
+          next unless v[:type] == type
+
+          @platform[:release] = v[:version]
+          @platform[:arch] = nil
+          @platform[:uuid_command] = uuid if uuid
+          true
+        end
+    end
+
     def self.load_other
       # arista_eos family
       plat.family("arista_eos").title("Arista EOS Family").in_family("os")
@@ -542,34 +554,10 @@ module Train::Platforms::Detect::Specifications
         .detect do
           !cisco_show_version.nil?
         end
-      plat.name("cisco_ios").title("Cisco IOS").in_family("cisco")
-        .detect do
-          v = cisco_show_version
-          next unless v[:type] == "ios"
 
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
-          true
-        end
-      plat.name("cisco_ios_xe").title("Cisco IOS XE").in_family("cisco")
-        .detect do
-          v = cisco_show_version
-          next unless v[:type] == "ios-xe"
-
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
-          true
-        end
-      plat.name("cisco_nexus").title("Cisco Nexus").in_family("cisco")
-        .detect do
-          v = cisco_show_version
-          next unless v[:type] == "nexus"
-
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
-          @platform[:uuid_command] = "show version | include Processor"
-          true
-        end
+      register_cisco("cisco_ios", "Cisco IOS", "cisco", :cisco_show_version, "ios")
+      register_cisco("cisco_ios_xe", "Cisco IOS XE", "cisco", :cisco_show_version, "ios-xe")
+      register_cisco("cisco_nexus", "Cisco Nexus", "cisco", :cisco_show_version, "nexus", "show version | include Processor")
 
       # brocade family
       plat.family("brocade").title("Brocade Family").in_family("os")
@@ -577,15 +565,7 @@ module Train::Platforms::Detect::Specifications
           !brocade_version.nil?
         end
 
-      plat.name("brocade_fos").title("Brocade FOS").in_family("brocade")
-        .detect do
-          v = brocade_version
-          next unless v[:type] == "fos"
-
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
-          true
-        end
+      register_cisco("brocade_fos", "Brocade FOS", "brocade", :brocade_version, "fos")
     end
 
     ######################################################################
@@ -615,11 +595,13 @@ module Train::Platforms::Detect::Specifications
         end
     end
 
-    def self.register_cisco(name, title, family, detect, type, uuid)
+    def self.register_cisco(name, title, family, detect, type, uuid = nil)
       plat.name(name).title(title).in_family(family)
         .detect do
           v = send(detect)
+
           next unless v[:type] == type
+
           @platform[:release] = v[:version]
           @platform[:arch] = nil
           @platform[:uuid_command] = uuid if uuid
@@ -650,12 +632,11 @@ module Train::Platforms::Detect::Specifications
       plat.name(name).title(title).in_family(family)
         .detect do
           rel = unix_file_contents(path)
-          if m = regexp.match(rel)
+          if (m = regexp.match(rel))
             @platform[:release] = m[1]
             true
           end
         end
     end
-
   end
 end
