@@ -503,6 +503,17 @@ module Train::Platforms::Detect::Specifications
     end
 
     def self.load_bsd
+      register_bsd = lambda { |name, title, family, regexp|
+        plat.name(name).title(title).in_family(family)
+          .detect do
+            if unix_uname_s =~ regexp
+              @platform[:name]    = unix_uname_s.lines[0].chomp
+              @platform[:release] = unix_uname_r.lines[0].chomp
+              true
+            end
+          end
+      }
+
       # bsd family
       plat.family("bsd").in_family("unix")
         .detect do
@@ -537,30 +548,10 @@ module Train::Platforms::Detect::Specifications
           @platform[:name] = unix_uname_s.lines[0].chomp
           true
         end
-      plat.name("freebsd").title("Freebsd").in_family("bsd")
-        .detect do
-          if unix_uname_s =~ /freebsd/i
-            @platform[:name] = unix_uname_s.lines[0].chomp
-            @platform[:release] = unix_uname_r.lines[0].chomp
-            true
-          end
-        end
-      plat.name("openbsd").title("Openbsd").in_family("bsd")
-        .detect do
-          if unix_uname_s =~ /openbsd/i
-            @platform[:name] = unix_uname_s.lines[0].chomp
-            @platform[:release] = unix_uname_r.lines[0].chomp
-            true
-          end
-        end
-      plat.name("netbsd").title("Netbsd").in_family("bsd")
-        .detect do
-          if unix_uname_s =~ /netbsd/i
-            @platform[:name] = unix_uname_s.lines[0].chomp
-            @platform[:release] = unix_uname_r.lines[0].chomp
-            true
-          end
-        end
+
+      register_bsd.call("freebsd", "Freebsd", "bsd", /freebsd/i)
+      register_bsd.call("openbsd", "Openbsd", "bsd", /openbsd/i)
+      register_bsd.call("netbsd", "Netbsd", "bsd", /netbsd/i)
     end
 
     def self.load_other
