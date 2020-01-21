@@ -9,12 +9,22 @@
 
 module Train::Platforms::Detect::Specifications
   class OS
-    def self.load
-      plat = Train::Platforms
+    def self.plat
+      Train::Platforms
+    end
 
+    def self.load
       # master family
       plat.family("os").detect { true }
 
+      load_windows
+      load_unix
+      load_other
+
+      plat
+    end
+
+    def self.load_windows
       plat.family("windows").in_family("os")
         .detect do
           # Can't return from a `proc` thus the `is_windows` shenanigans
@@ -37,7 +47,9 @@ module Train::Platforms::Detect::Specifications
         .detect do
           true if detect_windows == true
         end
+    end
 
+    def self.load_unix
       # unix master family
       plat.family("unix").in_family("os")
         .detect do
@@ -49,6 +61,12 @@ module Train::Platforms::Detect::Specifications
           end
         end
 
+      load_linux
+      load_other_unix
+      load_bsd
+    end
+
+    def self.load_linux
       # linux master family
       plat.family("linux").in_family("unix")
         .detect do
@@ -360,7 +378,9 @@ module Train::Platforms::Detect::Specifications
         .detect do
           true
         end
+    end
 
+    def self.load_other_unix
       # openvms
       plat.name("openvms").title("OpenVMS").in_family("unix")
         .detect do
@@ -482,7 +502,9 @@ module Train::Platforms::Detect::Specifications
           @platform[:arch] = unix_uname_m
           true
         end
+    end
 
+    def self.load_bsd
       # bsd family
       plat.family("bsd").in_family("unix")
         .detect do
@@ -541,7 +563,9 @@ module Train::Platforms::Detect::Specifications
             true
           end
         end
+    end
 
+    def self.load_other
       # arista_eos family
       plat.family("arista_eos").title("Arista EOS Family").in_family("os")
         .detect do
