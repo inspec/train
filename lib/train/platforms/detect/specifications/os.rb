@@ -67,25 +67,6 @@ module Train::Platforms::Detect::Specifications
     end
 
     def self.load_linux
-      register_lsb_or_content = lambda { |name, title, family, path, regexp|
-        plat.name(name).title(title).in_family(family)
-          .detect do
-            lsb = read_linux_lsb
-            if lsb && lsb[:id] =~ regexp
-              @platform[:release] = lsb[:release]
-              true
-            elsif path && (raw = unix_file_contents(path)) =~ regexp
-              @platform[:name] = redhatish_platform(raw)
-              @platform[:release] = redhatish_version(raw)
-              true
-            end
-          end
-      }
-
-      register_lsb = lambda { |name, title, family, regexp|
-        register_lsb_or_content.call(name, title, family, nil, regexp)
-      }
-
       # linux master family
       plat.family("linux").in_family("unix")
         .detect do
@@ -98,9 +79,9 @@ module Train::Platforms::Detect::Specifications
           true unless unix_file_contents("/etc/debian_version").nil?
         end
 
-      register_lsb.call("ubuntu", "Ubuntu Linux", "debian", /ubuntu/i)
+      register_lsb("ubuntu", "Ubuntu Linux", "debian", /ubuntu/i)
 
-      register_lsb.call("linuxmint", "LinuxMint", "debian", /linuxmint/i)
+      register_lsb("linuxmint", "LinuxMint", "debian", /linuxmint/i)
 
       plat.name("kali").title("Kali Linux").in_family("debian")
         .detect do
@@ -199,9 +180,9 @@ module Train::Platforms::Detect::Specifications
           end
         end
 
-      register_lsb.call("scientific", "Scientific Linux", "redhat", /scientific/i)
+      register_lsb("scientific", "Scientific Linux", "redhat", /scientific/i)
 
-      register_lsb.call("xenserver", "Xenserer Linux", "redhat", /xenserver/i)
+      register_lsb("xenserver", "Xenserer Linux", "redhat", /xenserver/i)
 
       plat.name("parallels-release").title("Parallels Linux").in_family("redhat")
         .detect do
@@ -219,8 +200,8 @@ module Train::Platforms::Detect::Specifications
           end
         end
 
-      register_lsb_or_content.call("amazon", "Amazon Linux", "redhat", "/etc/system-release", /amazon/i)
-      register_lsb_or_content.call("cloudlinux", "CloudLinux", "redhat", "/etc/redhat-release", /cloudlinux/i)
+      register_lsb_or_content("amazon", "Amazon Linux", "redhat", "/etc/system-release", /amazon/i)
+      register_lsb_or_content("cloudlinux", "CloudLinux", "redhat", "/etc/redhat-release", /cloudlinux/i)
 
       # keep redhat at the end as a fallback for anything with a redhat-release
       plat.name("redhat").title("Red Hat Linux").in_family("redhat")
@@ -491,17 +472,6 @@ module Train::Platforms::Detect::Specifications
     end
 
     def self.load_bsd
-      register_bsd = lambda { |name, title, family, regexp|
-        plat.name(name).title(title).in_family(family)
-          .detect do
-            if unix_uname_s =~ regexp
-              @platform[:name]    = unix_uname_s.lines[0].chomp
-              @platform[:release] = unix_uname_r.lines[0].chomp
-              true
-            end
-          end
-      }
-
       # bsd family
       plat.family("bsd").in_family("unix")
         .detect do
@@ -537,9 +507,9 @@ module Train::Platforms::Detect::Specifications
           true
         end
 
-      register_bsd.call("freebsd", "Freebsd", "bsd", /freebsd/i)
-      register_bsd.call("openbsd", "Openbsd", "bsd", /openbsd/i)
-      register_bsd.call("netbsd", "Netbsd", "bsd", /netbsd/i)
+      register_bsd("freebsd", "Freebsd", "bsd", /freebsd/i)
+      register_bsd("openbsd", "Openbsd", "bsd", /openbsd/i)
+      register_bsd("netbsd", "Netbsd", "bsd", /netbsd/i)
     end
 
     def self.load_other
@@ -626,5 +596,75 @@ module Train::Platforms::Detect::Specifications
           true
         end
     end
+
+    ######################################################################
+    # Helpers
+
+    def self.json_cmd(cmd)
+      cmd = @backend.run_command(cmd)
+      if cmd.exit_status == 0 && !cmd.stdout.empty?
+        require "json"
+        eos_ver = JSON.parse(cmd.stdout)
+        @platform[:release] = eos_ver["version"]
+        @platform[:arch] = eos_ver["architecture"]
+        true
+      end
+    rescue JSON::ParserError
+      nil
+    end
+
+    def self.register_bsd(name, title, family, regexp)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          if unix_uname_s =~ regexp
+            @platform[:name]    = unix_uname_s.lines[0].chomp
+            @platform[:release] = unix_uname_r.lines[0].chomp
+            true
+          end
+        end
+    end
+
+    def self.register_cisco(name, title, family, detect, type, uuid)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          v = send(detect)
+          next unless v[:type] == type
+          @platform[:release] = v[:version]
+          @platform[:arch] = nil
+          @platform[:uuid_command] = uuid if uuid
+          true
+        end
+    end
+
+    def self.register_lsb(name, title, family, regexp)
+      register_lsb_or_content(name, title, family, nil, regexp)
+    end
+
+    def self.register_lsb_or_content(name, title, family, path, regexp)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          lsb = read_linux_lsb
+          if lsb && lsb[:id] =~ regexp
+            @platform[:release] = lsb[:release]
+            true
+          elsif path && (raw = unix_file_contents(path)) =~ regexp
+            @platform[:name] = redhatish_platform(raw)
+            @platform[:release] = redhatish_version(raw)
+            true
+          end
+        end
+    end
+
+    def self.register_path(name, title, family, path, regexp)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          rel = unix_file_contents(path)
+          if m = regexp.match(rel)
+            @platform[:release] = m[1]
+            true
+          end
+        end
+    end
+
   end
 end
