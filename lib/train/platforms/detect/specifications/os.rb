@@ -124,18 +124,7 @@ module Train::Platforms::Detect::Specifications
       plat.name("arista_eos_bash").title("Arista EOS Bash Shell").in_family("arista_eos")
         .detect do
           if unix_file_exist?("/usr/bin/FastCli")
-            cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
-            if cmd.exit_status == 0 && !cmd.stdout.empty?
-              require "json"
-              begin
-                eos_ver = JSON.parse(cmd.stdout)
-                @platform[:release] = eos_ver["version"]
-                @platform[:arch] = eos_ver["architecture"]
-                true
-              rescue JSON::ParserError
-                nil
-              end
-            end
+            json_cmd('FastCli -p 15 -c "show version | json"')
           end
         end
 
@@ -502,19 +491,6 @@ module Train::Platforms::Detect::Specifications
       register_bsd("netbsd", "Netbsd", "bsd", /netbsd/i)
     end
 
-    def self.register_cisco(name, title, family, detect, type, uuid)
-      plat.name(name).title(title).in_family(family)
-        .detect do
-          v = send(detect)
-          next unless v[:type] == type
-
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
-          @platform[:uuid_command] = uuid if uuid
-          true
-        end
-    end
-
     def self.load_other
       # arista_eos family
       plat.family("arista_eos").title("Arista EOS Family").in_family("os")
@@ -523,18 +499,7 @@ module Train::Platforms::Detect::Specifications
         end
       plat.name("arista_eos").title("Arista EOS").in_family("arista_eos")
         .detect do
-          cmd = @backend.run_command("show version | json")
-          if cmd.exit_status == 0 && !cmd.stdout.empty?
-            require "json"
-            begin
-              eos_ver = JSON.parse(cmd.stdout)
-              @platform[:release] = eos_ver["version"]
-              @platform[:arch] = eos_ver["architecture"]
-              true
-            rescue JSON::ParserError
-              nil
-            end
-          end
+          json_cmd("show version | json")
         end
 
       # esx
@@ -570,19 +535,6 @@ module Train::Platforms::Detect::Specifications
 
     ######################################################################
     # Helpers
-
-    def self.json_cmd(cmd)
-      cmd = @backend.run_command(cmd)
-      if cmd.exit_status == 0 && !cmd.stdout.empty?
-        require "json"
-        eos_ver = JSON.parse(cmd.stdout)
-        @platform[:release] = eos_ver["version"]
-        @platform[:arch] = eos_ver["architecture"]
-        true
-      end
-    rescue JSON::ParserError
-      nil
-    end
 
     def self.register_bsd(name, title, family, regexp)
       plat.name(name).title(title).in_family(family)

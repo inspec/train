@@ -156,5 +156,18 @@ module Train::Platforms::Detect::Helpers
       # rubocop:disable Style/FormatString
       "%08x-%04x-%04x-%04x-%04x%08x" % ary
     end
+
+    def json_cmd(cmd)
+      cmd = @backend.run_command(cmd)
+      if cmd.exit_status == 0 && !cmd.stdout.empty?
+        require "json"
+        eos_ver = JSON.parse(cmd.stdout)
+        @platform[:release] = eos_ver["version"]
+        @platform[:arch] = eos_ver["architecture"]
+        true
+      end
+    rescue JSON::ParserError
+      nil
+    end
   end
 end
