@@ -17,7 +17,7 @@ module Train::Platforms::Detect::Specifications
 
       plat.family("windows").in_family("os")
         .detect do
-            # Can't return from a `proc` thus the `is_windows` shenanigans
+          # Can't return from a `proc` thus the `is_windows` shenanigans
           is_windows = false
           is_windows = true if winrm?
 
@@ -25,7 +25,7 @@ module Train::Platforms::Detect::Specifications
             is_windows = true if ruby_host_os(/mswin|mingw32|windows/)
           end
 
-            # Try to detect windows even for ssh transport
+          # Try to detect windows even for ssh transport
           if !is_windows && detect_windows == true
             is_windows = true
           end
@@ -41,8 +41,8 @@ module Train::Platforms::Detect::Specifications
       # unix master family
       plat.family("unix").in_family("os")
         .detect do
-            # we want to catch a special case here where cisco commands
-            # don't return an exit status and still print to stdout
+          # we want to catch a special case here where cisco commands
+          # don't return an exit status and still print to stdout
           if unix_uname_s =~ /./ && !unix_uname_s.start_with?("Line has invalid autocommand ") && !unix_uname_s.start_with?("The command you have entered")
             @platform[:arch] = unix_uname_m
             true
@@ -92,7 +92,7 @@ module Train::Platforms::Detect::Specifications
             true
           end
 
-            # if we get this far we have to be some type of debian
+          # if we get this far we have to be some type of debian
           @platform[:release] = unix_file_contents("/etc/debian_version").chomp
           true
         end
@@ -136,9 +136,9 @@ module Train::Platforms::Detect::Specifications
       # redhat family
       plat.family("redhat").in_family("linux")
         .detect do
-            # I am not sure this returns true for all redhats in this family
-            # for now we are going to just try each platform
-            # return true unless unix_file_contents('/etc/redhat-release').nil?
+          # I am not sure this returns true for all redhats in this family
+          # for now we are going to just try each platform
+          # return true unless unix_file_contents('/etc/redhat-release').nil?
 
           true
         end
@@ -318,6 +318,35 @@ module Train::Platforms::Detect::Specifications
           end
         end
 
+      # yocto family
+      plat.family("yocto").in_family("linux")
+        .detect do
+          # /etc/issue isn't specific to yocto, but it's the only way to detect
+          # the platform because there are no other identifying files
+          if unix_file_contents("/etc/issue") &&
+              (unix_file_contents("/etc/issue").match?("Poky") ||
+               unix_file_contents("/etc/issue").match?("balenaOS"))
+            true
+          end
+        end
+      plat.name("yocto").title("Yocto Project Linux").in_family("yocto")
+        .detect do
+          if unix_file_contents("/etc/issue").match?("Poky")
+            # assuming the Poky version is preferred over the /etc/version build
+            @platform[:release] = unix_file_contents("/etc/issue").match('\d+(\.\d+)+')[0]
+            true
+          end
+        end
+      plat.name("balenaos").title("balenaOS Linux").in_family("yocto")
+        .detect do
+          # balenaOS does have the /etc/os-release file
+          if unix_file_contents("/etc/issue").match?("balenaOS") &&
+              linux_os_release["NAME"] =~ /balenaos/i
+            @platform[:release] = linux_os_release["META_BALENA_VERSION"]
+            true
+          end
+        end
+
       # brocade family detected here if device responds to 'uname' command,
       # happens when logging in as root
       plat.family("brocade").title("Brocade Family").in_family("linux")
@@ -325,9 +354,9 @@ module Train::Platforms::Detect::Specifications
           !brocade_version.nil?
         end
 
-      # genaric linux
+      # generic linux
       # this should always be last in the linux family list
-      plat.name("linux").title("Genaric Linux").in_family("linux")
+      plat.name("linux").title("Generic Linux").in_family("linux")
         .detect do
           true
         end
@@ -426,7 +455,7 @@ module Train::Platforms::Detect::Specifications
             true
           end
 
-            # must be some unknown solaris
+          # must be some unknown solaris
           true
         end
 
@@ -457,8 +486,8 @@ module Train::Platforms::Detect::Specifications
       # bsd family
       plat.family("bsd").in_family("unix")
         .detect do
-            # we need a better way to determin this family
-            # for now we are going to just try each platform
+          # we need a better way to determine this family
+          # for now we are going to just try each platform
           true
         end
       plat.family("darwin").in_family("bsd")
@@ -484,7 +513,7 @@ module Train::Platforms::Detect::Specifications
         end
       plat.name("darwin").title("Darwin").in_family("darwin")
         .detect do
-            # must be some other type of darwin
+          # must be some other type of darwin
           @platform[:name] = unix_uname_s.lines[0].chomp
           true
         end
