@@ -67,6 +67,17 @@ module Train::Platforms::Detect::Specifications
     end
 
     def self.load_linux
+      register_lsb = lambda { |name, title, family, regex|
+        plat.name(name).title(title).in_family(family)
+          .detect do
+            lsb = read_linux_lsb
+            if lsb && lsb[:id] =~ regex
+              @platform[:release] = lsb[:release]
+              true
+            end
+          end
+      }
+
       # linux master family
       plat.family("linux").in_family("unix")
         .detect do
@@ -78,22 +89,11 @@ module Train::Platforms::Detect::Specifications
         .detect do
           true unless unix_file_contents("/etc/debian_version").nil?
         end
-      plat.name("ubuntu").title("Ubuntu Linux").in_family("debian")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /ubuntu/i
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
-      plat.name("linuxmint").title("LinuxMint").in_family("debian")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /linuxmint/i
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
+
+      register_lsb.call("ubuntu", "Ubuntu Linux", "debian", /ubuntu/i)
+
+      register_lsb.call("linuxmint", "LinuxMint", "debian", /linuxmint/i)
+
       plat.name("kali").title("Kali Linux").in_family("debian")
         .detect do
           l_o_r = linux_os_release
@@ -102,6 +102,7 @@ module Train::Platforms::Detect::Specifications
             true
           end
         end
+
       plat.name("raspbian").title("Raspbian Linux").in_family("debian")
         .detect do
           if (linux_os_release && linux_os_release["NAME"] =~ /raspbian/i) || \
@@ -189,22 +190,11 @@ module Train::Platforms::Detect::Specifications
             true
           end
         end
-      plat.name("scientific").title("Scientific Linux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /scientific/i
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
-      plat.name("xenserver").title("Xenserer Linux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /xenserver/i
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
+
+      register_lsb.call("scientific", "Scientific Linux", "redhat", /scientific/i)
+
+      register_lsb.call("xenserver", "Xenserer Linux", "redhat", /xenserver/i)
+
       plat.name("parallels-release").title("Parallels Linux").in_family("redhat")
         .detect do
           unless (raw = unix_file_contents("/etc/parallels-release")).nil?
