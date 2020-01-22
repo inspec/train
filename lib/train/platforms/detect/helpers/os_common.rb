@@ -169,5 +169,11 @@ module Train::Platforms::Detect::Helpers
     rescue JSON::ParserError
       nil
     end
+
+    def set_from_uname
+      @platform[:name]    = unix_uname_s.lines.first.chomp
+      @platform[:release] = unix_uname_r.lines.first.chomp
+      true
+    end
   end
 end
