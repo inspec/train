@@ -227,31 +227,13 @@ module Train::Platforms::Detect::Specifications
       register_os_or_file("suse",     "Suse Linux",     "suse",
                           "/etc/SuSE-release", /^sles/i, /suse/i)
 
-      # arch
-      plat.name("arch").title("Arch Linux").in_family("linux")
-        .detect do
-          unless unix_file_contents("/etc/arch-release").nil?
-            # Because this is a rolling release distribution,
-            # use the kernel release, ex. 4.1.6-1-ARCH
-            @platform[:release] = unix_uname_r
-            true
-          end
-        end
+      register_path_and_uname("arch", "Arch Linux", "linux", "/etc/arch-release")
 
       register_file_content("slackware", "Slackware Linux", "linux", "/etc/slackware-version")
 
       register_file_content("gentoo", "Gentoo Linux", "linux", "/etc/gentoo-release")
 
-      # exherbo
-      plat.name("exherbo").title("Exherbo Linux").in_family("linux")
-        .detect do
-          unless unix_file_contents("/etc/exherbo-release").nil?
-            # Because this is a rolling release distribution,
-            # use the kernel release, ex. 4.1.6
-            @platform[:release] = unix_uname_r
-            true
-          end
-        end
+      register_path_and_uname("exherbo", "Exherbo Linux", "linux", "/etc/exherbo-release")
 
       # alpine
       plat.name("alpine").title("Alpine Linux").in_family("linux")
@@ -543,6 +525,18 @@ module Train::Platforms::Detect::Specifications
         .detect do
           if (raw = unix_file_contents(path))
             @platform[:release] = raw.scan(/[\d.]+/).join
+            true
+          end
+        end
+    end
+
+    def self.register_path_and_uname(name, title, family, path)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          if unix_file_contents(path) # TODO: this is unused and dumb.
+            # Because this is a rolling release distribution,
+            # use the kernel release, ex. 4.1.6-1-ARCH
+            @platform[:release] = unix_uname_r
             true
           end
         end
