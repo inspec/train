@@ -212,16 +212,11 @@ module Train::Platforms::Detect::Specifications
             true
           end
         end
-      plat.name("opensuse").title("OpenSUSE Linux").in_family("suse")
-        .detect do
-          true if (linux_os_release && linux_os_release["NAME"] =~ /^opensuse/i) ||
-            unix_file_contents("/etc/SuSE-release") =~ /^opensuse/i
-        end
-      plat.name("suse").title("Suse Linux").in_family("suse")
-        .detect do
-          true if (linux_os_release && linux_os_release["NAME"] =~ /^sles/i) ||
-            unix_file_contents("/etc/SuSE-release") =~ /suse/i
-        end
+
+      register_os_or_file("opensuse", "OpenSUSE Linux", "suse",
+                          "/etc/SuSE-release", /^opensuse/i)
+      register_os_or_file("suse",     "Suse Linux",     "suse",
+                          "/etc/SuSE-release", /^sles/i, /suse/i)
 
       # arch
       plat.name("arch").title("Arch Linux").in_family("linux")
@@ -570,6 +565,15 @@ module Train::Platforms::Detect::Specifications
             @platform[:release] = redhatish_version(raw)
             true
           end
+        end
+    end
+
+    def self.register_os_or_file(name, title, family, path, regexp1, regexp2 = regexp1)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          rel = linux_os_release
+          (rel && rel["NAME"] =~ regexp1) ||
+            unix_file_contents(path) =~ regexp2
         end
     end
 
