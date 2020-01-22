@@ -233,30 +233,30 @@ module Train::Platforms::Detect::Specifications
           end
         end
 
-      # yocto family
       plat.family("yocto").in_family("linux")
         .detect do
           # /etc/issue isn't specific to yocto, but it's the only way to detect
           # the platform because there are no other identifying files
-          if unix_file_contents("/etc/issue") &&
-              (unix_file_contents("/etc/issue").match?("Poky") ||
-               unix_file_contents("/etc/issue").match?("balenaOS"))
-            true
-          end
+          issue = unix_file_contents("/etc/issue")
+
+          issue && issue.match?(/Poky|balenaOS/)
         end
+
       plat.name("yocto").title("Yocto Project Linux").in_family("yocto")
         .detect do
-          if unix_file_contents("/etc/issue").match?("Poky")
+          issue = unix_file_contents("/etc/issue")
+          if issue.match?("Poky")
             # assuming the Poky version is preferred over the /etc/version build
-            @platform[:release] = unix_file_contents("/etc/issue").match('\d+(\.\d+)+')[0]
+            @platform[:release] = issue[/\d+(\.\d+)+/]
             true
           end
         end
+
       plat.name("balenaos").title("balenaOS Linux").in_family("yocto")
         .detect do
           # balenaOS does have the /etc/os-release file
-          if unix_file_contents("/etc/issue").match?("balenaOS") &&
-              linux_os_release["NAME"] =~ /balenaos/i
+          issue = unix_file_contents("/etc/issue")
+          if issue.match?("balenaOS") && linux_os_release["NAME"] =~ /balenaos/i
             @platform[:release] = linux_os_release["META_BALENA_VERSION"]
             true
           end
