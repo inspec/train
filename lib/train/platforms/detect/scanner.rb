@@ -27,7 +27,7 @@ module Train::Platforms::Detect
       top.each do |_name, plat|
         # we are doing a instance_eval here to make sure we have the proper
         # context with all the detect helper methods
-        next unless instance_eval(&plat.detect) == true
+        next unless instance_eval(&plat.detect)
 
         # if we have a match start looking at the children
         plat_result = scan_children(plat)
@@ -43,7 +43,7 @@ module Train::Platforms::Detect
 
     def scan_children(parent)
       parent.children.each do |plat, condition|
-        next unless instance_eval(&plat.detect) == true
+        next unless instance_eval(&plat.detect)
 
         if plat.class == Train::Platforms::Platform
           return plat if condition.empty? || check_condition(condition)
