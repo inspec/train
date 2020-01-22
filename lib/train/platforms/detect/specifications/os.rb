@@ -192,19 +192,7 @@ module Train::Platforms::Detect::Specifications
       register_lsb_or_content("cloudlinux", "CloudLinux", "redhat", "/etc/redhat-release", /cloudlinux/i)
 
       # keep redhat at the end as a fallback for anything with a redhat-release
-      plat.name("redhat").title("Red Hat Linux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /redhat/i
-            @platform[:release] = lsb[:release]
-            true
-          elsif !(raw = unix_file_contents("/etc/redhat-release")).nil?
-            # must be some type of redhat
-            @platform[:name] = redhatish_platform(raw)
-            @platform[:release] = redhatish_version(raw)
-            true
-          end
-        end
+      register_lsb_or_content("redhat", "Red Hat Linux", "redhat", "/etc/redhat-release", /redhat/i, /./)
 
       # suse family
       plat.family("suse").in_family("linux")
@@ -545,14 +533,14 @@ module Train::Platforms::Detect::Specifications
       register_lsb_or_content(name, title, family, nil, regexp)
     end
 
-    def self.register_lsb_or_content(name, title, family, path, regexp)
+    def self.register_lsb_or_content(name, title, family, path, regexp1, regexp2 = regexp1)
       plat.name(name).title(title).in_family(family)
         .detect do
           lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ regexp
+          if lsb && lsb[:id] =~ regexp1
             @platform[:release] = lsb[:release]
             true
-          elsif path && (raw = unix_file_contents(path)) =~ regexp
+          elsif path && (raw = unix_file_contents(path)) =~ regexp2
             @platform[:name] = redhatish_platform(raw)
             @platform[:release] = redhatish_version(raw)
             true
