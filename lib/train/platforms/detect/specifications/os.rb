@@ -506,9 +506,7 @@ module Train::Platforms::Detect::Specifications
         end
       plat.name("vmkernel").in_family("esx")
         .detect do
-          @platform[:name] = unix_uname_s.lines[0].chomp
-          @platform[:release] = unix_uname_r.lines[0].chomp
-          true
+          set_from_uname
         end
 
       # cisco_ios family
@@ -536,11 +534,7 @@ module Train::Platforms::Detect::Specifications
     def self.register_bsd(name, title, family, regexp)
       plat.name(name).title(title).in_family(family)
         .detect do
-          if unix_uname_s =~ regexp
-            @platform[:name]    = unix_uname_s.lines[0].chomp
-            @platform[:release] = unix_uname_r.lines[0].chomp
-            true
-          end
+          set_from_uname if unix_uname_s =~ regexp
         end
     end
 
