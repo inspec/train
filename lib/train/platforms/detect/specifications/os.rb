@@ -346,26 +346,25 @@ module Train::Platforms::Detect::Specifications
             true
           end
         end
-      plat.name("smartos").title("SmartOS").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          if /^.*(SmartOS).*$/ =~ rel
-            true
+
+      def self.register_path_regexp(name, title, family, path, regexp)
+        plat.name(name).title(title).in_family(family)
+          .detect do
+            regexp =~ unix_file_contents(path)
           end
-        end
+      end
+
+      # TODO: these regexps are probably needlessly wasteful
+      register_path_regexp("smartos", "SmartOS", "solaris", "/etc/release", /^.*(SmartOS).*$/)
 
       register_path("omnios", "Omnios", "solaris", "/etc/release", /^\s*OmniOS.*r(\d+).*$/)
       register_path("openindiana", "Openindiana", "solaris", "/etc/release", /^\s*OpenIndiana.*oi_(\d+).*$/)
 
       register_path("opensolaris", "Open Solaris", "solaris", "/etc/release", /^\s*OpenSolaris.*snv_(\d+).*$/)
 
-      plat.name("nexentacore").title("Nexentacore").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          if /^\s*(NexentaCore)\s.*$/ =~ rel
-            true
-          end
-        end
+      # TODO: these regexps are probably needlessly wasteful
+      register_path_regexp("nexentacore", "Nexentacore", "solaris", "/etc/release", /^\s*(NexentaCore)\s.*$/)
+
       plat.name("solaris").title("Solaris").in_family("solaris")
         .detect do
           rel = unix_file_contents("/etc/release")
