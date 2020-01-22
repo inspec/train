@@ -19,6 +19,13 @@ module Train::Platforms::Detect::Helpers
       end
     end
 
+    def redhatish(path)
+      if (raw = unix_file_contents(path))
+        @platform[:release] = redhatish_version(raw)
+        true
+      end
+    end
+
     def linux_os_release
       data = unix_file_contents("/etc/os-release")
       return if data.nil?

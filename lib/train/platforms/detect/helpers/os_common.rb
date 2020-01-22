@@ -70,11 +70,8 @@ module Train::Platforms::Detect::Helpers
       res = command_output("version")
 
       m = res.match(/^Fabric OS:\s+v(\S+)$/)
-      unless m.nil?
-        return @cache[:brocade] = { version: m[1], type: "fos" }
-      end
 
-      @cache[:brocade] = nil
+      @cache[:brocade] = m && { version: m[1], type: "fos" }
     end
 
     def cisco_show_version
