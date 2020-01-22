@@ -238,23 +238,9 @@ module Train::Platforms::Detect::Specifications
           end
         end
 
-      # slackware
-      plat.name("slackware").title("Slackware Linux").in_family("linux")
-        .detect do
-          unless (raw = unix_file_contents("/etc/slackware-version")).nil?
-            @platform[:release] = raw.scan(/(\d+|\.+)/).join
-            true
-          end
-        end
+      register_file_content("slackware", "Slackware Linux", "linux", "/etc/slackware-version")
 
-      # gentoo
-      plat.name("gentoo").title("Gentoo Linux").in_family("linux")
-        .detect do
-          unless (raw = unix_file_contents("/etc/gentoo-release")).nil?
-            @platform[:release] = raw.scan(/(\d+|\.+)/).join
-            true
-          end
-        end
+      register_file_content("gentoo", "Gentoo Linux", "linux", "/etc/gentoo-release")
 
       # exherbo
       plat.name("exherbo").title("Exherbo Linux").in_family("linux")
@@ -529,7 +515,7 @@ module Train::Platforms::Detect::Specifications
     end
 
     ######################################################################
-    # Helpers
+    # Helpers (keep these sorted)
 
     def self.register_bsd(name, title, family, regexp)
       plat.name(name).title(title).in_family(family)
@@ -549,6 +535,16 @@ module Train::Platforms::Detect::Specifications
           @platform[:arch] = nil
           @platform[:uuid_command] = uuid if uuid
           true
+        end
+    end
+
+    def self.register_file_content(name, title, family, path)
+      plat.name(name).title(title).in_family(family)
+        .detect do
+          if (raw = unix_file_contents(path))
+            @platform[:release] = raw.scan(/[\d.]+/).join
+            true
+          end
         end
     end
 
