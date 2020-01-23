@@ -1,32 +1,29 @@
-<!-- latest_release 3.2.14 -->
-## [v3.2.14](https://github.com/inspec/train/tree/v3.2.14) (2020-01-23)
-
-#### Merged Pull Requests
-- Fix verify step for sudo [#557](https://github.com/inspec/train/pull/557) ([zenspider](https://github.com/zenspider))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.5 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Fix verify step for sudo [#557](https://github.com/inspec/train/pull/557) ([zenspider](https://github.com/zenspider)) <!-- 3.2.14 -->
-- Make stat command use &#39;-c&#39; for Yocto OS [#559](https://github.com/inspec/train/pull/559) ([michaellihs](https://github.com/michaellihs)) <!-- 3.2.13 -->
-- Yocto Project family and Yocto Linux and balenaOS platform detection [#558](https://github.com/inspec/train/pull/558) ([mattray](https://github.com/mattray)) <!-- 3.2.12 -->
-- Refactor with_sudo_pty to BaseConnection (no-op) and SshConnection. [#554](https://github.com/inspec/train/pull/554) ([zenspider](https://github.com/zenspider)) <!-- 3.2.11 -->
-- Add azure_mgmt_storage to train.gemspec [#552](https://github.com/inspec/train/pull/552) ([rmoles](https://github.com/rmoles)) <!-- 3.2.10 -->
-- LinuxCommand#verify cleaned up [#530](https://github.com/inspec/train/pull/530) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.2.9 -->
-- Fix README typo [#551](https://github.com/inspec/train/pull/551) ([multani](https://github.com/multani)) <!-- 3.2.8 -->
-- allow overriding follow_symlink on Train::File [#550](https://github.com/inspec/train/pull/550) ([miah](https://github.com/miah)) <!-- 3.2.7 -->
-- Substitute require for require_relative [#549](https://github.com/inspec/train/pull/549) ([tas50](https://github.com/tas50)) <!-- 3.2.6 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.14](https://github.com/inspec/train/tree/v3.2.14) (2020-01-23)
+
+#### Merged Pull Requests
+- Substitute require for require_relative [#549](https://github.com/inspec/train/pull/549) ([tas50](https://github.com/tas50))
+- allow overriding follow_symlink on Train::File [#550](https://github.com/inspec/train/pull/550) ([miah](https://github.com/miah))
+- Fix README typo [#551](https://github.com/inspec/train/pull/551) ([multani](https://github.com/multani))
+- LinuxCommand#verify cleaned up [#530](https://github.com/inspec/train/pull/530) ([vsingh-msys](https://github.com/vsingh-msys))
+- Add azure_mgmt_storage to train.gemspec [#552](https://github.com/inspec/train/pull/552) ([rmoles](https://github.com/rmoles))
+- Refactor with_sudo_pty to BaseConnection (no-op) and SshConnection. [#554](https://github.com/inspec/train/pull/554) ([zenspider](https://github.com/zenspider))
+- Yocto Project family and Yocto Linux and balenaOS platform detection [#558](https://github.com/inspec/train/pull/558) ([mattray](https://github.com/mattray))
+- Make stat command use &#39;-c&#39; for Yocto OS [#559](https://github.com/inspec/train/pull/559) ([michaellihs](https://github.com/michaellihs))
+- Fix verify step for sudo [#557](https://github.com/inspec/train/pull/557) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v3.2.5](https://github.com/inspec/train/tree/v3.2.5) (2019-12-12)
 
 #### Merged Pull Requests
 - Add extended metadata [#546](https://github.com/inspec/train/pull/546) ([tas50](https://github.com/tas50))
 - Move built_in:create_github_release to a workload? [#547](https://github.com/inspec/train/pull/547) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v3.2.3](https://github.com/inspec/train/tree/v3.2.3) (2019-12-12)
 
