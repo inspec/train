@@ -14,7 +14,7 @@ RuboCop::RakeTask.new(:lint) do |task|
 end
 
 # run tests
-task default: %i{test lint}
+task default: %i{test}
 
 Rake::TestTask.new do |t|
   t.libs << "test"
