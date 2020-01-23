@@ -109,6 +109,7 @@ module Train::Platforms::Detect::Specifications
         .detect do
           # this checks for the arista bash shell
           if unix_file_exist?("/usr/bin/FastCli")
+            # TODO: no tests
             json_cmd('FastCli -p 15 -c "show version | json"')
           end
         end
@@ -122,6 +123,7 @@ module Train::Platforms::Detect::Specifications
         .detect do
           lsb = read_linux_lsb
           if lsb && lsb[:id] =~ /centos/i
+            # TODO: no tests
             @platform[:release] = lsb[:release]
             true
           elsif (rel = linux_os_release) && rel["NAME"] =~ /centos/i
@@ -145,6 +147,7 @@ module Train::Platforms::Detect::Specifications
           if (raw = unix_file_contents("/etc/parallels-release"))
             @platform[:name] = redhatish_platform(raw)
             @platform[:release] = raw[/(\d\.\d\.\d)/, 1]
+            # TODO: no tests
             true
           end
         end
@@ -198,6 +201,7 @@ module Train::Platforms::Detect::Specifications
         .detect do
           if (raw = unix_file_contents("/etc/alpine-release"))
             @platform[:release] = raw.strip
+            # TODO: no tests
             true
           end
         end
@@ -244,6 +248,7 @@ module Train::Platforms::Detect::Specifications
       # happens when logging in as root
       plat.family("brocade").title("Brocade Family").in_family("linux")
         .detect do
+          # TODO: no tests
           brocade_version
         end
 
@@ -258,9 +263,11 @@ module Train::Platforms::Detect::Specifications
       plat.name("openvms").title("OpenVMS").in_family("unix")
         .detect do
           if unix_uname_s =~ /unrecognized command verb/i
+            # TODO: no tests
             cmd = @backend.run_command("show system/noprocess")
 
             if cmd.exit_status == 0 && !cmd.stdout.empty?
+              # TODO: no tests
               @platform[:name] = cmd.stdout.downcase.split(" ")[0]
               cmd = @backend.run_command('write sys$output f$getsyi("VERSION")')
               @platform[:release] = cmd.stdout.downcase.split("\n")[1][1..-1]
@@ -280,6 +287,7 @@ module Train::Platforms::Detect::Specifications
         .detect do
           out = @backend.run_command("uname -rvp").stdout
           if out =~ /(\d+)\s+(\d+)\s+(.*)/
+            # TODO: no tests
             @platform[:release] = "#{$2}.#{$1}"
             @platform[:arch] = "#{$3}"
           end
@@ -289,6 +297,8 @@ module Train::Platforms::Detect::Specifications
       plat.family("solaris").in_family("unix")
         .detect do
           if unix_uname_s =~ /sunos/i
+            # TODO: no tests
+
             @platform[:release] = $1 if unix_uname_r =~ /^5\.(\d+)$/
 
             arch = @backend.run_command("uname -p")
@@ -313,10 +323,14 @@ module Train::Platforms::Detect::Specifications
           rel = unix_file_contents("/etc/release")
           if rel =~ /Oracle Solaris (\d+)/
             @platform[:release] = $1
+            # TODO: no tests
             true
           elsif rel =~ /^\s*(Solaris)\s.*$/
+            # TODO: no tests
             true
           end
+
+          # TODO: no tests
 
           # must be some unknown solaris
           true
@@ -410,6 +424,7 @@ module Train::Platforms::Detect::Specifications
 
       plat.name("vmkernel").in_family("esx")
         .detect do
+          # TODO: no tests
           set_from_uname
         end
 
@@ -436,6 +451,7 @@ module Train::Platforms::Detect::Specifications
     def self.register_bsd(name, title, family, regexp)
       plat.name(name).title(title).in_family(family)
         .detect do
+          # TODO: no tests
           set_from_uname if unix_uname_s =~ regexp
         end
     end
@@ -458,6 +474,7 @@ module Train::Platforms::Detect::Specifications
       plat.name(name).title(title).in_family(family)
         .detect do
           if (raw = unix_file_contents(path))
+            # TODO: no tests
             @platform[:release] = raw.scan(/[\d.]+/).join
             true
           end
@@ -497,6 +514,7 @@ module Train::Platforms::Detect::Specifications
         .detect do
           rel = unix_file_contents(path)
           if rel =~ regexp
+            # TODO: no tests
             @platform[:release] = $1
             true
           end
@@ -519,6 +537,7 @@ module Train::Platforms::Detect::Specifications
     def self.register_path_regexp(name, title, family, path, regexp)
       plat.name(name).title(title).in_family(family)
         .detect do
+          # TODO: no tests
           regexp =~ unix_file_contents(path)
         end
     end
