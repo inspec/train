@@ -165,12 +165,12 @@ class Train::Transports::SSH
     end
 
     def with_sudo_pty
-      old_pty = backend.transport_options[:pty]
-      backend.transport_options[:pty] = true if @sudo
+      old_pty = transport_options[:pty]
+      transport_options[:pty] = true if @sudo
 
       yield
     ensure
-      backend.transport_options[:pty] = old_pty
+      transport_options[:pty] = old_pty
     end
 
     private

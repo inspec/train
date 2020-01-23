@@ -57,7 +57,9 @@ module Train::Extras
     def verify
       cmd = if @sudo
               # Wrap it up. It needs /dev/null on the outside to disable stdin
-              "bash -c '(#{run("-v")}) < /dev/null'"
+              # NOTE: can't use @sudo_command because -v conflicts with -E.
+              #       See test-kitchen's use of this variable for conflict.
+              "sh -c '(sudo -v) < /dev/null'"
             else
               run("echo")
             end
