@@ -382,18 +382,17 @@ module Train::Platforms::Detect::Specifications
 
       plat.family("darwin").in_family("bsd")
         .detect do
+          # rubocop:disable Layout/ExtraSpacing
+          # rubocop:disable Layout/SpaceAroundOperators
           if unix_uname_s =~ /darwin/i
-            cmd = unix_file_contents("/usr/bin/sw_vers")
-
-            if cmd
-              @platform[:release] = cmd[/^ProductVersion:\s+(.+)$/, 1]
-              @platform[:build]   = cmd[/^BuildVersion:\s+(.+)$/, 1]
-            end
-
             @platform[:release] ||= unix_uname_r.lines[0].chomp
             @platform[:arch]      = unix_uname_m
+            cmd = @backend.run_command("sw_vers -buildVersion")
+            @platform[:build]     = cmd.stdout.chomp if cmd.exit_status == 0
             true
           end
+          # rubocop:enable Layout/ExtraSpacing
+          # rubocop:enable Layout/SpaceAroundOperators
         end
 
       plat.name("mac_os_x").title("macOS X").in_family("darwin")
