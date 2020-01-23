@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.13 -->
-## [v3.2.13](https://github.com/inspec/train/tree/v3.2.13) (2020-01-21)
+<!-- latest_release 3.2.14 -->
+## [v3.2.14](https://github.com/inspec/train/tree/v3.2.14) (2020-01-23)
 
 #### Merged Pull Requests
-- Make stat command use &#39;-c&#39; for Yocto OS [#559](https://github.com/inspec/train/pull/559) ([michaellihs](https://github.com/michaellihs))
+- Fix verify step for sudo [#557](https://github.com/inspec/train/pull/557) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.5 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Fix verify step for sudo [#557](https://github.com/inspec/train/pull/557) ([zenspider](https://github.com/zenspider)) <!-- 3.2.14 -->
 - Make stat command use &#39;-c&#39; for Yocto OS [#559](https://github.com/inspec/train/pull/559) ([michaellihs](https://github.com/michaellihs)) <!-- 3.2.13 -->
 - Yocto Project family and Yocto Linux and balenaOS platform detection [#558](https://github.com/inspec/train/pull/558) ([mattray](https://github.com/mattray)) <!-- 3.2.12 -->
 - Refactor with_sudo_pty to BaseConnection (no-op) and SshConnection. [#554](https://github.com/inspec/train/pull/554) ([zenspider](https://github.com/zenspider)) <!-- 3.2.11 -->
