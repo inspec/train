@@ -140,6 +140,20 @@ describe "os_detect" do
       end
     end
 
+    describe "kali" do
+      it "sets the correct family/release for kali" do
+        os_release = "PRETTY_NAME=\"Kali GNU/Linux Rolling\"\nNAME=\"Kali GNU/Linux\"\nID=kali\nVERSION=\"2019.4\"\nVERSION_ID=\"2019.4\"\nVERSION_CODENAME=\"kali-rolling\"\nID_LIKE=debian\nANSI_COLOR=\"1;31\"\nHOME_URL=\"https://www.kali.org/\"\nSUPPORT_URL=\"https://forums.kali.org/\"\nBUG_REPORT_URL=\"https://bugs.kali.org/\"\n"
+        files = {
+          "/etc/os-release" => os_release,
+          "/etc/debian_version" => "kali-rolling",
+        }
+        platform = scan_with_files("linux", files)
+        _(platform[:name]).must_equal("kali")
+        _(platform[:family]).must_equal("debian")
+        _(platform[:release]).must_equal("2019.4")
+      end
+    end
+
     describe "raspbian" do
       it "sets the correct family/release for raspbian " do
         files = {
