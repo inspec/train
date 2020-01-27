@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.2.15 -->
+## [v3.2.15](https://github.com/inspec/train/tree/v3.2.15) (2020-01-27)
+
+#### Merged Pull Requests
+- Kali Linux platform detection support [#556](https://github.com/inspec/train/pull/556) ([mattray](https://github.com/mattray))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.14 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Kali Linux platform detection support [#556](https://github.com/inspec/train/pull/556) ([mattray](https://github.com/mattray)) <!-- 3.2.15 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
