@@ -44,6 +44,11 @@ module Train::Platforms::Detect::Helpers
       true
     end
 
+    def local_windows?
+      @backend.class.to_s == "Train::Transports::Local::Connection" &&
+        ruby_host_os(/mswin|mingw32|windows/)
+    end
+
     # reads os name and version from wmic
     # @see https://msdn.microsoft.com/en-us/library/bb742610.aspx#EEAA
     # Thanks to Matt Wrock (https://github.com/mwrock) for this hint

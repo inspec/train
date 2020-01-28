@@ -19,16 +19,10 @@ module Train::Platforms
     end
 
     def detect(&block)
-      if block_given?
-        @detect = block
-        self
-      elsif @detect.nil?
-        # we are returning a block that just returns false here
-        # to skip the family/platform evaluation if detect is not set
-        ->(_) { false }
-      else
-        @detect
-      end
+      @detect = block if block
+
+      # TODO: detect shouldn't be a setter and getter at the same time
+      @detect ||= ->(_) { false }
     end
   end
 end

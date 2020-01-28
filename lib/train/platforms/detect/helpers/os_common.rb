@@ -70,11 +70,8 @@ module Train::Platforms::Detect::Helpers
       res = command_output("version")
 
       m = res.match(/^Fabric OS:\s+v(\S+)$/)
-      unless m.nil?
-        return @cache[:brocade] = { version: m[1], type: "fos" }
-      end
 
-      @cache[:brocade] = nil
+      @cache[:brocade] = m && { version: m[1], type: "fos" }
     end
 
     def cisco_show_version
@@ -155,6 +152,25 @@ module Train::Platforms::Detect::Helpers
       ary[3] = (ary[3] & 0x3FFF) | 0x8000
       # rubocop:disable Style/FormatString
       "%08x-%04x-%04x-%04x-%04x%08x" % ary
+    end
+
+    def json_cmd(cmd)
+      cmd = @backend.run_command(cmd)
+      if cmd.exit_status == 0 && !cmd.stdout.empty?
+        require "json"
+        eos_ver = JSON.parse(cmd.stdout)
+        @platform[:release] = eos_ver["version"]
+        @platform[:arch] = eos_ver["architecture"]
+        true
+      end
+    rescue JSON::ParserError
+      nil
+    end
+
+    def set_from_uname
+      @platform[:name]    = unix_uname_s.lines.first.chomp
+      @platform[:release] = unix_uname_r.lines.first.chomp
+      true
     end
   end
 end

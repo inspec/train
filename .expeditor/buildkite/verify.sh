@@ -20,5 +20,4 @@ echo "--- push bundle cache"
 push_bundle
 
 echo "+++ bundle exec rake"
-bundle exec rake
-
+bundle exec rake ${RAKE_TASK:-}

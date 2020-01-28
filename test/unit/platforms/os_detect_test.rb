@@ -13,10 +13,14 @@ describe "os_detect" do
     mock = Train::Transports::Mock::Connection.new
     mock.mock_command("uname -s", uname)
     mock.mock_command("uname -r", "test-release")
+
+    yield mock if block_given?
+
     files.each do |path, data|
       mock.mock_command("test -f #{path}")
       mock.mock_command("test -f #{path} && cat #{path}", data)
     end
+
     Train::Platforms::Detect.scan(mock)
   end
 
@@ -101,11 +105,13 @@ describe "os_detect" do
         files = {
           "/usr/bin/sw_vers" => "ProductVersion: 17.0.1\nBuildVersion: alpha.x1",
         }
-        platform = scan_with_files("darwin", files)
+        platform = scan_with_files("darwin", files) do |mock|
+          mock.mock_command("sw_vers -buildVersion", "12345\n")
+        end
         _(platform[:name]).must_equal("darwin")
         _(platform[:family]).must_equal("darwin")
-        _(platform[:release]).must_equal("17.0.1")
-        _(platform[:build]).must_equal("alpha.x1")
+        _(platform[:release]).must_equal("test-release")
+        _(platform[:build]).must_equal("12345")
       end
     end
   end

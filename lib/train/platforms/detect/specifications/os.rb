@@ -1,637 +1,519 @@
-# encoding: utf-8
-
-# rubocop:disable Style/Next
-# rubocop:disable Metrics/AbcSize
-# rubocop:disable Metrics/CyclomaticComplexity
-# rubocop:disable Metrics/ClassLength
-# rubocop:disable Metrics/MethodLength
-# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Style/ParenthesesAroundCondition
 
 module Train::Platforms::Detect::Specifications
   class OS
     def self.load
-      plat = Train::Platforms
+      load_toplevel
+      load_windows
+      load_unix
+      load_other
+    end
 
-      # master family
+    def self.load_toplevel
       plat.family("os").detect { true }
+    end
 
-      plat.family("windows").in_family("os")
-        .detect do
-          # Can't return from a `proc` thus the `is_windows` shenanigans
-          is_windows = false
-          is_windows = true if winrm?
+    def self.load_windows
+      declare_category("windows", "os") do
+        (winrm? ||
+         local_windows? ||
+         detect_windows) # ssh
+      end
 
-          if @backend.class.to_s == "Train::Transports::Local::Connection"
-            is_windows = true if ruby_host_os(/mswin|mingw32|windows/)
-          end
+      declare_family("windows", "windows") do
+        detect_windows
+      end
+    end
 
-          # Try to detect windows even for ssh transport
-          if !is_windows && detect_windows == true
-            is_windows = true
-          end
+    def self.load_unix
+      declare_category("unix", "os") do
+        # we want to catch a special case here where cisco commands
+        # don't return an exit status and still print to stdout
+        uname = unix_uname_s
+        unless (uname.empty? ||
+                uname.start_with?("Line has invalid autocommand") ||
+                uname.start_with?("The command you have entered"))
+          @platform[:arch] = unix_uname_m
+          true
+        end
+      end
 
-          is_windows
-        end
-      # windows platform
-      plat.name("windows").in_family("windows")
-        .detect do
-          true if detect_windows == true
-        end
+      load_linux
+      load_other_unix
+      load_bsd
+    end
 
-      # unix master family
-      plat.family("unix").in_family("os")
-        .detect do
-          # we want to catch a special case here where cisco commands
-          # don't return an exit status and still print to stdout
-          if unix_uname_s =~ /./ && !unix_uname_s.start_with?("Line has invalid autocommand ") && !unix_uname_s.start_with?("The command you have entered")
-            @platform[:arch] = unix_uname_m
-            true
-          end
-        end
+    def self.load_linux
+      declare_category("linux", "unix") do
+        unix_uname_s =~ /linux/i
+      end
 
-      # linux master family
-      plat.family("linux").in_family("unix")
-        .detect do
-          true if unix_uname_s =~ /linux/i
-        end
+      declare_category("debian", "linux") do
+        unix_file_exist?("/etc/debian_version")
+      end
 
-      # debian family
-      plat.family("debian").in_family("linux")
-        .detect do
-          true unless unix_file_contents("/etc/debian_version").nil?
-        end
-      plat.name("ubuntu").title("Ubuntu Linux").in_family("debian")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /ubuntu/i
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
-      plat.name("linuxmint").title("LinuxMint").in_family("debian")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /linuxmint/i
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
-      plat.name("kali").title("Kali Linux").in_family("debian")
-        .detect do
-          l_o_r = linux_os_release
-          if l_o_r && l_o_r["ID"] == "kali"
-            @platform[:release] = l_o_r["VERSION"]
-            true
-          end
-        end
-      plat.name("raspbian").title("Raspbian Linux").in_family("debian")
-        .detect do
-          if (linux_os_release && linux_os_release["NAME"] =~ /raspbian/i) || \
-              unix_file_exist?("/usr/bin/raspi-config")
-            @platform[:release] = unix_file_contents("/etc/debian_version").chomp
-            true
-          end
-        end
-      plat.name("debian").title("Debian Linux").in_family("debian")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /debian/i
-            @platform[:release] = lsb[:release]
-            true
-          end
+      declare_lsb("ubuntu", "Ubuntu Linux", "debian", /ubuntu/i)
 
-          # if we get this far we have to be some type of debian
+      declare_lsb("linuxmint", "LinuxMint", "debian", /linuxmint/i)
+
+      declare_instance("kali", "Kali Linux", "debian") do
+        l_o_r = linux_os_release
+        if l_o_r && l_o_r["ID"] == "kali"
+          @platform[:release] = l_o_r["VERSION"]
+          true
+        end
+      end
+
+      declare_instance("raspbian", "Raspbian Linux", "debian") do
+        rel = linux_os_release
+        if (rel && rel["NAME"] =~ /raspbian/i) ||
+            unix_file_exist?("/usr/bin/raspi-config")
           @platform[:release] = unix_file_contents("/etc/debian_version").chomp
+
           true
         end
+      end
 
-      # fedora family
-      plat.family("fedora").in_family("linux")
-        .detect do
-          true if linux_os_release && linux_os_release["NAME"] =~ /fedora/i
-        end
-      plat.name("fedora").title("Fedora").in_family("fedora")
-        .detect do
-          @platform[:release] = linux_os_release["VERSION_ID"]
-          true
-        end
+      declare_instance("debian", "Debian Linux", "debian") do
+        # if we get this far we have to be some type of debian
+        @platform[:release] = unix_file_contents("/etc/debian_version").chomp
 
-      # arista_eos family
-      # this checks for the arista bash shell
+        true
+      end
+
+      declare_category("fedora", "linux") do
+        rel = linux_os_release
+        rel && rel["NAME"] =~ /fedora/i
+      end
+
+      declare_instance("fedora", "Fedora", "fedora") do
+        @platform[:release] = linux_os_release["VERSION_ID"]
+        true
+      end
+
       # must come before redhat as it uses fedora under the hood
       plat.family("arista_eos").title("Arista EOS Family").in_family("linux")
         .detect do
           true
         end
-      plat.name("arista_eos_bash").title("Arista EOS Bash Shell").in_family("arista_eos")
-        .detect do
-          if unix_file_exist?("/usr/bin/FastCli")
-            cmd = @backend.run_command('FastCli -p 15 -c "show version | json"')
-            if cmd.exit_status == 0 && !cmd.stdout.empty?
-              require "json"
-              begin
-                eos_ver = JSON.parse(cmd.stdout)
-                @platform[:release] = eos_ver["version"]
-                @platform[:arch] = eos_ver["architecture"]
-                true
-              rescue JSON::ParserError
-                nil
-              end
-            end
-          end
+
+      declare_instance("arista_eos_bash", "Arista EOS Bash Shell", "arista_eos") do
+        # this checks for the arista bash shell
+        if unix_file_exist?("/usr/bin/FastCli")
+          # TODO: no tests
+          json_cmd('FastCli -p 15 -c "show version | json"')
         end
+      end
 
-      # redhat family
-      plat.family("redhat").in_family("linux")
-        .detect do
-          # I am not sure this returns true for all redhats in this family
-          # for now we are going to just try each platform
-          # return true unless unix_file_contents('/etc/redhat-release').nil?
+      declare_category("redhat", "linux") do
+        true
+      end
 
+      declare_instance("centos", "Centos Linux", "redhat") do
+        lsb = read_linux_lsb
+        if lsb && lsb[:id] =~ /centos/i
+          # TODO: no tests
+          @platform[:release] = lsb[:release]
+          true
+        elsif (rel = linux_os_release) && rel["NAME"] =~ /centos/i
+          @platform[:release] = redhatish_version(unix_file_contents("/etc/redhat-release"))
           true
         end
-      plat.name("centos").title("Centos Linux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /centos/i
-            @platform[:release] = lsb[:release]
-            true
-          elsif linux_os_release && linux_os_release["NAME"] =~ /centos/i
-            @platform[:release] = redhatish_version(unix_file_contents("/etc/redhat-release"))
-            true
-          end
+      end
+
+      declare_instance("oracle", "Oracle Linux", "redhat") do
+        (redhatish("/etc/oracle-release") ||
+         redhatish("/etc/enterprise-release"))
+      end
+
+      declare_lsb("scientific", "Scientific Linux", "redhat", /scientific/i)
+
+      declare_lsb("xenserver", "Xenserer Linux", "redhat", /xenserver/i)
+
+      declare_instance("parallels-release", "Parallels Linux", "redhat") do
+        if (raw = unix_file_contents("/etc/parallels-release"))
+          @platform[:name] = redhatish_platform(raw)
+          @platform[:release] = raw[/(\d\.\d\.\d)/, 1]
+          # TODO: no tests
+          true
         end
-      plat.name("oracle").title("Oracle Linux").in_family("redhat")
-        .detect do
-          if !(raw = unix_file_contents("/etc/oracle-release")).nil?
-            @platform[:release] = redhatish_version(raw)
-            true
-          elsif !(raw = unix_file_contents("/etc/enterprise-release")).nil?
-            @platform[:release] = redhatish_version(raw)
-            true
-          end
+      end
+
+      declare_instance("wrlinux", "Wind River Linux", "redhat") do
+        rel = linux_os_release
+        if rel && rel["ID_LIKE"] =~ /wrlinux/i
+          @platform[:release] = rel["VERSION"]
+          true
         end
-      plat.name("scientific").title("Scientific Linux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /scientific/i
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
-      plat.name("xenserver").title("Xenserer Linux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /xenserver/i
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
-      plat.name("parallels-release").title("Parallels Linux").in_family("redhat")
-        .detect do
-          unless (raw = unix_file_contents("/etc/parallels-release")).nil?
-            @platform[:name] = redhatish_platform(raw)
-            @platform[:release] = raw[/(\d\.\d\.\d)/, 1]
-            true
-          end
-        end
-      plat.name("wrlinux").title("Wind River Linux").in_family("redhat")
-        .detect do
-          if linux_os_release && linux_os_release["ID_LIKE"] =~ /wrlinux/i
-            @platform[:release] = linux_os_release["VERSION"]
-            true
-          end
-        end
-      plat.name("amazon").title("Amazon Linux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /amazon/i
-            @platform[:release] = lsb[:release]
-            true
-          elsif (raw = unix_file_contents("/etc/system-release")) =~ /amazon/i
-            @platform[:name] = redhatish_platform(raw)
-            @platform[:release] = redhatish_version(raw)
-            true
-          end
-        end
-      plat.name("cloudlinux").title("CloudLinux").in_family("redhat")
-        .detect do
-          lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /cloudlinux/i
-            @platform[:release] = lsb[:release]
-            true
-          elsif (raw = unix_file_contents("/etc/redhat-release")) =~ /cloudlinux/i
-            @platform[:name] = redhatish_platform(raw)
-            @platform[:release] = redhatish_version(raw)
-            true
-          end
-        end
+      end
+
+      declare_lsb_or_content("amazon", "Amazon Linux", "redhat", "/etc/system-release", /amazon/i)
+
+      declare_lsb_or_content("cloudlinux", "CloudLinux", "redhat", "/etc/redhat-release", /cloudlinux/i)
+
       # keep redhat at the end as a fallback for anything with a redhat-release
-      plat.name("redhat").title("Red Hat Linux").in_family("redhat")
-        .detect do
+      declare_lsb_or_content("redhat", "Red Hat Linux", "redhat", "/etc/redhat-release", /redhat/i, /./)
+
+      declare_category("suse", "linux") do
+        rel = linux_os_release
+        if rel && rel["ID_LIKE"] =~ /suse/i
+          @platform[:release] = rel["VERSION"]
+          true
+        elsif (suse = unix_file_contents("/etc/SuSE-release"))
+          # https://rubular.com/r/UKaYWolCYFMfp1
+          version = suse.scan(/VERSION = (\d+)\nPATCHLEVEL = (\d+)/).flatten.join(".")
+          # https://rubular.com/r/b5PN3hZDxa5amV
+          version = suse[/VERSION\s?=\s?"?([\d\.]{2,})"?/, 1] if version == ""
+          @platform[:release] = version
+          true
+        end
+      end
+
+      declare_os_or_file("opensuse", "OpenSUSE Linux", "suse", "/etc/SuSE-release", /^opensuse/i)
+
+      declare_os_or_file("suse",     "Suse Linux",     "suse", "/etc/SuSE-release", /^sles/i, /suse/i)
+
+      declare_path_and_uname("arch", "Arch Linux", "linux", "/etc/arch-release")
+
+      declare_file_content("slackware", "Slackware Linux", "linux", "/etc/slackware-version")
+
+      declare_file_content("gentoo", "Gentoo Linux", "linux", "/etc/gentoo-release")
+
+      declare_path_and_uname("exherbo", "Exherbo Linux", "linux", "/etc/exherbo-release")
+
+      # TODO: try using declare_path
+      declare_instance("alpine", "Alpine Linux", "linux") do
+        if (raw = unix_file_contents("/etc/alpine-release"))
+          @platform[:release] = raw.strip
+          # TODO: no tests
+          true
+        end
+      end
+
+      declare_instance("coreos", "CoreOS Linux", "linux") do
+        if unix_file_exist?("/etc/coreos/update.conf")
           lsb = read_linux_lsb
-          if lsb && lsb[:id] =~ /redhat/i
-            @platform[:release] = lsb[:release]
-            true
-          elsif !(raw = unix_file_contents("/etc/redhat-release")).nil?
-            # must be some type of redhat
-            @platform[:name] = redhatish_platform(raw)
-            @platform[:release] = redhatish_version(raw)
-            true
-          end
+          @platform[:release] = lsb[:release]
+          true
         end
+      end
 
-      # suse family
-      plat.family("suse").in_family("linux")
-        .detect do
-          if linux_os_release && linux_os_release["ID_LIKE"] =~ /suse/i
-            @platform[:release] = linux_os_release["VERSION"]
-            true
-          elsif !(suse = unix_file_contents("/etc/SuSE-release")).nil?
-            # https://rubular.com/r/UKaYWolCYFMfp1
-            version = suse.scan(/VERSION = (\d+)\nPATCHLEVEL = (\d+)/).flatten.join(".")
-            # https://rubular.com/r/b5PN3hZDxa5amV
-            version = suse[/VERSION\s?=\s?"?([\d\.]{2,})"?/, 1] if version == ""
-            @platform[:release] = version
-            true
-          end
-        end
-      plat.name("opensuse").title("OpenSUSE Linux").in_family("suse")
-        .detect do
-          true if (linux_os_release && linux_os_release["NAME"] =~ /^opensuse/i) ||
-            unix_file_contents("/etc/SuSE-release") =~ /^opensuse/i
-        end
-      plat.name("suse").title("Suse Linux").in_family("suse")
-        .detect do
-          true if (linux_os_release && linux_os_release["NAME"] =~ /^sles/i) ||
-            unix_file_contents("/etc/SuSE-release") =~ /suse/i
-        end
+      declare_category("yocto", "linux") do
+        # /etc/issue isn't specific to yocto, but it's the only way to detect
+        # the platform because there are no other identifying files
+        issue = unix_file_contents("/etc/issue")
 
-      # arch
-      plat.name("arch").title("Arch Linux").in_family("linux")
-        .detect do
-          unless unix_file_contents("/etc/arch-release").nil?
-            # Because this is a rolling release distribution,
-            # use the kernel release, ex. 4.1.6-1-ARCH
-            @platform[:release] = unix_uname_r
-            true
-          end
-        end
+        issue && issue.match?(/Poky|balenaOS/)
+      end
 
-      # slackware
-      plat.name("slackware").title("Slackware Linux").in_family("linux")
-        .detect do
-          unless (raw = unix_file_contents("/etc/slackware-version")).nil?
-            @platform[:release] = raw.scan(/(\d+|\.+)/).join
-            true
-          end
+      declare_instance("yocto", "Yocto Project Linux", "yocto") do
+        issue = unix_file_contents("/etc/issue")
+        if issue.match?("Poky")
+          # assuming the Poky version is preferred over the /etc/version build
+          @platform[:release] = issue[/\d+(\.\d+)+/]
+          true
         end
+      end
 
-      # gentoo
-      plat.name("gentoo").title("Gentoo Linux").in_family("linux")
-        .detect do
-          unless (raw = unix_file_contents("/etc/gentoo-release")).nil?
-            @platform[:release] = raw.scan(/(\d+|\.+)/).join
-            true
-          end
+      declare_instance("balenaos", "balenaOS Linux", "yocto") do
+        # balenaOS does have the /etc/os-release file
+        issue = unix_file_contents("/etc/issue")
+        if issue.match?("balenaOS") && linux_os_release["NAME"] =~ /balenaos/i
+          @platform[:release] = linux_os_release["META_BALENA_VERSION"]
+          true
         end
-
-      # exherbo
-      plat.name("exherbo").title("Exherbo Linux").in_family("linux")
-        .detect do
-          unless unix_file_contents("/etc/exherbo-release").nil?
-            # Because this is a rolling release distribution,
-            # use the kernel release, ex. 4.1.6
-            @platform[:release] = unix_uname_r
-            true
-          end
-        end
-
-      # alpine
-      plat.name("alpine").title("Alpine Linux").in_family("linux")
-        .detect do
-          unless (raw = unix_file_contents("/etc/alpine-release")).nil?
-            @platform[:release] = raw.strip
-            true
-          end
-        end
-
-      # coreos
-      plat.name("coreos").title("CoreOS Linux").in_family("linux")
-        .detect do
-          unless unix_file_contents("/etc/coreos/update.conf").nil?
-            lsb = read_linux_lsb
-            @platform[:release] = lsb[:release]
-            true
-          end
-        end
-
-      # yocto family
-      plat.family("yocto").in_family("linux")
-        .detect do
-          # /etc/issue isn't specific to yocto, but it's the only way to detect
-          # the platform because there are no other identifying files
-          if unix_file_contents("/etc/issue") &&
-              (unix_file_contents("/etc/issue").match?("Poky") ||
-               unix_file_contents("/etc/issue").match?("balenaOS"))
-            true
-          end
-        end
-      plat.name("yocto").title("Yocto Project Linux").in_family("yocto")
-        .detect do
-          if unix_file_contents("/etc/issue").match?("Poky")
-            # assuming the Poky version is preferred over the /etc/version build
-            @platform[:release] = unix_file_contents("/etc/issue").match('\d+(\.\d+)+')[0]
-            true
-          end
-        end
-      plat.name("balenaos").title("balenaOS Linux").in_family("yocto")
-        .detect do
-          # balenaOS does have the /etc/os-release file
-          if unix_file_contents("/etc/issue").match?("balenaOS") &&
-              linux_os_release["NAME"] =~ /balenaos/i
-            @platform[:release] = linux_os_release["META_BALENA_VERSION"]
-            true
-          end
-        end
+      end
 
       # brocade family detected here if device responds to 'uname' command,
       # happens when logging in as root
       plat.family("brocade").title("Brocade Family").in_family("linux")
         .detect do
-          !brocade_version.nil?
+          # TODO: no tests
+          brocade_version
         end
 
-      # generic linux
       # this should always be last in the linux family list
-      plat.name("linux").title("Generic Linux").in_family("linux")
-        .detect do
+      declare_instance("linux", "Generic Linux", "linux") do
+        true
+      end
+    end
+
+    def self.load_other_unix
+      declare_instance("openvms", "OpenVMS", "unix") do
+        if unix_uname_s =~ /unrecognized command verb/i
+          # TODO: no tests
+          cmd = @backend.run_command("show system/noprocess")
+
+          if cmd.exit_status == 0 && !cmd.stdout.empty?
+            # TODO: no tests
+            @platform[:name] = cmd.stdout.downcase.split(" ")[0]
+            cmd = @backend.run_command('write sys$output f$getsyi("VERSION")')
+            @platform[:release] = cmd.stdout.downcase.split("\n")[1][1..-1]
+            cmd = @backend.run_command('write sys$output f$getsyi("ARCH_NAME")')
+            @platform[:arch] = cmd.stdout.downcase.split("\n")[1]
+            true
+          end
+        end
+      end
+
+      declare_category("aix", "unix") do
+        unix_uname_s =~ /aix/i
+      end
+
+      declare_instance("aix", "Aix", "aix") do
+        out = @backend.run_command("uname -rvp").stdout
+        if out =~ /(\d+)\s+(\d+)\s+(.*)/
+          # TODO: no tests
+          @platform[:release] = "#{$2}.#{$1}"
+          @platform[:arch] = "#{$3}"
+        end
+        true
+      end
+
+      declare_category("solaris", "unix") do
+        if unix_uname_s =~ /sunos/i
+          # TODO: no tests
+
+          @platform[:release] = $1 if unix_uname_r =~ /^5\.(\d+)$/
+
+          arch = @backend.run_command("uname -p")
+          @platform[:arch] = arch.stdout.chomp if arch.exit_status == 0
+          true
+        end
+      end
+
+      # TODO: these regexps are probably needlessly wasteful
+      declare_path_regexp("smartos", "SmartOS", "solaris", "/etc/release", /^.*(SmartOS).*$/)
+
+      declare_path("omnios", "Omnios", "solaris", "/etc/release", /^\s*OmniOS.*r(\d+).*$/)
+      declare_path("openindiana", "Openindiana", "solaris", "/etc/release", /^\s*OpenIndiana.*oi_(\d+).*$/)
+
+      declare_path("opensolaris", "Open Solaris", "solaris", "/etc/release", /^\s*OpenSolaris.*snv_(\d+).*$/)
+
+      # TODO: these regexps are probably needlessly wasteful
+      declare_path_regexp("nexentacore", "Nexentacore", "solaris", "/etc/release", /^\s*(NexentaCore)\s.*$/)
+
+      declare_instance("solaris", "Solaris", "solaris") do
+        rel = unix_file_contents("/etc/release")
+        if rel =~ /Oracle Solaris (\d+)/
+          @platform[:release] = $1
+          # TODO: no tests
+          true
+        elsif rel =~ /^\s*(Solaris)\s.*$/
+          # TODO: no tests
           true
         end
 
-      # openvms
-      plat.name("openvms").title("OpenVMS").in_family("unix")
-        .detect do
-          if unix_uname_s =~ /unrecognized command verb/i
-            cmd = @backend.run_command("show system/noprocess")
-            unless cmd.exit_status != 0 || cmd.stdout.empty?
-              @platform[:name] = cmd.stdout.downcase.split(" ")[0]
-              cmd = @backend.run_command('write sys$output f$getsyi("VERSION")')
-              @platform[:release] = cmd.stdout.downcase.split("\n")[1][1..-1]
-              cmd = @backend.run_command('write sys$output f$getsyi("ARCH_NAME")')
-              @platform[:arch] = cmd.stdout.downcase.split("\n")[1]
-              true
-            end
-          end
-        end
+        # TODO: no tests
 
-      # aix
-      plat.family("aix").in_family("unix")
-        .detect do
-          true if unix_uname_s =~ /aix/i
-        end
-      plat.name("aix").title("Aix").in_family("aix")
-        .detect do
-          out = @backend.run_command("uname -rvp").stdout
-          m = out.match(/(\d+)\s+(\d+)\s+(.*)/)
-          unless m.nil?
-            @platform[:release] = "#{m[2]}.#{m[1]}"
-            @platform[:arch] = m[3].to_s
-          end
+        # must be some unknown solaris
+        true
+      end
+
+      declare_category("hpux", "unix") do
+        unix_uname_s =~ /hp-ux/i
+      end
+
+      declare_instance("hpux", "Hpux", "hpux") do
+        @platform[:release] = unix_uname_r.lines[0].chomp
+        # TODO: no tests
+        true
+      end
+
+      declare_category("qnx", "unix") do
+        unix_uname_s =~ /qnx/i
+      end
+
+      declare_instance("qnx", "QNX", "qnx") do
+        # TODO: refactor these uname patterns
+        @platform[:name] = unix_uname_s.lines[0].chomp.downcase
+        @platform[:release] = unix_uname_r.lines[0].chomp
+        @platform[:arch] = unix_uname_m
+        true
+      end
+    end
+
+    def self.load_bsd
+      declare_category("bsd", "unix") do
+        # we need a better way to determine this family
+        # for now we are going to just try each platform
+        true
+      end
+
+      declare_category("darwin", "bsd") do
+        # rubocop:disable Layout/ExtraSpacing
+        # rubocop:disable Layout/SpaceAroundOperators
+        if unix_uname_s =~ /darwin/i
+          @platform[:release] ||= unix_uname_r.lines[0].chomp
+          @platform[:arch]      = unix_uname_m
+          cmd = @backend.run_command("sw_vers -buildVersion")
+          @platform[:build]     = cmd.stdout.chomp if cmd.exit_status == 0
           true
         end
+        # rubocop:enable Layout/ExtraSpacing
+        # rubocop:enable Layout/SpaceAroundOperators
+      end
 
-      # solaris family
-      plat.family("solaris").in_family("unix")
-        .detect do
-          if unix_uname_s =~ /sunos/i
-            unless (version = /^5\.(?<release>\d+)$/.match(unix_uname_r)).nil?
-              @platform[:release] = version["release"]
-            end
+      declare_instance("mac_os_x", "macOS X", "darwin") do
+        cmd = unix_file_contents("/System/Library/CoreServices/SystemVersion.plist")
+        @platform[:uuid_command] = "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'"
+        cmd =~ /Mac OS X/i
+      end
 
-            arch = @backend.run_command("uname -p")
-            @platform[:arch] = arch.stdout.chomp if arch.exit_status == 0
-            true
-          end
-        end
-      plat.name("smartos").title("SmartOS").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          if /^.*(SmartOS).*$/ =~ rel
-            true
-          end
-        end
-      plat.name("omnios").title("Omnios").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          unless (m = /^\s*(OmniOS).*r(\d+).*$/.match(rel)).nil?
-            @platform[:release] = m[2]
-            true
-          end
-        end
-      plat.name("openindiana").title("Openindiana").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          unless (m = /^\s*(OpenIndiana).*oi_(\d+).*$/.match(rel)).nil?
-            @platform[:release] = m[2]
-            true
-          end
-        end
-      plat.name("opensolaris").title("Open Solaris").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          unless (m = /^\s*(OpenSolaris).*snv_(\d+).*$/.match(rel)).nil?
-            @platform[:release] = m[2]
-            true
-          end
-        end
-      plat.name("nexentacore").title("Nexentacore").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          if /^\s*(NexentaCore)\s.*$/ =~ rel
-            true
-          end
-        end
-      plat.name("solaris").title("Solaris").in_family("solaris")
-        .detect do
-          rel = unix_file_contents("/etc/release")
-          if !(m = /Oracle Solaris (\d+)/.match(rel)).nil?
-            # TODO: should be string!
-            @platform[:release] = m[1]
-            true
-          elsif /^\s*(Solaris)\s.*$/ =~ rel
-            true
-          end
+      declare_instance("darwin", "Darwin", "darwin") do
+        # must be some other type of darwin
+        @platform[:name] = unix_uname_s.lines[0].chomp
+        true
+      end
 
-          # must be some unknown solaris
-          true
-        end
+      declare_bsd("freebsd", "Freebsd", "bsd", /freebsd/i)
+      declare_bsd("openbsd", "Openbsd", "bsd", /openbsd/i)
+      declare_bsd("netbsd", "Netbsd", "bsd", /netbsd/i)
+    end
 
-      # hpux
-      plat.family("hpux").in_family("unix")
-        .detect do
-          true if unix_uname_s =~ /hp-ux/i
-        end
-      plat.name("hpux").title("Hpux").in_family("hpux")
-        .detect do
-          @platform[:release] = unix_uname_r.lines[0].chomp
-          true
-        end
-
-      # qnx
-      plat.family("qnx").in_family("unix")
-        .detect do
-          true if unix_uname_s =~ /qnx/i
-        end
-      plat.name("qnx").title("QNX").in_family("qnx")
-        .detect do
-          @platform[:name] = unix_uname_s.lines[0].chomp.downcase
-          @platform[:release] = unix_uname_r.lines[0].chomp
-          @platform[:arch] = unix_uname_m
-          true
-        end
-
-      # bsd family
-      plat.family("bsd").in_family("unix")
-        .detect do
-          # we need a better way to determine this family
-          # for now we are going to just try each platform
-          true
-        end
-      plat.family("darwin").in_family("bsd")
-        .detect do
-          if unix_uname_s =~ /darwin/i
-            cmd = unix_file_contents("/usr/bin/sw_vers")
-            unless cmd.nil?
-              m = cmd.match(/^ProductVersion:\s+(.+)$/)
-              @platform[:release] = m.nil? ? nil : m[1]
-              m = cmd.match(/^BuildVersion:\s+(.+)$/)
-              @platform[:build] = m.nil? ? nil : m[1]
-            end
-            @platform[:release] = unix_uname_r.lines[0].chomp if @platform[:release].nil?
-            @platform[:arch] = unix_uname_m
-            true
-          end
-        end
-      plat.name("mac_os_x").title("macOS X").in_family("darwin")
-        .detect do
-          cmd = unix_file_contents("/System/Library/CoreServices/SystemVersion.plist")
-          @platform[:uuid_command] = "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'"
-          true if cmd =~ /Mac OS X/i
-        end
-      plat.name("darwin").title("Darwin").in_family("darwin")
-        .detect do
-          # must be some other type of darwin
-          @platform[:name] = unix_uname_s.lines[0].chomp
-          true
-        end
-      plat.name("freebsd").title("Freebsd").in_family("bsd")
-        .detect do
-          if unix_uname_s =~ /freebsd/i
-            @platform[:name] = unix_uname_s.lines[0].chomp
-            @platform[:release] = unix_uname_r.lines[0].chomp
-            true
-          end
-        end
-      plat.name("openbsd").title("Openbsd").in_family("bsd")
-        .detect do
-          if unix_uname_s =~ /openbsd/i
-            @platform[:name] = unix_uname_s.lines[0].chomp
-            @platform[:release] = unix_uname_r.lines[0].chomp
-            true
-          end
-        end
-      plat.name("netbsd").title("Netbsd").in_family("bsd")
-        .detect do
-          if unix_uname_s =~ /netbsd/i
-            @platform[:name] = unix_uname_s.lines[0].chomp
-            @platform[:release] = unix_uname_r.lines[0].chomp
-            true
-          end
-        end
-
-      # arista_eos family
+    def self.load_other
       plat.family("arista_eos").title("Arista EOS Family").in_family("os")
         .detect do
           true
         end
-      plat.name("arista_eos").title("Arista EOS").in_family("arista_eos")
-        .detect do
-          cmd = @backend.run_command("show version | json")
-          if cmd.exit_status == 0 && !cmd.stdout.empty?
-            require "json"
-            begin
-              eos_ver = JSON.parse(cmd.stdout)
-              @platform[:release] = eos_ver["version"]
-              @platform[:arch] = eos_ver["architecture"]
-              true
-            rescue JSON::ParserError
-              nil
-            end
-          end
-        end
 
-      # esx
+      declare_instance("arista_eos", "Arista EOS", "arista_eos") do
+        json_cmd("show version | json")
+      end
+
       plat.family("esx").title("ESXi Family").in_family("os")
         .detect do
-          true if unix_uname_s =~ /vmkernel/i
+          unix_uname_s =~ /vmkernel/i
         end
+
       plat.name("vmkernel").in_family("esx")
         .detect do
-          @platform[:name] = unix_uname_s.lines[0].chomp
-          @platform[:release] = unix_uname_r.lines[0].chomp
-          true
+          # TODO: no tests
+          set_from_uname
         end
 
-      # cisco_ios family
       plat.family("cisco").title("Cisco Family").in_family("os")
         .detect do
-          !cisco_show_version.nil?
-        end
-      plat.name("cisco_ios").title("Cisco IOS").in_family("cisco")
-        .detect do
-          v = cisco_show_version
-          next unless v[:type] == "ios"
-
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
-          true
-        end
-      plat.name("cisco_ios_xe").title("Cisco IOS XE").in_family("cisco")
-        .detect do
-          v = cisco_show_version
-          next unless v[:type] == "ios-xe"
-
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
-          true
-        end
-      plat.name("cisco_nexus").title("Cisco Nexus").in_family("cisco")
-        .detect do
-          v = cisco_show_version
-          next unless v[:type] == "nexus"
-
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
-          @platform[:uuid_command] = "show version | include Processor"
-          true
+          cisco_show_version
         end
 
-      # brocade family
+      declare_cisco("cisco_ios", "Cisco IOS", "cisco", :cisco_show_version, "ios")
+      declare_cisco("cisco_ios_xe", "Cisco IOS XE", "cisco", :cisco_show_version, "ios-xe")
+      declare_cisco("cisco_nexus", "Cisco Nexus", "cisco", :cisco_show_version, "nexus", "show version | include Processor")
+
       plat.family("brocade").title("Brocade Family").in_family("os")
         .detect do
-          !brocade_version.nil?
+          brocade_version
         end
 
-      plat.name("brocade_fos").title("Brocade FOS").in_family("brocade")
-        .detect do
-          v = brocade_version
-          next unless v[:type] == "fos"
+      declare_cisco("brocade_fos", "Brocade FOS", "brocade", :brocade_version, "fos")
+    end
 
-          @platform[:release] = v[:version]
-          @platform[:arch] = nil
+    ######################################################################
+    # Helpers (keep these sorted)
+
+    def self.plat
+      Train::Platforms
+    end
+
+    def self.declare_category(family, parent, &block)
+      plat.family(family).in_family(parent).detect(&block)
+    end
+
+    def self.declare_family(name, title = nil, family, &block)
+      thingy = plat.name(name).in_family(family)
+      thingy.title(title) if title
+      thingy.detect(&block)
+    end
+
+    def self.declare_instance(name, title, family, &block)
+      plat.name(name).title(title).in_family(family).detect(&block)
+    end
+
+    def self.declare_bsd(name, title, family, regexp)
+      declare_instance(name, title, family) do
+        # TODO: no tests
+        set_from_uname if unix_uname_s =~ regexp
+      end
+    end
+
+    def self.declare_cisco(name, title, family, detect, type, uuid = nil)
+      declare_instance(name, title, family) do
+        v = send(detect)
+
+        next unless v[:type] == type
+
+        @platform[:release] = v[:version]
+        @platform[:arch] = nil
+        @platform[:uuid_command] = uuid if uuid
+        true
+      end
+    end
+
+    def self.declare_file_content(name, title, family, path)
+      declare_instance(name, title, family) do
+        if (raw = unix_file_contents(path))
+          # TODO: no tests
+          @platform[:release] = raw.scan(/[\d.]+/).join
           true
         end
+      end
+    end
+
+    def self.declare_lsb(name, title, family, regexp)
+      declare_lsb_or_content(name, title, family, nil, regexp)
+    end
+
+    def self.declare_lsb_or_content(name, title, family, path, regexp1, regexp2 = regexp1)
+      declare_instance(name, title, family) do
+        lsb = read_linux_lsb
+        if lsb && lsb[:id] =~ regexp1
+          @platform[:release] = lsb[:release]
+          true
+        elsif path && (raw = unix_file_contents(path)) =~ regexp2
+          @platform[:name] = redhatish_platform(raw)
+          @platform[:release] = redhatish_version(raw)
+          true
+        end
+      end
+    end
+
+    def self.declare_os_or_file(name, title, family, path, regexp1, regexp2 = regexp1)
+      declare_instance(name, title, family) do
+        rel = linux_os_release
+        (rel && rel["NAME"] =~ regexp1) ||
+          unix_file_contents(path) =~ regexp2
+      end
+    end
+
+    def self.declare_path(name, title, family, path, regexp)
+      declare_instance(name, title, family) do
+        rel = unix_file_contents(path)
+        if rel =~ regexp
+          # TODO: no tests
+          @platform[:release] = $1
+          true
+        end
+      end
+    end
+
+    def self.declare_path_and_uname(name, title, family, path)
+      declare_instance(name, title, family) do
+        if unix_file_exist?(path)
+          # Because this is a rolling release distribution,
+          # use the kernel release, ex. 4.1.6-1-ARCH
+          # TODO: unix_uname_r.lines[0].chomp ? -- no tests for /etc/exherbo-release or /etc/arch-release
+          @platform[:release] = unix_uname_r
+          true
+        end
+      end
+    end
+
+    def self.declare_path_regexp(name, title, family, path, regexp)
+      declare_instance(name, title, family) do
+        # TODO: no tests
+        regexp =~ unix_file_contents(path)
+      end
     end
   end
 end
