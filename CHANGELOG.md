@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.16 -->
-## [v3.2.16](https://github.com/inspec/train/tree/v3.2.16) (2020-01-28)
+<!-- latest_release 3.2.17 -->
+## [v3.2.17](https://github.com/inspec/train/tree/v3.2.17) (2020-01-28)
 
 #### Merged Pull Requests
-- Refactor OS detection. [#561](https://github.com/inspec/train/pull/561) ([zenspider](https://github.com/zenspider))
+- Unified gemspec and fixed dependencies across train and train-core. [#563](https://github.com/inspec/train/pull/563) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.14 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Unified gemspec and fixed dependencies across train and train-core. [#563](https://github.com/inspec/train/pull/563) ([zenspider](https://github.com/zenspider)) <!-- 3.2.17 -->
 - Refactor OS detection. [#561](https://github.com/inspec/train/pull/561) ([zenspider](https://github.com/zenspider)) <!-- 3.2.16 -->
 - Kali Linux platform detection support [#556](https://github.com/inspec/train/pull/556) ([mattray](https://github.com/mattray)) <!-- 3.2.15 -->
 <!-- release_rollup -->
