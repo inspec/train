@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.15 -->
-## [v3.2.15](https://github.com/inspec/train/tree/v3.2.15) (2020-01-27)
+<!-- latest_release 3.2.16 -->
+## [v3.2.16](https://github.com/inspec/train/tree/v3.2.16) (2020-01-28)
 
 #### Merged Pull Requests
-- Kali Linux platform detection support [#556](https://github.com/inspec/train/pull/556) ([mattray](https://github.com/mattray))
+- Refactor OS detection. [#561](https://github.com/inspec/train/pull/561) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.14 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Refactor OS detection. [#561](https://github.com/inspec/train/pull/561) ([zenspider](https://github.com/zenspider)) <!-- 3.2.16 -->
 - Kali Linux platform detection support [#556](https://github.com/inspec/train/pull/556) ([mattray](https://github.com/mattray)) <!-- 3.2.15 -->
 <!-- release_rollup -->
 
