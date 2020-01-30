@@ -2,8 +2,9 @@ require "helper"
 require "train/transports/local"
 
 describe Train::File::Local do
-  let(:transport) { Train::Transports::Local.new }
-  let(:connection) { transport.connection }
+  # there is zero need to instantiate this OVER and over, so just do it once.
+  transport  = Train::Transports::Local.new
+  connection = transport.connection
 
   it "gets file contents" do
     res = rand.to_s

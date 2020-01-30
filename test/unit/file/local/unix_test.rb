@@ -3,6 +3,12 @@ require "train/file/local/unix"
 require "train/transports/mock"
 require "train/transports/local"
 
+class FileTester < Train::File::Local::Unix
+  def type
+    :file
+  end
+end
+
 describe Train::File::Local::Unix do
   let(:cls) { Train::File::Local::Unix }
 
@@ -23,8 +29,9 @@ describe Train::File::Local::Unix do
       skip "not on windows" if windows?
     end
 
-    let(:transport) { Train::Transports::Local.new }
-    let(:connection) { transport.connection }
+    # there is zero need to instantiate this OVER and over, so just do it once.
+    transport  = Train::Transports::Local.new
+    connection = transport.connection
 
     let(:stat) { Struct.new(:mode, :size, :mtime, :uid, :gid) }
     let(:uid) { rand }
@@ -119,11 +126,7 @@ describe Train::File::Local::Unix do
 
   describe "#unix_mode_mask" do
     let(:file_tester) do
-      Class.new(cls) do
-        define_method :type do
-          :file
-        end
-      end.new(nil, nil, false)
+      FileTester.new(nil, nil, false)
     end
 
     it "check owner mode calculation" do
