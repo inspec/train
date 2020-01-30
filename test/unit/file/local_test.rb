@@ -29,6 +29,10 @@ describe Train::File::Local do
     end
   end
 
+  it "has a friendly inspect" do
+    _(connection.inspect).must_equal "Train::Transports::Local::Connection[unknown]"
+  end
+
   describe "#type" do
     it "returns the type block_device if it is block device" do
       File.stub :ftype, "blockSpecial" do

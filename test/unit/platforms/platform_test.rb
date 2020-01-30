@@ -112,6 +112,12 @@ describe "platform" do
     _(os.to_hash).must_equal({ family: x })
   end
 
+  it "has a friendly #to_s and #inspect" do
+    plat = mock_platform("redhat")
+    _(plat.to_s).must_equal "Train::Platforms::Platform:unknown:redhat"
+    _(plat.inspect).must_equal "Train::Platforms::Platform:unknown:redhat"
+  end
+
   describe "with platform set to redhat" do
     let(:os) { mock_platform("redhat") }
     it { _(os.redhat?).must_equal(true) }
