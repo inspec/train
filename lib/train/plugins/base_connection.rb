@@ -107,8 +107,12 @@ class Train::Plugins::Transport
       plat
     end
 
+    def backend_type
+      @options[:backend] || "unknown"
+    end
+
     def inspect
-      "%s[%s]" % [self.class, (@options[:backend] || "Unknown")]
+      "%s[%s]" % [self.class, backend_type]
     end
 
     alias direct_platform force_platform!

@@ -24,5 +24,14 @@ module Train::Platforms
       # TODO: detect shouldn't be a setter and getter at the same time
       @detect ||= ->(_) { false }
     end
+
+    def to_s
+      be = backend ? backend.backend_type : "unknown"
+      "%s:%s:%s" % [self.class, be, name]
+    end
+
+    def inspect
+      to_s
+    end
   end
 end

@@ -2,8 +2,9 @@ require "helper"
 require "train/transports/local"
 
 describe Train::File::Local do
-  let(:transport) { Train::Transports::Local.new }
-  let(:connection) { transport.connection }
+  # there is zero need to instantiate this OVER and over, so just do it once.
+  transport  = Train::Transports::Local.new
+  connection = transport.connection
 
   it "gets file contents" do
     res = rand.to_s
@@ -27,6 +28,10 @@ describe Train::File::Local do
         _(connection.file(rand.to_s).method(method.to_sym).call).must_equal(true)
       end
     end
+  end
+
+  it "has a friendly inspect" do
+    _(connection.inspect).must_equal "Train::Transports::Local::Connection[unknown]"
   end
 
   describe "#type" do
