@@ -155,11 +155,23 @@ describe Train do
       _(res[:target]).must_equal org[:target]
     end
 
-    it "supports IPv6 URIs" do
+    it "supports IPv6 URIs (with brackets)" do
       org = { target: "mock://[abc::def]:123" }
       res = Train.target_config(org)
       _(res[:backend]).must_equal "mock"
       _(res[:host]).must_equal "abc::def"
+      _(res[:user]).must_be_nil
+      _(res[:password]).must_be_nil
+      _(res[:port]).must_equal 123
+      _(res[:path]).must_be_nil
+      _(res[:target]).must_equal org[:target]
+    end
+
+    it "supports IPv6 URIs (without brackets)" do
+      org = { target: "mock://FEDC:BA98:7654:3210:FEDC:BA98:7654:3210:123" }
+      res = Train.target_config(org)
+      _(res[:backend]).must_equal "mock"
+      _(res[:host]).must_equal "FEDC:BA98:7654:3210:FEDC:BA98:7654:3210"
       _(res[:user]).must_be_nil
       _(res[:password]).must_be_nil
       _(res[:port]).must_equal 123
@@ -193,16 +205,16 @@ describe Train do
 
     it "supports www-form encoded passwords when the option is set" do
       raw_password = '+!@#$%^&*()_-\';:"\\|/?.>,<][}{=`~'
-      encoded_password = URI.encode_www_form_component(raw_password)
-      orig = { target: "mock://username:#{encoded_password}@1.2.3.4:100",
-               www_form_encoded_password: true }
-      result = Train.target_config(orig)
-      _(result[:backend]).must_equal "mock"
-      _(result[:host]).must_equal "1.2.3.4"
-      _(result[:user]).must_equal "username"
-      _(result[:password]).must_equal raw_password
-      _(result[:port]).must_equal 100
-      _(result[:target]).must_equal orig[:target]
+      encoded_password = Addressable::URI.normalize_component(raw_password, Addressable::URI::CharacterClasses::UNRESERVED)
+      org = { target: "mock://username:#{encoded_password}@1.2.3.4:100",
+              www_form_encoded_password: true }
+      res = Train.target_config(org)
+      _(res[:backend]).must_equal "mock"
+      _(res[:host]).must_equal "1.2.3.4"
+      _(res[:user]).must_equal "username"
+      _(res[:password]).must_equal raw_password
+      _(res[:port]).must_equal 100
+      _(res[:target]).must_equal org[:target]
     end
 
     it "ignores www-form-encoded password value when there is no password" do
@@ -217,8 +229,8 @@ describe Train do
       _(res[:target]).must_equal org[:target]
     end
 
-    it "it raises UserError on invalid URIs" do
-      org = { target: "mock world" }
+    it "it raises UserError on invalid URIs (invalid scheme)" do
+      org = { target: "123://invalid_scheme.example.com/" }
       _ { Train.target_config(org) }.must_raise Train::UserError
     end
   end
