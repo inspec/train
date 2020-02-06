@@ -1,23 +1,21 @@
-<!-- latest_release 3.2.20 -->
-## [v3.2.20](https://github.com/inspec/train/tree/v3.2.20) (2020-02-06)
-
-#### Merged Pull Requests
-- Added a blank line to the readme where we needed one. [#567](https://github.com/inspec/train/pull/567) ([zenspider](https://github.com/zenspider))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.14 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Added a blank line to the readme where we needed one. [#567](https://github.com/inspec/train/pull/567) ([zenspider](https://github.com/zenspider)) <!-- 3.2.20 -->
-- Improve debugging experience by making platform and connection less noisy. [#565](https://github.com/inspec/train/pull/565) ([zenspider](https://github.com/zenspider)) <!-- 3.2.19 -->
-- Rebase #339 [#566](https://github.com/inspec/train/pull/566) ([zenspider](https://github.com/zenspider)) <!-- 3.2.18 -->
-- Unified gemspec and fixed dependencies across train and train-core. [#563](https://github.com/inspec/train/pull/563) ([zenspider](https://github.com/zenspider)) <!-- 3.2.17 -->
-- Refactor OS detection. [#561](https://github.com/inspec/train/pull/561) ([zenspider](https://github.com/zenspider)) <!-- 3.2.16 -->
-- Kali Linux platform detection support [#556](https://github.com/inspec/train/pull/556) ([mattray](https://github.com/mattray)) <!-- 3.2.15 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.20](https://github.com/inspec/train/tree/v3.2.20) (2020-02-06)
+
+#### Merged Pull Requests
+- Kali Linux platform detection support [#556](https://github.com/inspec/train/pull/556) ([mattray](https://github.com/mattray))
+- Refactor OS detection. [#561](https://github.com/inspec/train/pull/561) ([zenspider](https://github.com/zenspider))
+- Unified gemspec and fixed dependencies across train and train-core. [#563](https://github.com/inspec/train/pull/563) ([zenspider](https://github.com/zenspider))
+- Rebase #339 [#566](https://github.com/inspec/train/pull/566) ([zenspider](https://github.com/zenspider))
+- Improve debugging experience by making platform and connection less noisy. [#565](https://github.com/inspec/train/pull/565) ([zenspider](https://github.com/zenspider))
+- Added a blank line to the readme where we needed one. [#567](https://github.com/inspec/train/pull/567) ([zenspider](https://github.com/zenspider))
+<!-- latest_stable_release -->
+
 ## [v3.2.14](https://github.com/inspec/train/tree/v3.2.14) (2020-01-23)
 
 #### Merged Pull Requests
@@ -30,7 +28,6 @@
 - Yocto Project family and Yocto Linux and balenaOS platform detection [#558](https://github.com/inspec/train/pull/558) ([mattray](https://github.com/mattray))
 - Make stat command use &#39;-c&#39; for Yocto OS [#559](https://github.com/inspec/train/pull/559) ([michaellihs](https://github.com/michaellihs))
 - Fix verify step for sudo [#557](https://github.com/inspec/train/pull/557) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v3.2.5](https://github.com/inspec/train/tree/v3.2.5) (2019-12-12)
 
