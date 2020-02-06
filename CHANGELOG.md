@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.19 -->
-## [v3.2.19](https://github.com/inspec/train/tree/v3.2.19) (2020-02-03)
+<!-- latest_release 3.2.20 -->
+## [v3.2.20](https://github.com/inspec/train/tree/v3.2.20) (2020-02-06)
 
 #### Merged Pull Requests
-- Improve debugging experience by making platform and connection less noisy. [#565](https://github.com/inspec/train/pull/565) ([zenspider](https://github.com/zenspider))
+- Added a blank line to the readme where we needed one. [#567](https://github.com/inspec/train/pull/567) ([zenspider](https://github.com/zenspider))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.14 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Added a blank line to the readme where we needed one. [#567](https://github.com/inspec/train/pull/567) ([zenspider](https://github.com/zenspider)) <!-- 3.2.20 -->
 - Improve debugging experience by making platform and connection less noisy. [#565](https://github.com/inspec/train/pull/565) ([zenspider](https://github.com/zenspider)) <!-- 3.2.19 -->
 - Rebase #339 [#566](https://github.com/inspec/train/pull/566) ([zenspider](https://github.com/zenspider)) <!-- 3.2.18 -->
 - Unified gemspec and fixed dependencies across train and train-core. [#563](https://github.com/inspec/train/pull/563) ([zenspider](https://github.com/zenspider)) <!-- 3.2.17 -->
