@@ -90,6 +90,7 @@ train = Train.create('aws', region: 'us-east-2', profile: 'my-profile')
 ```
 
 You may also use the standard AWS CLI environment variables, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` and `AWS_REGION`.
+
 ```ruby
 require 'train'
 train = Train.create('aws')
