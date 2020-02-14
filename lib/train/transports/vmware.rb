@@ -1,5 +1,5 @@
 # encoding: utf-8
-require_relative "../plugins"
+require "train/plugins"
 require "open3"
 require "ostruct"
 require "json"
