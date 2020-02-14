@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 2.4"
 
   spec.files = Dir.glob("{LICENSE,lib/**/*}")
-    .grep_v(%r{transports/(clients|docker|helpers|vmware)})
+    .grep_v(%r{transports/(azure|clients|docker|gcp|helpers|vmware)})
     .reject { |f| File.directory?(f) }
 
   spec.require_paths = ["lib"]
