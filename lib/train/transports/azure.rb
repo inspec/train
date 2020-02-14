@@ -1,15 +1,15 @@
 # encoding: utf-8
 
-require_relative "../plugins"
+require "train/plugins"
 require "ms_rest_azure"
 require "azure_mgmt_resources"
 require "azure_graph_rbac"
 require "azure_mgmt_key_vault"
 require "socket"
 require "timeout"
-require_relative "helpers/azure/file_credentials"
-require_relative "clients/azure/graph_rbac"
-require_relative "clients/azure/vault"
+require "train/transports/helpers/azure/file_credentials"
+require "train/transports/clients/azure/graph_rbac"
+require "train/transports/clients/azure/vault"
 
 module Train::Transports
   class Azure < Train.plugin(1)

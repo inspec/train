@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require_relative "../plugins"
+require "train/plugins"
 require "google/apis"
 require "google/apis/cloudresourcemanager_v1"
 require "google/apis/compute_v1"
