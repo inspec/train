@@ -1,19 +1,17 @@
-<!-- latest_release 3.2.22 -->
-## [v3.2.22](https://github.com/inspec/train/tree/v3.2.22) (2020-02-14)
-
-#### Merged Pull Requests
-- Include the LICENSE file in the gem [#571](https://github.com/inspec/train/pull/571) ([btm](https://github.com/btm))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.20 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Include the LICENSE file in the gem [#571](https://github.com/inspec/train/pull/571) ([btm](https://github.com/btm)) <!-- 3.2.22 -->
-- Revert to regular require to fix transport loading across gem boundary [#572](https://github.com/inspec/train/pull/572) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.21 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.22](https://github.com/inspec/train/tree/v3.2.22) (2020-02-18)
+
+#### Merged Pull Requests
+- Revert to regular require to fix transport loading across gem boundary [#572](https://github.com/inspec/train/pull/572) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Include the LICENSE file in the gem [#571](https://github.com/inspec/train/pull/571) ([btm](https://github.com/btm))
+<!-- latest_stable_release -->
+
 ## [v3.2.20](https://github.com/inspec/train/tree/v3.2.20) (2020-02-06)
 
 #### Merged Pull Requests
@@ -23,7 +21,6 @@
 - Rebase #339 [#566](https://github.com/inspec/train/pull/566) ([zenspider](https://github.com/zenspider))
 - Improve debugging experience by making platform and connection less noisy. [#565](https://github.com/inspec/train/pull/565) ([zenspider](https://github.com/zenspider))
 - Added a blank line to the readme where we needed one. [#567](https://github.com/inspec/train/pull/567) ([zenspider](https://github.com/zenspider))
-<!-- latest_stable_release -->
 
 ## [v3.2.14](https://github.com/inspec/train/tree/v3.2.14) (2020-01-23)
 
