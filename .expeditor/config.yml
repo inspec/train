@@ -64,7 +64,7 @@ subscriptions:
     actions:
       - built_in:rollover_changelog
       - built_in:publish_rubygems
-      - built_in:create_github_release
+      # - built_in:create_github_release # This is not yet supported for rubygems - see https://github.com/chef/expeditor/pull/1182
 
 pipelines:
   - verify:
