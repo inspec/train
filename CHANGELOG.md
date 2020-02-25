@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Expeditor - Disable nonfunctional github release option [#573](https://github.com/inspec/train/pull/573) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.22 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Expeditor - Disable nonfunctional github release option [#573](https://github.com/inspec/train/pull/573) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.22 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
