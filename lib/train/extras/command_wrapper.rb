@@ -55,11 +55,10 @@ module Train::Extras
 
     # (see CommandWrapperBase::verify)
     def verify
+      # Do nothing, successfully. Don't use "true", that's not available on Windows.
       cmd = if @sudo
               # Wrap it up. It needs /dev/null on the outside to disable stdin
-              # NOTE: can't use @sudo_command because -v conflicts with -E.
-              #       See test-kitchen's use of this variable for conflict.
-              "sh -c '(#{run("-h")}) < /dev/null'"
+              "sh -c '(#{run("echo")}) < /dev/null'"
             else
               run("echo")
             end
