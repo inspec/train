@@ -1,26 +1,22 @@
-<!-- latest_release 3.2.23 -->
-## [v3.2.23](https://github.com/inspec/train/tree/v3.2.23) (2020-03-02)
-
-#### Merged Pull Requests
-- Attempt to fix --sudo. [#576](https://github.com/inspec/train/pull/576) ([skpaterson](https://github.com/skpaterson))
-- Expeditor - Disable nonfunctional github release option [#573](https://github.com/inspec/train/pull/573) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.22 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Attempt to fix --sudo. [#576](https://github.com/inspec/train/pull/576) ([skpaterson](https://github.com/skpaterson)) <!-- 3.2.23 -->
-- Expeditor - Disable nonfunctional github release option [#573](https://github.com/inspec/train/pull/573) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.22 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.23](https://github.com/inspec/train/tree/v3.2.23) (2020-03-02)
+
+#### Merged Pull Requests
+- Expeditor - Disable nonfunctional github release option [#573](https://github.com/inspec/train/pull/573) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Attempt to fix --sudo. [#576](https://github.com/inspec/train/pull/576) ([skpaterson](https://github.com/skpaterson))
+<!-- latest_stable_release -->
+
 ## [v3.2.22](https://github.com/inspec/train/tree/v3.2.22) (2020-02-18)
 
 #### Merged Pull Requests
 - Revert to regular require to fix transport loading across gem boundary [#572](https://github.com/inspec/train/pull/572) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Include the LICENSE file in the gem [#571](https://github.com/inspec/train/pull/571) ([btm](https://github.com/btm))
-<!-- latest_stable_release -->
 
 ## [v3.2.20](https://github.com/inspec/train/tree/v3.2.20) (2020-02-06)
 
