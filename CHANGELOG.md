@@ -1,7 +1,8 @@
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.2.23 -->
+## [v3.2.23](https://github.com/inspec/train/tree/v3.2.23) (2020-03-02)
 
 #### Merged Pull Requests
+- Attempt to fix --sudo. [#576](https://github.com/inspec/train/pull/576) ([skpaterson](https://github.com/skpaterson))
 - Expeditor - Disable nonfunctional github release option [#573](https://github.com/inspec/train/pull/573) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
@@ -9,6 +10,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Attempt to fix --sudo. [#576](https://github.com/inspec/train/pull/576) ([skpaterson](https://github.com/skpaterson)) <!-- 3.2.23 -->
 - Expeditor - Disable nonfunctional github release option [#573](https://github.com/inspec/train/pull/573) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.22 -->
 <!-- release_rollup -->
 
