@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.2.24 -->
+## [v3.2.24](https://github.com/inspec/train/tree/v3.2.24) (2020-03-03)
+
+#### Merged Pull Requests
+- Update rake dep for security issue [#577](https://github.com/inspec/train/pull/577) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.23 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Update rake dep for security issue [#577](https://github.com/inspec/train/pull/577) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.24 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
