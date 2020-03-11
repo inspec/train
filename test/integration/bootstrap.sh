@@ -1,22 +1,25 @@
 #!/bin/sh
-test ! -e /tmp/folder && \
-  mkdir /tmp/folder
-chmod 0567 /tmp/folder
 
-echo -n 'hello world' > /tmp/file
-test ! -e /tmp/symlink && \
-  ln -s /tmp/file /tmp/symlink
-chmod 0777 /tmp/symlink
-chmod 0765 /tmp/file
+tmpdir=${TMPDIR:-/tmp}
 
-echo -n 'hello suid/sgid/sticky' > /tmp/sfile
-chmod 7765 /tmp/sfile
+test ! -e $tmpdir/folder && \
+  mkdir $tmpdir/folder
+chmod 0567 $tmpdir/folder
 
-echo -n 'hello space' > /tmp/spaced\ file
+echo -n 'hello world' > $tmpdir/file
+test ! -e $tmpdir/symlink && \
+  ln -s $tmpdir/file /tmp/symlink
+chmod 0777 $tmpdir/symlink
+chmod 0765 $tmpdir/file
 
-test ! -e /tmp/pipe && \
-  mkfifo /tmp/pipe
+echo -n 'hello suid/sgid/sticky' > $tmpdir/sfile
+chmod 7765 $tmpdir/sfile
 
-test ! -e /tmp/block_device && \
-  mknod /tmp/block_device b 7 7
-chmod 0666 /tmp/block_device
+echo -n 'hello space' > $tmpdir/spaced\ file
+
+test ! -e $tmpdir/pipe && \
+  mkfifo $tmpdir/pipe
+
+test ! -e $tmpdir/block_device && \
+  mknod $tmpdir/block_device b 7 7
+chmod 0666 $tmpdir/block_device
