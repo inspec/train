@@ -1,26 +1,23 @@
-<!-- latest_release 3.2.26 -->
-## [v3.2.26](https://github.com/inspec/train/tree/v3.2.26) (2020-03-11)
-
-#### Merged Pull Requests
-- Avoid explicit /tmp in favor of $TMPDIR [#578](https://github.com/inspec/train/pull/578) ([majioa](https://github.com/majioa))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.23 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Avoid explicit /tmp in favor of $TMPDIR [#578](https://github.com/inspec/train/pull/578) ([majioa](https://github.com/majioa)) <!-- 3.2.26 -->
-- Move dependency on inifile from train-core to train [#579](https://github.com/inspec/train/pull/579) ([terceiro](https://github.com/terceiro)) <!-- 3.2.25 -->
-- Update rake dep for security issue [#577](https://github.com/inspec/train/pull/577) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.24 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.26](https://github.com/inspec/train/tree/v3.2.26) (2020-03-20)
+
+#### Merged Pull Requests
+- Update rake dep for security issue [#577](https://github.com/inspec/train/pull/577) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Move dependency on inifile from train-core to train [#579](https://github.com/inspec/train/pull/579) ([terceiro](https://github.com/terceiro))
+- Avoid explicit /tmp in favor of $TMPDIR [#578](https://github.com/inspec/train/pull/578) ([majioa](https://github.com/majioa))
+<!-- latest_stable_release -->
+
 ## [v3.2.23](https://github.com/inspec/train/tree/v3.2.23) (2020-03-02)
 
 #### Merged Pull Requests
 - Expeditor - Disable nonfunctional github release option [#573](https://github.com/inspec/train/pull/573) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Attempt to fix --sudo. [#576](https://github.com/inspec/train/pull/576) ([skpaterson](https://github.com/skpaterson))
-<!-- latest_stable_release -->
 
 ## [v3.2.22](https://github.com/inspec/train/tree/v3.2.22) (2020-02-18)
 
