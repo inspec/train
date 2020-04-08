@@ -45,7 +45,7 @@ module Train::Transports
 
         if @options[:client_secret].nil? && @options[:client_id].nil?
           options[:credentials_file] = DEFAULT_FILE if options[:credentials_file].nil?
-          @options.merge!(Helpers::Azure::FileCredentials.parse(@options))
+          @options.merge!(Helpers::Azure::FileCredentials.parse(**@options))
         end
 
         @options[:msi_port] = @options[:msi_port].to_i unless @options[:msi_port].nil?
