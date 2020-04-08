@@ -1,25 +1,22 @@
-<!-- latest_release 3.2.27 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.2.27](https://github.com/inspec/train/tree/v3.2.27) (2020-04-08)
 
 #### Merged Pull Requests
 - Silence deprecation warning under ruby 2.7 [#582](https://github.com/inspec/train/pull/582) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.2.26 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Silence deprecation warning under ruby 2.7 [#582](https://github.com/inspec/train/pull/582) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.27 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.2.26](https://github.com/inspec/train/tree/v3.2.26) (2020-03-20)
 
 #### Merged Pull Requests
 - Update rake dep for security issue [#577](https://github.com/inspec/train/pull/577) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Move dependency on inifile from train-core to train [#579](https://github.com/inspec/train/pull/579) ([terceiro](https://github.com/terceiro))
 - Avoid explicit /tmp in favor of $TMPDIR [#578](https://github.com/inspec/train/pull/578) ([majioa](https://github.com/majioa))
-<!-- latest_stable_release -->
 
 ## [v3.2.23](https://github.com/inspec/train/tree/v3.2.23) (2020-03-02)
 
