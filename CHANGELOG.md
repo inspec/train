@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.2.27 -->
+## [v3.2.27](https://github.com/inspec/train/tree/v3.2.27) (2020-04-08)
+
+#### Merged Pull Requests
+- Silence deprecation warning under ruby 2.7 [#582](https://github.com/inspec/train/pull/582) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.26 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Silence deprecation warning under ruby 2.7 [#582](https://github.com/inspec/train/pull/582) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.2.27 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
