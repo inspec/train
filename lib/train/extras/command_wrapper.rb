@@ -82,6 +82,8 @@ module Train::Extras
       when "sudo: sorry, you must have a tty to run sudo"
         ["Sudo requires a TTY. Please see the README on how to configure "\
           "sudo to allow for non-interactive usage.", :sudo_no_tty]
+      when /\[sudo\] password for root: Sorry, try again./
+        ["[sudo] password for root: Sorry, try again", :sudo_root_password_required]
       else
         [rawerr, nil]
       end
