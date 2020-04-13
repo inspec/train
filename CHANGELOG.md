@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.2.28 -->
+## [v3.2.28](https://github.com/inspec/train/tree/v3.2.28) (2020-04-13)
+
+#### Merged Pull Requests
+- [chef#9635] Add reason for sudo root password [#583](https://github.com/inspec/train/pull/583) ([vsingh-msys](https://github.com/vsingh-msys))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.27 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- [chef#9635] Add reason for sudo root password [#583](https://github.com/inspec/train/pull/583) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.2.28 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
