@@ -72,14 +72,14 @@ module Train::Extras
       rawerr = "#{res.stdout} #{res.stderr}".strip
 
       case rawerr
-      when "Sorry, try again"
+      when /Sorry, try again/
         ["Wrong sudo password.", :bad_sudo_password]
-      when "sudo: no tty present and no askpass program specified"
+      when /sudo: no tty present and no askpass program specified/
         ["Sudo requires a password, please configure it.", :sudo_password_required]
-      when "sudo: command not found"
+      when /sudo: command not found/
         ["Can't find sudo command. Please either install and "\
           "configure it on the target or deactivate sudo.", :sudo_command_not_found]
-      when "sudo: sorry, you must have a tty to run sudo"
+      when /sudo: sorry, you must have a tty to run sudo/
         ["Sudo requires a TTY. Please see the README on how to configure "\
           "sudo to allow for non-interactive usage.", :sudo_no_tty]
       else
