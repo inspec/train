@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.2.29 -->
+## [v3.2.29](https://github.com/inspec/train/tree/v3.2.29) (2020-05-13)
+
+#### Merged Pull Requests
+- Bump Chefstyle and ready for dependabot [#586](https://github.com/inspec/train/pull/586) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.2.28 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Bump Chefstyle and ready for dependabot [#586](https://github.com/inspec/train/pull/586) ([tas50](https://github.com/tas50)) <!-- 3.2.29 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
