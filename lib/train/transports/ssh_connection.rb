@@ -54,7 +54,7 @@ class Train::Transports::SSH
       @bastion_user           = @options.delete(:bastion_user)
       @bastion_port           = @options.delete(:bastion_port)
 
-      @cmd_wrapper            = CommandWrapper.load(self, @transport_options)
+      @cmd_wrapper = CommandWrapper.load(self, @transport_options)
     end
 
     # (see Base::Connection#close)
