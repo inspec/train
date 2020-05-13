@@ -22,7 +22,7 @@ group :test do
 end
 
 group :integration do
-  gem "berkshelf", "~> 6.3.0"
+  gem "berkshelf", "~> 7.0.10"
   gem "test-kitchen", ">= 1.2.4"
   gem "kitchen-vagrant"
 end
