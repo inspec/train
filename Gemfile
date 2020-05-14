@@ -5,7 +5,7 @@ gemspec name: "train"
 group :test do
   gem "coveralls", require: false
   gem "minitest", "~> 5.8"
-  gem "rake", ["~> 12.3", ">= 12.3.3"]
+  gem "rake", "~> 13.0"
   gem "chefstyle", "1.0.2"
   gem "simplecov", "~> 0.10"
   gem "concurrent-ruby", "~> 1.0"
