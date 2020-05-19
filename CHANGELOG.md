@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.32 -->
-## [v3.2.32](https://github.com/inspec/train/tree/v3.2.32) (2020-05-19)
+<!-- latest_release 3.2.33 -->
+## [v3.2.33](https://github.com/inspec/train/tree/v3.2.33) (2020-05-19)
 
 #### Merged Pull Requests
-- Update net-scp requirement from &gt;= 1.2, &lt; 3.0 to &gt;= 1.2, &lt; 4.0 [#590](https://github.com/inspec/train/pull/590) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update chefstyle requirement from 1.0.2 to 1.0.5 [#594](https://github.com/inspec/train/pull/594) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.28 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update chefstyle requirement from 1.0.2 to 1.0.5 [#594](https://github.com/inspec/train/pull/594) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.33 -->
 - Update net-scp requirement from &gt;= 1.2, &lt; 3.0 to &gt;= 1.2, &lt; 4.0 [#590](https://github.com/inspec/train/pull/590) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.32 -->
 - Update activesupport requirement from ~&gt; 5.2.3 to &gt;= 5.2.3, &lt; 6.1.0 [#589](https://github.com/inspec/train/pull/589) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.31 -->
 - Update rake requirement from ~&gt; 12.3, &gt;= 12.3.3 to ~&gt; 13.0 [#595](https://github.com/inspec/train/pull/595) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.30 -->
