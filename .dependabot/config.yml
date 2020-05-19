@@ -1,0 +1,30 @@
+version: 1
+update_configs:
+  - package_manager: "ruby:bundler"
+    directory: "/"
+    update_schedule: "weekly"
+    ignored_updates:
+      - match:
+          dependency_name: "activesupport" # >6.0 drops ruby 2.4 support https://github.com/inspec/train/issues/598
+          version_requirement: ">= 6.0.0"
+      - match:
+          dependency_name: "google-api-client"
+          version_requirement: ">= 0.36"
+      - match:
+          dependency_name: "googleauth"
+          version_requirement: ">= 0.12"
+      - match:
+          dependency_name: "azure_mgmt_resources"
+          version_requirement: ">= 0.16"
+      - match:
+          dependency_name: "azure_mgmt_security"
+          version_requirement: ">= 0.19"
+      - match:
+          dependency_name: "azure_mgmt_storage"
+          version_requirement: ">= 0.19"
+      - match:
+          dependency_name: "azure_mgmt_key_vault"
+          version_requirement: ">= 0.18"
+      - match:
+          dependency_name: "azure_graph_rbac"
+          version_requirement: ">= 0.17"
