@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.30 -->
-## [v3.2.30](https://github.com/inspec/train/tree/v3.2.30) (2020-05-19)
+<!-- latest_release 3.2.31 -->
+## [v3.2.31](https://github.com/inspec/train/tree/v3.2.31) (2020-05-19)
 
 #### Merged Pull Requests
-- Update rake requirement from ~&gt; 12.3, &gt;= 12.3.3 to ~&gt; 13.0 [#595](https://github.com/inspec/train/pull/595) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update activesupport requirement from ~&gt; 5.2.3 to &gt;= 5.2.3, &lt; 6.1.0 [#589](https://github.com/inspec/train/pull/589) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.28 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update activesupport requirement from ~&gt; 5.2.3 to &gt;= 5.2.3, &lt; 6.1.0 [#589](https://github.com/inspec/train/pull/589) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.31 -->
 - Update rake requirement from ~&gt; 12.3, &gt;= 12.3.3 to ~&gt; 13.0 [#595](https://github.com/inspec/train/pull/595) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.30 -->
 - Bump Chefstyle and ready for dependabot [#586](https://github.com/inspec/train/pull/586) ([tas50](https://github.com/tas50)) <!-- 3.2.29 -->
 <!-- release_rollup -->
