@@ -31,5 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "json", ">= 1.8", "< 3.0"
   spec.add_dependency "mixlib-shellout", ">= 2.0", "< 4.0"
   spec.add_dependency "net-scp", ">= 1.2", "< 4.0"
-  spec.add_dependency "net-ssh", ">= 2.9", "< 6.0"
+  spec.add_dependency "net-ssh", ">= 2.9", "< 7.0"
 end
