@@ -22,8 +22,14 @@ module Train
         def exist?
           @exist ||= begin
             f = @follow_symlink ? "" : " || test -L #{@spath}"
-            @backend.run_command("test -e #{@spath}" + f)
-              .exit_status == 0
+            if @backend.platform.solaris?
+              # Solaris does not support `-e` flag in default `test`,
+              # so we specify by running /usr/bin/test:
+              # https://github.com/inspec/train/issues/587
+              @backend.run_command("/usr/bin/test -e #{@spath}" + f)
+            else
+              @backend.run_command("test -e #{@spath}" + f)
+            end.exit_status == 0
           end
         end
 
