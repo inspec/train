@@ -16,6 +16,9 @@ class Train::Transports::SSH
       # Use all options left that are not `nil` for `Net::SSH.start` later
       @ssh_options = options.reject { |_key, value| value.nil? }
 
+      # Allow older algorithms
+      @ssh_options[:append_all_supported_algorithms] = true
+
       @prompt = /^\S+[>#]\r\n.*$/
     end
 
