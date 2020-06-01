@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.35 -->
-## [v3.2.35](https://github.com/inspec/train/tree/v3.2.35) (2020-06-01)
+<!-- latest_release 3.2.36 -->
+## [v3.2.36](https://github.com/inspec/train/tree/v3.2.36) (2020-06-01)
 
 #### Merged Pull Requests
-- Ensure file --&gt; exist works with Solaris10 [#600](https://github.com/inspec/train/pull/600) ([Schwad](https://github.com/Schwad))
+- Update activesupport to &gt;= 5.2.4.3 for CVE-2020-8165 [#602](https://github.com/inspec/train/pull/602) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.28 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update activesupport to &gt;= 5.2.4.3 for CVE-2020-8165 [#602](https://github.com/inspec/train/pull/602) ([james-stocks](https://github.com/james-stocks)) <!-- 3.2.36 -->
 - Ensure file --&gt; exist works with Solaris10 [#600](https://github.com/inspec/train/pull/600) ([Schwad](https://github.com/Schwad)) <!-- 3.2.35 -->
 - Updates dependabot configs [#596](https://github.com/inspec/train/pull/596) ([Schwad](https://github.com/Schwad)) <!-- 3.2.34 -->
 - Update chefstyle requirement from 1.0.2 to 1.0.5 [#594](https://github.com/inspec/train/pull/594) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.33 -->
