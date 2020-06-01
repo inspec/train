@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.34 -->
-## [v3.2.34](https://github.com/inspec/train/tree/v3.2.34) (2020-05-29)
+<!-- latest_release 3.2.35 -->
+## [v3.2.35](https://github.com/inspec/train/tree/v3.2.35) (2020-06-01)
 
 #### Merged Pull Requests
-- Updates dependabot configs [#596](https://github.com/inspec/train/pull/596) ([Schwad](https://github.com/Schwad))
+- Ensure file --&gt; exist works with Solaris10 [#600](https://github.com/inspec/train/pull/600) ([Schwad](https://github.com/Schwad))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.28 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Ensure file --&gt; exist works with Solaris10 [#600](https://github.com/inspec/train/pull/600) ([Schwad](https://github.com/Schwad)) <!-- 3.2.35 -->
 - Updates dependabot configs [#596](https://github.com/inspec/train/pull/596) ([Schwad](https://github.com/Schwad)) <!-- 3.2.34 -->
 - Update chefstyle requirement from 1.0.2 to 1.0.5 [#594](https://github.com/inspec/train/pull/594) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.33 -->
 - Update net-scp requirement from &gt;= 1.2, &lt; 3.0 to &gt;= 1.2, &lt; 4.0 [#590](https://github.com/inspec/train/pull/590) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.32 -->
