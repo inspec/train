@@ -37,7 +37,6 @@ module Train::Platforms::Detect::Helpers
 
       begin
         payload = JSON.parse(command.stdout)
-        
         @platform[:family] = "windows"
         @platform[:release] = payload["Version"]
         @platform[:name] = payload["Caption"]
@@ -45,7 +44,7 @@ module Train::Platforms::Detect::Helpers
         read_wmic
         true
       rescue
-        return false
+        false
       end
     end
 
