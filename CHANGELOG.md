@@ -1,14 +1,15 @@
-<!-- latest_release 3.2.36 -->
-## [v3.2.36](https://github.com/inspec/train/tree/v3.2.36) (2020-06-01)
+<!-- latest_release 3.2.37 -->
+## [v3.2.37](https://github.com/inspec/train/tree/v3.2.37) (2020-06-05)
 
 #### Merged Pull Requests
-- Update activesupport to &gt;= 5.2.4.3 for CVE-2020-8165 [#602](https://github.com/inspec/train/pull/602) ([james-stocks](https://github.com/james-stocks))
+- Pin ffi to &lt; 1.13 [#606](https://github.com/inspec/train/pull/606) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.2.28 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Pin ffi to &lt; 1.13 [#606](https://github.com/inspec/train/pull/606) ([james-stocks](https://github.com/james-stocks)) <!-- 3.2.37 -->
 - Update activesupport to &gt;= 5.2.4.3 for CVE-2020-8165 [#602](https://github.com/inspec/train/pull/602) ([james-stocks](https://github.com/james-stocks)) <!-- 3.2.36 -->
 - Ensure file --&gt; exist works with Solaris10 [#600](https://github.com/inspec/train/pull/600) ([Schwad](https://github.com/Schwad)) <!-- 3.2.35 -->
 - Updates dependabot configs [#596](https://github.com/inspec/train/pull/596) ([Schwad](https://github.com/Schwad)) <!-- 3.2.34 -->
