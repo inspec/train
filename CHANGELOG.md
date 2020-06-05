@@ -1,31 +1,28 @@
-<!-- latest_release 3.2.37 -->
-## [v3.2.37](https://github.com/inspec/train/tree/v3.2.37) (2020-06-05)
-
-#### Merged Pull Requests
-- Pin ffi to &lt; 1.13 [#606](https://github.com/inspec/train/pull/606) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.28 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Pin ffi to &lt; 1.13 [#606](https://github.com/inspec/train/pull/606) ([james-stocks](https://github.com/james-stocks)) <!-- 3.2.37 -->
-- Update activesupport to &gt;= 5.2.4.3 for CVE-2020-8165 [#602](https://github.com/inspec/train/pull/602) ([james-stocks](https://github.com/james-stocks)) <!-- 3.2.36 -->
-- Ensure file --&gt; exist works with Solaris10 [#600](https://github.com/inspec/train/pull/600) ([Schwad](https://github.com/Schwad)) <!-- 3.2.35 -->
-- Updates dependabot configs [#596](https://github.com/inspec/train/pull/596) ([Schwad](https://github.com/Schwad)) <!-- 3.2.34 -->
-- Update chefstyle requirement from 1.0.2 to 1.0.5 [#594](https://github.com/inspec/train/pull/594) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.33 -->
-- Update net-scp requirement from &gt;= 1.2, &lt; 3.0 to &gt;= 1.2, &lt; 4.0 [#590](https://github.com/inspec/train/pull/590) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.32 -->
-- Update activesupport requirement from ~&gt; 5.2.3 to &gt;= 5.2.3, &lt; 6.1.0 [#589](https://github.com/inspec/train/pull/589) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.31 -->
-- Update rake requirement from ~&gt; 12.3, &gt;= 12.3.3 to ~&gt; 13.0 [#595](https://github.com/inspec/train/pull/595) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.30 -->
-- Bump Chefstyle and ready for dependabot [#586](https://github.com/inspec/train/pull/586) ([tas50](https://github.com/tas50)) <!-- 3.2.29 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.2.37](https://github.com/inspec/train/tree/v3.2.37) (2020-06-05)
+
+#### Merged Pull Requests
+- Bump Chefstyle and ready for dependabot [#586](https://github.com/inspec/train/pull/586) ([tas50](https://github.com/tas50))
+- Update rake requirement from ~&gt; 12.3, &gt;= 12.3.3 to ~&gt; 13.0 [#595](https://github.com/inspec/train/pull/595) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update activesupport requirement from ~&gt; 5.2.3 to &gt;= 5.2.3, &lt; 6.1.0 [#589](https://github.com/inspec/train/pull/589) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update net-scp requirement from &gt;= 1.2, &lt; 3.0 to &gt;= 1.2, &lt; 4.0 [#590](https://github.com/inspec/train/pull/590) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update chefstyle requirement from 1.0.2 to 1.0.5 [#594](https://github.com/inspec/train/pull/594) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Updates dependabot configs [#596](https://github.com/inspec/train/pull/596) ([Schwad](https://github.com/Schwad))
+- Ensure file --&gt; exist works with Solaris10 [#600](https://github.com/inspec/train/pull/600) ([Schwad](https://github.com/Schwad))
+- Update activesupport to &gt;= 5.2.4.3 for CVE-2020-8165 [#602](https://github.com/inspec/train/pull/602) ([james-stocks](https://github.com/james-stocks))
+- Pin ffi to &lt; 1.13 [#606](https://github.com/inspec/train/pull/606) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v3.2.28](https://github.com/inspec/train/tree/v3.2.28) (2020-04-13)
 
 #### Merged Pull Requests
 - [chef#9635] Add reason for sudo root password [#583](https://github.com/inspec/train/pull/583) ([vsingh-msys](https://github.com/vsingh-msys))
-<!-- latest_stable_release -->
 
 ## [v3.2.27](https://github.com/inspec/train/tree/v3.2.27) (2020-04-08)
 
