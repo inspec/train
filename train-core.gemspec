@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "addressable", "~> 2.5"
+  spec.add_dependency "ffi", "< 1.13"
   spec.add_dependency "json", ">= 1.8", "< 3.0"
   spec.add_dependency "mixlib-shellout", ">= 2.0", "< 4.0"
   spec.add_dependency "net-scp", ">= 1.2", "< 4.0"
