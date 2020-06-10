@@ -1,20 +1,18 @@
-<!-- latest_release 3.3.1 -->
-## [v3.3.1](https://github.com/inspec/train/tree/v3.3.1) (2020-06-10)
-
-#### Merged Pull Requests
-- Update ffi dependency [#610](https://github.com/inspec/train/pull/610) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.2.37 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Update ffi dependency [#610](https://github.com/inspec/train/pull/610) ([james-stocks](https://github.com/james-stocks)) <!-- 3.3.1 -->
-- Update to net-ssh 6 and allow older algorithms [#603](https://github.com/inspec/train/pull/603) ([james-stocks](https://github.com/james-stocks)) <!-- 3.3.0 -->
-- Update chefstyle requirement from 1.0.5 to 1.1.0 [#608](https://github.com/inspec/train/pull/608) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.2.38 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.3.1](https://github.com/inspec/train/tree/v3.3.1) (2020-06-10)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.0.5 to 1.1.0 [#608](https://github.com/inspec/train/pull/608) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update to net-ssh 6 and allow older algorithms [#603](https://github.com/inspec/train/pull/603) ([james-stocks](https://github.com/james-stocks))
+- Update ffi dependency [#610](https://github.com/inspec/train/pull/610) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v3.2.37](https://github.com/inspec/train/tree/v3.2.37) (2020-06-05)
 
 #### Merged Pull Requests
@@ -27,7 +25,6 @@
 - Ensure file --&gt; exist works with Solaris10 [#600](https://github.com/inspec/train/pull/600) ([Schwad](https://github.com/Schwad))
 - Update activesupport to &gt;= 5.2.4.3 for CVE-2020-8165 [#602](https://github.com/inspec/train/pull/602) ([james-stocks](https://github.com/james-stocks))
 - Pin ffi to &lt; 1.13 [#606](https://github.com/inspec/train/pull/606) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v3.2.28](https://github.com/inspec/train/tree/v3.2.28) (2020-04-13)
 
