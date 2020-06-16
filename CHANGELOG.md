@@ -1,17 +1,20 @@
 <!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.3.1 -->
+### Changes not yet released to rubygems.org
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.3.1](https://github.com/inspec/train/tree/v3.3.1) (2020-06-16)
+<!-- latest_stable_release -->
+
 ## [v3.3.1](https://github.com/inspec/train/tree/v3.3.1) (2020-06-10)
 
 #### Merged Pull Requests
 - Update chefstyle requirement from 1.0.5 to 1.1.0 [#608](https://github.com/inspec/train/pull/608) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Update to net-ssh 6 and allow older algorithms [#603](https://github.com/inspec/train/pull/603) ([james-stocks](https://github.com/james-stocks))
 - Update ffi dependency [#610](https://github.com/inspec/train/pull/610) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v3.2.37](https://github.com/inspec/train/tree/v3.2.37) (2020-06-05)
 
