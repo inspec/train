@@ -9,6 +9,8 @@
 ## [v3.3.1](https://github.com/inspec/train/tree/v3.3.1) (2020-06-16)
 <!-- latest_stable_release -->
 
+## [v3.3.1](https://github.com/inspec/train/tree/v3.3.1) (2020-06-16)
+
 ## [v3.3.1](https://github.com/inspec/train/tree/v3.3.1) (2020-06-10)
 
 #### Merged Pull Requests
