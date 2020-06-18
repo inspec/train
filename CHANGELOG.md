@@ -1,8 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.3.2 -->
+## [v3.3.2](https://github.com/inspec/train/tree/v3.3.2) (2020-06-18)
+
+#### Merged Pull Requests
+- Add DragonflyBSD detection [#614](https://github.com/inspec/train/pull/614) ([tecracer-theinen](https://github.com/tecracer-theinen))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.1 -->
 ### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Add DragonflyBSD detection [#614](https://github.com/inspec/train/pull/614) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 3.3.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
