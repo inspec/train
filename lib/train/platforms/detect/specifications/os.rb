@@ -369,6 +369,7 @@ module Train::Platforms::Detect::Specifications
       declare_bsd("freebsd", "Freebsd", "bsd", /freebsd/i)
       declare_bsd("openbsd", "Openbsd", "bsd", /openbsd/i)
       declare_bsd("netbsd", "Netbsd", "bsd", /netbsd/i)
+      declare_bsd("dragonflybsd", "Dragonflybsd", "bsd", /dragonfly/i)
     end
 
     def self.load_other
