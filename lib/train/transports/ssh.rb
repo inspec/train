@@ -65,6 +65,9 @@ module Train::Transports
     option :non_interactive, default: false
     option :verify_host_key, default: false
 
+    # Allow connecting with older algorithms
+    option :append_all_supported_algorithms, default: true
+
     option :compression_level do |opts|
       # on nil or false: set compression level to 0
       opts[:compression] ? 6 : 0
@@ -167,6 +170,7 @@ module Train::Transports
         bastion_user: opts[:bastion_user],
         bastion_port: opts[:bastion_port],
         non_interactive: opts[:non_interactive],
+        append_all_supported_algorithms: opts[:append_all_supported_algorithms],
         transport_options: opts,
       }
       # disable host key verification. The hash key and value to use

@@ -202,8 +202,6 @@ class Train::Transports::SSH
         require "net/ssh/proxy/command"
         @options[:proxy] = Net::SSH::Proxy::Command.new(generate_proxy_command)
       end
-      # Allow older algorithms
-      @options[:append_all_supported_algorithms] = true
       Net::SSH.start(@hostname, @username, @options.clone.delete_if { |_key, value| value.nil? })
     rescue *RESCUE_EXCEPTIONS_ON_ESTABLISH => e
       if (opts[:retries] -= 1) <= 0
