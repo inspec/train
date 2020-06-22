@@ -79,7 +79,7 @@ module Train::Transports
       validate_options(opts)
       conn_opts = connection_options(opts)
 
-      if defined?(@connection) && @connection_options == conn_opts
+      if defined?(@connection) && reusable_connection?(conn_opts)
         reuse_connection(&block)
       else
         create_new_connection(conn_opts, &block)
@@ -87,6 +87,14 @@ module Train::Transports
     end
 
     private
+
+    def reusable_connection?(conn_opts)
+      return false unless @connection_options
+
+      current_options = @connection_options
+
+      current_options.all? { |k, v| conn_opts[k] == v }
+    end
 
     def validate_options(options)
       super(options)
