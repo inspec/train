@@ -65,6 +65,9 @@ module Train::Transports
     option :non_interactive, default: false
     option :verify_host_key, default: false
 
+    # Allow connecting with older algorithms
+    option :append_all_supported_algorithms, default: true
+
     option :compression_level do |opts|
       # on nil or false: set compression level to 0
       opts[:compression] ? 6 : 0
@@ -76,7 +79,7 @@ module Train::Transports
       validate_options(opts)
       conn_opts = connection_options(opts)
 
-      if defined?(@connection) && @connection_options == conn_opts
+      if defined?(@connection) && reusable_connection?(conn_opts)
         reuse_connection(&block)
       else
         create_new_connection(conn_opts, &block)
@@ -84,6 +87,13 @@ module Train::Transports
     end
 
     private
+
+    def reusable_connection?(conn_opts)
+      return false unless @connection_options
+
+      # Do requested options match their current settings
+      @connection_options.all? { |k, v| conn_opts[k] == v }
+    end
 
     def validate_options(options)
       super(options)
@@ -167,6 +177,7 @@ module Train::Transports
         bastion_user: opts[:bastion_user],
         bastion_port: opts[:bastion_port],
         non_interactive: opts[:non_interactive],
+        append_all_supported_algorithms: opts[:append_all_supported_algorithms],
         transport_options: opts,
       }
       # disable host key verification. The hash key and value to use
