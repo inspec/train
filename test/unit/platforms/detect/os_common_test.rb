@@ -57,7 +57,7 @@ describe "os_common" do
   describe "#detect_linux_arch" do
     it "uname m call" do
       be = mock("Backend")
-      be.stubs(:run_command).with("uname -m").returns(mock("Output", stdout: "x86_64\n"))
+      be.stubs(:run_command).with("uname -m").returns(mock("Output", stdout: "x86_64\n", stderr: ""))
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@uname, {})
       _(detector.unix_uname_m).must_equal("x86_64")
@@ -65,7 +65,7 @@ describe "os_common" do
 
     it "uname s call" do
       be = mock("Backend")
-      be.stubs(:run_command).with("uname -s").returns(mock("Output", stdout: "linux"))
+      be.stubs(:run_command).with("uname -s").returns(mock("Output", stdout: "linux", stderr: ""))
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@uname, {})
       _(detector.unix_uname_s).must_equal("linux")
@@ -73,7 +73,7 @@ describe "os_common" do
 
     it "uname r call" do
       be = mock("Backend")
-      be.stubs(:run_command).with("uname -r").returns(mock("Output", stdout: "17.0.0\n"))
+      be.stubs(:run_command).with("uname -r").returns(mock("Output", stdout: "17.0.0\n", stderr: ""))
       detector.instance_variable_set(:@backend, be)
       detector.instance_variable_set(:@uname, {})
       _(detector.unix_uname_r).must_equal("17.0.0")
