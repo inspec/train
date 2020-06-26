@@ -36,7 +36,7 @@ module Train::Platforms::Detect::Helpers
     def command_output(cmd)
       res = @backend.run_command(cmd)
       output = res.stdout
-      output = res.stderr if output == ""  && res.exit_status != 0
+      output = res.stderr if output == "" && res.exit_status != 0
       # When you try to execute command using ssh connction as root user and you have provided ssh user identity file
       # it gives standard output to login as authorised user other than root. To show this standard ouput as an error
       # to user we are matching the string of stdout and raising the error here so that user gets exact information.
