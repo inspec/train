@@ -35,19 +35,23 @@ module Train::Platforms::Detect::Helpers
 
     def command_output(cmd)
       res = @backend.run_command(cmd)
+      stdout = res.stdout
+      stderr = res.stderr
       # When you try to execute command using ssh connction as root user and you have provided ssh user identity file
       # it gives standard output to login as authorised user other than root. To show this standard ouput as an error
       # to user we are matching the string of stdout and raising the error here so that user gets exact information.
-      if @backend.class.to_s == "Train::Transports::SSH::Connection" && res.stdout =~ /Please login as the user/
-        raise Train::UserError, "SSH failed: #{res.stdout}"
+      if @backend.class.to_s == "Train::Transports::SSH::Connection"
+        if stdout =~ /Please login as the user/
+          raise Train::UserError, "SSH failed: #{stdout}"
+        end
+
+        if stderr =~ /WARNING: Your password has expired/
+          raise Train::UserError, "SSH failed: #{stderr}"
+        end
       end
 
-      if @backend.class.to_s == "Train::Transports::SSH::Connection" && res.stderr =~ /WARNING: Your password has expired/
-        raise Train::UserError, "SSH failed: #{res.stderr}"
-      end
-
-      res.stdout.strip! unless res.stdout.nil?
-      res.stdout
+      stdout.strip! unless stdout.nil?
+      stdout
     end
 
     def unix_uname_s
