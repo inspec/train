@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.3.5 -->
+## [v3.3.5](https://github.com/inspec/train/tree/v3.3.5) (2020-07-01)
+
+#### Merged Pull Requests
+- Fix incorrect error message when password is expired [#616](https://github.com/inspec/train/pull/616) ([vsingh-msys](https://github.com/vsingh-msys))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.3.4 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Fix incorrect error message when password is expired [#616](https://github.com/inspec/train/pull/616) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.3.5 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
