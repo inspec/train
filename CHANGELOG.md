@@ -1,26 +1,23 @@
-<!-- latest_release 3.3.6 -->
-## [v3.3.6](https://github.com/inspec/train/tree/v3.3.6) (2020-07-02)
-
-#### Merged Pull Requests
-- Properly detect macOS Big Sur as being platform mac_os_x [#618](https://github.com/inspec/train/pull/618) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.3.4 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Properly detect macOS Big Sur as being platform mac_os_x [#618](https://github.com/inspec/train/pull/618) ([tas50](https://github.com/tas50)) <!-- 3.3.6 -->
-- Fix incorrect error message when password is expired [#616](https://github.com/inspec/train/pull/616) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.3.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.3.6](https://github.com/inspec/train/tree/v3.3.6) (2020-07-02)
+
+#### Merged Pull Requests
+- Fix incorrect error message when password is expired [#616](https://github.com/inspec/train/pull/616) ([vsingh-msys](https://github.com/vsingh-msys))
+- Properly detect macOS Big Sur as being platform mac_os_x [#618](https://github.com/inspec/train/pull/618) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v3.3.4](https://github.com/inspec/train/tree/v3.3.4) (2020-06-25)
 
 #### Merged Pull Requests
 - Add DragonflyBSD detection [#614](https://github.com/inspec/train/pull/614) ([tecracer-theinen](https://github.com/tecracer-theinen))
 - Update chefstyle requirement from 1.1.0 to 1.1.1 [#611](https://github.com/inspec/train/pull/611) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Fix SSH Connection reuse [#613](https://github.com/inspec/train/pull/613) ([tecracer-theinen](https://github.com/tecracer-theinen))
-<!-- latest_stable_release -->
 
 ## [v3.3.1](https://github.com/inspec/train/tree/v3.3.1) (2020-06-16)
 
