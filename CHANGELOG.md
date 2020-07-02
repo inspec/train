@@ -1,14 +1,15 @@
-<!-- latest_release 3.3.5 -->
-## [v3.3.5](https://github.com/inspec/train/tree/v3.3.5) (2020-07-01)
+<!-- latest_release 3.3.6 -->
+## [v3.3.6](https://github.com/inspec/train/tree/v3.3.6) (2020-07-02)
 
 #### Merged Pull Requests
-- Fix incorrect error message when password is expired [#616](https://github.com/inspec/train/pull/616) ([vsingh-msys](https://github.com/vsingh-msys))
+- Properly detect macOS Big Sur as being platform mac_os_x [#618](https://github.com/inspec/train/pull/618) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.4 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Properly detect macOS Big Sur as being platform mac_os_x [#618](https://github.com/inspec/train/pull/618) ([tas50](https://github.com/tas50)) <!-- 3.3.6 -->
 - Fix incorrect error message when password is expired [#616](https://github.com/inspec/train/pull/616) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.3.5 -->
 <!-- release_rollup -->
 
