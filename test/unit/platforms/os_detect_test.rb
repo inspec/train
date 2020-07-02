@@ -89,9 +89,19 @@ describe "os_detect" do
 
   describe "darwin" do
     describe "mac_os_x" do
-      it "sets the correct family, name, and release on os_x" do
+      it "sets the correct family, name, and release on macOS < 11" do
         files = {
           "/System/Library/CoreServices/SystemVersion.plist" => "<string>Mac OS X</string>",
+        }
+        platform = scan_with_files("darwin", files)
+        _(platform[:name]).must_equal("mac_os_x")
+        _(platform[:family]).must_equal("darwin")
+        _(platform[:release]).must_equal("test-release")
+      end
+
+      it "sets the correct family, name, and release on macOS >= 11" do
+        files = {
+          "/System/Library/CoreServices/SystemVersion.plist" => "<string>macOS</string>",
         }
         platform = scan_with_files("darwin", files)
         _(platform[:name]).must_equal("mac_os_x")
