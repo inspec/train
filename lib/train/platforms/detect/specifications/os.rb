@@ -357,7 +357,7 @@ module Train::Platforms::Detect::Specifications
       declare_instance("mac_os_x", "macOS X", "darwin") do
         cmd = unix_file_contents("/System/Library/CoreServices/SystemVersion.plist")
         @platform[:uuid_command] = "system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'"
-        cmd =~ /Mac OS X/i
+        cmd =~ /Mac OS X|macOS/i
       end
 
       declare_instance("darwin", "Darwin", "darwin") do
