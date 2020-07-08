@@ -5,7 +5,7 @@
 # Helper recipe to create create a few files in the operating
 # systems, which the runner will test against.
 
-gid = node["platform_family"] == "aix" ? "system" : node["root_group"]
+gid = platform_family?("aix") ? "system" : node["root_group"]
 
 file "/tmp/file" do
   mode "0765"

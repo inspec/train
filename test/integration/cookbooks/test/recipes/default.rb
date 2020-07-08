@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Dominik Richter
 #
 # Helper recipe to create create a few files in the operating
@@ -9,7 +8,8 @@
 # Finally (for now), it actually executes the all tests with
 # the local execution backend
 
-include_recipe("test::prep_files")
+include_recipe "sudo"
+include_recipe "::prep_files"
 
 # prepare ssh for backend
 execute "create ssh key" do
@@ -58,6 +58,8 @@ sudo "customcommand" do
   nopasswd true
   defaults ["!requiretty"]
 end
+
+build_essential
 
 # execute tests
 execute "bundle install" do
