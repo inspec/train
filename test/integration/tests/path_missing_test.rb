@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe "file interface" do
   let(:backend) { get_backend.call }
 

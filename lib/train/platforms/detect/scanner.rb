@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require_relative "helpers/os_common"
 
 module Train::Platforms::Detect

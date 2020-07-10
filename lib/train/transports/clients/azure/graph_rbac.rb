@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "azure_graph_rbac"
 
 # Wrapper class for ::Azure::GraphRbac::Profiles::Latest::Client allowing custom configuration,

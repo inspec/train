@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "train/plugins"
 require "google/apis"
 require "google/apis/cloudresourcemanager_v1"

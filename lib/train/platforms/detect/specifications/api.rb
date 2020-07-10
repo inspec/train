@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Train::Platforms::Detect::Specifications
   class Api
     def self.load

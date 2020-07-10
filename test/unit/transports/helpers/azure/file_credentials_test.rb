@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "helper"
 require "tempfile"
 require "train/transports/helpers/azure/file_credentials"

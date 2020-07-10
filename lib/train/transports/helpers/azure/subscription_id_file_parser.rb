@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Train::Transports
   module Helpers
     module Azure

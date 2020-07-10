@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require_relative "platforms/common"
 require_relative "platforms/detect"
 require_relative "platforms/detect/scanner"

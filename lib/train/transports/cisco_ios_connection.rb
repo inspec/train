@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 class Train::Transports::SSH
   class CiscoIOSConnection < BaseConnection
     class BadEnablePassword < Train::TransportError; end

@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Jeremy Miller
 
 require_relative "run_as"

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "azure_mgmt_key_vault"
 
 # Wrapper class for ::Azure::KeyVault::Profiles::Latest::Mgmt::Client allowing custom configuration,

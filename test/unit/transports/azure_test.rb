@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "helper"
 
 # Required because this test file acesses classes under Azure::

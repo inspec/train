@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Train::Platforms
   class Family
     include Train::Platforms::Common
