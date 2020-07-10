@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "train/plugins"
 require "ms_rest_azure"
 require "azure_mgmt_resources"

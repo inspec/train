@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Train::Platforms
   module Common
     # Add a family connection. This will create a family

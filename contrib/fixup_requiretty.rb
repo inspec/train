@@ -1,4 +1,3 @@
-# encoding: utf-8
 # author: Stephan Renatus
 #
 # chef-apply script to fix sudoers configuration

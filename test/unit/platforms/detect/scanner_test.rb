@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "helper"
 require "train/platforms/detect/scanner"
 require "train/transports/mock"

@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 module Train::Platforms::Detect::Helpers
   module Linux
     def redhatish_platform(conf)

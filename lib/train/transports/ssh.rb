@@ -1,4 +1,3 @@
-# encoding: utf-8
 #
 # Author:: Fletcher Nichol (<fnichol@nichol.ca>)
 # Author:: Dominik Richter (<dominik.richter@gmail.com>)

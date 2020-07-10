@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require "inifile"
 require_relative "file_parser"
 require_relative "subscription_number_file_parser"

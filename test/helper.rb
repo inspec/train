@@ -1,4 +1,3 @@
-# encoding: utf-8
 if ENV["CI_ENABLE_COVERAGE"]
   require "simplecov"
   require "coveralls"

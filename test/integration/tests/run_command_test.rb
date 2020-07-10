@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 describe "run_command" do
   let(:backend) { get_backend.call }
 
