@@ -235,12 +235,12 @@ class Train::Transports::SSH
       end
     end
 
-    def run_command_via_connection(cmd, &data_handler)
+    def run_command_via_connection(cmd, opts, &data_handler)
       cmd.dup.force_encoding("binary") if cmd.respond_to?(:force_encoding)
 
       reset_session if session.closed?
 
-      exit_status, stdout, stderr = execute_on_channel(cmd, &data_handler)
+      exit_status, stdout, stderr = execute_on_channel(cmd, opts, &data_handler)
 
       # Since `@session.loop` succeeded, reset the IOS command retry counter
       @ios_cmd_retries = 0
@@ -297,7 +297,8 @@ class Train::Transports::SSH
     #         not received.
     #
     # @api private
-    def execute_on_channel(cmd)
+    def execute_on_channel(cmd, opts)
+      timeout = opts[:timeout]&.to_i
       stdout = ""
       stderr = ""
       exit_status = nil
@@ -307,12 +308,13 @@ class Train::Transports::SSH
 
         logger.debug("[SSH] #{self} cmd = #{cmd}")
 
-        if @transport_options[:pty]
+        if @transport_options[:pty] || timeout
           channel.request_pty do |_ch, success|
             raise Train::Transports::SSHPTYFailed, "Requesting PTY failed" unless success
           end
         end
 
+        
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
           channel.on_data do |_, data|
@@ -334,7 +336,20 @@ class Train::Transports::SSH
           end
         end
       end
-      session.loop
+
+      thr = Thread.new { session.loop }
+      
+      if timeout
+        res = thr.join(timeout)
+        unless res
+          logger.info("ssh command reached requested timeout (#{timeout}s)")
+          session.channels.each_value { |c| c.eof!; c.close }
+          raise Train::CommandTimeoutReached.new "ssh command reached timeout (#{timeout}s)"
+        end
+      else
+        thr.join
+      end
+
       [exit_status, stdout, stderr]
     end
   end
