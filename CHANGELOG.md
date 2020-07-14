@@ -1,14 +1,15 @@
-<!-- latest_release 3.3.10 -->
-## [v3.3.10](https://github.com/inspec/train/tree/v3.3.10) (2020-07-10)
+<!-- latest_release 3.3.11 -->
+## [v3.3.11](https://github.com/inspec/train/tree/v3.3.11) (2020-07-14)
 
 #### Merged Pull Requests
-- Remove the redundant encoding comments [#623](https://github.com/inspec/train/pull/623) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.1.2 to 1.1.3 [#624](https://github.com/inspec/train/pull/624) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.6 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update chefstyle requirement from 1.1.2 to 1.1.3 [#624](https://github.com/inspec/train/pull/624) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.11 -->
 - Remove the redundant encoding comments [#623](https://github.com/inspec/train/pull/623) ([tas50](https://github.com/tas50)) <!-- 3.3.10 -->
 - Run Chefstyle on the oldest ruby we support [#621](https://github.com/inspec/train/pull/621) ([tas50](https://github.com/tas50)) <!-- 3.3.9 -->
 - Get the old integration tests closer to running [#620](https://github.com/inspec/train/pull/620) ([tas50](https://github.com/tas50)) <!-- 3.3.8 -->
