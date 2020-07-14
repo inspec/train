@@ -16,7 +16,7 @@ module Train::Transports
       @connection ||= Connection.new(@options)
     end
 
-    class Connection < BaseConnection # rubocop:disable ClassLength
+    class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
       POWERSHELL_PROMPT_REGEX = /PS\s.*> $/.freeze
 
       def initialize(options)
