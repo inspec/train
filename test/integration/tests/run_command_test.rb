@@ -30,4 +30,17 @@ describe "run_command" do
     _(res.stderr).must_equal("")
     _(res.exit_status).must_equal(123)
   end
+
+  it "completes a command with ample timeout" do
+    res = backend.run_command("echo hello world", timeout: 5)
+    _(res.stdout).must_equal("hello world\n")
+    _(res.stderr).must_equal("")
+    _(res.exit_status).must_equal(0)
+  end
+
+  it "raises CommandTimeoutReached on timeout" do
+    assert_raises Train::CommandTimeoutReached do
+      backend.run_command("sleep 2", timeout: 1)
+    end
+  end
 end

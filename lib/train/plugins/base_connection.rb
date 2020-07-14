@@ -127,13 +127,17 @@ class Train::Plugins::Transport
     # This is the main command call for all connections. This will call the private
     # run_command_via_connection on the connection with optional caching
     #
+    # Supported options for the opts hash:
+    # :timeout    Number of seconds to allow before a timeout. Implemented in the
+    #             derived connection class (currently ssh_connection)
+    #
     # This command accepts an optional data handler block. When provided,
     # inbound data will be published vi `data_handler.call(data)`. This can allow
     # callers to receive and render updates from remote command execution.
-    def run_command(cmd, &data_handler)
-      return run_command_via_connection(cmd, &data_handler) unless cache_enabled?(:command)
+    def run_command(cmd, opts = {}, &data_handler)
+      return run_command_via_connection(cmd, opts, &data_handler) unless cache_enabled?(:command)
 
-      @cache[:command][cmd] ||= run_command_via_connection(cmd, &data_handler)
+      @cache[:command][cmd] ||= run_command_via_connection(cmd, opts, &data_handler)
     end
 
     # This is the main file call for all connections. This will call the private
