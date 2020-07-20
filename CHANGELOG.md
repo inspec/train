@@ -1,14 +1,15 @@
-<!-- latest_release 3.3.12 -->
-## [v3.3.12](https://github.com/inspec/train/tree/v3.3.12) (2020-07-15)
+<!-- latest_release 3.3.13 -->
+## [v3.3.13](https://github.com/inspec/train/tree/v3.3.13) (2020-07-20)
 
 #### Merged Pull Requests
-- Avoid minor rubocop warning [#626](https://github.com/inspec/train/pull/626) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.1.3 to 1.2.0 [#627](https://github.com/inspec/train/pull/627) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.6 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update chefstyle requirement from 1.1.3 to 1.2.0 [#627](https://github.com/inspec/train/pull/627) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.13 -->
 - Avoid minor rubocop warning [#626](https://github.com/inspec/train/pull/626) ([tas50](https://github.com/tas50)) <!-- 3.3.12 -->
 - Update chefstyle requirement from 1.1.2 to 1.1.3 [#624](https://github.com/inspec/train/pull/624) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.11 -->
 - Remove the redundant encoding comments [#623](https://github.com/inspec/train/pull/623) ([tas50](https://github.com/tas50)) <!-- 3.3.10 -->
