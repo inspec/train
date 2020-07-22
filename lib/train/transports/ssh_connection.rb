@@ -314,7 +314,7 @@ class Train::Transports::SSH
           end
         end
 
-        
+
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
           channel.on_data do |_, data|
@@ -338,7 +338,7 @@ class Train::Transports::SSH
       end
 
       thr = Thread.new { session.loop }
-      
+
       if timeout
         res = thr.join(timeout)
         unless res

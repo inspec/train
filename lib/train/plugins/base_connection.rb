@@ -128,7 +128,7 @@ class Train::Plugins::Transport
     # run_command_via_connection on the connection with optional caching
     #
     # Supported options for the opts hash:
-    # :timeout    Number of seconds to allow before a timeout. Implemented in the 
+    # :timeout    Number of seconds to allow before a timeout. Implemented in the
     #             derived connection class (currently ssh_connection)
     #
     # This command accepts an optional data handler block. When provided,
