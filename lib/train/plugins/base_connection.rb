@@ -127,17 +127,30 @@ class Train::Plugins::Transport
     # This is the main command call for all connections. This will call the private
     # run_command_via_connection on the connection with optional caching
     #
-    # Supported options for the opts hash:
-    # :timeout    Number of seconds to allow before a timeout. Implemented in the
-    #             derived connection class (currently ssh_connection)
-    #
     # This command accepts an optional data handler block. When provided,
     # inbound data will be published vi `data_handler.call(data)`. This can allow
     # callers to receive and render updates from remote command execution.
+    #
+    # @param [String] the command to run
+    # @param [Hash] optional hash of options for this command. The derived connection
+    #               class's implementation of run_command_via_connection should receive
+    #               and apply these options.
     def run_command(cmd, opts = {}, &data_handler)
-      return run_command_via_connection(cmd, opts, &data_handler) unless cache_enabled?(:command)
+      # Some implementations do not accept an opts argument.
+      # We cannot update all implementations to accept opts due to them being separate plugins.
+      # Therefore here we check the implementation's arity to maintain compatibility.
+      case method(:run_command_via_connection).arity.abs
+      when 1
+        return run_command_via_connection(cmd, &data_handler) unless cache_enabled?(:command)
 
-      @cache[:command][cmd] ||= run_command_via_connection(cmd, opts, &data_handler)
+        @cache[:command][cmd] ||= run_command_via_connection(cmd, &data_handler)
+      when 2
+        return run_command_via_connection(cmd, opts, &data_handler) unless cache_enabled?(:command)
+
+        @cache[:command][cmd] ||= run_command_via_connection(cmd, opts, &data_handler)
+      else
+        raise NotImplementedError, "#{self.class} does not implement run_command_via_connection with arity #{method(:run_command_via_connection).arity}"
+      end
     end
 
     # This is the main file call for all connections. This will call the private

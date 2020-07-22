@@ -9,8 +9,12 @@ describe "v1 Connection Plugin" do
       connection.close # wont raise
     end
 
-    it "raises an exception for run_command" do
+    it "raises NotImplementedError exception for run_command" do
       _ { connection.run_command("") }.must_raise NotImplementedError
+    end
+
+    it "raises NotImplementedError exception for run_command with options hash (arity of 2)" do
+      _ { connection.run_command("", {}) }.must_raise NotImplementedError
     end
 
     it "raises an exception for run_command_via_connection" do
