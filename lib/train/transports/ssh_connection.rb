@@ -235,7 +235,7 @@ class Train::Transports::SSH
       end
     end
 
-    def run_command_via_connection(cmd, opts, &data_handler)
+    def run_command_via_connection(cmd, opts = {}, &data_handler)
       cmd.dup.force_encoding("binary") if cmd.respond_to?(:force_encoding)
 
       reset_session if session.closed?
