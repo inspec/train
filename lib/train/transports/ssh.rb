@@ -237,7 +237,7 @@ module Train::Transports
     # Creates a new SSH Connection instance and save it for potential future
     # reuse.
     #
-    # @param options [Hash] conneciton options
+    # @param options [Hash] connection options
     # @return [Ssh::Connection] an SSH Connection instance
     # @api private
     def create_new_connection(options, &block)

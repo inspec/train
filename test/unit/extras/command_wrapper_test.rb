@@ -21,7 +21,7 @@ describe "linux command" do
       _(lc.run(cmd)).must_equal "sudo #{cmd}"
     end
 
-    it "doesnt wrap commands in sudo if user == root" do
+    it "doesn't wrap commands in sudo if user == root" do
       lc = cls.new(backend, { sudo: true, user: "root" })
       _(lc.run(cmd)).must_equal cmd
     end

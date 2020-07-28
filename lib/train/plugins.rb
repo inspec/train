@@ -23,7 +23,7 @@ module Train
   # Create a versioned plugin by providing the transport layer plugin version
   # to this method. It will then select the correct class to inherit from.
   #
-  # The plugin version determins what methods will be available to your plugin.
+  # The plugin version determines what methods will be available to your plugin.
   #
   # @param [Int] version = 1 the plugin version to use
   # @return [Transport] the versioned transport base class

@@ -128,7 +128,7 @@ module Train::Platforms::Detect::Specifications
 
       declare_lsb("scientific", "Scientific Linux", "redhat", /scientific/i)
 
-      declare_lsb("xenserver", "Xenserer Linux", "redhat", /xenserver/i)
+      declare_lsb("xenserver", "Xenserver Linux", "redhat", /xenserver/i)
 
       declare_instance("parallels-release", "Parallels Linux", "redhat") do
         if (raw = unix_file_contents("/etc/parallels-release"))

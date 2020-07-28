@@ -1,7 +1,7 @@
 describe "file interface" do
   let(:backend) { get_backend.call }
 
-  describe "a path that doesnt exist" do
+  describe "a path that doesn't exist" do
     let(:file) do
       backend.file("/do_not_create_this_path_please_or_my_tests_will_fail")
     end

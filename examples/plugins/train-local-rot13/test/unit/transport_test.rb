@@ -21,7 +21,7 @@ describe TrainPlugins::LocalRot13::Transport do
   # Objects, and begin with 'must' (positive) or 'wont' (negative)
   # See https://ruby-doc.org/stdlib-2.1.0/libdoc/minitest/rdoc/MiniTest/Expectations.html
 
-  it "should be registered with the plugin registry without the train- prtefix" do
+  it "should be registered with the plugin registry without the train- prefix" do
     # Note that Train uses String keys here, not Symbols
     Train::Plugins.registry.keys.wont_include("train-local-rot13")
     Train::Plugins.registry.keys.must_include("local-rot13")
