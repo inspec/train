@@ -1,30 +1,27 @@
-<!-- latest_release 3.3.13 -->
-## [v3.3.13](https://github.com/inspec/train/tree/v3.3.13) (2020-07-20)
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 1.1.3 to 1.2.0 [#627](https://github.com/inspec/train/pull/627) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.3.6 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 1.1.3 to 1.2.0 [#627](https://github.com/inspec/train/pull/627) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.13 -->
-- Avoid minor rubocop warning [#626](https://github.com/inspec/train/pull/626) ([tas50](https://github.com/tas50)) <!-- 3.3.12 -->
-- Update chefstyle requirement from 1.1.2 to 1.1.3 [#624](https://github.com/inspec/train/pull/624) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.11 -->
-- Remove the redundant encoding comments [#623](https://github.com/inspec/train/pull/623) ([tas50](https://github.com/tas50)) <!-- 3.3.10 -->
-- Run Chefstyle on the oldest ruby we support [#621](https://github.com/inspec/train/pull/621) ([tas50](https://github.com/tas50)) <!-- 3.3.9 -->
-- Get the old integration tests closer to running [#620](https://github.com/inspec/train/pull/620) ([tas50](https://github.com/tas50)) <!-- 3.3.8 -->
-- Update chefstyle requirement from 1.1.1 to 1.1.2 [#619](https://github.com/inspec/train/pull/619) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.3.13](https://github.com/inspec/train/tree/v3.3.13) (2020-08-05)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.1.1 to 1.1.2 [#619](https://github.com/inspec/train/pull/619) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Get the old integration tests closer to running [#620](https://github.com/inspec/train/pull/620) ([tas50](https://github.com/tas50))
+- Run Chefstyle on the oldest ruby we support [#621](https://github.com/inspec/train/pull/621) ([tas50](https://github.com/tas50))
+- Remove the redundant encoding comments [#623](https://github.com/inspec/train/pull/623) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.1.2 to 1.1.3 [#624](https://github.com/inspec/train/pull/624) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Avoid minor rubocop warning [#626](https://github.com/inspec/train/pull/626) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.1.3 to 1.2.0 [#627](https://github.com/inspec/train/pull/627) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+<!-- latest_stable_release -->
+
 ## [v3.3.6](https://github.com/inspec/train/tree/v3.3.6) (2020-07-02)
 
 #### Merged Pull Requests
 - Fix incorrect error message when password is expired [#616](https://github.com/inspec/train/pull/616) ([vsingh-msys](https://github.com/vsingh-msys))
 - Properly detect macOS Big Sur as being platform mac_os_x [#618](https://github.com/inspec/train/pull/618) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v3.3.4](https://github.com/inspec/train/tree/v3.3.4) (2020-06-25)
 
