@@ -22,8 +22,6 @@ github:
   major_bump_labels:
     - "Expeditor: Bump Major Version"
   release_branch:
-    - 1-stable:
-        version_constraint: 1.*
     - 2-stable:
         version_constraint: 2.*
     - master:
