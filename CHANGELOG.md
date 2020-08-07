@@ -1,14 +1,15 @@
-<!-- latest_release 3.3.14 -->
-## [v3.3.14](https://github.com/inspec/train/tree/v3.3.14) (2020-08-07)
+<!-- latest_release 3.3.15 -->
+## [v3.3.15](https://github.com/inspec/train/tree/v3.3.15) (2020-08-07)
 
 #### Merged Pull Requests
-- Fix spelling mistakes including misidentification of XenServer [#628](https://github.com/inspec/train/pull/628) ([tas50](https://github.com/tas50))
+- Remove 1.x branch config from Expeditor [#622](https://github.com/inspec/train/pull/622) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.13 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Remove 1.x branch config from Expeditor [#622](https://github.com/inspec/train/pull/622) ([tas50](https://github.com/tas50)) <!-- 3.3.15 -->
 - Fix spelling mistakes including misidentification of XenServer [#628](https://github.com/inspec/train/pull/628) ([tas50](https://github.com/tas50)) <!-- 3.3.14 -->
 <!-- release_rollup -->
 
