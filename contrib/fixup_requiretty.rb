@@ -6,7 +6,7 @@
 # using non-interactive sessions. It's main use case is fixing the default
 # configuration on RHEL and SEL distributions.
 #
-# The user name has to be provided in the env varibale "TRAIN_SUDO_USER".
+# The user name has to be provided in the env variable "TRAIN_SUDO_USER".
 # If any configuration for the user is present (user is in /etc/sudoers or
 # /etc/sudoers.d/user exists), this script will do nothing
 # (unless you set TRAIN_SUDO_VERY_MUCH=yes)

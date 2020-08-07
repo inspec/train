@@ -146,7 +146,7 @@ module Train::Transports
         end
 
         # @param  cmd The command to execute
-        # @return Local::ComandResult with stdout, stderr and exitstatus
+        # @return Local::CommandResult with stdout, stderr and exitstatus
         #         Note that exitstatus ($?) in PowerShell is boolean, but we use a numeric exit code.
         #         A command that succeeds without setting an exit code will have exitstatus 0
         #         A command that exits with an exit code will have that value as exitstatus

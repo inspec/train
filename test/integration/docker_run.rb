@@ -11,7 +11,7 @@ class DockerRunner
 
     @conf = YAML.load_file(@conf_path)
     if @conf.nil? || @conf.empty?
-      raise "Can't read coniguration in #{@conf_path}"
+      raise "Can't read configuration in #{@conf_path}"
     end
     if @conf["images"].nil?
       raise "You must configure test images in your #{@conf_path}"

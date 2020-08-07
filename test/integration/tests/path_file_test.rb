@@ -36,7 +36,7 @@ describe "file interface" do
       _(file.mode?(00765)).must_equal(true)
     end
 
-    it "doesnt check mode? 0764" do
+    it "doesn't check mode? 0764" do
       _(file.mode?(00764)).must_equal(false)
     end
 

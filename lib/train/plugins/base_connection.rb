@@ -158,7 +158,7 @@ class Train::Plugins::Transport
     # service is preferred to simply waiting on a socket to become
     # available.
     def wait_until_ready
-      # this method may be left unimplemented if that is applicablelog
+      # this method may be left unimplemented if that is applicable log
     end
 
     private

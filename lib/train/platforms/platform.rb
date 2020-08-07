@@ -45,7 +45,7 @@ module Train::Platforms
       @uuid ||= Train::Platforms::Detect::UUID.new(self).find_or_create_uuid.downcase
     end
 
-    # This is for backwords compatability with
+    # This is for backwards compatibility with
     # the current inspec os resource.
     def[](name)
       if respond_to?(name)

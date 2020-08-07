@@ -37,8 +37,8 @@ module Train::Platforms::Detect::Helpers
       res = @backend.run_command(cmd)
       stdout = res.stdout
       stderr = res.stderr
-      # When you try to execute command using ssh connction as root user and you have provided ssh user identity file
-      # it gives standard output to login as authorised user other than root. To show this standard ouput as an error
+      # When you try to execute command using ssh connection as root user and you have provided ssh user identity file
+      # it gives standard output to login as authorized user other than root. To show this standard output as an error
       # to user we are matching the string of stdout and raising the error here so that user gets exact information.
       if @backend.class.to_s == "Train::Transports::SSH::Connection"
         if stdout =~ /Please login as the user/
