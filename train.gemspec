@@ -38,10 +38,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "azure_mgmt_resources", "~> 0.15"
   spec.add_dependency "azure_mgmt_security", "~> 0.18"
   spec.add_dependency "azure_mgmt_storage", "~> 0.18"
+  spec.add_dependency "ipaddr", "~> 1.2" # Azure, for IP address comparison.
   spec.add_dependency "docker-api", "~> 1.26"
   spec.add_dependency "google-api-client", ">= 0.23.9", "< 0.35.0"
   spec.add_dependency "googleauth", ">= 0.6.6", "< 0.11.0"
-  spec.add_dependency "dotenv", "~> 2.7.6"
-  spec.add_dependency "facets", "~> 3.1.0"
-  spec.add_dependency "ipaddr", "~> 1.2"
 end
