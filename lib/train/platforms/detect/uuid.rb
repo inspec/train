@@ -1,6 +1,6 @@
 require "digest/sha1"
-require "securerandom"
-require "json"
+require "securerandom" unless defined?(SecureRandom)
+require "json" unless defined?(JSON)
 
 module Train::Platforms::Detect
   class UUID
