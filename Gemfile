@@ -5,7 +5,7 @@ group :test do
   gem "coveralls", require: false
   gem "minitest", "~> 5.8"
   gem "rake", "~> 13.0"
-  gem "chefstyle", "1.2.0"
+  gem "chefstyle", "1.2.1"
   gem "simplecov", "~> 0.10"
   gem "concurrent-ruby", "~> 1.0"
   gem "pry-byebug"
