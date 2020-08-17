@@ -13,13 +13,13 @@ require "minitest/spec"
 require "minitest/autorun"
 
 # Data formats commonly used in testing
-require "json"
-require "ostruct"
+require "json" unless defined?(JSON)
+require "ostruct" unless defined?(OpenStruct)
 
 # Utilities often needed
-require "fileutils"
-require "tmpdir"
-require "pathname"
+require "fileutils" unless defined?(FileUtils)
+require "tmpdir" unless defined?(Dir.mktmpdir)
+require "pathname" unless defined?(Pathname)
 
 # You might want to put some debugging tools here.  We run tests to find bugs,
 # after all.

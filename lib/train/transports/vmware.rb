@@ -1,7 +1,7 @@
 require "train/plugins"
 require "open3"
-require "ostruct"
-require "json"
+require "ostruct" unless defined?(OpenStruct)
+require "json" unless defined?(JSON)
 require "mkmf"
 
 module Train::Transports

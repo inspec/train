@@ -6,7 +6,7 @@ require_relative "train/options"
 require_relative "train/plugins"
 require_relative "train/errors"
 require_relative "train/platforms"
-require "addressable/uri"
+require "addressable/uri" unless defined?(Addressable::URI)
 
 module Train
   # Create a new transport instance, with the plugin indicated by the
