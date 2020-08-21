@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.3.17 -->
+## [v3.3.17](https://github.com/inspec/train/tree/v3.3.17) (2020-08-21)
+
+#### Merged Pull Requests
+- Resolve test failures on Ruby 2.4 [#632](https://github.com/inspec/train/pull/632) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.3.16 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Resolve test failures on Ruby 2.4 [#632](https://github.com/inspec/train/pull/632) ([tas50](https://github.com/tas50)) <!-- 3.3.17 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
