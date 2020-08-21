@@ -1,6 +1,6 @@
 require_relative "os_linux"
 require_relative "os_windows"
-require "rbconfig"
+require "rbconfig" unless defined?(RbConfig)
 
 module Train::Platforms::Detect::Helpers
   module OSCommon
@@ -165,7 +165,7 @@ module Train::Platforms::Detect::Helpers
     def json_cmd(cmd)
       cmd = @backend.run_command(cmd)
       if cmd.exit_status == 0 && !cmd.stdout.empty?
-        require "json"
+        require "json" unless defined?(JSON)
         eos_ver = JSON.parse(cmd.stdout)
         @platform[:release] = eos_ver["version"]
         @platform[:arch] = eos_ver["architecture"]

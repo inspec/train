@@ -1,4 +1,4 @@
-require "shellwords"
+require "shellwords" unless defined?(Shellwords)
 
 module Train
   class File

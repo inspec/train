@@ -17,9 +17,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-require "net/ssh"
+require "net/ssh" unless defined?(Net::SSH)
 require "net/scp"
-require "timeout"
+require "timeout" unless defined?(Timeout)
 
 class Train::Transports::SSH
   # A Connection instance can be generated and re-generated, given new

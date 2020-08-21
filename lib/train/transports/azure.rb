@@ -3,8 +3,8 @@ require "ms_rest_azure"
 require "azure_mgmt_resources"
 require "azure_graph_rbac"
 require "azure_mgmt_key_vault"
-require "socket"
-require "timeout"
+require "socket" unless defined?(Socket)
+require "timeout" unless defined?(Timeout)
 require "train/transports/helpers/azure/file_credentials"
 require "train/transports/clients/azure/graph_rbac"
 require "train/transports/clients/azure/vault"

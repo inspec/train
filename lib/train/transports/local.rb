@@ -4,7 +4,7 @@
 
 require_relative "../plugins"
 require_relative "../errors"
-require "mixlib/shellout"
+require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 
 module Train::Transports
   class Local < Train.plugin(1)
@@ -111,7 +111,7 @@ module Train::Transports
       end
 
       class WindowsShellRunner
-        require "json"
+        require "json" unless defined?(JSON)
         require "base64"
 
         def initialize(powershell_cmd = "powershell")
@@ -135,9 +135,9 @@ module Train::Transports
       end
 
       class WindowsPipeRunner
-        require "json"
+        require "json" unless defined?(JSON)
         require "base64"
-        require "securerandom"
+        require "securerandom" unless defined?(SecureRandom)
 
         def initialize(powershell_cmd = "powershell")
           @powershell_cmd = powershell_cmd
