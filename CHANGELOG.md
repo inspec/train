@@ -1,14 +1,15 @@
-<!-- latest_release 3.3.18 -->
-## [v3.3.18](https://github.com/inspec/train/tree/v3.3.18) (2020-08-24)
+<!-- latest_release 3.3.19 -->
+## [v3.3.19](https://github.com/inspec/train/tree/v3.3.19) (2020-09-09)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.2.0 to 1.2.1 [#631](https://github.com/inspec/train/pull/631) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update Google gem versions for train [#635](https://github.com/inspec/train/pull/635) ([lhasadreams](https://github.com/lhasadreams))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.16 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update Google gem versions for train [#635](https://github.com/inspec/train/pull/635) ([lhasadreams](https://github.com/lhasadreams)) <!-- 3.3.19 -->
 - Update chefstyle requirement from 1.2.0 to 1.2.1 [#631](https://github.com/inspec/train/pull/631) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.18 -->
 - Resolve test failures on Ruby 2.4 [#632](https://github.com/inspec/train/pull/632) ([tas50](https://github.com/tas50)) <!-- 3.3.17 -->
 <!-- release_rollup -->
