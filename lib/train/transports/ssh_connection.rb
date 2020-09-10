@@ -29,8 +29,8 @@ class Train::Transports::SSH
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
-    attr_reader :hostname
-    attr_reader :transport_options
+    attr_reader   :hostname
+    attr_accessor :transport_options
 
     def initialize(options)
       # Track IOS command retries to prevent infinite loop on IOError. This must
@@ -316,8 +316,12 @@ class Train::Transports::SSH
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
           channel.on_data do |_, data|
-            yield(data) if block_given?
-            stdout += data
+            if data == "Password: "
+              channel.send_data "#{@transport_options[:su_password]}\n"
+            else
+              yield(data) if block_given?
+              stdout += data
+            end
           end
 
           channel.on_extended_data do |_, _type, data|
