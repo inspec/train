@@ -1,4 +1,4 @@
-require "digest/sha1"
+require "digest/sha1" unless defined?(Digest::SHA1)
 require "securerandom" unless defined?(SecureRandom)
 require "json" unless defined?(JSON)
 

@@ -1,6 +1,6 @@
 require "helper"
 require "train/transports/mock"
-require "digest/sha2"
+require "digest/sha2" unless defined?(Digest::SHA2)
 
 describe "mock transport" do
   let(:transport) { Train::Transports::Mock.new(verbose: true) }

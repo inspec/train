@@ -4,7 +4,7 @@
 require "helper"
 require "train/transports/mock"
 require "train/extras"
-require "base64"
+require "base64" unless defined?(Base64)
 
 describe "linux command" do
   let(:cls) { Train::Extras::LinuxCommand }

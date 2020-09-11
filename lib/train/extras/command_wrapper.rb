@@ -1,7 +1,7 @@
 # author: Dominik Richter
 # author: Christoph Hartmann
 
-require "base64"
+require "base64" unless defined?(Base64)
 require_relative "../errors"
 
 module Train::Extras

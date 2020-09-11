@@ -112,7 +112,7 @@ module Train::Transports
 
       class WindowsShellRunner
         require "json" unless defined?(JSON)
-        require "base64"
+        require "base64" unless defined?(Base64)
 
         def initialize(powershell_cmd = "powershell")
           @powershell_cmd = powershell_cmd
@@ -136,7 +136,7 @@ module Train::Transports
 
       class WindowsPipeRunner
         require "json" unless defined?(JSON)
-        require "base64"
+        require "base64" unless defined?(Base64)
         require "securerandom" unless defined?(SecureRandom)
 
         def initialize(powershell_cmd = "powershell")

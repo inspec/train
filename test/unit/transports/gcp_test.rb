@@ -4,7 +4,7 @@ require "train/transports/gcp"
 describe "gcp transport" do
 
   let(:credentials_file) do
-    require "tempfile"
+    require "tempfile" unless defined?(Tempfile)
     file = Tempfile.new("application_default_credentials.json")
     info = <<~INFO
       {
@@ -20,7 +20,7 @@ describe "gcp transport" do
   end
 
   let(:credentials_file_override) do
-    require "tempfile"
+    require "tempfile" unless defined?(Tempfile)
     file = Tempfile.new("application_default_credentials.json")
     info = <<~INFO
       {
@@ -220,7 +220,7 @@ describe "gcp transport" do
   # test options override of env vars in connect
   describe "connect" do
     let(:creds) do
-      require "tempfile"
+      require "tempfile" unless defined?(Tempfile)
       file = Tempfile.new("creds")
       info = <<~INFO
         {
