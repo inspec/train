@@ -24,7 +24,7 @@ end
 
 namespace :test do
   task :docker do
-    path = File.join(File.dirname(__FILE__), "test", "integration")
+    path = File.join(__dir__, "test", "integration")
     sh("sh", "-c", "cd #{path} && ruby -I ../../lib docker_test.rb tests/*")
   end
 
@@ -36,7 +36,7 @@ namespace :test do
 
   task :vm do
     concurrency = ENV["CONCURRENCY"] || 4
-    path = File.join(File.dirname(__FILE__), "test", "integration")
+    path = File.join(__dir__, "test", "integration")
     sh("sh", "-c", "cd #{path} && kitchen test -c #{concurrency}")
   end
 
@@ -52,7 +52,7 @@ namespace :test do
   # Run with a specific test:
   #   test=path_block_device_test.rb rake "test:ssh[user@server]"
   task :ssh, [:target] do |t, args|
-    path = File.join(File.dirname(__FILE__), "test", "integration")
+    path = File.join(__dir__, "test", "integration")
     key_files = ENV["key_files"] || File.join(ENV["HOME"], ".ssh", "id_rsa")
 
     sh_cmd = "cd #{path} && target=#{args[:target]} key_files=#{key_files}"
