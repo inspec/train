@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.3.22 -->
+## [v3.3.22](https://github.com/inspec/train/tree/v3.3.22) (2020-09-14)
+
+#### Merged Pull Requests
+- Further optimize requires for external libraries [#639](https://github.com/inspec/train/pull/639) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.3.21 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Further optimize requires for external libraries [#639](https://github.com/inspec/train/pull/639) ([tas50](https://github.com/tas50)) <!-- 3.3.22 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
