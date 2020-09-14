@@ -1,14 +1,15 @@
-<!-- latest_release 3.3.20 -->
-## [v3.3.20](https://github.com/inspec/train/tree/v3.3.20) (2020-09-12)
+<!-- latest_release 3.3.21 -->
+## [v3.3.21](https://github.com/inspec/train/tree/v3.3.21) (2020-09-14)
 
 #### Merged Pull Requests
-- Switch from __FILE__ to __dir__ where we can [#638](https://github.com/inspec/train/pull/638) ([tas50](https://github.com/tas50))
+- Allow for docker-api 2.x [#637](https://github.com/inspec/train/pull/637) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.16 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Allow for docker-api 2.x [#637](https://github.com/inspec/train/pull/637) ([tas50](https://github.com/tas50)) <!-- 3.3.21 -->
 - Switch from __FILE__ to __dir__ where we can [#638](https://github.com/inspec/train/pull/638) ([tas50](https://github.com/tas50)) <!-- 3.3.20 -->
 - Update Google gem versions for train [#635](https://github.com/inspec/train/pull/635) ([lhasadreams](https://github.com/lhasadreams)) <!-- 3.3.19 -->
 - Update chefstyle requirement from 1.2.0 to 1.2.1 [#631](https://github.com/inspec/train/pull/631) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.18 -->
