@@ -5,7 +5,7 @@ require "minitest/autorun"
 require "minitest/spec"
 require "mocha/setup"
 require "train"
-require "tempfile"
+require "tempfile" unless defined?(Tempfile)
 require "logger"
 
 # Loading here to ensure methods exist to be stubbed

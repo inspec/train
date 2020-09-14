@@ -1,6 +1,6 @@
 require "helper"
 require "train/transports/mock"
-require "securerandom"
+require "securerandom" unless defined?(SecureRandom)
 
 class TestFile
   def initialize(string)

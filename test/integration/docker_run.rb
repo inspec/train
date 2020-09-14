@@ -1,5 +1,5 @@
 require "docker"
-require "yaml"
+require "yaml" unless defined?(YAML)
 require "concurrent"
 
 class DockerRunner

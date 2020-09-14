@@ -1,5 +1,5 @@
 require "helper"
-require "tempfile"
+require "tempfile" unless defined?(Tempfile)
 require "train/transports/helpers/azure/file_credentials"
 
 describe "parse_credentials_file" do

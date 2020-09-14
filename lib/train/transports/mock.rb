@@ -1,5 +1,5 @@
 require_relative "../plugins"
-require "digest"
+require "digest" unless defined?(Digest)
 
 module Train::Transports
   class Mock < Train.plugin(1)
