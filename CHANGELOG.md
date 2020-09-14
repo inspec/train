@@ -1,29 +1,26 @@
-<!-- latest_release 3.3.21 -->
-## [v3.3.21](https://github.com/inspec/train/tree/v3.3.21) (2020-09-14)
-
-#### Merged Pull Requests
-- Allow for docker-api 2.x [#637](https://github.com/inspec/train/pull/637) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.3.16 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Allow for docker-api 2.x [#637](https://github.com/inspec/train/pull/637) ([tas50](https://github.com/tas50)) <!-- 3.3.21 -->
-- Switch from __FILE__ to __dir__ where we can [#638](https://github.com/inspec/train/pull/638) ([tas50](https://github.com/tas50)) <!-- 3.3.20 -->
-- Update Google gem versions for train [#635](https://github.com/inspec/train/pull/635) ([lhasadreams](https://github.com/lhasadreams)) <!-- 3.3.19 -->
-- Update chefstyle requirement from 1.2.0 to 1.2.1 [#631](https://github.com/inspec/train/pull/631) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.18 -->
-- Resolve test failures on Ruby 2.4 [#632](https://github.com/inspec/train/pull/632) ([tas50](https://github.com/tas50)) <!-- 3.3.17 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.3.21](https://github.com/inspec/train/tree/v3.3.21) (2020-09-14)
+
+#### Merged Pull Requests
+- Resolve test failures on Ruby 2.4 [#632](https://github.com/inspec/train/pull/632) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.2.0 to 1.2.1 [#631](https://github.com/inspec/train/pull/631) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update Google gem versions for train [#635](https://github.com/inspec/train/pull/635) ([lhasadreams](https://github.com/lhasadreams))
+- Switch from __FILE__ to __dir__ where we can [#638](https://github.com/inspec/train/pull/638) ([tas50](https://github.com/tas50))
+- Allow for docker-api 2.x [#637](https://github.com/inspec/train/pull/637) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v3.3.16](https://github.com/inspec/train/tree/v3.3.16) (2020-08-17)
 
 #### Merged Pull Requests
 - Fix spelling mistakes including misidentification of XenServer [#628](https://github.com/inspec/train/pull/628) ([tas50](https://github.com/tas50))
 - Remove 1.x branch config from Expeditor [#622](https://github.com/inspec/train/pull/622) ([tas50](https://github.com/tas50))
 - Speed up requires in non-omnibus Ruby installs [#630](https://github.com/inspec/train/pull/630) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v3.3.13](https://github.com/inspec/train/tree/v3.3.13) (2020-08-05)
 
