@@ -315,7 +315,7 @@ class Train::Transports::SSH
 
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
-          channel.on_data do |ch, data|
+          channel.on_data do |_, data|
             yield(data, channel) if block_given?
             stdout += data
           end
