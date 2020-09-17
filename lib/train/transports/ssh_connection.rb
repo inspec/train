@@ -315,13 +315,9 @@ class Train::Transports::SSH
 
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
-          channel.on_data do |_, data|
-            if data == "Password: "
-              channel.send_data "#{@transport_options[:su_password]}\n"
-            else
-              yield(data) if block_given?
-              stdout += data
-            end
+          channel.on_data do |ch, data|
+            yield(data, channel) if block_given?
+            stdout += data
           end
 
           channel.on_extended_data do |_, _type, data|
