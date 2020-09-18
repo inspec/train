@@ -74,5 +74,10 @@ describe "ssh connection" do
       _(called).must_equal true
 
     end
+
+    it "accepts an options hash" do
+      ssh.stubs(:session).returns(session_mock)
+      _(ssh.run_command("keychecks off; safety -o; white rabbit object", my_option: "my value").stdout).must_equal "testdata"
+    end
   end
 end

@@ -40,4 +40,7 @@ module Train
 
   # Exception for when a invalid cache type is passed.
   class UnknownCacheType < Error; end
+
+  # Exception for when a command reaches configured timeout
+  class CommandTimeoutReached < Error; end
 end
