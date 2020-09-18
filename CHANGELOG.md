@@ -1,14 +1,15 @@
-<!-- latest_release 3.3.23 -->
-## [v3.3.23](https://github.com/inspec/train/tree/v3.3.23) (2020-09-14)
+<!-- latest_release 3.3.24 -->
+## [v3.3.24](https://github.com/inspec/train/tree/v3.3.24) (2020-09-18)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.2.1 to 1.3.2 [#634](https://github.com/inspec/train/pull/634) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Allow timeout option per ssh command [#625](https://github.com/inspec/train/pull/625) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.21 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Allow timeout option per ssh command [#625](https://github.com/inspec/train/pull/625) ([james-stocks](https://github.com/james-stocks)) <!-- 3.3.24 -->
 - Update chefstyle requirement from 1.2.1 to 1.3.2 [#634](https://github.com/inspec/train/pull/634) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.23 -->
 - Further optimize requires for external libraries [#639](https://github.com/inspec/train/pull/639) ([tas50](https://github.com/tas50)) <!-- 3.3.22 -->
 <!-- release_rollup -->
