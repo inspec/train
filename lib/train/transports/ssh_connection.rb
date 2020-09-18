@@ -242,6 +242,16 @@ class Train::Transports::SSH
 
       exit_status, stdout, stderr = execute_on_channel(cmd, &data_handler)
 
+      # An interactive console might contain the STDERR in STDOUT
+      # concat both outputs for non-zero exit status. 
+      output = "#{stdout} #{stderr}".strip if exit_status != 0
+
+      # Abstract the su - USER authentication failure
+      # raise the Train::UserError and passes message & reason
+      if output && output.match?("su: Authentication failure")
+        raise Train::UserError.new(output, :bad_su_user_password)
+      end
+
       # Since `@session.loop` succeeded, reset the IOS command retry counter
       @ios_cmd_retries = 0
 
