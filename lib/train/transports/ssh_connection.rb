@@ -321,7 +321,7 @@ class Train::Transports::SSH
           end
 
           channel.on_extended_data do |_, _type, data|
-            yield(data) if block_given?
+            yield(data, channel) if block_given?
             stderr += data
           end
 
