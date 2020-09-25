@@ -235,7 +235,7 @@ describe Train do
 
     it "unpacks the query values as options to inspec" do
       org = {
-        target: "ssh://user:pass@host.com:123/path?bastion_host=stronghold.example.org&bastion_user=bulwark"
+        target: "ssh://user:pass@host.com:123/path?bastion_host=stronghold.example.org&bastion_user=bulwark",
       }
       res = Train.target_config(org)
       _(res[:backend]).must_equal "ssh"
