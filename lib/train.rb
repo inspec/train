@@ -114,7 +114,7 @@ module Train
     creds = creds.delete_if { |_, value| value.nil? }
 
     # merge train options in from the URI query string
-    creds.merge!(uri.query_values.transform_keys(&:to_sym)) unless uri.query_values.nil?
+    creds.merge!(uri.query_values.map { |k, v| [k.to_sym, v] }.to_h) unless uri.query_values.nil?
 
     # return the updated config
     creds
