@@ -1,20 +1,18 @@
-<!-- latest_release 3.3.24 -->
-## [v3.3.24](https://github.com/inspec/train/tree/v3.3.24) (2020-09-18)
-
-#### Merged Pull Requests
-- Allow timeout option per ssh command [#625](https://github.com/inspec/train/pull/625) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.3.21 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Allow timeout option per ssh command [#625](https://github.com/inspec/train/pull/625) ([james-stocks](https://github.com/james-stocks)) <!-- 3.3.24 -->
-- Update chefstyle requirement from 1.2.1 to 1.3.2 [#634](https://github.com/inspec/train/pull/634) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.23 -->
-- Further optimize requires for external libraries [#639](https://github.com/inspec/train/pull/639) ([tas50](https://github.com/tas50)) <!-- 3.3.22 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.3.24](https://github.com/inspec/train/tree/v3.3.24) (2020-09-30)
+
+#### Merged Pull Requests
+- Further optimize requires for external libraries [#639](https://github.com/inspec/train/pull/639) ([tas50](https://github.com/tas50))
+- Update chefstyle requirement from 1.2.1 to 1.3.2 [#634](https://github.com/inspec/train/pull/634) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Allow timeout option per ssh command [#625](https://github.com/inspec/train/pull/625) ([james-stocks](https://github.com/james-stocks))
+<!-- latest_stable_release -->
+
 ## [v3.3.21](https://github.com/inspec/train/tree/v3.3.21) (2020-09-14)
 
 #### Merged Pull Requests
@@ -23,7 +21,6 @@
 - Update Google gem versions for train [#635](https://github.com/inspec/train/pull/635) ([lhasadreams](https://github.com/lhasadreams))
 - Switch from __FILE__ to __dir__ where we can [#638](https://github.com/inspec/train/pull/638) ([tas50](https://github.com/tas50))
 - Allow for docker-api 2.x [#637](https://github.com/inspec/train/pull/637) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v3.3.16](https://github.com/inspec/train/tree/v3.3.16) (2020-08-17)
 
