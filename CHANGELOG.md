@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.3.25 -->
+## [v3.3.25](https://github.com/inspec/train/tree/v3.3.25) (2020-10-01)
+
+#### Merged Pull Requests
+- Check stdout even when exit_status is 0, and handle JSON.parse exception [#601](https://github.com/inspec/train/pull/601) ([CodesWhisperer](https://github.com/CodesWhisperer))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.3.24 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Check stdout even when exit_status is 0, and handle JSON.parse exception [#601](https://github.com/inspec/train/pull/601) ([CodesWhisperer](https://github.com/CodesWhisperer)) <!-- 3.3.25 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
