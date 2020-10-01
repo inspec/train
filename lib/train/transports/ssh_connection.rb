@@ -341,7 +341,7 @@ class Train::Transports::SSH
       if timeout
         res = thr.join(timeout)
         unless res
-          logger.info("ssh command reached requested timeout (#{timeout}s)")
+          logger.debug("train ssh command '#{cmd}' reached requested timeout (#{timeout}s)")
           session.channels.each_value { |c| c.eof!; c.close }
           raise Train::CommandTimeoutReached.new "ssh command reached timeout (#{timeout}s)"
         end
