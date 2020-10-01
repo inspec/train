@@ -33,15 +33,20 @@ module Train::Platforms::Detect::Helpers
       command = @backend.run_command(
         "Get-WmiObject Win32_OperatingSystem | Select Caption,Version | ConvertTo-Json"
       )
-      return false if (command.exit_status != 0) || command.stdout.empty?
+      # some targets (e.g. Cisco) may return 0 and print an error to stdout
+      return false if (command.exit_status != 0) || command.stdout.downcase !~ /window/
 
-      payload = JSON.parse(command.stdout)
-      @platform[:family] = "windows"
-      @platform[:release] = payload["Version"]
-      @platform[:name] = payload["Caption"]
+      begin
+        payload = JSON.parse(command.stdout)
+        @platform[:family] = "windows"
+        @platform[:release] = payload["Version"]
+        @platform[:name] = payload["Caption"]
 
-      read_wmic
-      true
+        read_wmic
+        true
+      rescue
+        false
+      end
     end
 
     def local_windows?
