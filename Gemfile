@@ -5,7 +5,7 @@ group :test do
   gem "coveralls", require: false
   gem "minitest", "~> 5.8"
   gem "rake", "~> 13.0"
-  gem "chefstyle", "1.3.2"
+  gem "chefstyle", "1.4.4"
   gem "simplecov", "< 0.19" # remove this pin once support for Ruby 2.4 ends
   gem "concurrent-ruby", "~> 1.0"
   gem "pry-byebug"
