@@ -5,7 +5,7 @@ def test_container(container, tests)
   puts "--> run test on docker #{container.id}"
   pid = Process.fork do
     ENV["CONTAINER"] = container.id
-    require_relative "docker_test_container.rb"
+    require_relative "docker_test_container"
     Process.exit
   end
 

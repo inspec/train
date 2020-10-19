@@ -131,7 +131,7 @@ module Train::Platforms::Detect::Helpers
       return if !file.exist? || file.size == 0
 
       json = JSON.parse(file.content)
-      json["node_uuid"] if json["node_uuid"]
+      json["node_uuid"]
     end
 
     def windows_uuid_from_wmic
