@@ -1,27 +1,24 @@
-<!-- latest_release 3.3.27 -->
-## [v3.3.27](https://github.com/inspec/train/tree/v3.3.27) (2020-10-19)
-
-#### Merged Pull Requests
-- Use the build in Expeditor gem caching [#647](https://github.com/inspec/train/pull/647) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.3.24 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Use the build in Expeditor gem caching [#647](https://github.com/inspec/train/pull/647) ([tas50](https://github.com/tas50)) <!-- 3.3.27 -->
-- Update chefstyle requirement from 1.3.2 to 1.4.5 [#646](https://github.com/inspec/train/pull/646) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.26 -->
-- Check stdout even when exit_status is 0, and handle JSON.parse exception [#601](https://github.com/inspec/train/pull/601) ([CodesWhisperer](https://github.com/CodesWhisperer)) <!-- 3.3.25 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.3.27](https://github.com/inspec/train/tree/v3.3.27) (2020-10-19)
+
+#### Merged Pull Requests
+- Check stdout even when exit_status is 0, and handle JSON.parse exception [#601](https://github.com/inspec/train/pull/601) ([CodesWhisperer](https://github.com/CodesWhisperer))
+- Update chefstyle requirement from 1.3.2 to 1.4.5 [#646](https://github.com/inspec/train/pull/646) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Use the build in Expeditor gem caching [#647](https://github.com/inspec/train/pull/647) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v3.3.24](https://github.com/inspec/train/tree/v3.3.24) (2020-09-30)
 
 #### Merged Pull Requests
 - Further optimize requires for external libraries [#639](https://github.com/inspec/train/pull/639) ([tas50](https://github.com/tas50))
 - Update chefstyle requirement from 1.2.1 to 1.3.2 [#634](https://github.com/inspec/train/pull/634) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Allow timeout option per ssh command [#625](https://github.com/inspec/train/pull/625) ([james-stocks](https://github.com/james-stocks))
-<!-- latest_stable_release -->
 
 ## [v3.3.21](https://github.com/inspec/train/tree/v3.3.21) (2020-09-14)
 
