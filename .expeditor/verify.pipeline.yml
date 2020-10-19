@@ -1,4 +1,12 @@
 ---
+expeditor:
+  cached_folders:
+    - vendor
+  defaults:
+    buildkite:
+      retry:
+        automatic:
+          limit: 1
 steps:
 
   # make sure lint runs on the oldest Ruby we support so we catch any new Ruby-isms here
