@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.3.28 -->
+## [v3.3.28](https://github.com/inspec/train/tree/v3.3.28) (2020-10-21)
+
+#### Merged Pull Requests
+- Change timeout log entry to debug [#643](https://github.com/inspec/train/pull/643) ([james-stocks](https://github.com/james-stocks))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.3.27 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Change timeout log entry to debug [#643](https://github.com/inspec/train/pull/643) ([james-stocks](https://github.com/james-stocks)) <!-- 3.3.28 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
