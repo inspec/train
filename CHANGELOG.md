@@ -1,28 +1,25 @@
-<!-- latest_release 3.4.1 -->
-## [v3.4.1](https://github.com/inspec/train/tree/v3.4.1) (2020-12-07)
-
-#### Merged Pull Requests
-- Make :forward_agent a valid SSH option [#649](https://github.com/inspec/train/pull/649) ([drbrain](https://github.com/drbrain))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.3.27 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Make :forward_agent a valid SSH option [#649](https://github.com/inspec/train/pull/649) ([drbrain](https://github.com/drbrain)) <!-- 3.4.1 -->
-- Support unpacking train options from URI query values [#642](https://github.com/inspec/train/pull/642) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 3.4.0 -->
-- Update chefstyle requirement from 1.4.5 to 1.5.0 and pin parallel for ruby 2.4 [#648](https://github.com/inspec/train/pull/648) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.29 -->
-- Change timeout log entry to debug [#643](https://github.com/inspec/train/pull/643) ([james-stocks](https://github.com/james-stocks)) <!-- 3.3.28 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.4.1](https://github.com/inspec/train/tree/v3.4.1) (2020-12-07)
+
+#### Merged Pull Requests
+- Change timeout log entry to debug [#643](https://github.com/inspec/train/pull/643) ([james-stocks](https://github.com/james-stocks))
+- Update chefstyle requirement from 1.4.5 to 1.5.0 and pin parallel for ruby 2.4 [#648](https://github.com/inspec/train/pull/648) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Support unpacking train options from URI query values [#642](https://github.com/inspec/train/pull/642) ([lamont-granquist](https://github.com/lamont-granquist))
+- Make :forward_agent a valid SSH option [#649](https://github.com/inspec/train/pull/649) ([drbrain](https://github.com/drbrain))
+<!-- latest_stable_release -->
+
 ## [v3.3.27](https://github.com/inspec/train/tree/v3.3.27) (2020-10-19)
 
 #### Merged Pull Requests
 - Check stdout even when exit_status is 0, and handle JSON.parse exception [#601](https://github.com/inspec/train/pull/601) ([CodesWhisperer](https://github.com/CodesWhisperer))
 - Update chefstyle requirement from 1.3.2 to 1.4.5 [#646](https://github.com/inspec/train/pull/646) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Use the build in Expeditor gem caching [#647](https://github.com/inspec/train/pull/647) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v3.3.24](https://github.com/inspec/train/tree/v3.3.24) (2020-09-30)
 
