@@ -113,6 +113,9 @@ module Train
     # TODO: rewrite next line using compact! once we drop support for ruby 2.3
     creds = creds.delete_if { |_, value| value.nil? }
 
+    # merge train options in from the URI query string
+    creds.merge!(uri.query_values.map { |k, v| [k.to_sym, v] }.to_h) unless uri.query_values.nil?
+
     # return the updated config
     creds
   end

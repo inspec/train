@@ -232,6 +232,23 @@ describe Train do
       org = { target: "123://invalid_scheme.example.com/" }
       _ { Train.target_config(org) }.must_raise Train::UserError
     end
+
+    it "unpacks the query values as options to inspec" do
+      org = {
+        target: "ssh://user:pass@host.com:123/path?bastion_host=stronghold.example.org&bastion_user=bulwark",
+      }
+      res = Train.target_config(org)
+      _(res[:backend]).must_equal "ssh"
+      _(res[:host]).must_equal "host.com"
+      _(res[:user]).must_equal "user"
+      _(res[:password]).must_equal "pass"
+      _(res[:port]).must_equal 123
+      _(res[:target]).must_equal org[:target]
+      _(res[:path]).must_equal "/path"
+      _(res[:bastion_host]).must_equal "stronghold.example.org"
+      _(res[:bastion_user]).must_equal "bulwark"
+      _(org.keys).must_equal [:target]
+    end
   end
 
   describe "#validate_backend" do
