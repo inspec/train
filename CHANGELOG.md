@@ -1,14 +1,15 @@
-<!-- latest_release 3.3.28 -->
-## [v3.3.28](https://github.com/inspec/train/tree/v3.3.28) (2020-10-21)
+<!-- latest_release 3.3.29 -->
+## [v3.3.29](https://github.com/inspec/train/tree/v3.3.29) (2020-12-07)
 
 #### Merged Pull Requests
-- Change timeout log entry to debug [#643](https://github.com/inspec/train/pull/643) ([james-stocks](https://github.com/james-stocks))
+- Update chefstyle requirement from 1.4.5 to 1.5.0 and pin parallel for ruby 2.4 [#648](https://github.com/inspec/train/pull/648) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.3.27 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update chefstyle requirement from 1.4.5 to 1.5.0 and pin parallel for ruby 2.4 [#648](https://github.com/inspec/train/pull/648) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.3.29 -->
 - Change timeout log entry to debug [#643](https://github.com/inspec/train/pull/643) ([james-stocks](https://github.com/james-stocks)) <!-- 3.3.28 -->
 <!-- release_rollup -->
 
