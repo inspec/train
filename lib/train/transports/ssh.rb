@@ -63,6 +63,7 @@ module Train::Transports
     option :bastion_port, default: 22
     option :non_interactive, default: false
     option :verify_host_key, default: false
+    option :forward_agent, default: false
 
     # Allow connecting with older algorithms
     option :append_all_supported_algorithms, default: true

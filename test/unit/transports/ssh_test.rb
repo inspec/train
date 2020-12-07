@@ -42,6 +42,10 @@ describe "ssh transport" do
     it "by default does not request a pty" do
       _(ssh.options[:pty]).must_equal false
     end
+
+    it "does not forward the ssh agent" do
+      _(ssh.options[:forward_agent]).must_equal false
+    end
   end
 
   describe "connection options" do
