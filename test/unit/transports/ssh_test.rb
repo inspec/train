@@ -111,6 +111,18 @@ describe "ssh transport" do
     it "excludes BatchMode when :non_interactive is not set" do
       _(connection.ssh_opts.include?("BatchMode=yes")).must_equal false
     end
+
+    it "includes IdentitiesOnly when keys are specified" do
+      _(connection.ssh_opts.include?("IdentitiesOnly=yes")).must_equal true
+    end
+    it "excludes IdentitiesOnly when keys are empty" do
+      conf[:key_files] = []
+      _(connection.ssh_opts.include?("IdentitiesOnly=yes")).must_equal false
+    end
+    it "excludes IdentitiesOnly when keys are nil" do
+      conf[:key_files] = nil
+      _(connection.ssh_opts.include?("IdentitiesOnly=yes")).must_equal false
+    end
   end
 
   describe "opening a connection" do
@@ -151,9 +163,9 @@ describe "ssh transport" do
       _(connection.login_command.arguments).must_equal([
         "-o", "UserKnownHostsFile=/dev/null",
         "-o", "StrictHostKeyChecking=no",
-        "-o", "IdentitiesOnly=yes",
         "-o", "LogLevel=ERROR",
         "-o", "ForwardAgent=no",
+        "-o", "IdentitiesOnly=yes",
         "-i", conf[:key_files],
         "-o", "ProxyCommand='ssh root@127.0.0.1 -W %h:%p'",
         "-p", "22",
@@ -310,11 +322,11 @@ describe "ssh transport with bastion" do
         _(connection.login_command.arguments).must_equal([
           "-o", "UserKnownHostsFile=/dev/null",
           "-o", "StrictHostKeyChecking=no",
-          "-o", "IdentitiesOnly=yes",
           "-o", "LogLevel=ERROR",
           "-o", "ForwardAgent=no",
+          "-o", "IdentitiesOnly=yes",
           "-i", conf[:key_files],
-          "-o", "ProxyCommand='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o LogLevel=ERROR -o ForwardAgent=no -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p'",
+          "-o", "ProxyCommand='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR -o ForwardAgent=no -o IdentitiesOnly=yes -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p'",
           "-p", "22",
           "root@#{conf[:host]}"
         ])
@@ -344,7 +356,7 @@ describe "ssh transport with bastion" do
         mock = MiniTest::Mock.new
         mock.expect(:call, true) do |hostname, username, options|
           options[:proxy].is_a?(Net::SSH::Proxy::Command) &&
-            "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o IdentitiesOnly=yes -o LogLevel=ERROR -o ForwardAgent=no -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p" == options[:proxy].command_line_template
+            "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR -o ForwardAgent=no -o IdentitiesOnly=yes -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p" == options[:proxy].command_line_template
         end
         connection.stubs(:run_command)
         Net::SSH.stub(:start, mock) do
