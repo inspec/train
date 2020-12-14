@@ -1,14 +1,15 @@
-<!-- latest_release 3.4.3 -->
-## [v3.4.3](https://github.com/inspec/train/tree/v3.4.3) (2020-12-14)
+<!-- latest_release 3.4.4 -->
+## [v3.4.4](https://github.com/inspec/train/tree/v3.4.4) (2020-12-14)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.5.0 to 1.5.7 [#652](https://github.com/inspec/train/pull/652) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Use IdentitiesOnly only when keys are present [#650](https://github.com/inspec/train/pull/650) ([drbrain](https://github.com/drbrain))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Use IdentitiesOnly only when keys are present [#650](https://github.com/inspec/train/pull/650) ([drbrain](https://github.com/drbrain)) <!-- 3.4.4 -->
 - Update chefstyle requirement from 1.5.0 to 1.5.7 [#652](https://github.com/inspec/train/pull/652) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.4.3 -->
 - Update parallel requirement from &lt; 1.20.0 to &lt; 1.21.0 [#651](https://github.com/inspec/train/pull/651) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.4.2 -->
 <!-- release_rollup -->
