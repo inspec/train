@@ -1,14 +1,15 @@
-<!-- latest_release 3.4.5 -->
-## [v3.4.5](https://github.com/inspec/train/tree/v3.4.5) (2021-01-04)
+<!-- latest_release 3.4.6 -->
+## [v3.4.6](https://github.com/inspec/train/tree/v3.4.6) (2021-01-11)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.5.7 to 1.5.9 [#654](https://github.com/inspec/train/pull/654) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Update google API upper constraints to allow Ruby 3 [#656](https://github.com/inspec/train/pull/656) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.4 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update google API upper constraints to allow Ruby 3 [#656](https://github.com/inspec/train/pull/656) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.4.6 -->
 - Update chefstyle requirement from 1.5.7 to 1.5.9 [#654](https://github.com/inspec/train/pull/654) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.4.5 -->
 <!-- release_rollup -->
 
