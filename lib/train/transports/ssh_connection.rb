@@ -358,7 +358,6 @@ class Train::Transports::SSH
       [exit_status, stdout, stderr]
     end
 
-
     # This method is used to set the @username and @port, from the config files
     # i.e. from file ~/.ssh/config and/or /etc/ssh_config
     def check_config_options
