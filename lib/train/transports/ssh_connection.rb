@@ -52,6 +52,7 @@ class Train::Transports::SSH
       @bastion_host           = @options.delete(:bastion_host)
       @bastion_user           = @options.delete(:bastion_user)
       @bastion_port           = @options.delete(:bastion_port)
+      check_config_options
 
       @cmd_wrapper = CommandWrapper.load(self, @transport_options)
     end
@@ -355,6 +356,15 @@ class Train::Transports::SSH
       end
 
       [exit_status, stdout, stderr]
+    end
+
+
+    # This method is used to set the @username and @port, from the config files
+    # i.e. from file ~/.ssh/config and/or /etc/ssh_config
+    def check_config_options
+      config_options = Net::SSH.configuration_for(@hostname, true)
+      @username = config_options[:user] if config_options[:user]
+      @port = @options[:port] = config_options[:port] if config_options[:port]
     end
   end
 end
