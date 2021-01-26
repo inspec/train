@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.4.8 -->
+## [v3.4.8](https://github.com/inspec/train/tree/v3.4.8) (2021-01-26)
+
+#### Merged Pull Requests
+- su - USER command execution support &amp; change transport_options to attr_accessor [#636](https://github.com/inspec/train/pull/636) ([vsingh-msys](https://github.com/vsingh-msys))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.4.7 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- su - USER command execution support &amp; change transport_options to attr_accessor [#636](https://github.com/inspec/train/pull/636) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.4.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
