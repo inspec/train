@@ -59,6 +59,8 @@ describe "windows local command" do
   describe "force 64 bit powershell command" do
     let(:runner) { conn.instance_variable_get(:@runner) }
     let(:powershell) { runner.instance_variable_get(:@powershell_cmd) }
+    let(:server_pid) { runner.instance_variable_get(:@server_pid) }
+
     RUBY_PLATFORM_DUP = RUBY_PLATFORM.dup
 
     def override_platform(platform)
@@ -112,6 +114,19 @@ describe "windows local command" do
       override_platform("i386-mingw32")
       _(runner.class).must_equal Train::Transports::Local::Connection::WindowsShellRunner
       _(powershell).must_equal "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
+    end
+
+
+    it "sets server_pid and returns nil on close" do
+      Train::Transports::Local::Connection::WindowsPipeRunner
+        .any_instance
+        .expects(:new)
+        .never
+
+      override_platform("x64-mingw32")
+      _(powershell).must_equal "powershell"
+      _(server_pid).wont_be_nil
+      _(runner.close).must_be_nil
     end
   end
 
