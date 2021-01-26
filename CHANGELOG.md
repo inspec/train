@@ -1,24 +1,27 @@
-<!-- latest_release -->
-<!-- latest_release -->
-
-<!-- release_rollup -->
-<!-- release_rollup -->
-
-<!-- latest_stable_release -->
+<!-- latest_release 3.4.7 -->
 ## [v3.4.7](https://github.com/inspec/train/tree/v3.4.7) (2021-01-11)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.5.7 to 1.5.9 [#654](https://github.com/inspec/train/pull/654) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
-- Update google API upper constraints to allow Ruby 3 [#656](https://github.com/inspec/train/pull/656) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Test on ruby 3.0, drop testing on ruby 2.4 [#657](https://github.com/inspec/train/pull/657) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
+<!-- latest_release -->
 
+<!-- release_rollup since=3.4.4 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Test on ruby 3.0, drop testing on ruby 2.4 [#657](https://github.com/inspec/train/pull/657) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.4.7 -->
+- Update google API upper constraints to allow Ruby 3 [#656](https://github.com/inspec/train/pull/656) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.4.6 -->
+- Update chefstyle requirement from 1.5.7 to 1.5.9 [#654](https://github.com/inspec/train/pull/654) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.4.5 -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.4.4](https://github.com/inspec/train/tree/v3.4.4) (2020-12-14)
 
 #### Merged Pull Requests
 - Update parallel requirement from &lt; 1.20.0 to &lt; 1.21.0 [#651](https://github.com/inspec/train/pull/651) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Update chefstyle requirement from 1.5.0 to 1.5.7 [#652](https://github.com/inspec/train/pull/652) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Use IdentitiesOnly only when keys are present [#650](https://github.com/inspec/train/pull/650) ([drbrain](https://github.com/drbrain))
+<!-- latest_stable_release -->
 
 ## [v3.4.1](https://github.com/inspec/train/tree/v3.4.1) (2020-12-07)
 
