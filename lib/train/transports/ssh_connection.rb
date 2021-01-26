@@ -29,8 +29,8 @@ class Train::Transports::SSH
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
-    attr_reader :hostname
-    attr_reader :transport_options
+    attr_reader   :hostname
+    attr_accessor :transport_options
 
     def initialize(options)
       # Track IOS command retries to prevent infinite loop on IOError. This must
@@ -247,6 +247,16 @@ class Train::Transports::SSH
 
       exit_status, stdout, stderr = execute_on_channel(cmd, opts, &data_handler)
 
+      # An interactive console might contain the STDERR in STDOUT
+      # concat both outputs for non-zero exit status. 
+      output = "#{stdout} #{stderr}".strip if exit_status != 0
+
+      # Abstract the su - USER authentication failure
+      # raise the Train::UserError and passes message & reason
+      if output && output.match?("su: Authentication failure")
+        raise Train::UserError.new(output, :bad_su_user_password)
+      end
+
       # Since `@session.loop` succeeded, reset the IOS command retry counter
       @ios_cmd_retries = 0
 
@@ -322,12 +332,12 @@ class Train::Transports::SSH
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
           channel.on_data do |_, data|
-            yield(data) if block_given?
+            yield(data, channel) if block_given?
             stdout += data
           end
 
           channel.on_extended_data do |_, _type, data|
-            yield(data) if block_given?
+            yield(data, channel) if block_given?
             stderr += data
           end
 
