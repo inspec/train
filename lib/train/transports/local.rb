@@ -31,6 +31,10 @@ module Train::Transports
         nil # none, open your shell
       end
 
+      def close
+        @runner.close
+      end
+
       def uri
         "local://"
       end
@@ -108,6 +112,10 @@ module Train::Transports
           res.run_command
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
         end
+
+        def close
+          # nothing to do at the moment
+        end
       end
 
       class WindowsShellRunner
@@ -132,6 +140,10 @@ module Train::Transports
           res.run_command
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
         end
+
+        def close
+          # nothing to do at the moment
+        end
       end
 
       class WindowsPipeRunner
@@ -141,6 +153,7 @@ module Train::Transports
 
         def initialize(powershell_cmd = "powershell")
           @powershell_cmd = powershell_cmd
+          @server_pid = nil
           @pipe = acquire_pipe
           raise PipeError if @pipe.nil?
         end
@@ -160,12 +173,21 @@ module Train::Transports
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
         end
 
+        def close
+          Process.kill("KILL", @server_pid) unless @server_pid.nil?
+          @server_pid = nil
+        end
+
         private
 
         def acquire_pipe
+          require "win32/process"
           pipe_name = "inspec_#{SecureRandom.hex}"
 
-          start_pipe_server(pipe_name)
+          @server_pid = start_pipe_server(pipe_name)
+
+          # Ensure process is killed when the Train process exits
+          at_exit { close }
 
           pipe = nil
 
@@ -227,11 +249,7 @@ module Train::Transports
           utf8_script = script.encode("UTF-16LE", "UTF-8")
           base64_script = Base64.strict_encode64(utf8_script)
           cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
-
-          server_pid = Process.create(command_line: cmd).process_id
-
-          # Ensure process is killed when the Train process exits
-          at_exit { Process.kill("KILL", server_pid) }
+          Process.create(command_line: cmd).process_id
         end
       end
     end
