@@ -1,25 +1,22 @@
-<!-- latest_release 3.4.8 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.4.8](https://github.com/inspec/train/tree/v3.4.8) (2021-01-26)
 
 #### Merged Pull Requests
 - su - USER command execution support &amp; change transport_options to attr_accessor [#636](https://github.com/inspec/train/pull/636) ([vsingh-msys](https://github.com/vsingh-msys))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.4.7 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- su - USER command execution support &amp; change transport_options to attr_accessor [#636](https://github.com/inspec/train/pull/636) ([vsingh-msys](https://github.com/vsingh-msys)) <!-- 3.4.8 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.4.7](https://github.com/inspec/train/tree/v3.4.7) (2021-01-11)
 
 #### Merged Pull Requests
 - Update chefstyle requirement from 1.5.7 to 1.5.9 [#654](https://github.com/inspec/train/pull/654) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Update google API upper constraints to allow Ruby 3 [#656](https://github.com/inspec/train/pull/656) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Test on ruby 3.0, drop testing on ruby 2.4 [#657](https://github.com/inspec/train/pull/657) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.4.4](https://github.com/inspec/train/tree/v3.4.4) (2020-12-14)
 
