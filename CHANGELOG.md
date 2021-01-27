@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.4.9 -->
+## [v3.4.9](https://github.com/inspec/train/tree/v3.4.9) (2021-01-27)
+
+#### Merged Pull Requests
+- Powershell process keep running with local train transport. [#660](https://github.com/inspec/train/pull/660) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.4.8 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Powershell process keep running with local train transport. [#660](https://github.com/inspec/train/pull/660) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.4.9 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
