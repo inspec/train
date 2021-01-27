@@ -1,23 +1,20 @@
-<!-- latest_release 3.4.9 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.4.9](https://github.com/inspec/train/tree/v3.4.9) (2021-01-27)
 
 #### Merged Pull Requests
 - Powershell process keep running with local train transport. [#660](https://github.com/inspec/train/pull/660) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.4.8 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Powershell process keep running with local train transport. [#660](https://github.com/inspec/train/pull/660) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.4.9 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.4.8](https://github.com/inspec/train/tree/v3.4.8) (2021-01-26)
 
 #### Merged Pull Requests
 - su - USER command execution support &amp; change transport_options to attr_accessor [#636](https://github.com/inspec/train/pull/636) ([vsingh-msys](https://github.com/vsingh-msys))
-<!-- latest_stable_release -->
 
 ## [v3.4.7](https://github.com/inspec/train/tree/v3.4.7) (2021-01-11)
 
