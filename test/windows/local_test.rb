@@ -116,7 +116,6 @@ describe "windows local command" do
       _(powershell).must_equal "#{ENV["SystemRoot"]}\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe"
     end
 
-
     it "sets server_pid and returns nil on close" do
       Train::Transports::Local::Connection::WindowsPipeRunner
         .any_instance
