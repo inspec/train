@@ -4,6 +4,7 @@ expeditor:
     - vendor
   defaults:
     buildkite:
+      timeout_in_minutes: 20
       retry:
         automatic:
           limit: 1
