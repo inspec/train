@@ -24,7 +24,7 @@ module Train
     # interface methods: these fields should be implemented by every
     # backend File
     DATA_FIELDS = %w{
-      exist? mode owner group uid gid content content= mtime size selinux_label path
+      exist? mode owner group uid gid content mtime size selinux_label path
     }.freeze
 
     DATA_FIELDS.each do |m|
