@@ -1,14 +1,15 @@
-<!-- latest_release 3.4.10 -->
-## [v3.4.10](https://github.com/inspec/train/tree/v3.4.10) (2021-02-01)
+<!-- latest_release 3.4.11 -->
+## [v3.4.11](https://github.com/inspec/train/tree/v3.4.11) (2021-02-16)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.5.9 to 1.6.1 [#661](https://github.com/inspec/train/pull/661) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Upgrade dependabot configs from v1 to v2 [#665](https://github.com/inspec/train/pull/665) ([jlosito](https://github.com/jlosito))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.9 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Upgrade dependabot configs from v1 to v2 [#665](https://github.com/inspec/train/pull/665) ([jlosito](https://github.com/jlosito)) <!-- 3.4.11 -->
 - Update chefstyle requirement from 1.5.9 to 1.6.1 [#661](https://github.com/inspec/train/pull/661) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.4.10 -->
 <!-- release_rollup -->
 
