@@ -1,0 +1,32 @@
+---
+version: 2
+updates:
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "activesupport"
+        versions:
+          - ">=6.0.0"
+      - dependency-name: "google-api-client"
+        versions:
+          - ">=0.36"
+      - dependency-name: "googleauth"
+        versions:
+          - ">=0.12"
+      - dependency-name: "azure_mgmt_resources"
+        versions:
+          - ">=0.16"
+      - dependency-name: "azure_mgmt_security"
+        versions:
+         - ">=0.19"
+      - dependency-name: "azure_mgmt_storage"
+        versions:
+         - ">=0.19"
+      - dependency-name: "azure_mgmt_key_vault"
+        versions:
+         - ">=0.18"
+      - dependency-name: "azure_graph_rbac"
+        versions:
+         - ">=0.17"
