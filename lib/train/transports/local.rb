@@ -187,7 +187,7 @@ module Train::Transports
           @server_pid = start_pipe_server(pipe_name)
 
           # Ensure process is killed when the Train process exits
-          at_exit { close }
+          at_exit { close rescue Errno::EIO }
 
           pipe = nil
 
