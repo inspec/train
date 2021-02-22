@@ -1,14 +1,15 @@
-<!-- latest_release 3.5.0 -->
-## [v3.5.0](https://github.com/inspec/train/tree/v3.5.0) (2021-02-22)
+<!-- latest_release 3.5.1 -->
+## [v3.5.1](https://github.com/inspec/train/tree/v3.5.1) (2021-02-22)
 
 #### Merged Pull Requests
-- Implement upload/download for connections [#664](https://github.com/inspec/train/pull/664) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Update chefstyle requirement from 1.6.1 to 1.7.1 [#667](https://github.com/inspec/train/pull/667) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.9 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Update chefstyle requirement from 1.6.1 to 1.7.1 [#667](https://github.com/inspec/train/pull/667) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.5.1 -->
 - Implement upload/download for connections [#664](https://github.com/inspec/train/pull/664) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 3.5.0 -->
 - Fix crash on exit [#666](https://github.com/inspec/train/pull/666) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 3.4.13 -->
 - Update chefstyle requirement from 1.6.1 to 1.6.2 [#663](https://github.com/inspec/train/pull/663) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.4.12 -->
