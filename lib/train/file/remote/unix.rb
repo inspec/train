@@ -1,3 +1,4 @@
+require "base64" unless defined?(Base64)
 require "shellwords" unless defined?(Shellwords)
 
 module Train
@@ -17,6 +18,21 @@ module Train
             else
               @backend.run_command("cat #{@spath}").stdout || ""
             end
+        end
+
+        def content=(new_content)
+          execute_result = @backend.run_command("base64 --help")
+          if execute_result.exit_status != 0
+            raise TransportError, "#{self.class} found no base64 binary for file writes"
+          end
+
+          unix_cmd = format("echo '%<base64>s' | base64 --decode > %<file>s",
+                            base64: Base64.strict_encode64(new_content),
+                            file: @spath)
+
+          @backend.run_command(unix_cmd)
+
+          @content = new_content
         end
 
         def exist?

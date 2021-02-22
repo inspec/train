@@ -39,6 +39,18 @@ module Train::Transports
         "local://"
       end
 
+      def upload(locals, remote)
+        FileUtils.mkdir_p(remote)
+
+        Array(locals).each do |local|
+          FileUtils.cp_r(local, remote)
+        end
+      end
+
+      def download(remotes, local)
+        upload(remotes, local)
+      end
+
       private
 
       def select_runner(options)

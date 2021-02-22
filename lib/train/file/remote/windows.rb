@@ -26,6 +26,16 @@ module Train
           @content
         end
 
+        def content=(new_content)
+          win_cmd = format('[IO.File]::WriteAllBytes("%<file>s", [Convert]::FromBase64String("%<base64>s"))',
+                           base64: Base64.strict_encode64(new_content),
+                           file: @spath)
+
+          @backend.run_command(win_cmd)
+
+          @content = new_content
+        end
+
         def exist?
           return @exist if defined?(@exist)
 
