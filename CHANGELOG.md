@@ -1,14 +1,15 @@
-<!-- latest_release 3.4.13 -->
-## [v3.4.13](https://github.com/inspec/train/tree/v3.4.13) (2021-02-16)
+<!-- latest_release 3.5.0 -->
+## [v3.5.0](https://github.com/inspec/train/tree/v3.5.0) (2021-02-22)
 
 #### Merged Pull Requests
-- Fix crash on exit [#666](https://github.com/inspec/train/pull/666) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Implement upload/download for connections [#664](https://github.com/inspec/train/pull/664) ([tecracer-theinen](https://github.com/tecracer-theinen))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.4.9 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Implement upload/download for connections [#664](https://github.com/inspec/train/pull/664) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 3.5.0 -->
 - Fix crash on exit [#666](https://github.com/inspec/train/pull/666) ([tecracer-theinen](https://github.com/tecracer-theinen)) <!-- 3.4.13 -->
 - Update chefstyle requirement from 1.6.1 to 1.6.2 [#663](https://github.com/inspec/train/pull/663) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 3.4.12 -->
 - Upgrade dependabot configs from v1 to v2 [#665](https://github.com/inspec/train/pull/665) ([jlosito](https://github.com/jlosito)) <!-- 3.4.11 -->
