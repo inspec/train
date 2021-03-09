@@ -88,7 +88,7 @@ class Train::Transports::Docker
       stdout, stderr, exit_status = @container.exec(
         [
           "/bin/sh", "-c", cmd
-        ]
+        ], user: @options[:user]
       )
       CommandResult.new(stdout.join, stderr.join, exit_status)
     rescue ::Docker::Error::DockerError => _
