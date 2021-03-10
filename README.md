@@ -79,6 +79,12 @@ train = Train.create('winrm',
 require 'train'
 train = Train.create('docker', host: 'container_id...')
 ```
+You can use `user` option to connect with privileged user on non root user images.
+
+```ruby
+require 'train'
+train = Train.create('docker', host: 'container_id...', user: 'root')
+```
 
 **AWS**
 
