@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.5.3 -->
+## [v3.5.3](https://github.com/inspec/train/tree/v3.5.3) (2021-03-10)
+
+#### Merged Pull Requests
+- Handle user option for user selection through docker transport [#669](https://github.com/inspec/train/pull/669) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.5.2 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Handle user option for user selection through docker transport [#669](https://github.com/inspec/train/pull/669) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.5.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
