@@ -1,19 +1,17 @@
-<!-- latest_release 3.5.4 -->
-## [v3.5.4](https://github.com/inspec/train/tree/v3.5.4) (2021-03-15)
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 1.7.1 to 1.7.2 [#670](https://github.com/inspec/train/pull/670) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.5.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 1.7.1 to 1.7.2 [#670](https://github.com/inspec/train/pull/670) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.5.4 -->
-- Handle user option for user selection through docker transport [#669](https://github.com/inspec/train/pull/669) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.5.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.5.4](https://github.com/inspec/train/tree/v3.5.4) (2021-03-15)
+
+#### Merged Pull Requests
+- Handle user option for user selection through docker transport [#669](https://github.com/inspec/train/pull/669) ([Vasu1105](https://github.com/Vasu1105))
+- Update chefstyle requirement from 1.7.1 to 1.7.2 [#670](https://github.com/inspec/train/pull/670) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_stable_release -->
+
 ## [v3.5.2](https://github.com/inspec/train/tree/v3.5.2) (2021-02-23)
 
 #### Merged Pull Requests
@@ -24,7 +22,6 @@
 - Implement upload/download for connections [#664](https://github.com/inspec/train/pull/664) ([tecracer-theinen](https://github.com/tecracer-theinen))
 - Update chefstyle requirement from 1.6.1 to 1.7.1 [#667](https://github.com/inspec/train/pull/667) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Update berkshelf requirement from ~&gt; 6.3.0 to ~&gt; 7.0.10 [#668](https://github.com/inspec/train/pull/668) ([dependabot[bot]](https://github.com/dependabot[bot]))
-<!-- latest_stable_release -->
 
 ## [v3.4.9](https://github.com/inspec/train/tree/v3.4.9) (2021-01-27)
 
