@@ -86,9 +86,9 @@ module Train::Transports
         end
       end
 
-      def run_command_via_connection(cmd, &_data_handler)
+      def run_command_via_connection(cmd, opts, &_data_handler)
         # Use the runner if it is available
-        return @runner.run_command(cmd) if defined?(@runner)
+        return @runner.run_command(cmd, opts) if defined?(@runner)
 
         # If we don't have a runner, such as at the beginning of setting up the
         # transport and performing the first few steps of OS detection, fall
@@ -115,13 +115,18 @@ module Train::Transports
           @cmd_wrapper = Local::CommandWrapper.load(connection, options)
         end
 
-        def run_command(cmd)
+        def run_command(cmd, opts = {})
           if defined?(@cmd_wrapper) && !@cmd_wrapper.nil?
             cmd = @cmd_wrapper.run(cmd)
           end
 
           res = Mixlib::ShellOut.new(cmd)
-          res.run_command
+          res.timeout = opts[:timeout]
+          begin
+            res.run_command
+          rescue Mixlib::ShellOut::CommandTimeout
+            raise Train::CommandTimeoutReached
+          end
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
         end
 
@@ -138,7 +143,7 @@ module Train::Transports
           @powershell_cmd = powershell_cmd
         end
 
-        def run_command(script)
+        def run_command(script, opts)
           # Prevent progress stream from leaking into stderr
           script = "$ProgressPreference='SilentlyContinue';" + script
 
@@ -149,7 +154,12 @@ module Train::Transports
           cmd = "#{@powershell_cmd} -NoProfile -EncodedCommand #{base64_script}"
 
           res = Mixlib::ShellOut.new(cmd)
-          res.run_command
+          res.timeout = opts[:timeout]
+          begin
+            res.run_command
+          rescue Mixlib::ShellOut::CommandTimeout
+            raise Train::CommandTimeoutReached
+          end
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
         end
 
@@ -176,9 +186,10 @@ module Train::Transports
         #         A command that succeeds without setting an exit code will have exitstatus 0
         #         A command that exits with an exit code will have that value as exitstatus
         #         A command that fails (e.g. throws exception) before setting an exit code will have exitstatus 1
-        def run_command(cmd)
+        def run_command(cmd, _opts)
           script = "$ProgressPreference='SilentlyContinue';" + cmd
           encoded_script = Base64.strict_encode64(script)
+          # TODO: no way to safely implement timeouts here.
           @pipe.puts(encoded_script)
           @pipe.flush
           res = OpenStruct.new(JSON.parse(Base64.decode64(@pipe.readline)))
