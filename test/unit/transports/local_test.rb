@@ -113,6 +113,7 @@ describe "local transport" do
 
     def mock_run_cmd(cmd, &block)
       cmd_runner.expect :run_command, nil
+      cmd_runner.expect :timeout=, nil, [nil]
       Mixlib::ShellOut.stub :new, cmd_runner do |*args|
         yield
       end
@@ -164,7 +165,7 @@ describe "local transport" do
         .expects(:new)
         .never
 
-      runner.expects(:run_command).with("not actually executed")
+      runner.expects(:run_command).with("not actually executed", {})
       connection.run_command("not actually executed")
     end
 
@@ -177,7 +178,7 @@ describe "local transport" do
         .expects(:new)
         .returns(runner)
 
-      runner.expects(:run_command).with("not actually executed")
+      runner.expects(:run_command).with("not actually executed", {})
       connection.run_command("not actually executed")
     end
   end
