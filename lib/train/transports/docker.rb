@@ -53,6 +53,12 @@ class Train::Transports::Docker
     def initialize(conf)
       super(conf)
       @id = options[:host]
+      if RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/
+        # Docker Desktop for windows. Must override socket location.
+        # https://docs.docker.com/desktop/faqs/#how-do-i-connect-to-the-remote-docker-engine-api
+        # Docker.url = "npipe:////./pipe/docker_engine" # # Doesn't require a settings change, but also doesn't work
+        Docker.url = "tcp://localhost:2375"
+      end
       @container = ::Docker::Container.get(@id) ||
         raise("Can't find Docker container #{@id}")
       @cmd_wrapper = nil

@@ -86,6 +86,8 @@ require 'train'
 train = Train.create('docker', host: 'container_id...', user: 'root')
 ```
 
+For Docker Desktop for Windows, you must enable the "Expose daemon on tcp://localhost:2375 without TLS" setting.
+
 **AWS**
 
 To use AWS API authentication, setup an AWS client profile to store the Access Key ID and Secret Access Key.
