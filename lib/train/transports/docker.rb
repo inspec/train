@@ -68,6 +68,7 @@ class Train::Transports::Docker
         raise("Can't find Docker container #{@id}")
       @cmd_wrapper = nil
       @cmd_wrapper = CommandWrapper.load(self, @options)
+      @probably_windows = nil
     end
 
     def close
@@ -89,6 +90,8 @@ class Train::Transports::Docker
         Train::File::Remote::Aix.new(self, path)
       elsif os.solaris?
         Train::File::Remote::Unix.new(self, path)
+      elsif os.windows?
+        Train::File::Remote::Windows.new(self, path)
       else
         Train::File::Remote::Linux.new(self, path)
       end
@@ -96,10 +99,15 @@ class Train::Transports::Docker
 
     def run_command_via_connection(cmd, &_data_handler)
       cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
+      # Cannot use os.windows? here because it calls run_command_via_connection,
+      # causing infinite recursion during initial platform detection
+      if sniff_for_windows?
+        invocation = powershell_run_command(cmd)
+      else
+        invocation = sh_run_command(cmd)
+      end
       stdout, stderr, exit_status = @container.exec(
-        [
-          "/bin/sh", "-c", cmd
-        ], user: @options[:user]
+        invocation, user: @options[:user]
       )
       CommandResult.new(stdout.join, stderr.join, exit_status)
     rescue ::Docker::Error::DockerError => _
@@ -107,6 +115,38 @@ class Train::Transports::Docker
     rescue => _
       # @TODO: differentiate any other error
       raise
+    end
+
+    def sh_run_command(cmd)
+      ["/bin/sh", "-c", cmd]
+    end
+
+    def powershell_run_command(script)
+      # Adapted from local command runner
+      require "base64" unless defined?(Base64)
+
+      # Prevent progress stream from leaking into stderr
+      script = "$ProgressPreference='SilentlyContinue';" + script
+
+      # Encode script so PowerShell can use it
+      script = script.encode("UTF-16LE", "UTF-8")
+      base64_script = Base64.strict_encode64(script)
+
+      ["pwsh", "-NoProfile", "-EncodedCommand", base64_script]
+    end
+
+    def cmd_run_command(cmd)
+      ["cmd.exe", "/s", "/c", cmd]
+    end
+
+    def sniff_for_windows?
+      return @probably_windows unless @probably_windows.nil?
+
+      # Run a command using /bin/sh, which should fail under Windows
+      stdout, _stderr, _exit_status = @container.exec(
+        sh_run_command("true"), user: @options[:user]
+      )
+      @probably_windows = !!stdout.detect { |l| l.include? "failure in a Windows system call" }
     end
   end
 end
