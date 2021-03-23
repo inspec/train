@@ -6,6 +6,7 @@ module Train::Transports
 
     include_options Train::Extras::CommandWrapper
     option :host, required: true
+    option :docker_url, required: false
 
     def connection(state = {}, &block)
       opts = merge_options(options, state || {})
@@ -53,12 +54,16 @@ class Train::Transports::Docker
     def initialize(conf)
       super(conf)
       @id = options[:host]
+
+      docker_url = options[:docker_url]
       if RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/
         # Docker Desktop for windows. Must override socket location.
         # https://docs.docker.com/desktop/faqs/#how-do-i-connect-to-the-remote-docker-engine-api
-        # Docker.url = "npipe:////./pipe/docker_engine" # # Doesn't require a settings change, but also doesn't work
-        Docker.url = "tcp://localhost:2375"
+        # docker_socket ||= "npipe:////./pipe/docker_engine" # # Doesn't require a settings change, but also doesn't work
+        docker_url ||= "tcp://localhost:2375"
       end
+      Docker.url = docker_url if docker_url
+
       @container = ::Docker::Container.get(@id) ||
         raise("Can't find Docker container #{@id}")
       @cmd_wrapper = nil

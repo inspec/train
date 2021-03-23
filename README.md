@@ -86,7 +86,13 @@ require 'train'
 train = Train.create('docker', host: 'container_id...', user: 'root')
 ```
 
-For Docker Desktop for Windows, you must enable the "Expose daemon on tcp://localhost:2375 without TLS" setting.
+For Docker Desktop for Windows, you must enable the "Expose daemon on tcp://localhost:2375 without TLS" setting. To change the URL that train uses to connect to Docker, use the `docker_url` option:
+
+```ruby
+require 'train'
+train = Train.create('docker', host: 'container_id...', docker_url: 'tcp://localhost:1234')
+```
+
 
 **AWS**
 
