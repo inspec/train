@@ -1,24 +1,21 @@
-<!-- latest_release 3.5.5 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.5.5](https://github.com/inspec/train/tree/v3.5.5) (2021-03-24)
 
 #### Merged Pull Requests
 - Add timeout support to Mixlib::ShellOut based local runners [#671](https://github.com/inspec/train/pull/671) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.5.4 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Add timeout support to Mixlib::ShellOut based local runners [#671](https://github.com/inspec/train/pull/671) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.5.5 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.5.4](https://github.com/inspec/train/tree/v3.5.4) (2021-03-15)
 
 #### Merged Pull Requests
 - Handle user option for user selection through docker transport [#669](https://github.com/inspec/train/pull/669) ([Vasu1105](https://github.com/Vasu1105))
 - Update chefstyle requirement from 1.7.1 to 1.7.2 [#670](https://github.com/inspec/train/pull/670) ([dependabot[bot]](https://github.com/dependabot[bot]))
-<!-- latest_stable_release -->
 
 ## [v3.5.2](https://github.com/inspec/train/tree/v3.5.2) (2021-02-23)
 
