@@ -93,6 +93,8 @@ require 'train'
 train = Train.create('docker', host: 'container_id...', docker_url: 'tcp://localhost:1234')
 ```
 
+Windows Docker containers require PowerShell, which is assumed to be installed as `powershell.exe`. If it is installed as `pwsh`, use the `--shell-command` option to specify `pwsh` as the shell.
+
 
 **AWS**
 

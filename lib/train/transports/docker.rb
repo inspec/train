@@ -99,10 +99,11 @@ class Train::Transports::Docker
 
     def run_command_via_connection(cmd, &_data_handler)
       cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
+
       # Cannot use os.windows? here because it calls run_command_via_connection,
       # causing infinite recursion during initial platform detection
       if sniff_for_windows?
-        invocation = powershell_run_command(cmd)
+        invocation = cmd_run_command(cmd)
       else
         invocation = sh_run_command(cmd)
       end
@@ -119,20 +120,6 @@ class Train::Transports::Docker
 
     def sh_run_command(cmd)
       ["/bin/sh", "-c", cmd]
-    end
-
-    def powershell_run_command(script)
-      # Adapted from local command runner
-      require "base64" unless defined?(Base64)
-
-      # Prevent progress stream from leaking into stderr
-      script = "$ProgressPreference='SilentlyContinue';" + script
-
-      # Encode script so PowerShell can use it
-      script = script.encode("UTF-16LE", "UTF-8")
-      base64_script = Base64.strict_encode64(script)
-
-      ["pwsh", "-NoProfile", "-EncodedCommand", base64_script]
     end
 
     def cmd_run_command(cmd)
