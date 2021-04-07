@@ -1,23 +1,20 @@
-<!-- latest_release 3.6.0 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.6.0](https://github.com/inspec/train/tree/v3.6.0) (2021-04-07)
 
 #### Merged Pull Requests
 - Support Docker for Windows [#674](https://github.com/inspec/train/pull/674) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.5.5 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Support Docker for Windows [#674](https://github.com/inspec/train/pull/674) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.0 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.5.5](https://github.com/inspec/train/tree/v3.5.5) (2021-03-24)
 
 #### Merged Pull Requests
 - Add timeout support to Mixlib::ShellOut based local runners [#671](https://github.com/inspec/train/pull/671) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.5.4](https://github.com/inspec/train/tree/v3.5.4) (2021-03-15)
 
