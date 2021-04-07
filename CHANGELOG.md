@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.6.0 -->
+## [v3.6.0](https://github.com/inspec/train/tree/v3.6.0) (2021-04-07)
+
+#### Merged Pull Requests
+- Support Docker for Windows [#674](https://github.com/inspec/train/pull/674) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.5.5 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Support Docker for Windows [#674](https://github.com/inspec/train/pull/674) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
