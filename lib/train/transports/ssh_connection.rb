@@ -323,7 +323,7 @@ class Train::Transports::SSH
 
         logger.debug("[SSH] #{self} cmd = #{cmd}")
 
-        if @transport_options[:pty] || timeout
+        if @transport_options[:pty]
           channel.request_pty do |_ch, success|
             raise Train::Transports::SSHPTYFailed, "Requesting PTY failed" unless success
           end
