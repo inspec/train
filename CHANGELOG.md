@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.6.3 -->
+## [v3.6.3](https://github.com/inspec/train/tree/v3.6.3) (2021-04-19)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.7.4 to 1.7.5 [#678](https://github.com/inspec/train/pull/678) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.6.2 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.7.4 to 1.7.5 [#678](https://github.com/inspec/train/pull/678) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.6.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
