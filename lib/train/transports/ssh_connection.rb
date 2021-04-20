@@ -321,6 +321,9 @@ class Train::Transports::SSH
         # wrap commands if that is configured
         cmd = @cmd_wrapper.run(cmd) if @cmd_wrapper
 
+        # Timeout the command if requested and able
+        cmd = "timeout #{timeout}s #{cmd}" if timeout && timeoutable?(cmd)
+
         logger.debug("[SSH] #{self} cmd = #{cmd}")
 
         if @transport_options[:pty]
@@ -350,21 +353,30 @@ class Train::Transports::SSH
           end
         end
       end
+      session.loop
 
-      thr = Thread.new { session.loop }
-
-      if timeout
-        res = thr.join(timeout)
-        unless res
-          logger.debug("train ssh command '#{cmd}' reached requested timeout (#{timeout}s)")
-          session.channels.each_value { |c| c.eof!; c.close }
-          raise Train::CommandTimeoutReached.new "ssh command reached timeout (#{timeout}s)"
-        end
-      else
-        thr.join
+      if timeout && timeoutable?(cmd) && exit_status == 124
+        logger.debug("train ssh command '#{cmd}' reached requested timeout (#{timeout}s)")
+        session.channels.each_value { |c| c.eof!; c.close }
+        raise Train::CommandTimeoutReached.new "ssh command reached timeout (#{timeout}s)"
       end
 
       [exit_status, stdout, stderr]
+    end
+
+    # Returns true if we think we can attempt to timeout the command
+    def timeoutable?(cmd)
+      have_timeout_cli? && !cmd.include?("|") # Don't try to timeout a command that has pipes
+    end
+
+    # Returns true if the GNU timeout command is available
+    def have_timeout_cli?
+      return @have_timeout_cli unless @have_timeout_cli.nil?
+
+      res = session.exec!("timeout --version")
+      @have_timeout_cli = res.exitstatus == 0
+      logger.debug("train ssh have_timeout_cli status is '#{@have_timeout_cli}'")
+      @have_timeout_cli
     end
   end
 end
