@@ -32,6 +32,10 @@ class Train::Transports::SSH
     attr_reader   :hostname
     attr_accessor :transport_options
 
+    # If we use the GNU timeout utility to timout a command server-side, it will
+    # exit with this status code if the command timed out.
+    GNU_TIMEOUT_EXIT_STATUS = 124
+
     def initialize(options)
       # Track IOS command retries to prevent infinite loop on IOError. This must
       # be done before `super()` because the parent runs detection commands.
@@ -355,7 +359,7 @@ class Train::Transports::SSH
       end
       session.loop
 
-      if timeout && timeoutable?(cmd) && exit_status == 124
+      if timeout && timeoutable?(cmd) && exit_status == GNU_TIMEOUT_EXIT_STATUS
         logger.debug("train ssh command '#{cmd}' reached requested timeout (#{timeout}s)")
         session.channels.each_value { |c| c.eof!; c.close }
         raise Train::CommandTimeoutReached.new "ssh command reached timeout (#{timeout}s)"
