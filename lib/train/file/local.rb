@@ -15,6 +15,12 @@ module Train
         nil
       end
 
+      def content=(new_content)
+        ::File.open(@path, "w", encoding: "UTF-8") { |fp| fp.write(new_content) }
+
+        @content = new_content
+      end
+
       def link_path
         return nil unless symlink?
 

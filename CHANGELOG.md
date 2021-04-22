@@ -1,17 +1,69 @@
-<!-- latest_release -->
+<!-- latest_release 3.6.4 -->
+## [v3.6.4](https://github.com/inspec/train/tree/v3.6.4) (2021-04-22)
+
+#### Merged Pull Requests
+- Switch to GNU timeout-based implementation of SSH timeouts [#679](https://github.com/inspec/train/pull/679) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.6.2 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Switch to GNU timeout-based implementation of SSH timeouts [#679](https://github.com/inspec/train/pull/679) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.4 -->
+- Update chefstyle requirement from 1.7.4 to 1.7.5 [#678](https://github.com/inspec/train/pull/678) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.6.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.6.2](https://github.com/inspec/train/tree/v3.6.2) (2021-04-14)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.7.2 to 1.7.4 [#673](https://github.com/inspec/train/pull/673) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix SSH Timeout PTY allocation [#676](https://github.com/inspec/train/pull/676) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
+## [v3.6.0](https://github.com/inspec/train/tree/v3.6.0) (2021-04-07)
+
+#### Merged Pull Requests
+- Support Docker for Windows [#674](https://github.com/inspec/train/pull/674) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v3.5.5](https://github.com/inspec/train/tree/v3.5.5) (2021-03-24)
+
+#### Merged Pull Requests
+- Add timeout support to Mixlib::ShellOut based local runners [#671](https://github.com/inspec/train/pull/671) ([clintoncwolfe](https://github.com/clintoncwolfe))
+
+## [v3.5.4](https://github.com/inspec/train/tree/v3.5.4) (2021-03-15)
+
+#### Merged Pull Requests
+- Handle user option for user selection through docker transport [#669](https://github.com/inspec/train/pull/669) ([Vasu1105](https://github.com/Vasu1105))
+- Update chefstyle requirement from 1.7.1 to 1.7.2 [#670](https://github.com/inspec/train/pull/670) ([dependabot[bot]](https://github.com/dependabot[bot]))
+
+## [v3.5.2](https://github.com/inspec/train/tree/v3.5.2) (2021-02-23)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.5.9 to 1.6.1 [#661](https://github.com/inspec/train/pull/661) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Upgrade dependabot configs from v1 to v2 [#665](https://github.com/inspec/train/pull/665) ([jlosito](https://github.com/jlosito))
+- Update chefstyle requirement from 1.6.1 to 1.6.2 [#663](https://github.com/inspec/train/pull/663) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Fix crash on exit [#666](https://github.com/inspec/train/pull/666) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Implement upload/download for connections [#664](https://github.com/inspec/train/pull/664) ([tecracer-theinen](https://github.com/tecracer-theinen))
+- Update chefstyle requirement from 1.6.1 to 1.7.1 [#667](https://github.com/inspec/train/pull/667) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update berkshelf requirement from ~&gt; 6.3.0 to ~&gt; 7.0.10 [#668](https://github.com/inspec/train/pull/668) ([dependabot[bot]](https://github.com/dependabot[bot]))
+
+## [v3.4.9](https://github.com/inspec/train/tree/v3.4.9) (2021-01-27)
+
+#### Merged Pull Requests
+- Powershell process keep running with local train transport. [#660](https://github.com/inspec/train/pull/660) ([Vasu1105](https://github.com/Vasu1105))
+
+## [v3.4.8](https://github.com/inspec/train/tree/v3.4.8) (2021-01-26)
+
+#### Merged Pull Requests
+- su - USER command execution support &amp; change transport_options to attr_accessor [#636](https://github.com/inspec/train/pull/636) ([vsingh-msys](https://github.com/vsingh-msys))
+
 ## [v3.4.7](https://github.com/inspec/train/tree/v3.4.7) (2021-01-11)
 
 #### Merged Pull Requests
 - Update chefstyle requirement from 1.5.7 to 1.5.9 [#654](https://github.com/inspec/train/pull/654) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
 - Update google API upper constraints to allow Ruby 3 [#656](https://github.com/inspec/train/pull/656) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Test on ruby 3.0, drop testing on ruby 2.4 [#657](https://github.com/inspec/train/pull/657) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.4.4](https://github.com/inspec/train/tree/v3.4.4) (2020-12-14)
 

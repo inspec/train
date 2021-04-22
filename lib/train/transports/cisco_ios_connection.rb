@@ -29,6 +29,14 @@ class Train::Transports::SSH
       result.stdout.split(" ")[-1]
     end
 
+    def upload(locals, remote)
+      raise NotImplementedError, "#{self.class} does not implement #upload()"
+    end
+
+    def download(remotes, local)
+      raise NotImplementedError, "#{self.class} does not implement #download()"
+    end
+
     private
 
     def establish_connection

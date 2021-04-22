@@ -1,6 +1,7 @@
 require_relative "../errors"
 require_relative "../extras"
 require_relative "../file"
+require "fileutils" unless defined?(FileUtils)
 require "logger"
 
 class Train::Plugins::Transport
@@ -159,6 +160,48 @@ class Train::Plugins::Transport
       return file_via_connection(path, *args) unless cache_enabled?(:file)
 
       @cache[:file][path] ||= file_via_connection(path, *args)
+    end
+
+    # Uploads local files or directories to remote host.
+    #
+    # @param locals [Array<String>] paths to local files or directories
+    # @param remote [String] path to remote destination
+    # @raise [TransportFailed] if the files could not all be uploaded
+    #   successfully, which may vary by implementation
+    def upload(locals, remote)
+      unless file(remote).directory?
+        raise TransportError, "#{self.class} expects remote directory as second upload parameter"
+      end
+
+      Array(locals).each do |local|
+        new_content = File.read(local)
+        remote_file = File.join(remote, File.basename(local))
+
+        logger.debug("Attempting to upload '#{local}' as file #{remote_file}")
+
+        file(remote_file).content = new_content
+      end
+    end
+
+    # Download remote files or directories to local host.
+    #
+    # @param remotes [Array<String>] paths to remote files or directories
+    # @param local [String] path to local destination. If `local` is an
+    #   existing directory, `remote` will be downloaded into the directory
+    #   using its original name
+    # @raise [TransportFailed] if the files could not all be downloaded
+    #   successfully, which may vary by implementation
+    def download(remotes, local)
+      FileUtils.mkdir_p(File.dirname(local))
+
+      Array(remotes).each do |remote|
+        new_content = file(remote).content
+        local_file = File.join(local, File.basename(remote))
+
+        logger.debug("Attempting to download '#{remote}' as file #{local_file}")
+
+        File.open(local_file, "w") { |fp| fp.write(new_content) }
+      end
     end
 
     # Builds a LoginCommand which can be used to open an interactive

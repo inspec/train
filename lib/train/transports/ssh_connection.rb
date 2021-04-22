@@ -29,8 +29,12 @@ class Train::Transports::SSH
   #
   # @author Fletcher Nichol <fnichol@nichol.ca>
   class Connection < BaseConnection # rubocop:disable Metrics/ClassLength
-    attr_reader :hostname
-    attr_reader :transport_options
+    attr_reader   :hostname
+    attr_accessor :transport_options
+
+    # If we use the GNU timeout utility to timout a command server-side, it will
+    # exit with this status code if the command timed out.
+    GNU_TIMEOUT_EXIT_STATUS = 124
 
     def initialize(options)
       # Track IOS command retries to prevent infinite loop on IOError. This must
@@ -247,6 +251,16 @@ class Train::Transports::SSH
 
       exit_status, stdout, stderr = execute_on_channel(cmd, opts, &data_handler)
 
+      # An interactive console might contain the STDERR in STDOUT
+      # concat both outputs for non-zero exit status. 
+      output = "#{stdout} #{stderr}".strip if exit_status != 0
+
+      # Abstract the su - USER authentication failure
+      # raise the Train::UserError and passes message & reason
+      if output && output.match?("su: Authentication failure")
+        raise Train::UserError.new(output, :bad_su_user_password)
+      end
+
       # Since `@session.loop` succeeded, reset the IOS command retry counter
       @ios_cmd_retries = 0
 
@@ -311,9 +325,12 @@ class Train::Transports::SSH
         # wrap commands if that is configured
         cmd = @cmd_wrapper.run(cmd) if @cmd_wrapper
 
+        # Timeout the command if requested and able
+        cmd = "timeout #{timeout}s #{cmd}" if timeout && timeoutable?(cmd)
+
         logger.debug("[SSH] #{self} cmd = #{cmd}")
 
-        if @transport_options[:pty] || timeout
+        if @transport_options[:pty]
           channel.request_pty do |_ch, success|
             raise Train::Transports::SSHPTYFailed, "Requesting PTY failed" unless success
           end
@@ -322,12 +339,12 @@ class Train::Transports::SSH
         channel.exec(cmd) do |_, success|
           abort "Couldn't execute command on SSH." unless success
           channel.on_data do |_, data|
-            yield(data) if block_given?
+            yield(data, channel) if block_given?
             stdout += data
           end
 
           channel.on_extended_data do |_, _type, data|
-            yield(data) if block_given?
+            yield(data, channel) if block_given?
             stderr += data
           end
 
@@ -340,21 +357,30 @@ class Train::Transports::SSH
           end
         end
       end
+      session.loop
 
-      thr = Thread.new { session.loop }
-
-      if timeout
-        res = thr.join(timeout)
-        unless res
-          logger.debug("train ssh command '#{cmd}' reached requested timeout (#{timeout}s)")
-          session.channels.each_value { |c| c.eof!; c.close }
-          raise Train::CommandTimeoutReached.new "ssh command reached timeout (#{timeout}s)"
-        end
-      else
-        thr.join
+      if timeout && timeoutable?(cmd) && exit_status == GNU_TIMEOUT_EXIT_STATUS
+        logger.debug("train ssh command '#{cmd}' reached requested timeout (#{timeout}s)")
+        session.channels.each_value { |c| c.eof!; c.close }
+        raise Train::CommandTimeoutReached.new "ssh command reached timeout (#{timeout}s)"
       end
 
       [exit_status, stdout, stderr]
+    end
+
+    # Returns true if we think we can attempt to timeout the command
+    def timeoutable?(cmd)
+      have_timeout_cli? && !cmd.include?("|") # Don't try to timeout a command that has pipes
+    end
+
+    # Returns true if the GNU timeout command is available
+    def have_timeout_cli?
+      return @have_timeout_cli unless @have_timeout_cli.nil?
+
+      res = session.exec!("timeout --version")
+      @have_timeout_cli = res.exitstatus == 0
+      logger.debug("train ssh have_timeout_cli status is '#{@have_timeout_cli}'")
+      @have_timeout_cli
     end
   end
 end

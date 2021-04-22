@@ -31,8 +31,24 @@ module Train::Transports
         nil # none, open your shell
       end
 
+      def close
+        @runner.close
+      end
+
       def uri
         "local://"
+      end
+
+      def upload(locals, remote)
+        FileUtils.mkdir_p(remote)
+
+        Array(locals).each do |local|
+          FileUtils.cp_r(local, remote)
+        end
+      end
+
+      def download(remotes, local)
+        upload(remotes, local)
       end
 
       private
@@ -70,9 +86,9 @@ module Train::Transports
         end
       end
 
-      def run_command_via_connection(cmd, &_data_handler)
+      def run_command_via_connection(cmd, opts, &_data_handler)
         # Use the runner if it is available
-        return @runner.run_command(cmd) if defined?(@runner)
+        return @runner.run_command(cmd, opts) if defined?(@runner)
 
         # If we don't have a runner, such as at the beginning of setting up the
         # transport and performing the first few steps of OS detection, fall
@@ -99,14 +115,23 @@ module Train::Transports
           @cmd_wrapper = Local::CommandWrapper.load(connection, options)
         end
 
-        def run_command(cmd)
+        def run_command(cmd, opts = {})
           if defined?(@cmd_wrapper) && !@cmd_wrapper.nil?
             cmd = @cmd_wrapper.run(cmd)
           end
 
           res = Mixlib::ShellOut.new(cmd)
-          res.run_command
+          res.timeout = opts[:timeout]
+          begin
+            res.run_command
+          rescue Mixlib::ShellOut::CommandTimeout
+            raise Train::CommandTimeoutReached
+          end
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+        end
+
+        def close
+          # nothing to do at the moment
         end
       end
 
@@ -118,7 +143,7 @@ module Train::Transports
           @powershell_cmd = powershell_cmd
         end
 
-        def run_command(script)
+        def run_command(script, opts)
           # Prevent progress stream from leaking into stderr
           script = "$ProgressPreference='SilentlyContinue';" + script
 
@@ -129,8 +154,17 @@ module Train::Transports
           cmd = "#{@powershell_cmd} -NoProfile -EncodedCommand #{base64_script}"
 
           res = Mixlib::ShellOut.new(cmd)
-          res.run_command
+          res.timeout = opts[:timeout]
+          begin
+            res.run_command
+          rescue Mixlib::ShellOut::CommandTimeout
+            raise Train::CommandTimeoutReached
+          end
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+        end
+
+        def close
+          # nothing to do at the moment
         end
       end
 
@@ -141,6 +175,7 @@ module Train::Transports
 
         def initialize(powershell_cmd = "powershell")
           @powershell_cmd = powershell_cmd
+          @server_pid = nil
           @pipe = acquire_pipe
           raise PipeError if @pipe.nil?
         end
@@ -151,21 +186,31 @@ module Train::Transports
         #         A command that succeeds without setting an exit code will have exitstatus 0
         #         A command that exits with an exit code will have that value as exitstatus
         #         A command that fails (e.g. throws exception) before setting an exit code will have exitstatus 1
-        def run_command(cmd)
+        def run_command(cmd, _opts)
           script = "$ProgressPreference='SilentlyContinue';" + cmd
           encoded_script = Base64.strict_encode64(script)
+          # TODO: no way to safely implement timeouts here.
           @pipe.puts(encoded_script)
           @pipe.flush
           res = OpenStruct.new(JSON.parse(Base64.decode64(@pipe.readline)))
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
         end
 
+        def close
+          Process.kill("KILL", @server_pid) unless @server_pid.nil?
+          @server_pid = nil
+        end
+
         private
 
         def acquire_pipe
+          require "win32/process"
           pipe_name = "inspec_#{SecureRandom.hex}"
 
-          start_pipe_server(pipe_name)
+          @server_pid = start_pipe_server(pipe_name)
+
+          # Ensure process is killed when the Train process exits
+          at_exit { close rescue Errno::EIO }
 
           pipe = nil
 
@@ -227,11 +272,7 @@ module Train::Transports
           utf8_script = script.encode("UTF-16LE", "UTF-8")
           base64_script = Base64.strict_encode64(utf8_script)
           cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
-
-          server_pid = Process.create(command_line: cmd).process_id
-
-          # Ensure process is killed when the Train process exits
-          at_exit { Process.kill("KILL", server_pid) }
+          Process.create(command_line: cmd).process_id
         end
       end
     end
