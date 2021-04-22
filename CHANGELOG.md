@@ -1,14 +1,15 @@
-<!-- latest_release 3.6.3 -->
-## [v3.6.3](https://github.com/inspec/train/tree/v3.6.3) (2021-04-19)
+<!-- latest_release 3.6.4 -->
+## [v3.6.4](https://github.com/inspec/train/tree/v3.6.4) (2021-04-22)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.7.4 to 1.7.5 [#678](https://github.com/inspec/train/pull/678) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Switch to GNU timeout-based implementation of SSH timeouts [#679](https://github.com/inspec/train/pull/679) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.6.2 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Switch to GNU timeout-based implementation of SSH timeouts [#679](https://github.com/inspec/train/pull/679) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.4 -->
 - Update chefstyle requirement from 1.7.4 to 1.7.5 [#678](https://github.com/inspec/train/pull/678) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.6.3 -->
 <!-- release_rollup -->
 
