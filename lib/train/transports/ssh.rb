@@ -86,6 +86,14 @@ module Train::Transports
       end
     end
 
+    # Returns the ssh config option like user, port from config files
+    # Params hostname [String], option_type [String]
+    # Return String
+    def self.read_options_from_ssh_config(host, option_type)
+      config_options = Net::SSH.configuration_for(host, true)
+      config_options[option_type]
+    end
+
     private
 
     def reusable_connection?(conn_opts)
@@ -279,12 +287,5 @@ module Train::Transports
       @connection
     end
 
-    # Returns the ssh config option like user, port from config files
-    # Params hostname [String], option_type [String]
-    # Return String
-    def self.read_options_from_ssh_config(host, option_type)
-      config_options = Net::SSH.configuration_for(host, true)
-      config_options[option_type]
-    end
   end
 end
