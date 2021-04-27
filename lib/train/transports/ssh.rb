@@ -87,10 +87,10 @@ module Train::Transports
     end
 
     # Returns the ssh config option like user, port from config files
-    # Params hostname [String], option_type [String]
+    # Params options [Hash], option_type [String]
     # Return String
-    def self.read_options_from_ssh_config(host, option_type)
-      config_options = Net::SSH.configuration_for(host, true)
+    def self.read_options_from_ssh_config(options, option_type)
+      config_options = Net::SSH.configuration_for(options[:host], true)
       config_options[option_type]
     end
 
