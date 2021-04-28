@@ -1,26 +1,23 @@
-<!-- latest_release 3.7.0 -->
-## [v3.7.0](https://github.com/inspec/train/tree/v3.7.0) (2021-04-28)
-
-#### Merged Pull Requests
-- Read the username and port from /.ssh/config file and replace if present [#659](https://github.com/inspec/train/pull/659) ([sanga1794](https://github.com/sanga1794))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.6.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Read the username and port from /.ssh/config file and replace if present [#659](https://github.com/inspec/train/pull/659) ([sanga1794](https://github.com/sanga1794)) <!-- 3.7.0 -->
-- Switch to GNU timeout-based implementation of SSH timeouts [#679](https://github.com/inspec/train/pull/679) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.6.4 -->
-- Update chefstyle requirement from 1.7.4 to 1.7.5 [#678](https://github.com/inspec/train/pull/678) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.6.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.7.0](https://github.com/inspec/train/tree/v3.7.0) (2021-04-28)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.7.4 to 1.7.5 [#678](https://github.com/inspec/train/pull/678) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Switch to GNU timeout-based implementation of SSH timeouts [#679](https://github.com/inspec/train/pull/679) ([clintoncwolfe](https://github.com/clintoncwolfe))
+- Read the username and port from /.ssh/config file and replace if present [#659](https://github.com/inspec/train/pull/659) ([sanga1794](https://github.com/sanga1794))
+<!-- latest_stable_release -->
+
 ## [v3.6.2](https://github.com/inspec/train/tree/v3.6.2) (2021-04-14)
 
 #### Merged Pull Requests
 - Update chefstyle requirement from 1.7.2 to 1.7.4 [#673](https://github.com/inspec/train/pull/673) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Fix SSH Timeout PTY allocation [#676](https://github.com/inspec/train/pull/676) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.6.0](https://github.com/inspec/train/tree/v3.6.0) (2021-04-07)
 
