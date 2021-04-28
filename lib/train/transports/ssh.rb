@@ -43,8 +43,8 @@ module Train::Transports
 
     # common target configuration
     option :host,      required: true
-    option :port,      default: 22, required: true
-    option :user,      default: "root", required: true
+    option :port,      default: 22, coerce: proc { |u| read_options_from_ssh_config(u, :port) }, required: true
+    option :user,      default: "root", coerce: proc { |u| read_options_from_ssh_config(u, :user) }, required: true
     option :key_files, default: nil
     option :password,  default: nil
 
@@ -84,6 +84,14 @@ module Train::Transports
       else
         create_new_connection(conn_opts, &block)
       end
+    end
+
+    # Returns the ssh config option like user, port from config files
+    # Params options [Hash], option_type [String]
+    # Return String
+    def self.read_options_from_ssh_config(options, option_type)
+      config_options = Net::SSH.configuration_for(options[:host], true)
+      config_options[option_type]
     end
 
     private
@@ -278,5 +286,6 @@ module Train::Transports
       yield @connection if block_given?
       @connection
     end
+
   end
 end
