@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "https://github.com/inspec/train/issues",
   }
 
-  spec.required_ruby_version = ">= 2.4"
+  spec.required_ruby_version = ">= 2.5"
 
   spec.files = %w{LICENSE} + Dir.glob("lib/**/*")
     .grep(%r{transports/(azure|clients|docker|gcp|helpers|vmware)})
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm", "~> 0.2"
 
   # azure, docker, gcp dependencies
-  spec.add_dependency "activesupport", ">= 5.2.4.3", "< 6.0.0" # ActiveSupport 6+ does not support ruby 2.4
+  spec.add_dependency "activesupport", ">= 6.0.3.1"
   spec.add_dependency "inifile", "~> 3.0"
   spec.add_dependency "azure_graph_rbac", "~> 0.16"
   spec.add_dependency "azure_mgmt_key_vault", "~> 0.17"
