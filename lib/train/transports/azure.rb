@@ -163,12 +163,10 @@ module Train::Transports
 
       def port_open?(port, seconds = 3)
         Timeout.timeout(seconds) do
-          begin
-            TCPSocket.new("localhost", port).close
-            true
-          rescue SystemCallError
-            false
-          end
+          TCPSocket.new("localhost", port).close
+          true
+        rescue SystemCallError
+          false
         end
       rescue Timeout::Error
         false

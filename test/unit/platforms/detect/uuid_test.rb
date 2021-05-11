@@ -104,7 +104,7 @@ describe "uuid" do
   end
 
   it 'finds a windows uuid from C:\Users\test\.chef\chef_guid' do
-    ENV["HOMEDRIVE"] = 'C:\\'
+    ENV["HOMEDRIVE"] = "C:\\"
     ENV["HOMEPATH"] = 'Users\test'
     files = { 'C:\Users\test\.chef\chef_guid' => "5e430326-b5aa-56f8-975f-c3ca1c21df91" }
     plat = mock_platform("windows", {}, files)

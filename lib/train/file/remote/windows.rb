@@ -12,7 +12,7 @@ module Train
           @spath = path.gsub(/[<>"|?*]/, "")
         end
 
-        def basename(suffix = nil, sep = '\\')
+        def basename(suffix = nil, sep = "\\")
           super(suffix, sep)
         end
 
