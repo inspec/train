@@ -1,14 +1,15 @@
-<!-- latest_release 3.7.1 -->
-## [v3.7.1](https://github.com/inspec/train/tree/v3.7.1) (2021-05-10)
+<!-- latest_release 3.7.2 -->
+## [v3.7.2](https://github.com/inspec/train/tree/v3.7.2) (2021-05-24)
 
 #### Merged Pull Requests
-- Remove ruby 2.4 support and udpated activesupport to be &gt;= 6.0.0 [#680](https://github.com/inspec/train/pull/680) ([Vasu1105](https://github.com/Vasu1105))
+- Add support for Ubios [#687](https://github.com/inspec/train/pull/687) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Add support for Ubios [#687](https://github.com/inspec/train/pull/687) ([tas50](https://github.com/tas50)) <!-- 3.7.2 -->
 - Remove ruby 2.4 support and udpated activesupport to be &gt;= 6.0.0 [#680](https://github.com/inspec/train/pull/680) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.7.1 -->
 <!-- release_rollup -->
 
