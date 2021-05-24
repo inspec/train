@@ -74,6 +74,14 @@ module Train::Platforms::Detect::Specifications
         end
       end
 
+      declare_instance("ubios", "Ubiquiti UbiOS", "ubios") do
+        l_o_r = linux_os_release
+        if l_o_r && l_o_r["ID"] == "ubios"
+          @platform[:release] = l_o_r["VERSION_ID"]
+          true
+        end
+      end
+
       declare_instance("debian", "Debian Linux", "debian") do
         # if we get this far we have to be some type of debian
         @platform[:release] = unix_file_contents("/etc/debian_version").chomp
