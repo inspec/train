@@ -1,26 +1,23 @@
-<!-- latest_release 3.7.2 -->
-## [v3.7.2](https://github.com/inspec/train/tree/v3.7.2) (2021-05-24)
-
-#### Merged Pull Requests
-- Add support for Ubios [#687](https://github.com/inspec/train/pull/687) ([tas50](https://github.com/tas50))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.7.0 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Add support for Ubios [#687](https://github.com/inspec/train/pull/687) ([tas50](https://github.com/tas50)) <!-- 3.7.2 -->
-- Remove ruby 2.4 support and udpated activesupport to be &gt;= 6.0.0 [#680](https://github.com/inspec/train/pull/680) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.7.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.7.2](https://github.com/inspec/train/tree/v3.7.2) (2021-05-24)
+
+#### Merged Pull Requests
+- Remove ruby 2.4 support and udpated activesupport to be &gt;= 6.0.0 [#680](https://github.com/inspec/train/pull/680) ([Vasu1105](https://github.com/Vasu1105))
+- Add support for Ubios [#687](https://github.com/inspec/train/pull/687) ([tas50](https://github.com/tas50))
+<!-- latest_stable_release -->
+
 ## [v3.7.0](https://github.com/inspec/train/tree/v3.7.0) (2021-04-28)
 
 #### Merged Pull Requests
 - Update chefstyle requirement from 1.7.4 to 1.7.5 [#678](https://github.com/inspec/train/pull/678) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Switch to GNU timeout-based implementation of SSH timeouts [#679](https://github.com/inspec/train/pull/679) ([clintoncwolfe](https://github.com/clintoncwolfe))
 - Read the username and port from /.ssh/config file and replace if present [#659](https://github.com/inspec/train/pull/659) ([sanga1794](https://github.com/sanga1794))
-<!-- latest_stable_release -->
 
 ## [v3.6.2](https://github.com/inspec/train/tree/v3.6.2) (2021-04-14)
 
