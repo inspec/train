@@ -216,12 +216,10 @@ module Train::Transports
 
           # PowerShell needs time to create pipe.
           100.times do
-            begin
-              pipe = open("//./pipe/#{pipe_name}", "r+")
-              break
-            rescue
-              sleep 0.1
-            end
+            pipe = open("//./pipe/#{pipe_name}", "r+")
+            break
+          rescue
+            sleep 0.1
           end
 
           pipe
