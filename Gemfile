@@ -12,6 +12,7 @@ group :test do
   gem "pry-byebug"
   gem "m"
   gem "ed25519" # ed25519 ssh key support
+  gem "x25519" # ed25519 ssh key support for KEX
   gem "bcrypt_pbkdf" # ed25519 ssh key support
   # This is not a true gem installation
   # (Gem::Specification.find_by_path('train-gem-fixture') will return nil)
