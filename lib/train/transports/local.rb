@@ -190,8 +190,23 @@ module Train::Transports
           script = "$ProgressPreference='SilentlyContinue';" + cmd
           encoded_script = Base64.strict_encode64(script)
           # TODO: no way to safely implement timeouts here.
-          @pipe.puts(encoded_script)
-          @pipe.flush
+          begin
+            @pipe.puts(encoded_script)
+            @pipe.flush
+          rescue Errno::EPIPE
+            # Retry once if the pipe went away
+            begin
+              # Maybe the pipe went away, but the server didn't? Reset it, to get a clean start.
+              close
+            rescue Errno::EIO
+              # Ignore - server already went away
+            end
+            @pipe = acquire_pipe
+            raise PipeError if @pipe.nil?
+
+            @pipe.puts(encoded_script)
+            @pipe.flush
+          end
           res = OpenStruct.new(JSON.parse(Base64.decode64(@pipe.readline)))
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
         end
