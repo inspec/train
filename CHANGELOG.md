@@ -1,25 +1,22 @@
-<!-- latest_release 3.7.4 -->
-## [v3.7.4](https://github.com/inspec/train/tree/v3.7.4) (2021-06-22)
-
-#### Merged Pull Requests
-- Retry the Windows local pipe server connection once on EPIPE [#694](https://github.com/inspec/train/pull/694) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.7.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Retry the Windows local pipe server connection once on EPIPE [#694](https://github.com/inspec/train/pull/694) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.4 -->
-- Update chefstyle requirement from 1.7.5 to 2.0.3 [#683](https://github.com/inspec/train/pull/683) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.7.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.7.4](https://github.com/inspec/train/tree/v3.7.4) (2021-06-22)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 1.7.5 to 2.0.3 [#683](https://github.com/inspec/train/pull/683) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Retry the Windows local pipe server connection once on EPIPE [#694](https://github.com/inspec/train/pull/694) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v3.7.2](https://github.com/inspec/train/tree/v3.7.2) (2021-05-24)
 
 #### Merged Pull Requests
 - Remove ruby 2.4 support and udpated activesupport to be &gt;= 6.0.0 [#680](https://github.com/inspec/train/pull/680) ([Vasu1105](https://github.com/Vasu1105))
 - Add support for Ubios [#687](https://github.com/inspec/train/pull/687) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v3.7.0](https://github.com/inspec/train/tree/v3.7.0) (2021-04-28)
 
