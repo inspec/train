@@ -1,14 +1,15 @@
-<!-- latest_release 3.7.3 -->
-## [v3.7.3](https://github.com/inspec/train/tree/v3.7.3) (2021-05-31)
+<!-- latest_release 3.7.4 -->
+## [v3.7.4](https://github.com/inspec/train/tree/v3.7.4) (2021-06-22)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 1.7.5 to 2.0.3 [#683](https://github.com/inspec/train/pull/683) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Retry the Windows local pipe server connection once on EPIPE [#694](https://github.com/inspec/train/pull/694) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.2 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Retry the Windows local pipe server connection once on EPIPE [#694](https://github.com/inspec/train/pull/694) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.7.4 -->
 - Update chefstyle requirement from 1.7.5 to 2.0.3 [#683](https://github.com/inspec/train/pull/683) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.7.3 -->
 <!-- release_rollup -->
 
