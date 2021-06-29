@@ -21,7 +21,7 @@ github:
     - "Expeditor: Bump Minor Version"
   major_bump_labels:
     - "Expeditor: Bump Major Version"
-    
+
 release_branches:
     - 2-stable:
         version_constraint: 2.*
@@ -49,8 +49,6 @@ subscriptions:
          only_if: built_in:bump_version
       - trigger_pipeline:coverage:
          post_commit: true
-
-subscriptions:
   - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
       - post_github_comment:.expeditor/templates/pull_request.mustache:
