@@ -21,7 +21,8 @@ github:
     - "Expeditor: Bump Minor Version"
   major_bump_labels:
     - "Expeditor: Bump Major Version"
-  release_branch:
+    
+release_branches:
     - 2-stable:
         version_constraint: 2.*
     - master:
@@ -30,25 +31,27 @@ github:
 changelog:
   rollup_header: Changes not yet released to rubygems.org
 
+subscriptions:
 # These actions are taken, in order they are specified, anytime a Pull Request is merged.
-merge_actions:
-  - built_in:bump_version:
-      ignore_labels:
-        - "Expeditor: Skip Version Bump"
-        - "Expeditor: Skip All"
-  - bash:.expeditor/update_version.sh:
-      only_if: built_in:bump_version
-  - built_in:update_changelog:
-      ignore_labels:
-        - "Expeditor: Skip Changelog"
-        - "Expeditor: Skip All"
-  - built_in:build_gem:
-      only_if: built_in:bump_version
-  - trigger_pipeline:coverage:
-      post_commit: true
+  - workload: pull_request_merged:{{github_repo}}:{{release_branch}}:*
+    actions:
+      - built_in:bump_version:
+         ignore_labels:
+          - "Expeditor: Skip Version Bump"
+          - "Expeditor: Skip All"
+      - bash:.expeditor/update_version.sh:
+         only_if: built_in:bump_version
+      - built_in:update_changelog:
+         ignore_labels:
+          - "Expeditor: Skip Changelog"
+          - "Expeditor: Skip All"
+      - built_in:build_gem:
+         only_if: built_in:bump_version
+      - trigger_pipeline:coverage:
+         post_commit: true
 
 subscriptions:
-  - workload: pull_request_opened:{{agent_id}}:*
+  - workload: pull_request_opened:{{github_repo}}:{{release_branch}}:*
     actions:
       - post_github_comment:.expeditor/templates/pull_request.mustache:
           ignore_team_members:
