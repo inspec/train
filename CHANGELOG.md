@@ -1,14 +1,15 @@
-<!-- latest_release 3.7.5 -->
-## [v3.7.5](https://github.com/inspec/train/tree/v3.7.5) (2021-06-30)
+<!-- latest_release 3.7.6 -->
+## [v3.7.6](https://github.com/inspec/train/tree/v3.7.6) (2021-06-30)
 
 #### Merged Pull Requests
-- Update chefstyle requirement from 2.0.3 to 2.0.5 [#695](https://github.com/inspec/train/pull/695) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Remove pins for Ruby &lt; 2.5 [#688](https://github.com/inspec/train/pull/688) ([tas50](https://github.com/tas50))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.7.4 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Remove pins for Ruby &lt; 2.5 [#688](https://github.com/inspec/train/pull/688) ([tas50](https://github.com/tas50)) <!-- 3.7.6 -->
 - Update chefstyle requirement from 2.0.3 to 2.0.5 [#695](https://github.com/inspec/train/pull/695) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.7.5 -->
 <!-- release_rollup -->
 
