@@ -1,27 +1,24 @@
-<!-- latest_release 3.8.1 -->
-## [v3.8.1](https://github.com/inspec/train/tree/v3.8.1) (2021-07-27)
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 2.0.5 to 2.0.7 [#700](https://github.com/inspec/train/pull/700) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.7.4 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Update chefstyle requirement from 2.0.5 to 2.0.7 [#700](https://github.com/inspec/train/pull/700) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.8.1 -->
-- Parse Message : Added new message for lack of sudo privilege and appl… [#690](https://github.com/inspec/train/pull/690) ([msys-sgarg](https://github.com/msys-sgarg)) <!-- 3.8.0 -->
-- Remove pins for Ruby &lt; 2.5 [#688](https://github.com/inspec/train/pull/688) ([tas50](https://github.com/tas50)) <!-- 3.7.6 -->
-- Update chefstyle requirement from 2.0.3 to 2.0.5 [#695](https://github.com/inspec/train/pull/695) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.7.5 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.8.1](https://github.com/inspec/train/tree/v3.8.1) (2021-07-27)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 2.0.3 to 2.0.5 [#695](https://github.com/inspec/train/pull/695) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Remove pins for Ruby &lt; 2.5 [#688](https://github.com/inspec/train/pull/688) ([tas50](https://github.com/tas50))
+- Parse Message : Added new message for lack of sudo privilege and appl… [#690](https://github.com/inspec/train/pull/690) ([msys-sgarg](https://github.com/msys-sgarg))
+- Update chefstyle requirement from 2.0.5 to 2.0.7 [#700](https://github.com/inspec/train/pull/700) ([dependabot[bot]](https://github.com/dependabot[bot]))
+<!-- latest_stable_release -->
+
 ## [v3.7.4](https://github.com/inspec/train/tree/v3.7.4) (2021-06-22)
 
 #### Merged Pull Requests
 - Update chefstyle requirement from 1.7.5 to 2.0.3 [#683](https://github.com/inspec/train/pull/683) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Retry the Windows local pipe server connection once on EPIPE [#694](https://github.com/inspec/train/pull/694) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.7.2](https://github.com/inspec/train/tree/v3.7.2) (2021-05-24)
 
