@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.8.2 -->
+## [v3.8.2](https://github.com/inspec/train/tree/v3.8.2) (2021-08-16)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 2.0.7 to 2.0.8 [#702](https://github.com/inspec/train/pull/702) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.8.1 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 2.0.7 to 2.0.8 [#702](https://github.com/inspec/train/pull/702) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.8.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
