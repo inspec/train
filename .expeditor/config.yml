@@ -25,7 +25,7 @@ github:
 release_branches:
     - 2-stable:
         version_constraint: 2.*
-    - master:
+    - main:
         version_constraint: 3.*
 
 changelog:
