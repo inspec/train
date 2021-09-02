@@ -63,7 +63,8 @@ build_essential
 
 # execute tests
 execute "bundle install" do
-  command "/opt/chef/embedded/bin/bundle install --without integration tools"
+  command "/opt/chef/embedded/bin/bundle config set --local without integration tools"
+  command "/opt/chef/embedded/bin/bundle install"
   cwd "/tmp/kitchen/data"
 end
 
