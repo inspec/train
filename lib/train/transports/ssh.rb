@@ -47,7 +47,7 @@ module Train::Transports
     option :user,      default: "root", required: true
     option :key_files, default: nil
     option :password,  default: nil
-    option :ssh_config, default: true
+    option :ssh_config, default: false
     # additional ssh options
     option :keepalive, default: true
     option :keepalive_interval, default: 60
