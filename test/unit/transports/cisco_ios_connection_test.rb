@@ -18,6 +18,7 @@ describe "CiscoIOSConnection" do
       host: "fakehost",
       user: "fakeuser",
       password: "fakepassword",
+      ssh_config: false,
     }
   end
 
