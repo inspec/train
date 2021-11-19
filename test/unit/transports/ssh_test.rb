@@ -383,7 +383,6 @@ describe "ssh transport with bastion and proxy" do
    key_files: rand.to_s,
    bastion_host: "bastion_dummy",
    proxy_command: "dummy",
-   ssh_config: false,
     }
   end
   let(:cls_agent) { cls.new({ host: rand.to_s }) }
