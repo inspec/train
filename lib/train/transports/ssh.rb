@@ -43,11 +43,11 @@ module Train::Transports
 
     # common target configuration
     option :host,      required: true
-    option :port,      default: 22, coerce: proc { |u| read_options_from_ssh_config(u, :port) }, required: true
-    option :user,      default: "root", coerce: proc { |u| read_options_from_ssh_config(u, :user) }, required: true
+    option :port,      default: 22, required: true
+    option :user,      default: "root", required: true
     option :key_files, default: nil
     option :password,  default: nil
-
+    option :ssh_config, default: true
     # additional ssh options
     option :keepalive, default: true
     option :keepalive_interval, default: 60
@@ -75,6 +75,7 @@ module Train::Transports
 
     # (see Base#connection)
     def connection(state = {}, &block)
+      apply_ssh_config(options[:host])
       opts = merge_options(options, state || {})
       validate_options(opts)
       conn_opts = connection_options(opts)
@@ -86,15 +87,25 @@ module Train::Transports
       end
     end
 
-    # Returns the ssh config option like user, port from config files
-    # Params options [Hash], option_type [String]
-    # Return String
-    def self.read_options_from_ssh_config(options, option_type)
-      config_options = Net::SSH.configuration_for(options[:host], true)
-      config_options[option_type]
+    def apply_ssh_config(host)
+      if options[:ssh_config] != false && !options[:ssh_config].nil?
+        files = options[:ssh_config] == true ? Net::SSH::Config.default_files : options[:ssh_config]
+        host_cfg = ssh_config_for_host(host, files)
+        host_cfg.each do |key, value|
+          if key == :keys && options[:key_files].nil?
+            options[:key_files] = host_cfg[key]
+          elsif options[key].nil?
+            options[key] = host_cfg[key]
+          end
+        end
+      end
     end
 
     private
+
+    def ssh_config_for_host(host, files)
+      Net::SSH::Config.for(host, files = files)
+    end
 
     def reusable_connection?(conn_opts)
       return false unless @connection_options
@@ -186,6 +197,7 @@ module Train::Transports
         bastion_port: opts[:bastion_port],
         non_interactive: opts[:non_interactive],
         append_all_supported_algorithms: opts[:append_all_supported_algorithms],
+        config: options[:ssh_config],
         transport_options: opts,
       }
       # disable host key verification. The hash key and value to use

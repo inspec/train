@@ -59,9 +59,6 @@ module Train
           default = hm[:default]
           if default.is_a? Proc
             res[field] = default.call(res)
-          elsif hm.key?(:coerce)
-            field_value = hm[:coerce].call(res)
-            res[field] = field_value.nil? ? default : field_value
           else
             res[field] = default
           end
