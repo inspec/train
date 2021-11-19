@@ -15,10 +15,11 @@ describe "ssh transport" do
       password: rand.to_s,
       key_files: rand.to_s,
       proxy_command: "ssh root@127.0.0.1 -W %h:%p",
+      ssh_config: false
     }
   end
 
-  let(:cls_agent) { cls.new({ host: rand.to_s }) }
+  let(:cls_agent) { cls.new({ host: rand.to_s, ssh_config: false }) }
 
   describe "default options" do
     let(:ssh) { cls.new({ host: "dummy" }) }
@@ -261,9 +262,10 @@ describe "ssh transport with bastion" do
    password: rand.to_s,
    key_files: rand.to_s,
    bastion_host: "bastion_dummy",
+   ssh_config: false,
     }
   end
-  let(:cls_agent) { cls.new({ host: rand.to_s }) }
+  let(:cls_agent) { cls.new({ host: rand.to_s, ssh_config: false }) }
 
   describe "bastion" do
     describe "default options" do
