@@ -92,9 +92,13 @@ module Train::Transports
         files = options[:ssh_config] == true ? Net::SSH::Config.default_files : options[:ssh_config]
         host_cfg = ssh_config_for_host(host, files)
         host_cfg.each do |key, value|
-          if key == :keys && options[:key_files].nil?
+          if key == :keys && options[:key_files].nil? && !host_cfg[:keys].nil? && options[:password].nil?
             options[:key_files] = host_cfg[key]
-          elsif options[key].nil?
+          else
+            # Give precedence to config file when ssh_config options is set to true or to the path of the config file.
+            # This is required as there are default values set for some of the opitons and we unable to
+            # identify whether the values are set from the cli option or those are default so either we should give
+            # precedence to config file or otherwise we need to check each options default values and then set the value for that option.
             options[key] = host_cfg[key]
           end
         end
@@ -141,6 +145,8 @@ module Train::Transports
           options[:auth_methods].push("publickey")
         end
       end
+
+      options[:auth_methods] = options[:auth_methods].uniq
 
       if options[:pty]
         logger.warn("[SSH] PTY requested: stderr will be merged into stdout")

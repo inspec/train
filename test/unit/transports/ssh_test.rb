@@ -393,3 +393,39 @@ describe "ssh transport with bastion and proxy" do
     end
   end
 end
+
+describe "ssh transport ssh_config option" do
+  let(:cls) do
+    plat = Train::Platforms.name("mock").in_family("linux")
+    plat.add_platform_methods
+    Train::Platforms::Detect.stubs(:scan).returns(plat)
+    Train::Transports::SSH
+  end
+
+  let(:conf) do
+    {
+      host: "localhost1",
+      ssh_config: ['test/fixtures/ssh_config']
+    }
+  end
+
+  let(:ssh) { cls.new(conf) }
+  let(:connection) { ssh.connection }
+
+  it "reads the values from ssh config file and sets them ssh options" do
+    _(connection.uri).must_equal "ssh://dummy@localhost1:2222"
+    _(ssh.options[:port]).must_equal 2222
+    _(ssh.options[:key_files]).must_equal ["/Users/dummy/private_key"]
+    _(ssh.options[:user]).must_equal "dummy"
+  end
+
+  it "sets the default auth_methods when password is specified" do
+    conf[:host] = "localhost2"
+    conf[:password] = rand.to_s
+    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
+  end
+
+   it "sets the default auth_methods when password is not specified" do
+    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
+  end
+end

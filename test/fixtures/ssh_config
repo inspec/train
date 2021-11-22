@@ -1,0 +1,9 @@
+Host localhost1
+  HostName localhost
+  User dummy
+  Port 2222
+  IdentityFile /Users/dummy/private_key
+Host localhost2
+  HostName localhost2
+  User dummy
+  Port 2222
