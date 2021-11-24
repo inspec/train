@@ -1,5 +1,5 @@
 Host localhost1
-  HostName localhost
+  HostName localhost1
   User dummy
   Port 2222
   IdentityFile /Users/dummy/private_key

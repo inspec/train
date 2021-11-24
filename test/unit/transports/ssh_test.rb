@@ -48,6 +48,22 @@ describe "ssh transport" do
     end
   end
 
+  describe "overides default options" do
+    let(:ssh) { cls.new({ host: "dummy", port: 2222, user: "vagrant" }) }
+
+    it "configures the host" do
+      _(ssh.options[:host]).must_equal "dummy"
+    end
+
+    it "has default port" do
+      _(ssh.options[:port]).must_equal 2222
+    end
+
+    it "has default user" do
+      _(ssh.options[:user]).must_equal "vagrant"
+    end
+  end
+
   describe "connection options" do
     let(:ssh) { cls.new({ host: "dummy" }) }
     let(:opts) { {} }
@@ -405,7 +421,7 @@ describe "ssh transport ssh_config_file option" do
   let(:conf) do
     {
       host: "localhost1",
-      ssh_config_file: ["test/fixtures/ssh_config_file"],
+      ssh_config_file: ["test/fixtures/ssh_config"],
     }
   end
 
