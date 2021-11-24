@@ -44,7 +44,7 @@ describe Train::File::Remote::Linux do
 
   it "reads file contents" do
     out = rand.to_s
-    backend.mock_command('cat /spaced\\ path || echo -n', out)
+    backend.mock_command("cat /spaced\\ path || echo -n", out)
     _(cls.new(backend, "/spaced path").content).must_equal out
   end
 

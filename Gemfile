@@ -1,6 +1,11 @@
 source "https://rubygems.org"
 gemspec name: "train"
 
+if Gem.ruby_version.to_s.start_with?("2.5")
+  # 16.7.23 required ruby 2.6+
+  gem "chef-utils", "< 16.7.23" # TODO: remove when we drop ruby 2.5
+end
+
 group :test do
   gem "coveralls", require: false
   gem "minitest", "~> 5.8"
@@ -19,10 +24,12 @@ group :test do
   gem "mocha", "~> 1.1"
 end
 
-group :integration do
-  gem "berkshelf", ">= 6.0"
-  gem "test-kitchen", ">= 2"
-  gem "kitchen-vagrant"
+if Gem.ruby_version >= Gem::Version.new("2.7.0")
+  group :integration do
+    gem "berkshelf", ">= 6.0"
+    gem "test-kitchen", ">= 2"
+    gem "kitchen-vagrant"
+  end
 end
 
 group :tools do
