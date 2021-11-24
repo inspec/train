@@ -42,12 +42,12 @@ module Train::Transports
     include_options Train::Extras::CommandWrapper
 
     # common target configuration
-    option :host,      required: true
-    option :port,      default: 22, required: true
-    option :user,      default: "root", required: true
+    option :host, required: true
+    option :ssh_config_file, default: false
+    option :port, default: 22, coerce: proc { |v| read_options_from_ssh_config(v, :port) }, required: true
+    option :user, default: "root", coerce: proc { |v| read_options_from_ssh_config(v, :user) }, required: true
     option :key_files, default: nil
     option :password,  default: nil
-    option :ssh_config_file, default: false
     # additional ssh options
     option :keepalive, default: true
     option :keepalive_interval, default: 60
@@ -87,6 +87,14 @@ module Train::Transports
       end
     end
 
+    def self.read_options_from_ssh_config(options, option_type)
+      if options[:ssh_config_file] != false && !options[:ssh_config_file].nil?
+        files = options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
+        config_options = Net::SSH::Config.for(options[:host], files)
+        config_options[option_type]
+      end
+    end
+
     def apply_ssh_config_file(host)
       if options[:ssh_config_file] != false && !options[:ssh_config_file].nil?
         files = options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
@@ -95,7 +103,7 @@ module Train::Transports
           # setting the key_files option to the private keys set in ssh config file
           if key == :keys && options[:key_files].nil? && !host_cfg[:keys].nil? && options[:password].nil?
             options[:key_files] = host_cfg[key]
-          else
+          elsif options[key].nil?
             # Give precedence to config file when ssh_config_file options is set to true or to the path of the config file.
             # This is required as there are default values set for some of the opitons and we unable to
             # identify whether the values are set from the cli option or those are default so either we should give

@@ -444,4 +444,11 @@ describe "ssh transport ssh_config_file option" do
   it "sets the default auth_methods when password is not specified" do
     _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
   end
+
+  it "gets overridden by command line option if port and user provided through command line options." do
+    conf[:port] = 22
+    conf[:user] = "foo"
+    conf[:host] = "localhost1"
+    _(connection.uri).must_equal "ssh://foo@localhost1:22"
+  end
 end
