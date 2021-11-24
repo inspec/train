@@ -47,7 +47,7 @@ module Train::Transports
     option :user,      default: "root", required: true
     option :key_files, default: nil
     option :password,  default: nil
-    option :ssh_config, default: false
+    option :ssh_config_file, default: false
     # additional ssh options
     option :keepalive, default: true
     option :keepalive_interval, default: 60
@@ -75,7 +75,7 @@ module Train::Transports
 
     # (see Base#connection)
     def connection(state = {}, &block)
-      apply_ssh_config(options[:host])
+      apply_ssh_config_file(options[:host])
       opts = merge_options(options, state || {})
       validate_options(opts)
       conn_opts = connection_options(opts)
@@ -87,15 +87,16 @@ module Train::Transports
       end
     end
 
-    def apply_ssh_config(host)
-      if options[:ssh_config] != false && !options[:ssh_config].nil?
-        files = options[:ssh_config] == true ? Net::SSH::Config.default_files : options[:ssh_config]
-        host_cfg = ssh_config_for_host(host, files)
+    def apply_ssh_config_file(host)
+      if options[:ssh_config_file] != false && !options[:ssh_config_file].nil?
+        files = options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
+        host_cfg = ssh_config_file_for_host(host, files)
         host_cfg.each do |key, value|
+          # setting the key_files option to the private keys set in ssh config file
           if key == :keys && options[:key_files].nil? && !host_cfg[:keys].nil? && options[:password].nil?
             options[:key_files] = host_cfg[key]
           else
-            # Give precedence to config file when ssh_config options is set to true or to the path of the config file.
+            # Give precedence to config file when ssh_config_file options is set to true or to the path of the config file.
             # This is required as there are default values set for some of the opitons and we unable to
             # identify whether the values are set from the cli option or those are default so either we should give
             # precedence to config file or otherwise we need to check each options default values and then set the value for that option.
@@ -107,8 +108,8 @@ module Train::Transports
 
     private
 
-    def ssh_config_for_host(host, files)
-      Net::SSH::Config.for(host, files = files)
+    def ssh_config_file_for_host(host, files)
+      Net::SSH::Config.for(host, files)
     end
 
     def reusable_connection?(conn_opts)
@@ -203,7 +204,7 @@ module Train::Transports
         bastion_port: opts[:bastion_port],
         non_interactive: opts[:non_interactive],
         append_all_supported_algorithms: opts[:append_all_supported_algorithms],
-        config: options[:ssh_config],
+        config: options[:ssh_config_file],
         transport_options: opts,
       }
       # disable host key verification. The hash key and value to use
