@@ -42,12 +42,12 @@ module Train::Transports
     include_options Train::Extras::CommandWrapper
 
     # common target configuration
-    option :host,      required: true
-    option :port,      default: 22, coerce: proc { |u| read_options_from_ssh_config(u, :port) }, required: true
-    option :user,      default: "root", coerce: proc { |u| read_options_from_ssh_config(u, :user) }, required: true
+    option :host, required: true
+    option :ssh_config_file, default: false
+    option :port, default: 22, coerce: proc { |v| read_options_from_ssh_config(v, :port) }, required: true
+    option :user, default: "root", coerce: proc { |v| read_options_from_ssh_config(v, :user) }, required: true
     option :key_files, default: nil
     option :password,  default: nil
-
     # additional ssh options
     option :keepalive, default: true
     option :keepalive_interval, default: 60
@@ -75,6 +75,7 @@ module Train::Transports
 
     # (see Base#connection)
     def connection(state = {}, &block)
+      apply_ssh_config_file(options[:host])
       opts = merge_options(options, state || {})
       validate_options(opts)
       conn_opts = connection_options(opts)
@@ -86,15 +87,38 @@ module Train::Transports
       end
     end
 
-    # Returns the ssh config option like user, port from config files
-    # Params options [Hash], option_type [String]
-    # Return String
     def self.read_options_from_ssh_config(options, option_type)
-      config_options = Net::SSH.configuration_for(options[:host], true)
-      config_options[option_type]
+      if options[:ssh_config_file] != false && !options[:ssh_config_file].nil?
+        files = options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
+        config_options = Net::SSH::Config.for(options[:host], files)
+        config_options[option_type]
+      end
+    end
+
+    def apply_ssh_config_file(host)
+      if options[:ssh_config_file] != false && !options[:ssh_config_file].nil?
+        files = options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
+        host_cfg = ssh_config_file_for_host(host, files)
+        host_cfg.each do |key, value|
+          # setting the key_files option to the private keys set in ssh config file
+          if key == :keys && options[:key_files].nil? && !host_cfg[:keys].nil? && options[:password].nil?
+            options[:key_files] = host_cfg[key]
+          elsif options[key].nil?
+            # Give precedence to config file when ssh_config_file options is set to true or to the path of the config file.
+            # This is required as there are default values set for some of the opitons and we unable to
+            # identify whether the values are set from the cli option or those are default so either we should give
+            # precedence to config file or otherwise we need to check each options default values and then set the value for that option.
+            options[key] = host_cfg[key]
+          end
+        end
+      end
     end
 
     private
+
+    def ssh_config_file_for_host(host, files)
+      Net::SSH::Config.for(host, files)
+    end
 
     def reusable_connection?(conn_opts)
       return false unless @connection_options
@@ -130,6 +154,8 @@ module Train::Transports
           options[:auth_methods].push("publickey")
         end
       end
+
+      options[:auth_methods] = options[:auth_methods].uniq
 
       if options[:pty]
         logger.warn("[SSH] PTY requested: stderr will be merged into stdout")
@@ -186,6 +212,7 @@ module Train::Transports
         bastion_port: opts[:bastion_port],
         non_interactive: opts[:non_interactive],
         append_all_supported_algorithms: opts[:append_all_supported_algorithms],
+        config: options[:ssh_config_file],
         transport_options: opts,
       }
       # disable host key verification. The hash key and value to use

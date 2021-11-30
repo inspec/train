@@ -48,6 +48,22 @@ describe "ssh transport" do
     end
   end
 
+  describe "overides default options" do
+    let(:ssh) { cls.new({ host: "dummy", port: 2222, user: "vagrant" }) }
+
+    it "configures the host" do
+      _(ssh.options[:host]).must_equal "dummy"
+    end
+
+    it "has default port" do
+      _(ssh.options[:port]).must_equal 2222
+    end
+
+    it "has default user" do
+      _(ssh.options[:user]).must_equal "vagrant"
+    end
+  end
+
   describe "connection options" do
     let(:ssh) { cls.new({ host: "dummy" }) }
     let(:opts) { {} }
@@ -391,5 +407,48 @@ describe "ssh transport with bastion and proxy" do
     it "will throw an exception when both proxy_command and bastion_host is specified" do
       _ { cls.new(conf).connection }.must_raise Train::ClientError
     end
+  end
+end
+
+describe "ssh transport ssh_config_file option" do
+  let(:cls) do
+    plat = Train::Platforms.name("mock").in_family("linux")
+    plat.add_platform_methods
+    Train::Platforms::Detect.stubs(:scan).returns(plat)
+    Train::Transports::SSH
+  end
+
+  let(:conf) do
+    {
+      host: "localhost1",
+      ssh_config_file: ["test/fixtures/ssh_config"],
+    }
+  end
+
+  let(:ssh) { cls.new(conf) }
+  let(:connection) { ssh.connection }
+
+  it "reads the values from ssh config file and sets them ssh options" do
+    _(connection.uri).must_equal "ssh://dummy@localhost1:2222"
+    _(ssh.options[:port]).must_equal 2222
+    _(ssh.options[:key_files]).must_equal ["/Users/dummy/private_key"]
+    _(ssh.options[:user]).must_equal "dummy"
+  end
+
+  it "sets the default auth_methods when password is specified" do
+    conf[:host] = "localhost2"
+    conf[:password] = rand.to_s
+    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
+  end
+
+  it "sets the default auth_methods when password is not specified" do
+    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
+  end
+
+  it "gets overridden by command line option if port and user provided through command line options." do
+    conf[:port] = 22
+    conf[:user] = "foo"
+    conf[:host] = "localhost1"
+    _(connection.uri).must_equal "ssh://foo@localhost1:22"
   end
 end
