@@ -1,21 +1,19 @@
-<!-- latest_release 3.8.5 -->
-## [v3.8.5](https://github.com/inspec/train/tree/v3.8.5) (2021-11-30)
-
-#### Merged Pull Requests
-- Adds ssh_config_file option. [#709](https://github.com/inspec/train/pull/709) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.8.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Adds ssh_config_file option. [#709](https://github.com/inspec/train/pull/709) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.8.5 -->
-- Fix ruby 2.5 test [#711](https://github.com/inspec/train/pull/711) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.8.4 -->
-- Update chefstyle requirement from 2.0.8 to 2.1.1 [#706](https://github.com/inspec/train/pull/706) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.8.3 -->
-- Update chefstyle requirement from 2.0.7 to 2.0.8 [#702](https://github.com/inspec/train/pull/702) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.8.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.8.5](https://github.com/inspec/train/tree/v3.8.5) (2021-12-03)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 2.0.7 to 2.0.8 [#702](https://github.com/inspec/train/pull/702) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Update chefstyle requirement from 2.0.8 to 2.1.1 [#706](https://github.com/inspec/train/pull/706) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix ruby 2.5 test [#711](https://github.com/inspec/train/pull/711) ([Vasu1105](https://github.com/Vasu1105))
+- Adds ssh_config_file option. [#709](https://github.com/inspec/train/pull/709) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v3.8.1](https://github.com/inspec/train/tree/v3.8.1) (2021-07-27)
 
 #### Merged Pull Requests
@@ -23,7 +21,6 @@
 - Remove pins for Ruby &lt; 2.5 [#688](https://github.com/inspec/train/pull/688) ([tas50](https://github.com/tas50))
 - Parse Message : Added new message for lack of sudo privilege and appl… [#690](https://github.com/inspec/train/pull/690) ([msys-sgarg](https://github.com/msys-sgarg))
 - Update chefstyle requirement from 2.0.5 to 2.0.7 [#700](https://github.com/inspec/train/pull/700) ([dependabot[bot]](https://github.com/dependabot[bot]))
-<!-- latest_stable_release -->
 
 ## [v3.7.4](https://github.com/inspec/train/tree/v3.7.4) (2021-06-22)
 
