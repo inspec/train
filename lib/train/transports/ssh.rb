@@ -43,7 +43,7 @@ module Train::Transports
 
     # common target configuration
     option :host, required: true
-    option :ssh_config_file, default: false
+    option :ssh_config_file, default: true
     option :port, default: 22, coerce: proc { |v| read_options_from_ssh_config(v, :port) }, required: true
     option :user, default: "root", coerce: proc { |v| read_options_from_ssh_config(v, :user) }, required: true
     option :key_files, default: nil
@@ -133,14 +133,18 @@ module Train::Transports
       key_files = Array(options[:key_files])
       options[:auth_methods] ||= ["none"]
 
-      unless key_files.empty?
-        options[:auth_methods].push("publickey")
+      # by default auth_methods has a default values [none publickey password keyboard-interactive]
+      # REF: https://github.com/net-ssh/net-ssh/blob/master/lib/net/ssh/authentication/session.rb#L48
+      if key_files.empty?
+        options[:auth_methods].delete("publickey")
+      else
         options[:keys_only] = true if options[:password].nil?
         options[:key_files] = key_files
       end
 
-      unless options[:password].nil?
-        options[:auth_methods].push("password", "keyboard-interactive")
+      if options[:password].nil?
+        options[:auth_methods].delete("password")
+        options[:auth_methods].delete("keyboard-interactive")
       end
 
       if options[:auth_methods] == ["none"]

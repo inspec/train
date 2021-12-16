@@ -438,11 +438,11 @@ describe "ssh transport ssh_config_file option" do
   it "sets the default auth_methods when password is specified" do
     conf[:host] = "localhost2"
     conf[:password] = rand.to_s
-    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
+    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none password keyboard-interactive}
   end
 
   it "sets the default auth_methods when password is not specified" do
-    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
+    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey}
   end
 
   it "gets overridden by command line option if port and user provided through command line options." do
