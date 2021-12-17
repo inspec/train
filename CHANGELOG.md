@@ -1,18 +1,16 @@
-<!-- latest_release 3.8.6 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.8.6](https://github.com/inspec/train/tree/v3.8.6) (2021-12-17)
 
 #### Merged Pull Requests
 - Use ssh config file by default [#713](https://github.com/inspec/train/pull/713) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.8.5 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Use ssh config file by default [#713](https://github.com/inspec/train/pull/713) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.8.6 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.8.5](https://github.com/inspec/train/tree/v3.8.5) (2021-12-03)
 
 #### Merged Pull Requests
@@ -20,7 +18,6 @@
 - Update chefstyle requirement from 2.0.8 to 2.1.1 [#706](https://github.com/inspec/train/pull/706) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Fix ruby 2.5 test [#711](https://github.com/inspec/train/pull/711) ([Vasu1105](https://github.com/Vasu1105))
 - Adds ssh_config_file option. [#709](https://github.com/inspec/train/pull/709) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v3.8.1](https://github.com/inspec/train/tree/v3.8.1) (2021-07-27)
 
