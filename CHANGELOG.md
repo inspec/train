@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.8.6 -->
+## [v3.8.6](https://github.com/inspec/train/tree/v3.8.6) (2021-12-17)
+
+#### Merged Pull Requests
+- Use ssh config file by default [#713](https://github.com/inspec/train/pull/713) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.8.5 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Use ssh config file by default [#713](https://github.com/inspec/train/pull/713) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.8.6 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
