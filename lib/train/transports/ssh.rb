@@ -97,22 +97,20 @@ module Train::Transports
     end
 
     def apply_ssh_config_file(host)
-      if options[:ssh_config_file] != false && !options[:ssh_config_file].nil?
-        files = options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
-        host_cfg = ssh_config_file_for_host(host, files)
-        host_cfg.each do |key, value|
-          # setting the key_files option to the private keys set in ssh config file
-          if key == :keys && options[:key_files].nil? && !host_cfg[:keys].nil? && options[:password].nil?
-            options[:key_files] = host_cfg[key]
-          elsif options[key].nil?
-            # Precedence is given to the option set by the user manually.
-            # And only assigning value to the option from the ssh config file when it is not set by the user
-            # in the option. When the option has a default value for e.g. option "user" has the "root" as the default
-            # value, then the default value will be used even though the value for "user" is present in the ssh
-            # config file. That is because the precedence is to the options set manually, and we don't have
-            # any way to differentiate between the value set by the user or is it the default.
-            options[key] = host_cfg[key]
-          end
+      files = options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
+      host_cfg = ssh_config_file_for_host(host, files)
+      host_cfg.each do |key, value|
+        # setting the key_files option to the private keys set in ssh config file
+        if key == :keys && options[:key_files].nil? && !host_cfg[:keys].nil? && options[:password].nil?
+          options[:key_files] = host_cfg[key]
+        elsif options[key].nil?
+          # Precedence is given to the option set by the user manually.
+          # And only assigning value to the option from the ssh config file when it is not set by the user
+          # in the option. When the option has a default value for e.g. option "keepalive_interval" has the "60" as the default
+          # value, then the default value will be used even though the value for "user" is present in the ssh
+          # config file. That is because the precedence is to the options set manually, and currently we don't have
+          # any way to differentiate between the value set by the user or is it the default. This has a future of improvement.
+          options[key] = host_cfg[key]
         end
       end
     end

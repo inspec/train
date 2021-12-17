@@ -400,6 +400,11 @@ describe "ssh transport with bastion" do
 end
 
 describe "ssh transport with bastion and proxy" do
+  before do
+    # This is to skip the test on windows as bundle exec rake is giving eror ArgumentError: non-absolute home
+    skip "not on windows" if windows?
+  end
+
   let(:cls) do
     plat = Train::Platforms.name("mock").in_family("linux")
     plat.add_platform_methods
