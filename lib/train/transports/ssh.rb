@@ -87,12 +87,13 @@ module Train::Transports
       end
     end
 
+    # Returns the ssh config option like user, port from config files
+    # Params options [Hash], option_type [String]
+    # Return String
     def self.read_options_from_ssh_config(options, option_type)
-      if options[:ssh_config_file] != false && !options[:ssh_config_file].nil?
-        files = options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
-        config_options = Net::SSH::Config.for(options[:host], files)
-        config_options[option_type]
-      end
+      files = options[:ssh_config_file].nil? || options[:ssh_config_file] == true ? Net::SSH::Config.default_files : options[:ssh_config_file]
+      config_options = Net::SSH::Config.for(options[:host], files)
+      config_options[option_type]
     end
 
     def apply_ssh_config_file(host)
