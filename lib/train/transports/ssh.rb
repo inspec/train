@@ -104,10 +104,12 @@ module Train::Transports
           if key == :keys && options[:key_files].nil? && !host_cfg[:keys].nil? && options[:password].nil?
             options[:key_files] = host_cfg[key]
           elsif options[key].nil?
-            # Give precedence to config file when ssh_config_file options is set to true or to the path of the config file.
-            # This is required as there are default values set for some of the opitons and we unable to
-            # identify whether the values are set from the cli option or those are default so either we should give
-            # precedence to config file or otherwise we need to check each options default values and then set the value for that option.
+            # Precedence is given to the option set by the user manually.
+            # And only assigning value to the option from the ssh config file when it is not set by the user
+            # in the option. When the option has a default value for e.g. option "user" has the "root" as the default
+            # value, then the default value will be used even though the value for "user" is present in the ssh
+            # config file. That is because the precedence is to the options set manually, and we don't have
+            # any way to differentiate between the value set by the user or is it the default.
             options[key] = host_cfg[key]
           end
         end
