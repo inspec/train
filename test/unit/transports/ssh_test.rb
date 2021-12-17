@@ -2,6 +2,11 @@ require "helper"
 require "train/transports/ssh"
 
 describe "ssh transport" do
+  before do
+    # This is to skip the test on windows as bundle exec rake is giving eror ArgumentError: non-absolute home
+    skip "not on windows" if windows?
+  end
+
   let(:cls) do
     plat = Train::Platforms.name("mock").in_family("linux")
     plat.add_platform_methods
@@ -264,6 +269,11 @@ describe "ssh transport" do
 end
 
 describe "ssh transport with bastion" do
+  before do
+    # This is to skip the test on windows as bundle exec rake is giving eror ArgumentError: non-absolute home
+    skip "not on windows" if windows?
+  end
+
   let(:cls) do
     plat = Train::Platforms.name("mock").in_family("linux")
     plat.add_platform_methods
@@ -299,6 +309,11 @@ describe "ssh transport with bastion" do
     end
 
     describe "opening a connection" do
+      before do
+        # This is to skip the test on windows as bundle exec rake is giving eror ArgumentError: non-absolute home
+        skip "not on windows" if windows?
+      end
+
       let(:ssh) { cls.new(conf) }
       let(:connection) { ssh.connection }
 
@@ -385,6 +400,11 @@ describe "ssh transport with bastion" do
 end
 
 describe "ssh transport with bastion and proxy" do
+  before do
+    # This is to skip the test on windows as bundle exec rake is giving eror ArgumentError: non-absolute home
+    skip "not on windows" if windows?
+  end
+
   let(:cls) do
     plat = Train::Platforms.name("mock").in_family("linux")
     plat.add_platform_methods
@@ -411,6 +431,11 @@ describe "ssh transport with bastion and proxy" do
 end
 
 describe "ssh transport ssh_config_file option" do
+  before do
+    # This is to skip the test on windows as bundle exec rake is giving eror ArgumentError: non-absolute home
+    skip "not on windows" if windows?
+  end
+
   let(:cls) do
     plat = Train::Platforms.name("mock").in_family("linux")
     plat.add_platform_methods
@@ -438,11 +463,11 @@ describe "ssh transport ssh_config_file option" do
   it "sets the default auth_methods when password is specified" do
     conf[:host] = "localhost2"
     conf[:password] = rand.to_s
-    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
+    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none password keyboard-interactive}
   end
 
   it "sets the default auth_methods when password is not specified" do
-    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey password keyboard-interactive}
+    _(cls.new(conf).connection.method(:options).call[:auth_methods]).must_equal %w{none publickey}
   end
 
   it "gets overridden by command line option if port and user provided through command line options." do

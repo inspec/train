@@ -2,6 +2,11 @@ require "helper"
 require "train/transports/ssh"
 
 describe "CiscoIOSConnection" do
+  before do
+    # This is to skip the test on windows as bundle exec rake is giving eror ArgumentError: non-absolute home
+    skip "not on windows" if windows?
+  end
+
   let(:cls) do
     plat = Train::Platforms.name("mock").in_family("cisco_ios")
     plat.add_platform_methods
