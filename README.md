@@ -65,7 +65,7 @@ require 'train'
 train = Train.create('ssh', host: '1.2.3.4', port: 22, user: 'root')
 ```
 
-SSH transport has `ssh_config_file` option to set the ssh config file path. This is by default set to `true` to read the values from the default ssh config file path for e.g. `~/.ssh/config`, `/etc/ssh_config`, `/etc/ssh/ssh_config`. Precedence is given to the options set through the arguments to the create method.
+SSH transport has an `ssh_config_file` option to set the SSH config file path. This is set by default to `true` to read the values from the default SSH config file path. For example, `~/.ssh/config`, `/etc/ssh_config`, `/etc/ssh/ssh_config`. Precedence is given to the options set through the arguments.
 
 **WinRM**
 
