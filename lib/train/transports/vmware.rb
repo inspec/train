@@ -34,7 +34,7 @@ module Train::Transports
         @powershell_binary = detect_powershell_binary
 
         if @powershell_binary == :powershell
-          require_relative "local"
+          require "train/transports/local"
           @powershell = Train::Transports::Local::Connection.new(options)
         end
 
