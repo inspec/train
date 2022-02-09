@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.8.8 -->
+## [v3.8.8](https://github.com/inspec/train/tree/v3.8.8) (2022-02-09)
+
+#### Merged Pull Requests
+- Added readme docs for the ssh_config_file option. [#714](https://github.com/inspec/train/pull/714) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.8.7 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Added readme docs for the ssh_config_file option. [#714](https://github.com/inspec/train/pull/714) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.8.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
