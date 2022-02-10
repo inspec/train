@@ -98,10 +98,11 @@ module Train::Transports
       private
 
       def detect_powershell_binary
-        if find_executable0("pwsh")
-          :pwsh
-        elsif find_executable0("powershell")
+        # Detect Powershell first in case of Windows with Powershell 6/7/Core installed as flush_stdout/stderr doesn't work for pwsh on Windows.
+        if find_executable0("powershell")
           :powershell
+        elsif find_executable0("pwsh")
+          :pwsh
         else
           raise "Cannot find PowerShell binary, is `pwsh` installed?"
         end
