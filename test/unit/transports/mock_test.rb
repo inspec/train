@@ -127,6 +127,13 @@ describe "mock transport" do
       _(connection.os[:name]).must_equal "mock"
       _(connection.os[:family]).must_equal "mock"
     end
+
+    it "rauses error for default mock os uuid" do
+      _(connection.os[:name]).must_equal "mock"
+      _(connection.platform[:name]).must_equal "mock"
+      err = _ { connection.platform[:uuid] }.must_raise Train::PlatformUuidDetectionFailed
+      _(err.message).must_match("Could not find platform uuid! Please set a uuid_command for your platform.")
+    end
   end
 
   describe "when accessing a mocked file" do

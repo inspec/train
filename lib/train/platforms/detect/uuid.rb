@@ -20,12 +20,13 @@ module Train::Platforms::Detect
       elsif @platform.windows?
         windows_uuid
       else
-        if @platform[:uuid_command]
+        # Checking "unknown" :uuid_command which is set for mock transport.
+        if @platform[:uuid_command] && !@platform[:uuid_command] == "unknown"
           result = @backend.run_command(@platform[:uuid_command])
           return uuid_from_string(result.stdout.chomp) if result.exit_status == 0 && !result.stdout.empty?
         end
 
-        raise "Could not find platform uuid! Please set a uuid_command for your platform."
+        raise Train::PlatformUuidDetectionFailed.new("Could not find platform uuid! Please set a uuid_command for your platform.")
       end
     end
   end

@@ -128,4 +128,10 @@ describe "uuid" do
     plat.backend.stubs(:unique_identifier).returns("1d74ce61-ac15-5c48-9ee3-5aa8207ac37f")
     _(plat.uuid).must_equal "2c2e4fa9-7287-5dee-85a3-6527face7b7b"
   end
+
+  it "raises error if uuid not found" do
+    plat = mock_platform("foo")
+    err = _ { plat.uuid }.must_raise Train::PlatformUuidDetectionFailed
+    _(err.message).must_match("Could not find platform uuid! Please set a uuid_command for your platform.")
+  end
 end
