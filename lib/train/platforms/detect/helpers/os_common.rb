@@ -122,7 +122,6 @@ module Train::Platforms::Detect::Helpers
     end
 
     def unix_uuid_from_machine_file
-      # require 'pry';binding.pry
       %W{
         /etc/chef/chef_guid
         #{ENV["HOME"]}/.chef/chef_guid

@@ -38,6 +38,9 @@ module Train
   # Exception for when no platform can be detected.
   class PlatformDetectionFailed < Error; end
 
+  # Exception for when no uuid for the platform can be detected.
+  class PlatformUuidDetectionFailed < Error; end
+
   # Exception for when a invalid cache type is passed.
   class UnknownCacheType < Error; end
 
