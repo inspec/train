@@ -1,24 +1,21 @@
-<!-- latest_release 3.8.9 -->
-## [v3.8.9](https://github.com/inspec/train/tree/v3.8.9) (2022-03-09)
-
-#### Merged Pull Requests
-- CFINSPEC-68: Fix the nil error while fetching uuid for mock transport/platform. [#724](https://github.com/inspec/train/pull/724) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.8.7 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- CFINSPEC-68: Fix the nil error while fetching uuid for mock transport/platform. [#724](https://github.com/inspec/train/pull/724) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.8.9 -->
-- Added readme docs for the ssh_config_file option. [#714](https://github.com/inspec/train/pull/714) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.8.8 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.8.9](https://github.com/inspec/train/tree/v3.8.9) (2022-03-09)
+
+#### Merged Pull Requests
+- Added readme docs for the ssh_config_file option. [#714](https://github.com/inspec/train/pull/714) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-68: Fix the nil error while fetching uuid for mock transport/platform. [#724](https://github.com/inspec/train/pull/724) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v3.8.7](https://github.com/inspec/train/tree/v3.8.7) (2022-02-01)
 
 #### Merged Pull Requests
 - Resolves load error on Windows for vmware transport [#717](https://github.com/inspec/train/pull/717) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v3.8.6](https://github.com/inspec/train/tree/v3.8.6) (2021-12-17)
 
