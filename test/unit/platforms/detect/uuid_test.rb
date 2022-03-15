@@ -129,6 +129,12 @@ describe "uuid" do
     _(plat.uuid).must_equal "2c2e4fa9-7287-5dee-85a3-6527face7b7b"
   end
 
+  it "finds an docker uuid" do
+    plat = mock_platform("docker")
+    plat.backend.stubs(:unique_identifier).returns("343423425657")
+    _(plat.uuid).must_equal "a865c2dd-8877-5e06-9e58-69cbf82a8b06"
+  end
+
   it "raises error if uuid not found" do
     plat = mock_platform("foo")
     err = _ { plat.uuid }.must_raise Train::PlatformUuidDetectionFailed
