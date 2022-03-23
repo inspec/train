@@ -1,14 +1,15 @@
-<!-- latest_release 3.9.0 -->
-## [v3.9.0](https://github.com/inspec/train/tree/v3.9.0) (2022-03-23)
+<!-- latest_release 3.9.1 -->
+## [v3.9.1](https://github.com/inspec/train/tree/v3.9.1) (2022-03-23)
 
 #### Merged Pull Requests
-- CFINSPEC-127 Generate uuid for docker container. [#726](https://github.com/inspec/train/pull/726) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-155 Fix: command timeout ignored when used with sudo on ssh transport. [#727](https://github.com/inspec/train/pull/727) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.8.9 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- CFINSPEC-155 Fix: command timeout ignored when used with sudo on ssh transport. [#727](https://github.com/inspec/train/pull/727) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.9.1 -->
 - CFINSPEC-127 Generate uuid for docker container. [#726](https://github.com/inspec/train/pull/726) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.9.0 -->
 <!-- release_rollup -->
 
