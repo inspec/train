@@ -326,7 +326,16 @@ class Train::Transports::SSH
         cmd = @cmd_wrapper.run(cmd) if @cmd_wrapper
 
         # Timeout the command if requested and able
-        cmd = "timeout #{timeout}s #{cmd}" if timeout && timeoutable?(cmd)
+        if timeout && timeoutable?(cmd)
+          # if cmd start with sudo then we need to make sure the timeout should be prepend with sudo else actual timeout is not working.
+          if cmd.strip.split[0] == "sudo"
+            split_cmd = cmd.strip.split
+            split_cmd[0] = "sudo timeout #{timeout}s"
+            cmd = split_cmd.join(" ")
+          else
+            cmd = "timeout #{timeout}s #{cmd}"
+          end
+        end
 
         logger.debug("[SSH] #{self} cmd = #{cmd}")
 
