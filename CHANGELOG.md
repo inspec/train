@@ -1,26 +1,23 @@
-<!-- latest_release 3.9.2 -->
-## [v3.9.2](https://github.com/inspec/train/tree/v3.9.2) (2022-04-08)
-
-#### Merged Pull Requests
-- Add a new regex for Cisco XE devices [#728](https://github.com/inspec/train/pull/728) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.8.9 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Add a new regex for Cisco XE devices [#728](https://github.com/inspec/train/pull/728) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.9.2 -->
-- CFINSPEC-155 Fix: command timeout ignored when used with sudo on ssh transport. [#727](https://github.com/inspec/train/pull/727) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.9.1 -->
-- CFINSPEC-127 Generate uuid for docker container. [#726](https://github.com/inspec/train/pull/726) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.9.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.9.2](https://github.com/inspec/train/tree/v3.9.2) (2022-04-08)
+
+#### Merged Pull Requests
+- CFINSPEC-127 Generate uuid for docker container. [#726](https://github.com/inspec/train/pull/726) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-155 Fix: command timeout ignored when used with sudo on ssh transport. [#727](https://github.com/inspec/train/pull/727) ([Vasu1105](https://github.com/Vasu1105))
+- Add a new regex for Cisco XE devices [#728](https://github.com/inspec/train/pull/728) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v3.8.9](https://github.com/inspec/train/tree/v3.8.9) (2022-03-09)
 
 #### Merged Pull Requests
 - Added readme docs for the ssh_config_file option. [#714](https://github.com/inspec/train/pull/714) ([Vasu1105](https://github.com/Vasu1105))
 - CFINSPEC-68: Fix the nil error while fetching uuid for mock transport/platform. [#724](https://github.com/inspec/train/pull/724) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v3.8.7](https://github.com/inspec/train/tree/v3.8.7) (2022-02-01)
 
