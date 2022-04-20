@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.9.3 -->
+## [v3.9.3](https://github.com/inspec/train/tree/v3.9.3) (2022-04-20)
+
+#### Merged Pull Requests
+- Test Ruby 3.1 [#723](https://github.com/inspec/train/pull/723) ([poorndm](https://github.com/poorndm))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.9.2 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Test Ruby 3.1 [#723](https://github.com/inspec/train/pull/723) ([poorndm](https://github.com/poorndm)) <!-- 3.9.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
