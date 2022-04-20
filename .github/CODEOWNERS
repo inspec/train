@@ -1,3 +1,4 @@
 # Order is important. The last matching pattern has the most precedence.
 
-*             @inspec/inspec-core-team @chef/foundation-team-reviewers
+*                 @inspec/inspec-core-team @chef/foundation-team-reviewers
+.expeditor/       @chef/infra-packages
