@@ -105,9 +105,10 @@ module Train::Transports
       def unique_identifier
         unique_id = "default"
         # use auth client_id for users (issuer is nil)
-        unique_id = gcp_iam_client.request_options.authorization.client_id unless gcp_iam_client.request_options.authorization.client_id.nil?
+        authorization = gcp_iam_client.request_options.authorization
+        unique_id = authorization.client_id if authorization.respond_to?(:client_id) && !authorization.client_id.nil?
         # for service account credentials (client_id is nil)
-        unique_id = gcp_iam_client.request_options.authorization.issuer unless gcp_iam_client.request_options.authorization.issuer.nil?
+        unique_id = authorization.issuer if authorization.respond_to?(:issuer) && !authorization.issuer.nil?
         unique_id
       end
     end
