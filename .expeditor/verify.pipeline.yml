@@ -11,29 +11,13 @@ expeditor:
 steps:
 
   # make sure lint runs on the oldest Ruby we support so we catch any new Ruby-isms here
-  - label: lint-ruby-2.5
+  - label: lint-ruby-2.7
     command:
       - RAKE_TASK=lint /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       executor:
         docker:
-          image: ruby:2.5
-
-  - label: run-tests-ruby-2.5
-    command:
-      - /workdir/.expeditor/buildkite/verify.sh
-    expeditor:
-      executor:
-        docker:
-          image: ruby:2.5
-
-  - label: run-tests-ruby-2.6
-    command:
-      - /workdir/.expeditor/buildkite/verify.sh
-    expeditor:
-      executor:
-        docker:
-          image: ruby:2.6
+          image: ruby:2.7
 
   - label: run-tests-ruby-2.7
     command:

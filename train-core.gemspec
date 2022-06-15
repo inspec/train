@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "https://github.com/inspec/train/issues",
   }
 
-  spec.required_ruby_version = ">= 2.5"
+  spec.required_ruby_version = ">= 2.7"
 
   spec.files = Dir.glob("{LICENSE,lib/**/*}")
     .grep_v(%r{transports/(azure|clients|docker|gcp|helpers|vmware)})
