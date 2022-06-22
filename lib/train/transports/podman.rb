@@ -91,7 +91,6 @@ module Train::Transports
 
       private
 
-
       def file_via_connection(path)
         if os.aix?
           Train::File::Remote::Aix.new(self, path)
