@@ -113,7 +113,7 @@ train = Train.create('podman', host: 'container_id...', user: 'root')
 ```ruby
 require 'train'
 train = Train.create('podman', host: 'container_id...', podman_url: 'tcp://localhost:1234')
-...
+```
 
 Podman URL can be set through `podman_url` option else it will read it from the CONTAINER_HOST environment variable if set. If both is nil then it will try to connect to the default url that is `unix:///run/user/UID/podman/podman.sock` for rootless user and `unix:///run/podman/podman.sock` for root user.
 
