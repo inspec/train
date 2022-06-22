@@ -97,6 +97,27 @@ train = Train.create('docker', host: 'container_id...', docker_url: 'tcp://local
 
 Windows Docker containers require PowerShell, which is assumed to be installed as `powershell.exe`. If it is installed as `pwsh`, use the `--shell-command` option to specify `pwsh` as the shell.
 
+**Podman**
+
+```ruby
+require 'train'
+train = Train.create('podman', host: 'container_id...')
+```
+You can use `user` option to connect with privileged user on non root user images.
+
+```ruby
+require 'train'
+train = Train.create('podman', host: 'container_id...', user: 'root')
+```
+
+```ruby
+require 'train'
+train = Train.create('podman', host: 'container_id...', podman_url: 'tcp://localhost:1234')
+...
+
+Podman URL can be set through `podman_url` option else it will read it from the CONTAINER_HOST environment variable if set. If both is nil then it will try to connect to the default url that is `unix:///run/user/UID/podman/podman.sock` for rootless user and `unix:///run/podman/podman.sock` for root user.
+
+If `user: 'root'` option is not given it will always use the rootless user as default URL.
 
 **AWS**
 
