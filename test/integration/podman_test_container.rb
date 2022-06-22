@@ -1,12 +1,10 @@
 require "train"
 require_relative "helper"
 
-
 (container_id = ENV["CONTAINER"]) ||
-  raise("You must provide a container ID via CONTAINER env"
-)
+  raise("You must provide a container ID via CONTAINER env")
 
-(podman_url = ENV["CONTAINER_HOST"])
+podman_url = ENV["CONTAINER_HOST"]
 
 tests = ARGV
 puts ["Running tests:", tests].flatten.join("\n- ")

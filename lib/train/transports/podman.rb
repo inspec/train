@@ -3,7 +3,8 @@ require_relative "../errors"
 
 module Train::Transports
   class Podman < Train.plugin(1)
-    name 'podman'
+
+    name "podman"
 
     include_options Train::Extras::CommandWrapper
     option :host, required: true
@@ -22,6 +23,7 @@ module Train::Transports
     end
 
     private
+
     # Creates a new Podman connection instance and save it for potential future
     # reuse.
     #
@@ -56,7 +58,7 @@ module Train::Transports
         @id = options[:host]
 
         # Currently Podman url can be set using option and setting the environment variable.
-        uid = Process::uid
+        uid = Process.uid
         podman_url = options[:podman_url] || ENV["CONTAINER_HOST"]
 
         if podman_url.nil?
@@ -71,7 +73,7 @@ module Train::Transports
         @cmd_wrapper = nil
         @cmd_wrapper = CommandWrapper.load(self, @options)
         @probably_windows = nil
-      rescue Excon::Error::Socket => e
+      rescue Excon::Error::Socket
         raise Train::TransportError, "Unable to connect to Podman using #{podman_url}"
       rescue Docker::Error::NotFoundError => e
         raise Train::TransportError, "Container Not Found: #{e.message}"
