@@ -1,4 +1,6 @@
 require "docker"
+require_relative "../errors"
+
 module Train::Transports
   class Podman < Train.plugin(1)
     name 'podman'
@@ -70,7 +72,11 @@ module Train::Transports
         @cmd_wrapper = CommandWrapper.load(self, @options)
         @probably_windows = nil
       rescue Excon::Error::Socket => e
-        raise "Unable to connect to Podman using #{podman_url}"
+        raise Train::TransportError, "Unable to connect to Podman using #{podman_url}"
+      rescue Docker::Error::NotFoundError => e
+        raise Train::TransportError, "Container Not Found: #{e.message}"
+      rescue Docker::Error::ServerError => e
+        raise Train::TransportError, "#{e.message}"
       end
 
       def close
