@@ -66,7 +66,7 @@ module Train::Transports
           podman_url = options[:user] == "root" ? "unix:///run/podman/podman.sock" : "unix:///run/user/#{uid}/podman/podman.sock"
         end
 
-        Docker.url = podman_url if podman_url
+        Docker.url = podman_url
 
         # Using docker-api ruby library to fetch the Podman container data.
         @container = ::Docker::Container.get(@id) ||
