@@ -50,6 +50,7 @@ module Train::Transports
       @connection
     end
   end
+
   class Train::Transports::Podman
     class Connection < BaseConnection
       def initialize(options)
