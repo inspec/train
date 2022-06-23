@@ -103,21 +103,13 @@ Windows Docker containers require PowerShell, which is assumed to be installed a
 require 'train'
 train = Train.create('podman', host: 'container_id...')
 ```
-You can use `user` option to connect with privileged user on non root user images.
-
-```ruby
-require 'train'
-train = Train.create('podman', host: 'container_id...', user: 'root')
-```
 
 ```ruby
 require 'train'
 train = Train.create('podman', host: 'container_id...', podman_url: 'tcp://localhost:1234')
 ```
 
-To connect to the Podman container Podman URL needs to be set. It can be set through the `podman_url` option else it will check for the CONTAINER_HOST environment variable. If both is not defined then it will try to connect to the default URL that is `unix:///run/user/UID/podman/podman.sock` for rootless user and `unix:///run/podman/podman.sock` for root user. Precedence is given to the options set through the arguments.
-
-If `user: 'root'` option is not given it will always use the rootless user as default URL.
+To connect to the Podman container Podman API endpoint URL needs to set. It cans et through the `podman_url` option else it will check for the CONTAINER_HOST environment variable. If both is not defined then it will try to connect to the default URL that is `unix:///run/user/UID/podman/podman.sock` for non-root user and `unix:///run/podman/podman.sock` for root user. Precedence is given to the options set through the arguments.
 
 **AWS**
 

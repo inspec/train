@@ -61,10 +61,8 @@ module Train::Transports
         # Currently Podman url can be set using option and setting the environment variable.
         uid = Process.uid
         podman_url = options[:podman_url] || ENV["CONTAINER_HOST"]
-
-        if podman_url.nil?
-          podman_url = options[:user] == "root" ? "unix:///run/podman/podman.sock" : "unix:///run/user/#{uid}/podman/podman.sock"
-        end
+        podman_url ||= "unix:///run/podman/podman.sock" if uid == 0
+        podman_url ||=  "unix:///run/user/#{uid}/podman/podman.sock"
 
         Docker.url = podman_url
 
