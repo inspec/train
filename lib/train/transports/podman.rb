@@ -58,6 +58,10 @@ module Train::Transports
 
         @id = options[:host]
 
+        if RUBY_PLATFORM =~ /windows|mswin|msys|mingw|cygwin/
+          raise "Unsupported host platform."
+        end
+
         # Currently Podman url can be set using option and setting the environment variable.
         uid = Process.uid
         podman_url = options[:podman_url] || ENV["CONTAINER_HOST"]
