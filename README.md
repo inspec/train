@@ -32,7 +32,7 @@ Train supports:
 * Local execution
 * SSH
 * WinRM
-* Docker
+* Docker and Podman
 * Mock (for testing and debugging)
 * AWS as an API
 * Azure as an API
@@ -97,6 +97,19 @@ train = Train.create('docker', host: 'container_id...', docker_url: 'tcp://local
 
 Windows Docker containers require PowerShell, which is assumed to be installed as `powershell.exe`. If it is installed as `pwsh`, use the `--shell-command` option to specify `pwsh` as the shell.
 
+**Podman**
+
+```ruby
+require 'train'
+train = Train.create('podman', host: 'container_id...')
+```
+
+```ruby
+require 'train'
+train = Train.create('podman', host: 'container_id...', podman_url: 'tcp://localhost:1234')
+```
+
+To connect to a Podman container, the Podman API endpoint URL needs to set. It can be set through the `podman_url` option or else Train will check for the CONTAINER_HOST environment variable. If neither is defined then Train will try to connect to the default URL, that is `unix:///run/user/UID/podman/podman.sock` for non-root users and `unix:///run/podman/podman.sock` for the root user. Precedence is given to options set through the arguments.
 
 **AWS**
 
