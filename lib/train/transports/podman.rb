@@ -66,7 +66,7 @@ module Train::Transports
         uid = Process.uid
         podman_url = options[:podman_url] || ENV["CONTAINER_HOST"]
         podman_url ||= "unix:///run/podman/podman.sock" if uid == 0
-        podman_url ||=  "unix:///run/user/#{uid}/podman/podman.sock"
+        podman_url ||= "unix:///run/user/#{uid}/podman/podman.sock"
 
         Docker.url = podman_url
 
