@@ -1,5 +1,5 @@
 require "docker"
-require_relative "../errors"
+require "train/plugins"
 
 module Train::Transports
   class Podman < Train.plugin(1)
