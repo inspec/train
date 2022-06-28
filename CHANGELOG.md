@@ -1,27 +1,24 @@
-<!-- latest_release 3.10.0 -->
-## [v3.10.0](https://github.com/inspec/train/tree/v3.10.0) (2022-06-28)
-
-#### Merged Pull Requests
-- CFINSPEC-356 Add podman transport to connect with podman containers [#732](https://github.com/inspec/train/pull/732) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.9.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- CFINSPEC-356 Add podman transport to connect with podman containers [#732](https://github.com/inspec/train/pull/732) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.10.0 -->
-- Remove old ruby 2.5 and 2.6 support [#731](https://github.com/inspec/train/pull/731) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.9.4 -->
-- Test Ruby 3.1 [#723](https://github.com/inspec/train/pull/723) ([poorndm](https://github.com/poorndm)) <!-- 3.9.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.10.0](https://github.com/inspec/train/tree/v3.10.0) (2022-06-28)
+
+#### Merged Pull Requests
+- Test Ruby 3.1 [#723](https://github.com/inspec/train/pull/723) ([poorndm](https://github.com/poorndm))
+- Remove old ruby 2.5 and 2.6 support [#731](https://github.com/inspec/train/pull/731) ([Vasu1105](https://github.com/Vasu1105))
+- CFINSPEC-356 Add podman transport to connect with podman containers [#732](https://github.com/inspec/train/pull/732) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v3.9.2](https://github.com/inspec/train/tree/v3.9.2) (2022-04-08)
 
 #### Merged Pull Requests
 - CFINSPEC-127 Generate uuid for docker container. [#726](https://github.com/inspec/train/pull/726) ([Vasu1105](https://github.com/Vasu1105))
 - CFINSPEC-155 Fix: command timeout ignored when used with sudo on ssh transport. [#727](https://github.com/inspec/train/pull/727) ([Vasu1105](https://github.com/Vasu1105))
 - Add a new regex for Cisco XE devices [#728](https://github.com/inspec/train/pull/728) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.8.9](https://github.com/inspec/train/tree/v3.8.9) (2022-03-09)
 
