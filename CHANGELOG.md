@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.10.1 -->
+## [v3.10.1](https://github.com/inspec/train/tree/v3.10.1) (2022-06-29)
+
+#### Merged Pull Requests
+- Fix podman transport loading issue. [#734](https://github.com/inspec/train/pull/734) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.10.0 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Fix podman transport loading issue. [#734](https://github.com/inspec/train/pull/734) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.10.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
