@@ -1,25 +1,22 @@
-<!-- latest_release 3.10.1 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.10.1](https://github.com/inspec/train/tree/v3.10.1) (2022-06-29)
 
 #### Merged Pull Requests
 - Fix podman transport loading issue. [#734](https://github.com/inspec/train/pull/734) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.10.0 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Fix podman transport loading issue. [#734](https://github.com/inspec/train/pull/734) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.10.1 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.10.0](https://github.com/inspec/train/tree/v3.10.0) (2022-06-28)
 
 #### Merged Pull Requests
 - Test Ruby 3.1 [#723](https://github.com/inspec/train/pull/723) ([poorndm](https://github.com/poorndm))
 - Remove old ruby 2.5 and 2.6 support [#731](https://github.com/inspec/train/pull/731) ([Vasu1105](https://github.com/Vasu1105))
 - CFINSPEC-356 Add podman transport to connect with podman containers [#732](https://github.com/inspec/train/pull/732) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v3.9.2](https://github.com/inspec/train/tree/v3.9.2) (2022-04-08)
 
