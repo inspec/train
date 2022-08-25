@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.10.2 -->
+## [v3.10.2](https://github.com/inspec/train/tree/v3.10.2) (2022-08-25)
+
+#### Merged Pull Requests
+- Add more flexibility to authorization unique identifier expectations [#730](https://github.com/inspec/train/pull/730) ([rbclark](https://github.com/rbclark))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.10.1 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Add more flexibility to authorization unique identifier expectations [#730](https://github.com/inspec/train/pull/730) ([rbclark](https://github.com/rbclark)) <!-- 3.10.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
