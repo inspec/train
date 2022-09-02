@@ -106,6 +106,7 @@ module Train::Platforms::Detect::Helpers
       m = res.match(/Cisco Nexus Operating System \(NX-OS\) Software/)
       unless m.nil?
         v = res[/^\s*system:\s+version (\d+\.\d+)/, 1]
+        v ||= res[/NXOS: version (\d+\.\d+)/, 1]
         return @cache[:cisco] = { version: v, type: "nexus" }
       end
 
