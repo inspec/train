@@ -1,14 +1,15 @@
-<!-- latest_release 3.10.2 -->
-## [v3.10.2](https://github.com/inspec/train/tree/v3.10.2) (2022-08-25)
+<!-- latest_release 3.10.3 -->
+## [v3.10.3](https://github.com/inspec/train/tree/v3.10.3) (2022-09-30)
 
 #### Merged Pull Requests
-- Add more flexibility to authorization unique identifier expectations [#730](https://github.com/inspec/train/pull/730) ([rbclark](https://github.com/rbclark))
+- Fix for Windows w/pwsh installed for vmware train [#721](https://github.com/inspec/train/pull/721) ([rlakey](https://github.com/rlakey))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.10.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Fix for Windows w/pwsh installed for vmware train [#721](https://github.com/inspec/train/pull/721) ([rlakey](https://github.com/rlakey)) <!-- 3.10.3 -->
 - Add more flexibility to authorization unique identifier expectations [#730](https://github.com/inspec/train/pull/730) ([rbclark](https://github.com/rbclark)) <!-- 3.10.2 -->
 <!-- release_rollup -->
 
