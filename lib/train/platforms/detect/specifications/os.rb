@@ -383,7 +383,7 @@ module Train::Platforms::Detect::Specifications
     def self.load_other
       plat.family("arista_eos").title("Arista EOS Family").in_family("os")
         .detect do
-          true
+          !@backend.run_command("show version").stdout.match(/Arista/).nil?
         end
 
       declare_instance("arista_eos", "Arista EOS", "arista_eos") do
