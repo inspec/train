@@ -1,28 +1,25 @@
-<!-- latest_release 3.10.7 -->
-## [v3.10.7](https://github.com/inspec/train/tree/v3.10.7) (2022-10-19)
-
-#### Merged Pull Requests
-- Allow net-scp 4.0.0 [#739](https://github.com/inspec/train/pull/739) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.10.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Allow net-scp 4.0.0 [#739](https://github.com/inspec/train/pull/739) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.10.7 -->
-- Update net-ssh requirement from &gt;= 2.9, &lt; 7.0 to &gt;= 2.9, &lt; 8.0 [#733](https://github.com/inspec/train/pull/733) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.10.6 -->
-- Fix Cisco Nexus version detection [#737](https://github.com/inspec/train/pull/737) ([trickyearlobe](https://github.com/trickyearlobe)) <!-- 3.10.5 -->
-- Prevent Cisco devices being detected as Arista [#736](https://github.com/inspec/train/pull/736) ([trickyearlobe](https://github.com/trickyearlobe)) <!-- 3.10.4 -->
-- Fix for Windows w/pwsh installed for vmware train [#721](https://github.com/inspec/train/pull/721) ([rlakey](https://github.com/rlakey)) <!-- 3.10.3 -->
-- Add more flexibility to authorization unique identifier expectations [#730](https://github.com/inspec/train/pull/730) ([rbclark](https://github.com/rbclark)) <!-- 3.10.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.10.7](https://github.com/inspec/train/tree/v3.10.7) (2022-10-19)
+
+#### Merged Pull Requests
+- Add more flexibility to authorization unique identifier expectations [#730](https://github.com/inspec/train/pull/730) ([rbclark](https://github.com/rbclark))
+- Fix for Windows w/pwsh installed for vmware train [#721](https://github.com/inspec/train/pull/721) ([rlakey](https://github.com/rlakey))
+- Prevent Cisco devices being detected as Arista [#736](https://github.com/inspec/train/pull/736) ([trickyearlobe](https://github.com/trickyearlobe))
+- Fix Cisco Nexus version detection [#737](https://github.com/inspec/train/pull/737) ([trickyearlobe](https://github.com/trickyearlobe))
+- Update net-ssh requirement from &gt;= 2.9, &lt; 7.0 to &gt;= 2.9, &lt; 8.0 [#733](https://github.com/inspec/train/pull/733) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Allow net-scp 4.0.0 [#739](https://github.com/inspec/train/pull/739) ([clintoncwolfe](https://github.com/clintoncwolfe))
+<!-- latest_stable_release -->
+
 ## [v3.10.1](https://github.com/inspec/train/tree/v3.10.1) (2022-06-29)
 
 #### Merged Pull Requests
 - Fix podman transport loading issue. [#734](https://github.com/inspec/train/pull/734) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v3.10.0](https://github.com/inspec/train/tree/v3.10.0) (2022-06-28)
 
