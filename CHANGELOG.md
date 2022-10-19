@@ -1,14 +1,15 @@
-<!-- latest_release 3.10.6 -->
-## [v3.10.6](https://github.com/inspec/train/tree/v3.10.6) (2022-10-19)
+<!-- latest_release 3.10.7 -->
+## [v3.10.7](https://github.com/inspec/train/tree/v3.10.7) (2022-10-19)
 
 #### Merged Pull Requests
-- Update net-ssh requirement from &gt;= 2.9, &lt; 7.0 to &gt;= 2.9, &lt; 8.0 [#733](https://github.com/inspec/train/pull/733) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Allow net-scp 4.0.0 [#739](https://github.com/inspec/train/pull/739) ([clintoncwolfe](https://github.com/clintoncwolfe))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.10.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Allow net-scp 4.0.0 [#739](https://github.com/inspec/train/pull/739) ([clintoncwolfe](https://github.com/clintoncwolfe)) <!-- 3.10.7 -->
 - Update net-ssh requirement from &gt;= 2.9, &lt; 7.0 to &gt;= 2.9, &lt; 8.0 [#733](https://github.com/inspec/train/pull/733) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.10.6 -->
 - Fix Cisco Nexus version detection [#737](https://github.com/inspec/train/pull/737) ([trickyearlobe](https://github.com/trickyearlobe)) <!-- 3.10.5 -->
 - Prevent Cisco devices being detected as Arista [#736](https://github.com/inspec/train/pull/736) ([trickyearlobe](https://github.com/trickyearlobe)) <!-- 3.10.4 -->
