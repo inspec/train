@@ -162,24 +162,25 @@ class Train::Plugins::Transport
       @cache[:file][path] ||= file_via_connection(path, *args)
     end
 
-    # Uploads local files or directories to remote host.
+    # Uploads local files to remote host.
     #
-    # @param locals [Array<String>] paths to local files or directories
+    # @param locals [String, Array<String>] path to local files
     # @param remote [String] path to remote destination
     # @raise [TransportFailed] if the files could not all be uploaded
     #   successfully, which may vary by implementation
     def upload(locals, remote)
-      unless file(remote).directory?
-        raise TransportError, "#{self.class} expects remote directory as second upload parameter"
+      remote_directory = file(remote).directory?
+
+      if locals.is_a?(Array) && !remote_directory
+        raise Train::TransportError, "#{self.class} expects remote directory as second upload parameter for multi-file uploads"
       end
 
       Array(locals).each do |local|
-        new_content = File.read(local)
-        remote_file = File.join(remote, File.basename(local))
+        remote_file = remote_directory ? File.join(remote, File.basename(local)) : remote
 
         logger.debug("Attempting to upload '#{local}' as file #{remote_file}")
 
-        file(remote_file).content = new_content
+        file(remote_file).content = File.read(local)
       end
     end
 
