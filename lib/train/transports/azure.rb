@@ -2,8 +2,6 @@ require "train/plugins"
 require "socket" unless defined?(Socket)
 require "timeout" unless defined?(Timeout)
 require "train/transports/helpers/azure/file_credentials"
-require "train/transports/clients/azure/graph_rbac"
-require "train/transports/clients/azure/vault"
 
 module Train::Transports
   class Azure < Train.plugin(1)
