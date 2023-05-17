@@ -10,7 +10,6 @@ module Train::Transports
     option :client_id, default: ENV["AZURE_CLIENT_ID"]
     option :client_secret, default: ENV["AZURE_CLIENT_SECRET"]
     option :subscription_id, default: ENV["AZURE_SUBSCRIPTION_ID"]
-    option :msi_port, default: ENV["AZURE_MSI_PORT"] || "50342"
 
     # This can provide the client id and secret
     option :credentials_file, default: ENV["AZURE_CRED_FILE"]
@@ -19,6 +18,7 @@ module Train::Transports
       @connection ||= Connection.new(@options)
     end
 
+    # @note all logic in this class is kept only to be moved later into inspec-azure
     class Connection < BaseConnection
       attr_reader :options
 
@@ -64,23 +64,6 @@ module Train::Transports
 
       def unique_identifier
         options[:subscription_id] || options[:tenant_id]
-      end
-
-      def msi_auth?
-        @options[:client_id].nil? && @options[:client_secret].nil? && port_open?(@options[:msi_port])
-      end
-
-      private
-
-      def port_open?(port, seconds = 3)
-        Timeout.timeout(seconds) do
-          TCPSocket.new("localhost", port).close
-          true
-        rescue SystemCallError
-          false
-        end
-      rescue Timeout::Error
-        false
       end
     end
   end
