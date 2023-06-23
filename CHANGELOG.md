@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.10.8 -->
+## [v3.10.8](https://github.com/inspec/train/tree/v3.10.8) (2023-06-23)
+
+#### Merged Pull Requests
+- Fix cannot find a UUID when connect using train with local transport inside docker container [#747](https://github.com/inspec/train/pull/747) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.10.7 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Fix cannot find a UUID when connect using train with local transport inside docker container [#747](https://github.com/inspec/train/pull/747) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.10.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
