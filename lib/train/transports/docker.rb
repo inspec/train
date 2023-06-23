@@ -87,7 +87,7 @@ class Train::Transports::Docker
       uuid = @container.nil? ? @id : @container.id # default uuid set to the docker host.
       unless sniff_for_windows?
         cmd = run_command_via_connection("head -1 /proc/self/cgroup|cut -d/ -f3") if file("/proc/self/cgroup").exist?
-        unless cmd.stdout.empty?
+        unless cmd.stdout.strip.empty?
           uuid = cmd.stdout.strip
         end
       end
