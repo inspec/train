@@ -117,6 +117,7 @@ module Train::Platforms::Detect::Helpers
       (unix_uuid_from_chef         ||
        unix_uuid_from_machine_file ||
        uuid_from_command           ||
+       uuid_from_containerized_system ||
        raise(Train::TransportError, "Cannot find a UUID for your node."))
     end
 
@@ -153,6 +154,28 @@ module Train::Platforms::Detect::Helpers
 
       result = @backend.run_command(@platform[:uuid_command])
       uuid_from_string(result.stdout.chomp) if result.exit_status == 0 && !result.stdout.empty?
+    end
+
+    # This will run if anyone is running Train with local transport inside docker container
+    # This is fallback plan, if other ways of getting uuid fails for local transport running inside docker container
+    # TODO: This needs to be improved to support other container runtime
+    def uuid_from_containerized_system
+      uuid = nil
+
+      if File.exist?("/proc/self/cgroup")
+        cmd = @backend.run_command("head -1 /proc/self/cgroup|cut -d/ -f3")
+        unless cmd.stdout.strip.empty?
+          uuid = cmd.stdout.strip
+        end
+      end
+
+      if uuid.nil? && File.exist?("/proc/self/mountinfo")
+        cmd = @backend.run_command("cat /proc/self/mountinfo | grep -i /docker/containers/ | head -n 1 | awk '{print $4}' | awk NF=NF FS=/ | awk '{print $3}'")
+        unless cmd.stdout.strip.empty?
+          uuid = cmd.stdout.strip
+        end
+      end
+      uuid
     end
 
     # This hashes the passed string into SHA1.

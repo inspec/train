@@ -5,6 +5,12 @@
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.10.8](https://github.com/inspec/train/tree/v3.10.8) (2023-06-23)
+
+#### Merged Pull Requests
+- Fix cannot find a UUID when connect using train with local transport inside docker container [#747](https://github.com/inspec/train/pull/747) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v3.10.7](https://github.com/inspec/train/tree/v3.10.7) (2022-10-19)
 
 #### Merged Pull Requests
@@ -14,7 +20,6 @@
 - Fix Cisco Nexus version detection [#737](https://github.com/inspec/train/pull/737) ([trickyearlobe](https://github.com/trickyearlobe))
 - Update net-ssh requirement from &gt;= 2.9, &lt; 7.0 to &gt;= 2.9, &lt; 8.0 [#733](https://github.com/inspec/train/pull/733) ([dependabot[bot]](https://github.com/dependabot[bot]))
 - Allow net-scp 4.0.0 [#739](https://github.com/inspec/train/pull/739) ([clintoncwolfe](https://github.com/clintoncwolfe))
-<!-- latest_stable_release -->
 
 ## [v3.10.1](https://github.com/inspec/train/tree/v3.10.1) (2022-06-29)
 
