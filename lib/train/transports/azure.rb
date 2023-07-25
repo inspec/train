@@ -8,7 +8,6 @@ require "timeout" unless defined?(Timeout)
 require "train/transports/helpers/azure/file_credentials"
 require "train/transports/clients/azure/graph_rbac"
 require "train/transports/clients/azure/vault"
-require "active_support"
 
 module Train::Transports
   class Azure < Train.plugin(1)
@@ -32,7 +31,7 @@ module Train::Transports
       DEFAULT_FILE = ::File.join(Dir.home, ".azure", "credentials")
 
       def initialize(options)
-        ActiveSupport::Deprecation.warn("Azure Connection with Train will be deprecated from Train 4")
+        warn("Azure Connection with Train will be deprecated from Train 4")
         @apis = {}
 
         # Override for any cli options
