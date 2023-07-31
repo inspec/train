@@ -15,9 +15,7 @@ group :test do
   # but it's close enough to show the gempath handler can find a plugin
   # See test/unit/
   gem "train-test-fixture", path: "test/fixtures/plugins/train-test-fixture"
-  # Mocha ~1.1 is incompatible with minitest v5.19 and later
-  # More on the issue: https://github.com/freerange/mocha/issues/614
-  gem "mocha", "~> 2"
+  gem "mocha", "~> 2.1"
 end
 
 if Gem.ruby_version >= Gem::Version.new("2.7.0")
