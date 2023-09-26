@@ -31,7 +31,21 @@ module Train
 
       def default_options
         @default_options = {} unless defined? @default_options
+        # TODO: This is hacky way to set the default options for audit log for all type of transport.
+        @default_options.merge!(default_audit_log_options)
         @default_options
+      end
+
+      def default_audit_log_options
+        # TODO: What should be the default audit log location if any of the application using train does not set it?
+        # should we keep it to $stdout.
+        {
+          enable_audit_log: { default: false },
+          audit_log_location: { default: $stdout },
+          audit_log_app_name: { default: "train" },
+          audit_log_size: { default: 2000000 },
+          audit_log_frequency: { default: "daily" },
+        }
       end
 
       def include_options(other)
