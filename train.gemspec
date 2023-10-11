@@ -31,7 +31,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm", "~> 0.2"
 
   # azure, docker, gcp dependencies
-  spec.add_dependency "activesupport", ">= 6.0.3.1"
+  # Note: Currently, 7.1.0 causes issue as: `<class:Array>': undefined method `deprecator' for ActiveSupport:Module (NoMethodError)
+  # Remove the version constraint when we can upgrade to 7.1.1 post stable release of Activesupport 7.1
+  # More details on the issue: https://github.com/rails/rails/issues/49495
+  spec.add_dependency "activesupport", ">= 6.0.3.1", "< 7.1"
   spec.add_dependency "inifile", "~> 3.0"
   spec.add_dependency "azure_graph_rbac", "~> 0.16"
   spec.add_dependency "azure_mgmt_key_vault", "~> 0.17"
