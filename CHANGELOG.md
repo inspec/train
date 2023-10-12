@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release unreleased -->
+## Unreleased
+
+#### Merged Pull Requests
+- Remove dependency on `coveralls` gem from train [#753](https://github.com/inspec/train/pull/753) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.10.8 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Remove dependency on `coveralls` gem from train [#753](https://github.com/inspec/train/pull/753) ([ahasunos](https://github.com/ahasunos)) <!-- 3.10.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
