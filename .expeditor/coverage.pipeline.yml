@@ -1,19 +1,28 @@
 ---
+# TODO: Update pipeline when we introduce the coverage pipeline
 
 steps:
-  - label: coverage
-    commands:
-      - /workdir/.expeditor/buildkite/coverage.sh
+  - label: "placeholder-for-coverage-pipeline"
     expeditor:
-      secrets:
-        COVERALLS_REPO_TOKEN:
-          path: secret/coveralls/inspec/train
-          field: repo_token
       executor:
         docker:
-          environment:
-            - CI_ENABLE_COVERAGE=true
-            - CI_NAME=Buildkite
-            - CI_BUILD_NUMBER=$BUILDKITE_BUILD_NUMBER
-            - CI_BUILD_URL=$BUILDKITE_BUILD_URL
-            - CI_BRANCH=$BUILDKITE_BRANCH
+    commands:
+      - "echo ## This pipeline does nothing. Implement the coverage pipeline in near future."
+
+# steps:
+#   - label: coverage
+#     commands:
+#       - /workdir/.expeditor/buildkite/coverage.sh
+#     expeditor:
+#       secrets:
+#         COVERALLS_REPO_TOKEN:
+#           path: secret/coveralls/inspec/train
+#           field: repo_token
+#       executor:
+#         docker:
+#           environment:
+#             - CI_ENABLE_COVERAGE=true
+#             - CI_NAME=Buildkite
+#             - CI_BUILD_NUMBER=$BUILDKITE_BUILD_NUMBER
+#             - CI_BUILD_URL=$BUILDKITE_BUILD_URL
+#             - CI_BRANCH=$BUILDKITE_BRANCH

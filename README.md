@@ -8,7 +8,6 @@ For more information on project states and SLAs, see [this documentation](https:
 
 [![Build status](https://badge.buildkite.com/ee9d6f49d995b23e943955b12d5aaadf4314d12b7cc99b03be.svg?branch=master)](https://buildkite.com/chef-oss/inspec-train-master-verify)
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
-[![Coverage Status](https://coveralls.io/repos/github/inspec/train/badge.svg?branch=master)](https://coveralls.io/github/inspec/train?branch=master)
 
 **Umbrella Project**: [Chef Foundation](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-foundation.md)
 

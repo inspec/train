@@ -1,9 +1,7 @@
 if ENV["CI_ENABLE_COVERAGE"]
   require "simplecov"
-  require "coveralls"
   SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
     SimpleCov::Formatter::HTMLFormatter,
-    Coveralls::SimpleCov::Formatter,
   ])
 
   SimpleCov.start do
