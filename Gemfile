@@ -22,12 +22,7 @@ group :test do
   gem "train-test-fixture", path: "test/fixtures/plugins/train-test-fixture"
   # Mocha ~1.1 is incompatible with minitest v5.19 and later
   # More on the issue: https://github.com/freerange/mocha/issues/614
-  # It seems non-windows platforms lower than ruby 3.1 are affected
-  if !Gem.win_platform? && (Gem.ruby_version < Gem::Version.new("3.1"))
-    gem "mocha", "~> 1.1"
-  else
-    gem "mocha", "~> 2.1"
-  end
+  gem "mocha", "~> 2"
 end
 
 if Gem.ruby_version >= Gem::Version.new("2.7.0")
