@@ -7,7 +7,6 @@ if Gem.ruby_version.to_s.start_with?("2.5")
 end
 
 group :test do
-  gem "coveralls", require: false
   gem "minitest", "~> 5.8"
   gem "rake", "~> 13.0"
   gem "chefstyle", "2.1.1"
