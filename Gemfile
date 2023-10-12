@@ -20,7 +20,7 @@ group :test do
   # but it's close enough to show the gempath handler can find a plugin
   # See test/unit/
   gem "train-test-fixture", path: "test/fixtures/plugins/train-test-fixture"
-  gem "mocha", "~> 1.1"
+  gem "mocha", "~> 2.1"
 end
 
 if Gem.ruby_version >= Gem::Version.new("2.7.0")
