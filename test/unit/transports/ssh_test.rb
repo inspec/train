@@ -215,7 +215,8 @@ describe "ssh transport" do
     end
 
     it "sets up a proxy when ssh proxy command is specified" do
-      mock = MiniTest::Mock.new
+      mock = Minitest::Mock.new
+
       mock.expect(:call, true) do |hostname, username, options|
         options[:proxy].is_a?(Net::SSH::Proxy::Command) &&
           "ssh root@127.0.0.1 -W %h:%p" == options[:proxy].command_line_template
@@ -384,7 +385,7 @@ describe "ssh transport with bastion" do
       end
 
       it "sets up a proxy when ssh proxy command is specified" do
-        mock = MiniTest::Mock.new
+        mock = Minitest::Mock.new
         mock.expect(:call, true) do |hostname, username, options|
           options[:proxy].is_a?(Net::SSH::Proxy::Command) &&
             "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR -o ForwardAgent=no -o IdentitiesOnly=yes -i #{conf[:key_files]} root@bastion_dummy -p 22 -W %h:%p" == options[:proxy].command_line_template

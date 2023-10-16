@@ -7,6 +7,7 @@ bundle --version
 
 echo "--- bundle install"
 bundle config --local path vendor/bundle
+bundle config --local without integration tools
 bundle install --jobs=7 --retry=3
 
 echo "+++ bundle exec rake"

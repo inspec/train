@@ -1,11 +1,6 @@
 source "https://rubygems.org"
 gemspec name: "train"
 
-if Gem.ruby_version.to_s.start_with?("2.5")
-  # 16.7.23 required ruby 2.6+
-  gem "chef-utils", "< 16.7.23" # TODO: remove when we drop ruby 2.5
-end
-
 group :test do
   gem "minitest", "~> 5.8"
   gem "rake", "~> 13.0"
@@ -20,7 +15,9 @@ group :test do
   # but it's close enough to show the gempath handler can find a plugin
   # See test/unit/
   gem "train-test-fixture", path: "test/fixtures/plugins/train-test-fixture"
-  gem "mocha", "~> 1.1"
+  # Mocha ~1.1 is incompatible with minitest v5.19 and later
+  # More on the issue: https://github.com/freerange/mocha/issues/614
+  gem "mocha", "~> 2"
 end
 
 if Gem.ruby_version >= Gem::Version.new("2.7.0")
