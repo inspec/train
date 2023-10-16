@@ -1,7 +1,8 @@
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.10.9 -->
+## [v3.10.9](https://github.com/inspec/train/tree/v3.10.9) (2023-10-16)
 
 #### Merged Pull Requests
+- Fix `mocha` ~1.1 incompatibility with `minitest` [#752](https://github.com/inspec/train/pull/752) ([ahasunos](https://github.com/ahasunos))
 - Remove dependency on `coveralls` gem from train [#753](https://github.com/inspec/train/pull/753) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -9,6 +10,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Fix `mocha` ~1.1 incompatibility with `minitest` [#752](https://github.com/inspec/train/pull/752) ([ahasunos](https://github.com/ahasunos)) <!-- 3.10.9 -->
 - Remove dependency on `coveralls` gem from train [#753](https://github.com/inspec/train/pull/753) ([ahasunos](https://github.com/ahasunos)) <!-- 3.10.8 -->
 <!-- release_rollup -->
 
