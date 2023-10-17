@@ -41,7 +41,7 @@ module Train
         # should we keep it to $stdout.
         {
           enable_audit_log: { default: false },
-          audit_log_location: { required: true },
+          audit_log_location: { required: true, default: nil },
           audit_log_app_name: { default: "train" },
           audit_log_size: { default: 2000000 },
           audit_log_frequency: { default: "daily" },

@@ -4,7 +4,7 @@ describe "v1 Transport Plugin" do
   let(:default_options) {
     {
       enable_audit_log: false,
-      audit_log_location: $stdout,
+      audit_log_location: nil,
       audit_log_app_name: "train",
       audit_log_size: 2000000,
       audit_log_frequency: "daily",

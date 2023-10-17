@@ -15,7 +15,8 @@ describe Train do
         default: false,
       },
       audit_log_location: {
-        default: $stdout,
+        default: nil,
+        required: true,
       },
       audit_log_app_name: {
         default: "train",
