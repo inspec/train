@@ -22,15 +22,19 @@ class Train::Plugins::Transport
     def initialize(options = nil)
       @options = options || {}
 
+      @logger = @options.delete(:logger) || Logger.new($stdout, level: :fatal)
       Train::Platforms::Detect::Specifications::OS.load
       Train::Platforms::Detect::Specifications::Api.load
-
-      @logger = @options.delete(:logger) || Logger.new($stdout, level: :fatal)
 
       # In run_command all options are not accessible as some of them gets deleted in transit.
       # To make the data like hostname, username available to aduit logs dup the options
       @audit_log_data = options.dup || {}
-      @audit_log = Train::AuditLog.create(options) if @options[:enable_audit_log]
+      # For transport other than local all audit log options accessible inside transport_options key
+      if @options[:transport_options]
+        @audit_log = Train::AuditLog.create(options[:transport_options]) if @options[:transport_options][:enable_audit_log]
+      else
+        @audit_log = Train::AuditLog.create(options) if @options[:enable_audit_log]
+      end
 
       # default caching options
       @cache_enabled = {
@@ -148,7 +152,7 @@ class Train::Plugins::Transport
       # Some implementations do not accept an opts argument.
       # We cannot update all implementations to accept opts due to them being separate plugins.
       # Therefore here we check the implementation's arity to maintain compatibility.
-      @audit_log.info({ type: "cmd", command: "#{cmd}", user: "#{@audit_log_data[:username]}", hostname: "#{@audit_log_data[:hostname]}" }) if @audit_log
+      @audit_log.info({ type: "cmd", command: "#{cmd}", user: @audit_log_data[:username], hostname: @audit_log_data[:hostname] }) if @audit_log
 
       case method(:run_command_via_connection).arity.abs
       when 1
@@ -168,7 +172,7 @@ class Train::Plugins::Transport
     # This is the main file call for all connections. This will call the private
     # file_via_connection on the connection with optional caching
     def file(path, *args)
-      @audit_log.info({ type: "file", path: "#{path}", user: "#{@audit_log_data[:username]}", hostname: "#{@audit_log_data[:hostname]}" }) if @audit_log
+      @audit_log.info({ type: "file", path: "#{path}", user: @audit_log_data[:username], hostname: @audit_log_data[:hostname] }) if @audit_log
       return file_via_connection(path, *args) unless cache_enabled?(:file)
 
       @cache[:file][path] ||= file_via_connection(path, *args)
@@ -189,7 +193,7 @@ class Train::Plugins::Transport
 
       Array(locals).each do |local|
         remote_file = remote_directory ? File.join(remote, File.basename(local)) : remote
-        @audit_log.info({ type: "file upload", source: "#{local}", destination: "#{remote_file}", user: "#{@audit_log_data[:username]}", hostname: "#{@audit_log_data[:hostname]}" }) if @audit_log
+        @audit_log.info({ type: "file upload", source: local, destination: remote_file, user: @audit_log_data[:username], hostname: @audit_log_data[:hostname] }) if @audit_log
         logger.debug("Attempting to upload '#{local}' as file #{remote_file}")
 
         file(remote_file).content = File.read(local)

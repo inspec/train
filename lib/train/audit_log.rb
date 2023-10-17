@@ -11,17 +11,9 @@ module Train
       logger.datetime_format = "%Y-%m-%d %H:%M:%S"
       logger.formatter = proc do |severity, datetime, progname, msg|
         {
-          level: severity,
           timestamp: datetime.to_s,
           app: progname,
-          type: msg[:type],
-          command: msg[:command],
-          path: msg[:path],
-          source: msg[:source],
-          destination: msg[:destination],
-          hostname: msg[:hostname],
-          user: msg[:user],
-        }.compact.to_json + $/
+        }.merge(msg).compact.to_json + $/
       end
       logger
     end
