@@ -9,6 +9,26 @@ describe Train do
     Train::Plugins.registry.clear
   end
 
+  let(:default_options) {
+    {
+      enable_audit_log: {
+        default: false,
+      },
+      audit_log_location: {
+        default: $stdout,
+      },
+      audit_log_app_name: {
+        default: "train",
+      },
+      audit_log_size: {
+        default: 2000000,
+      },
+      audit_log_frequency: {
+        default: "daily",
+      },
+    }
+  }
+
   describe "#create" do
     it "raises an error if the plugin isnt found" do
       _ { Train.create("missing") }.must_raise Train::UserError
@@ -50,7 +70,7 @@ describe Train do
 
     it "provides empty options of a transport plugin" do
       Class.new(Train.plugin 1) { name "none" }
-      _(Train.options("none")).must_equal({})
+      _(Train.options("none")).must_equal(default_options)
     end
 
     it "provides all options of a transport plugin" do
@@ -58,12 +78,13 @@ describe Train do
         name "one"
         option :one, required: true, default: 123
       end
-      _(Train.options("one")).must_equal({
+      output = default_options.merge(
         one: {
           required: true,
           default: 123,
-        },
-      })
+        }
+      )
+      _(Train.options("one")).must_equal(output)
     end
   end
 
