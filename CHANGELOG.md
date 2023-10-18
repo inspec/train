@@ -1,15 +1,15 @@
-<!-- latest_release 3.10.11 -->
-## [v3.10.11](https://github.com/inspec/train/tree/v3.10.11) (2023-10-16)
+<!-- latest_release 3.10.12 -->
+## [v3.10.12](https://github.com/inspec/train/tree/v3.10.12) (2023-10-18)
 
 #### Merged Pull Requests
-- Fix upload to support individual files [#742](https://github.com/inspec/train/pull/742) ([thheinen](https://github.com/thheinen))
-- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#748](https://github.com/inspec/train/pull/748) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- CHEF-2414 Deprecate azure connections from train [#746](https://github.com/inspec/train/pull/746) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.10.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- CHEF-2414 Deprecate azure connections from train [#746](https://github.com/inspec/train/pull/746) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.10.12 -->
 - Fix upload to support individual files [#742](https://github.com/inspec/train/pull/742) ([thheinen](https://github.com/thheinen)) <!-- 3.10.11 -->
 - Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#748](https://github.com/inspec/train/pull/748) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.10.10 -->
 - [WIP] Drop ruby 2.7 test as it has reached EOL [#754](https://github.com/inspec/train/pull/754) ([ahasunos](https://github.com/ahasunos)) <!-- 3.10.10 -->
