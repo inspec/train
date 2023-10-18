@@ -139,6 +139,9 @@ module Train::Transports
       if key_files.empty?
         options[:auth_methods].delete("publickey")
       else
+        # When validate_options directly called in transport.rb auth_methods does not include the publickey so
+        # adding that if key_files is not empty
+        options[:auth_methods].push("publickey") unless options[:auth_methods].include?("publickey")
         options[:keys_only] = true if options[:password].nil?
         options[:key_files] = key_files
       end
