@@ -21,11 +21,6 @@ class Train::Plugins
     def initialize(options = {})
       @options = merge_options({}, options || {})
       @logger = @options[:logger] || Logger.new($stdout, level: :fatal)
-      # validate_options is called/overridden by specific transport. We are only calling the validate_options so that it validates the newly introduced
-      # options for audit log configuration. This is a hack and should be replaced with something better.
-      if @options[:enable_audit_log]
-        validate_options(@options)
-      end
     end
 
     # Create a connection to the target. Options may be provided
