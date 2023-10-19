@@ -1,7 +1,6 @@
 require "helper"
 
 describe "v1 Transport Plugin" do
-
   describe "empty v1 transport plugin" do
     let(:plugin) { Class.new(Train.plugin(1)) }
 

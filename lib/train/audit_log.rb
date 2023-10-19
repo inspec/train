@@ -1,8 +1,5 @@
 module Train
   class AuditLog
-    # TODO:
-    # Configurable values log location, log file size, log frequency((available options, daily, weeks, monthly))
-
     # Default values for audit log options are set in the options.rb
     def self.create(options = {})
       logger = Logger.new(options[:audit_log_location], options[:audit_log_frequency], options[:audit_log_size])
