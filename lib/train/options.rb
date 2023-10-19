@@ -31,19 +31,17 @@ module Train
 
       def default_options
         @default_options = {} unless defined? @default_options
-        # TODO: This is hacky way to set the default options for audit log for all type of transport.
-        @default_options.merge!(default_audit_log_options)
         @default_options
       end
 
+      # Created separate method to set the default audit log options so that it will be handled separately
+      # and will not break any existing functionality
       def default_audit_log_options
-        # TODO: What should be the default audit log location if any of the application using train does not set it?
-        # should we keep it to $stdout.
         {
           enable_audit_log: { default: false },
           audit_log_location: { required: true, default: nil },
           audit_log_app_name: { default: "train" },
-          audit_log_size: { default: 2000000 },
+          audit_log_size: { default: 2097152 },
           audit_log_frequency: { default: "daily" },
         }
       end
@@ -60,6 +58,10 @@ module Train
     module InstanceOptions
       # @return [Hash] options, which created this Transport
       attr_reader :options
+
+      def default_audit_log_options
+        self.class.default_audit_log_options
+      end
 
       def default_options
         self.class.default_options
@@ -85,6 +87,18 @@ module Train
 
       def validate_options(opts)
         default_options.each do |field, hm|
+          if opts[field].nil? && hm[:required]
+            raise Train::ClientError,
+              "You must provide a value for #{field.to_s.inspect}."
+          end
+        end
+        opts
+      end
+
+      # Introduced this method to validate only audit log options and avoiding call to validate_options so
+      # that it will no break existing implementation.
+      def validate_audit_log_options(opts)
+        default_audit_log_options.each do |field, hm|
           if opts[field].nil? && hm[:required]
             raise Train::ClientError,
               "You must provide a value for #{field.to_s.inspect}."

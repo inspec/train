@@ -26,7 +26,8 @@ module Train
   # @return [Hash] map of default options
   def self.options(name)
     cls = load_transport(name)
-    cls.default_options unless cls.nil?
+    # Merging default_audit_log_options so that they will get listed in the options that are available.
+    cls.default_options.merge(cls.default_audit_log_options) unless cls.nil?
   end
 
   # Load the transport plugin indicated by name. If the plugin is not
