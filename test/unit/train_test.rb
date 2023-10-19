@@ -71,7 +71,7 @@ describe Train do
 
     it "provides empty options of a transport plugin" do
       Class.new(Train.plugin 1) { name "none" }
-      _(Train.options("none")).must_equal(default_options)
+      _(Train.options("none")).must_equal({})
     end
 
     it "provides all options of a transport plugin" do
@@ -79,13 +79,12 @@ describe Train do
         name "one"
         option :one, required: true, default: 123
       end
-      output = default_options.merge(
+      _(Train.options("one")).must_equal({
         one: {
           required: true,
           default: 123,
-        }
-      )
-      _(Train.options("one")).must_equal(output)
+        },
+      })
     end
   end
 

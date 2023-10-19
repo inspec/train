@@ -1,29 +1,21 @@
 require "helper"
 
 describe "v1 Transport Plugin" do
-  let(:default_options) {
-    {
-      enable_audit_log: false,
-      audit_log_location: nil,
-      audit_log_app_name: "train",
-      audit_log_size: 2000000,
-      audit_log_frequency: "daily",
-    }
-  }
 
   describe "empty v1 transport plugin" do
     let(:plugin) { Class.new(Train.plugin(1)) }
+
     it "initializes an empty configuration" do
-      _(plugin.new.options).must_equal(default_options)
+      _(plugin.new.options).must_equal({})
     end
 
     it "saves the provided configuration" do
-      conf = default_options.merge({ a: rand })
+      conf = { a: rand }
       _(plugin.new(conf).options).must_equal(conf)
     end
 
     it "saves the provided configuration" do
-      conf = default_options.merge({ a: rand })
+      conf = { a: rand }
       _(plugin.new(conf).options).must_equal(conf)
     end
 
@@ -78,8 +70,7 @@ describe "v1 Transport Plugin" do
 
     it "exposes the parameters via api" do
       name, plugin = train_class
-      output = default_options.keys << name
-      _(plugin.default_options.keys).must_equal output
+      _(plugin.default_options.keys).must_equal [name]
     end
 
     it "exposes the parameters via api" do
