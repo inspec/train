@@ -30,9 +30,9 @@ class Train::Plugins::Transport
       # To make the data like hostname, username available to aduit logs dup the options
       @audit_log_data = options.dup || {}
       # For transport other than local all audit log options accessible inside transport_options key
-      if @options[:transport_options] && @options[:transport_options][:enable_audit_log]
+      if !@options.empty? && @options[:transport_options] && !@options[:transport_options][:disable_audit_log]
         @audit_log = Train::AuditLog.create(options[:transport_options])
-      elsif @options[:enable_audit_log]
+      elsif !@options.empty? && !@options[:disable_audit_log]
         @audit_log = Train::AuditLog.create(@options)
       end
 

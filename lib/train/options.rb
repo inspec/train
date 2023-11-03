@@ -38,7 +38,7 @@ module Train
       # and will not break any existing functionality
       def default_audit_log_options
         {
-          enable_audit_log: { default: false },
+          disable_audit_log: { default: true },
           audit_log_location: { required: true, default: nil },
           audit_log_app_name: { default: "train" },
           audit_log_size: { default: 2097152 },
@@ -69,7 +69,7 @@ module Train
 
       def merge_options(base, opts)
         res = base.merge(opts || {})
-        default_options.each do |field, hm|
+        default_options.merge(default_audit_log_options).each do |field, hm|
           next unless res[field].nil? && hm.key?(:default)
 
           default = hm[:default]
