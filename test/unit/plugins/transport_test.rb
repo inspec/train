@@ -4,17 +4,27 @@ describe "v1 Transport Plugin" do
   describe "empty v1 transport plugin" do
     let(:plugin) { Class.new(Train.plugin(1)) }
 
+    let(:default_audit_log_options) {
+      {
+        enable_audit_log: false,
+        audit_log_location: nil,
+        audit_log_app_name: "train",
+        audit_log_size: 2097152,
+        audit_log_frequency: "daily",
+      }
+    }
+
     it "initializes an empty configuration" do
-      _(plugin.new.options).must_equal({})
+      _(plugin.new.options).must_equal(default_audit_log_options)
     end
 
     it "saves the provided configuration" do
-      conf = { a: rand }
+      conf = default_audit_log_options.merge({ a: rand })
       _(plugin.new(conf).options).must_equal(conf)
     end
 
     it "saves the provided configuration" do
-      conf = { a: rand }
+      conf = default_audit_log_options.merge({ a: rand })
       _(plugin.new(conf).options).must_equal(conf)
     end
 
