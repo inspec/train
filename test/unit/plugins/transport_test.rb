@@ -1,30 +1,20 @@
 require "helper"
 
 describe "v1 Transport Plugin" do
-  let(:default_audit_log_options) {
-    {
-      disable_audit_log: true,
-      audit_log_location: nil,
-      audit_log_app_name: "train",
-      audit_log_size: 2097152,
-      audit_log_frequency: "daily",
-    }
-  }
-
   describe "empty v1 transport plugin" do
     let(:plugin) { Class.new(Train.plugin(1)) }
 
     it "initializes an empty configuration" do
-      _(plugin.new.options).must_equal(default_audit_log_options)
+      _(plugin.new.options).must_equal({})
     end
 
     it "saves the provided configuration" do
-      conf = default_audit_log_options.merge({ a: rand })
+      conf = { a: rand }
       _(plugin.new(conf).options).must_equal(conf)
     end
 
     it "saves the provided configuration" do
-      conf = default_audit_log_options.merge({ a: rand })
+      conf = { a: rand }
       _(plugin.new(conf).options).must_equal(conf)
     end
 

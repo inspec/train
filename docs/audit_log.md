@@ -11,7 +11,7 @@ In the case of file operation it currently only logs the file path that has been
 
 Audit logs are `disabled` by default. To enable the audit log and configure it use the following audit log options while creating the Train object.
 
-`disable_audit_log`: Type boolean. Default is true.
+`enable_audit_log`: Type boolean. Default is false.
 
 `audit_log_location`: Type String. Default is nil.
 

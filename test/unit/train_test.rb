@@ -11,8 +11,8 @@ describe Train do
 
   let(:default_audit_log_options) {
     {
-      disable_audit_log: {
-        default: true,
+      enable_audit_log: {
+        default: false,
       },
       audit_log_location: {
         required: true,
