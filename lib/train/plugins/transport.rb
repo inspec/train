@@ -24,7 +24,7 @@ class Train::Plugins
       # Validates audit log configuration options if audit log is enabled
       # The reason to implement different validate method for audit log options is
       # to validate only audit log options and not to break any existing validate_option implementation.
-      if @options[:enable_audit_log]
+      if !options.empty? && @options[:enable_audit_log]
         validate_audit_log_options(options)
       end
     end

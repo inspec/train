@@ -69,7 +69,8 @@ module Train
 
       def merge_options(base, opts)
         res = base.merge(opts || {})
-        default_options.each do |field, hm|
+        # Also merge the default audit log options into the options so that those are available at the time of validation.
+        default_options.merge(default_audit_log_options).each do |field, hm|
           next unless res[field].nil? && hm.key?(:default)
 
           default = hm[:default]
