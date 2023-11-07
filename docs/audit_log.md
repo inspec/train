@@ -14,7 +14,7 @@ As this is a feature preview to determine what sort of functionality is desired 
 
 * Strong support for command invocations but no ability to control level of detail of output
 * Limited ability to see file operations. A file access may be seen, but what specific operation may be unknown.
-* Not all File operations are perfomed using the top-level connection methods; some file operations are implemented in the transport plugins, and are not captured consistently 
+* Not all File operations are perfomed using the top-level connection methods; some file operations are implemented in the transport plugins, and are not captured consistently
 * No support for API calls at this time. No API-based transports will show traffic in the audit log.
 
 ## Log Format
@@ -51,9 +51,9 @@ Log size and Frequency come from Ruby's Logger implementation; see that for deta
 
 `audit_log_location`: Type String, path to stem filename to create such as "~/chef/logs/my-app-audit.log" Default is nil.
 
-`audit_log_size`: Type numeric. Maximum size of the file in bytes before it gets rotated to another file. Default is 2097152.
+`audit_log_size`: Type numeric. Maximum size of the file in bytes before it gets rotated to another file (Log rotation is disabled by default). Defaults to 1048576 (1MB)
 
-`audit_log_frequency`: Type string. Frequency with which to rotate the audit log. Default is daily (Valid values: daily, weekly, monthly).
+`audit_log_frequency`: Frequency of rotation (daily, weekly or monthly). Default value is 0, which disables log file rotation.
 
 ## Driving Train from IRB
 

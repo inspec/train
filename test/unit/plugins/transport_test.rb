@@ -9,8 +9,8 @@ describe "v1 Transport Plugin" do
         enable_audit_log: false,
         audit_log_location: nil,
         audit_log_app_name: "train",
-        audit_log_size: 2097152,
-        audit_log_frequency: "daily",
+        audit_log_size: nil,
+        audit_log_frequency: 0,
       }
     }
 

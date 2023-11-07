@@ -22,10 +22,10 @@ describe Train do
         default: "train",
       },
       audit_log_size: {
-        default: 2097152,
+        default: nil,
       },
       audit_log_frequency: {
-        default: "daily",
+        default: 0,
       },
     }
   }
