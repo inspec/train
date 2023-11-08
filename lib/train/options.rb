@@ -34,6 +34,18 @@ module Train
         @default_options
       end
 
+      # Created separate method to set the default audit log options so that it will be handled separately
+      # and will not break any existing functionality
+      def default_audit_log_options
+        {
+          enable_audit_log: { default: false },
+          audit_log_location: { required: true, default: nil },
+          audit_log_app_name: { default: "train" },
+          audit_log_size: { default: nil },
+          audit_log_frequency: { default: 0 },
+        }
+      end
+
       def include_options(other)
         unless other.respond_to?(:default_options)
           raise "Trying to include options from module #{other.inspect}, "\
@@ -47,13 +59,18 @@ module Train
       # @return [Hash] options, which created this Transport
       attr_reader :options
 
+      def default_audit_log_options
+        self.class.default_audit_log_options
+      end
+
       def default_options
         self.class.default_options
       end
 
       def merge_options(base, opts)
         res = base.merge(opts || {})
-        default_options.each do |field, hm|
+        # Also merge the default audit log options into the options so that those are available at the time of validation.
+        default_options.merge(default_audit_log_options).each do |field, hm|
           next unless res[field].nil? && hm.key?(:default)
 
           default = hm[:default]
@@ -71,6 +88,18 @@ module Train
 
       def validate_options(opts)
         default_options.each do |field, hm|
+          if opts[field].nil? && hm[:required]
+            raise Train::ClientError,
+              "You must provide a value for #{field.to_s.inspect}."
+          end
+        end
+        opts
+      end
+
+      # Introduced this method to validate only audit log options and avoiding call to validate_options so
+      # that it will no break existing implementation.
+      def validate_audit_log_options(opts)
+        default_audit_log_options.each do |field, hm|
           if opts[field].nil? && hm[:required]
             raise Train::ClientError,
               "You must provide a value for #{field.to_s.inspect}."
