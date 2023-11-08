@@ -1,14 +1,15 @@
-<!-- latest_release 3.10.12 -->
-## [v3.10.12](https://github.com/inspec/train/tree/v3.10.12) (2023-10-18)
+<!-- latest_release 3.11.0 -->
+## [v3.11.0](https://github.com/inspec/train/tree/v3.11.0) (2023-11-08)
 
 #### Merged Pull Requests
-- CHEF-2414 Deprecate azure connections from train [#746](https://github.com/inspec/train/pull/746) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-6440(CHEF-7426): Adds audit log support [#749](https://github.com/inspec/train/pull/749) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.10.8 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- CHEF-6440(CHEF-7426): Adds audit log support [#749](https://github.com/inspec/train/pull/749) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.0 -->
 - CHEF-2414 Deprecate azure connections from train [#746](https://github.com/inspec/train/pull/746) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.10.12 -->
 - Fix upload to support individual files [#742](https://github.com/inspec/train/pull/742) ([thheinen](https://github.com/thheinen)) <!-- 3.10.11 -->
 - Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#748](https://github.com/inspec/train/pull/748) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.10.10 -->
