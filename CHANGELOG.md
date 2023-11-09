@@ -1,29 +1,26 @@
-<!-- latest_release 3.11.0 -->
-## [v3.11.0](https://github.com/inspec/train/tree/v3.11.0) (2023-11-08)
-
-#### Merged Pull Requests
-- CHEF-6440(CHEF-7426): Adds audit log support [#749](https://github.com/inspec/train/pull/749) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.10.8 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- CHEF-6440(CHEF-7426): Adds audit log support [#749](https://github.com/inspec/train/pull/749) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.0 -->
-- CHEF-2414 Deprecate azure connections from train [#746](https://github.com/inspec/train/pull/746) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.10.12 -->
-- Fix upload to support individual files [#742](https://github.com/inspec/train/pull/742) ([thheinen](https://github.com/thheinen)) <!-- 3.10.11 -->
-- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#748](https://github.com/inspec/train/pull/748) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.10.10 -->
-- [WIP] Drop ruby 2.7 test as it has reached EOL [#754](https://github.com/inspec/train/pull/754) ([ahasunos](https://github.com/ahasunos)) <!-- 3.10.10 -->
-- Fix `mocha` ~1.1 incompatibility with `minitest` [#752](https://github.com/inspec/train/pull/752) ([ahasunos](https://github.com/ahasunos)) <!-- 3.10.9 -->
-- Remove dependency on `coveralls` gem from train [#753](https://github.com/inspec/train/pull/753) ([ahasunos](https://github.com/ahasunos)) <!-- 3.10.8 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.11.0](https://github.com/inspec/train/tree/v3.11.0) (2023-11-09)
+
+#### Merged Pull Requests
+- Remove dependency on `coveralls` gem from train [#753](https://github.com/inspec/train/pull/753) ([ahasunos](https://github.com/ahasunos))
+- Fix `mocha` ~1.1 incompatibility with `minitest` [#752](https://github.com/inspec/train/pull/752) ([ahasunos](https://github.com/ahasunos))
+- [WIP] Drop ruby 2.7 test as it has reached EOL [#754](https://github.com/inspec/train/pull/754) ([ahasunos](https://github.com/ahasunos))
+- Update mocha requirement from ~&gt; 1.1 to ~&gt; 2.1 [#748](https://github.com/inspec/train/pull/748) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- Fix upload to support individual files [#742](https://github.com/inspec/train/pull/742) ([thheinen](https://github.com/thheinen))
+- CHEF-2414 Deprecate azure connections from train [#746](https://github.com/inspec/train/pull/746) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-6440(CHEF-7426): Adds audit log support [#749](https://github.com/inspec/train/pull/749) ([Vasu1105](https://github.com/Vasu1105))
+<!-- latest_stable_release -->
+
 ## [v3.10.8](https://github.com/inspec/train/tree/v3.10.8) (2023-06-23)
 
 #### Merged Pull Requests
 - Fix cannot find a UUID when connect using train with local transport inside docker container [#747](https://github.com/inspec/train/pull/747) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v3.10.7](https://github.com/inspec/train/tree/v3.10.7) (2022-10-19)
 
