@@ -16,6 +16,8 @@ group :test do
   # See test/unit/
   gem "train-test-fixture", path: "test/fixtures/plugins/train-test-fixture"
   gem "mocha", "~> 2.1"
+  gem "simplecov", "~> 0.21"
+  gem "simplecov_json_formatter"
 end
 
 if Gem.ruby_version >= Gem::Version.new("2.7.0")

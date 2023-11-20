@@ -69,6 +69,6 @@ pipelines:
   - verify:
       description: Pull Request validation tests
       public: true
-
   - coverage:
       description: Generate test coverage report
+      trigger: pull_request
