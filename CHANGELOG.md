@@ -2,6 +2,7 @@
 ## Unreleased
 
 #### Merged Pull Requests
+- CHEF-7180: Fix configuration values in sonar configuration file [#761](https://github.com/inspec/train/pull/761) ([Vasu1105](https://github.com/Vasu1105))
 - Adds missing configuration for coverage pipeline [#760](https://github.com/inspec/train/pull/760) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
@@ -9,6 +10,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- CHEF-7180: Fix configuration values in sonar configuration file [#761](https://github.com/inspec/train/pull/761) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
 - Adds missing configuration for coverage pipeline [#760](https://github.com/inspec/train/pull/760) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
 - CHEF-7180: Configures sonarqube for code coverage anlaysis [#758](https://github.com/inspec/train/pull/758) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
 <!-- release_rollup -->
