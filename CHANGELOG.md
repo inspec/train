@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.11.1 -->
+## [v3.11.1](https://github.com/inspec/train/tree/v3.11.1) (2023-11-20)
+
+#### Merged Pull Requests
+- CHEF-7180: Configures sonarqube for code coverage anlaysis [#758](https://github.com/inspec/train/pull/758) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.11.0 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- CHEF-7180: Configures sonarqube for code coverage anlaysis [#758](https://github.com/inspec/train/pull/758) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
