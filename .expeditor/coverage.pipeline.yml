@@ -9,7 +9,7 @@ expeditor:
 
 steps:
 
-  - label: coverage
+  - label: coverage-ruby-3.0.6
     command:
       - CI_ENABLE_COVERAGE=1 RAKE_TASK=test /workdir/.expeditor/buildkite/coverage.sh
     expeditor:
