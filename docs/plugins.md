@@ -113,6 +113,8 @@ If your transport is OS based and has the option to read a file you can set this
 If your transport is OS based and has the option to run a command you can set this method. It is expected to return a `CommandResult` class here to be used upstream in InSpec. Currently the command resource is restricted to Unix and Windows platforms. Caching is enabled by default for this method.  
 You can optionally receive an options hash as well as the command string. This is intended for options that apply only to the current instance of running a command. For example, applying a timeout to this command execution.
 
+**In order to run file and commands OS based, please make sure the platform family belongs to a valid OS. Example config is provided below.
+
 #### API Access Methods
 
 When working with API's it's often helpful to create methods to return client information or API objects. These are then accessed upstream in InSpec. Here is an example of a API method you may have:
@@ -142,5 +144,14 @@ def platform
  force_platform!('Aws',
    release: '1.2',
  )
+end
+```
+Example config for transport that supports `unix` and `windows` OS,
+
+```Ruby
+def platform
+  Train::Platforms.name("local-rot13").in_family("unix")
+  Train::Platforms.name("local-rot13").in_family("windows")
+  force_platform!("local-rot13", release: TrainPlugins::LocalRot13::VERSION)
 end
 ```
