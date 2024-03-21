@@ -113,7 +113,7 @@ If your transport is OS based and has the option to read a file you can set this
 If your transport is OS based and has the option to run a command you can set this method. It is expected to return a `CommandResult` class here to be used upstream in InSpec. Currently the command resource is restricted to Unix and Windows platforms. Caching is enabled by default for this method.  
 You can optionally receive an options hash as well as the command string. This is intended for options that apply only to the current instance of running a command. For example, applying a timeout to this command execution.
 
-**In order to run file and commands OS based, please make sure the platform family belongs to a valid OS. Example config is provided below.
+**If your transport is OS based, do not force the platform family using `force_platform!`. The platform family will be detected dynamically based on the OS.
 
 #### API Access Methods
 
