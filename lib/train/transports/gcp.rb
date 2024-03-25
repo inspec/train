@@ -38,6 +38,7 @@ module Train::Transports
         super(options)
 
         # additional GCP platform metadata
+        # The google-apis-core dependency is the common for all gcp service related gems.
         release = Gem.loaded_specs["google-apis-core"].version
         @platform_details = { release: "google-apis-core-v#{release}" }
 
