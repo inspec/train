@@ -1,7 +1,8 @@
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.11.2 -->
+## [v3.11.2](https://github.com/inspec/train/tree/v3.11.2) (2024-03-28)
 
 #### Merged Pull Requests
+- Fix: Update ruby base image to bullseye in CI tests [#765](https://github.com/inspec/train/pull/765) ([ahasunos](https://github.com/ahasunos))
 - CHEF-7180: Fix configuration values in sonar configuration file [#761](https://github.com/inspec/train/pull/761) ([Vasu1105](https://github.com/Vasu1105))
 - Adds missing configuration for coverage pipeline [#760](https://github.com/inspec/train/pull/760) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
@@ -10,6 +11,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Fix: Update ruby base image to bullseye in CI tests [#765](https://github.com/inspec/train/pull/765) ([ahasunos](https://github.com/ahasunos)) <!-- 3.11.2 -->
 - CHEF-7180: Fix configuration values in sonar configuration file [#761](https://github.com/inspec/train/pull/761) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
 - Adds missing configuration for coverage pipeline [#760](https://github.com/inspec/train/pull/760) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
 - CHEF-7180: Configures sonarqube for code coverage anlaysis [#758](https://github.com/inspec/train/pull/758) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
