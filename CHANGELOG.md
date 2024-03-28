@@ -1,25 +1,23 @@
-<!-- latest_release 3.12.0 -->
-## [v3.12.0](https://github.com/inspec/train/tree/v3.12.0) (2024-03-28)
-
-#### Merged Pull Requests
-- CHEF-8031- Upgrade GCP client libraries [#767](https://github.com/inspec/train/pull/767) ([balasubramanian-s](https://github.com/balasubramanian-s))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.11.0 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- CHEF-8031- Upgrade GCP client libraries [#767](https://github.com/inspec/train/pull/767) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 3.12.0 -->
-- Revert &quot;Upgrade Google REST API Client to latest&quot; [#766](https://github.com/inspec/train/pull/766) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.5 -->
-- Upgrade Google REST API Client to latest [#757](https://github.com/inspec/train/pull/757) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 3.11.4 -->
-- CHEF-8598: Add support for curve25519 key exchange [#764](https://github.com/inspec/train/pull/764) ([ahasunos](https://github.com/ahasunos)) <!-- 3.11.3 -->
-- Fix: Update ruby base image to bullseye in CI tests [#765](https://github.com/inspec/train/pull/765) ([ahasunos](https://github.com/ahasunos)) <!-- 3.11.2 -->
-- CHEF-7180: Fix configuration values in sonar configuration file [#761](https://github.com/inspec/train/pull/761) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
-- Adds missing configuration for coverage pipeline [#760](https://github.com/inspec/train/pull/760) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
-- CHEF-7180: Configures sonarqube for code coverage anlaysis [#758](https://github.com/inspec/train/pull/758) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.12.0](https://github.com/inspec/train/tree/v3.12.0) (2024-03-28)
+
+#### Merged Pull Requests
+- CHEF-7180: Configures sonarqube for code coverage anlaysis [#758](https://github.com/inspec/train/pull/758) ([Vasu1105](https://github.com/Vasu1105))
+- Adds missing configuration for coverage pipeline [#760](https://github.com/inspec/train/pull/760) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-7180: Fix configuration values in sonar configuration file [#761](https://github.com/inspec/train/pull/761) ([Vasu1105](https://github.com/Vasu1105))
+- Fix: Update ruby base image to bullseye in CI tests [#765](https://github.com/inspec/train/pull/765) ([ahasunos](https://github.com/ahasunos))
+- CHEF-8598: Add support for curve25519 key exchange [#764](https://github.com/inspec/train/pull/764) ([ahasunos](https://github.com/ahasunos))
+- Upgrade Google REST API Client to latest [#757](https://github.com/inspec/train/pull/757) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Revert &quot;Upgrade Google REST API Client to latest&quot; [#766](https://github.com/inspec/train/pull/766) ([Vasu1105](https://github.com/Vasu1105))
+- CHEF-8031- Upgrade GCP client libraries [#767](https://github.com/inspec/train/pull/767) ([balasubramanian-s](https://github.com/balasubramanian-s))
+<!-- latest_stable_release -->
+
 ## [v3.11.0](https://github.com/inspec/train/tree/v3.11.0) (2023-11-09)
 
 #### Merged Pull Requests
@@ -30,7 +28,6 @@
 - Fix upload to support individual files [#742](https://github.com/inspec/train/pull/742) ([thheinen](https://github.com/thheinen))
 - CHEF-2414 Deprecate azure connections from train [#746](https://github.com/inspec/train/pull/746) ([sathish-progress](https://github.com/sathish-progress))
 - CHEF-6440(CHEF-7426): Adds audit log support [#749](https://github.com/inspec/train/pull/749) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v3.10.8](https://github.com/inspec/train/tree/v3.10.8) (2023-06-23)
 
