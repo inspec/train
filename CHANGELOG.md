@@ -1,14 +1,15 @@
-<!-- latest_release 3.11.4 -->
-## [v3.11.4](https://github.com/inspec/train/tree/v3.11.4) (2024-03-28)
+<!-- latest_release 3.11.5 -->
+## [v3.11.5](https://github.com/inspec/train/tree/v3.11.5) (2024-03-28)
 
 #### Merged Pull Requests
-- Upgrade Google REST API Client to latest [#757](https://github.com/inspec/train/pull/757) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Revert &quot;Upgrade Google REST API Client to latest&quot; [#766](https://github.com/inspec/train/pull/766) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.11.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Revert &quot;Upgrade Google REST API Client to latest&quot; [#766](https://github.com/inspec/train/pull/766) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.5 -->
 - Upgrade Google REST API Client to latest [#757](https://github.com/inspec/train/pull/757) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 3.11.4 -->
 - CHEF-8598: Add support for curve25519 key exchange [#764](https://github.com/inspec/train/pull/764) ([ahasunos](https://github.com/ahasunos)) <!-- 3.11.3 -->
 - Fix: Update ruby base image to bullseye in CI tests [#765](https://github.com/inspec/train/pull/765) ([ahasunos](https://github.com/ahasunos)) <!-- 3.11.2 -->
