@@ -10,6 +10,7 @@ group :test do
   gem "m"
   gem "ed25519" # ed25519 ssh key support
   gem "bcrypt_pbkdf" # ed25519 ssh key support
+  gem "x25519" # curve25519-sha256 ssh key support done here as its a native gem we can't put in the gemspec
   # This is not a true gem installation
   # (Gem::Specification.find_by_path('train-gem-fixture') will return nil)
   # but it's close enough to show the gempath handler can find a plugin
