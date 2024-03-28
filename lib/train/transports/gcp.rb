@@ -1,10 +1,10 @@
 require "train/plugins"
 require "google/apis"
-require "google/apis/cloudresourcemanager_v1"
-require "google/apis/compute_v1"
-require "google/apis/storage_v1"
-require "google/apis/iam_v1"
-require "google/apis/admin_directory_v1"
+require "google-apis-cloudresourcemanager_v1"
+require "google-apis-compute_v1"
+require "google-apis-storage_v1"
+require "google-apis-iam_v1"
+require "google-apis-admin_directory_v1"
 require "googleauth"
 
 module Train::Transports
@@ -38,8 +38,9 @@ module Train::Transports
         super(options)
 
         # additional GCP platform metadata
-        release = Gem.loaded_specs["google-api-client"].version
-        @platform_details = { release: "google-api-client-v#{release}" }
+        # The google-apis-core dependency is the common for all gcp service related gems.
+        release = Gem.loaded_specs["google-apis-core"].version
+        @platform_details = { release: "google-apis-core-v#{release}" }
 
         # Initialize the client object cache
         @cache_enabled[:api_call] = true
