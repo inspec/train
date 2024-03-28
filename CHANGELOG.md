@@ -1,14 +1,15 @@
-<!-- latest_release 3.11.3 -->
-## [v3.11.3](https://github.com/inspec/train/tree/v3.11.3) (2024-03-28)
+<!-- latest_release 3.11.4 -->
+## [v3.11.4](https://github.com/inspec/train/tree/v3.11.4) (2024-03-28)
 
 #### Merged Pull Requests
-- CHEF-8598: Add support for curve25519 key exchange [#764](https://github.com/inspec/train/pull/764) ([ahasunos](https://github.com/ahasunos))
+- Upgrade Google REST API Client to latest [#757](https://github.com/inspec/train/pull/757) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.11.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Upgrade Google REST API Client to latest [#757](https://github.com/inspec/train/pull/757) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 3.11.4 -->
 - CHEF-8598: Add support for curve25519 key exchange [#764](https://github.com/inspec/train/pull/764) ([ahasunos](https://github.com/ahasunos)) <!-- 3.11.3 -->
 - Fix: Update ruby base image to bullseye in CI tests [#765](https://github.com/inspec/train/pull/765) ([ahasunos](https://github.com/ahasunos)) <!-- 3.11.2 -->
 - CHEF-7180: Fix configuration values in sonar configuration file [#761](https://github.com/inspec/train/pull/761) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.11.1 -->
