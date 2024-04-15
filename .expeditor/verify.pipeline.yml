@@ -1,7 +1,5 @@
 ---
 expeditor:
-  cached_folders:
-    - vendor
   defaults:
     buildkite:
       timeout_in_minutes: 20
