@@ -1,14 +1,15 @@
-<!-- latest_release 3.12.2 -->
-## [v3.12.2](https://github.com/inspec/train/tree/v3.12.2) (2024-04-15)
+<!-- latest_release 3.12.3 -->
+## [v3.12.3](https://github.com/inspec/train/tree/v3.12.3) (2024-04-15)
 
 #### Merged Pull Requests
-- Turn off vendor cache [#774](https://github.com/inspec/train/pull/774) ([Vasu1105](https://github.com/Vasu1105))
+- gem: pin down googleauth gem to below 1.9 [#773](https://github.com/inspec/train/pull/773) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.12.0 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- gem: pin down googleauth gem to below 1.9 [#773](https://github.com/inspec/train/pull/773) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.3 -->
 - Turn off vendor cache [#774](https://github.com/inspec/train/pull/774) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.12.2 -->
 - Add missing require for OpenStruct library [#775](https://github.com/inspec/train/pull/775) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.12.1 -->
 <!-- release_rollup -->
