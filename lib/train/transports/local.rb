@@ -5,6 +5,7 @@
 require_relative "../plugins"
 require_relative "../errors"
 require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
+require "ostruct" unless defined?(OpenStruct)
 
 module Train::Transports
   class Local < Train.plugin(1)
