@@ -1,20 +1,18 @@
-<!-- latest_release 3.12.3 -->
-## [v3.12.3](https://github.com/inspec/train/tree/v3.12.3) (2024-04-15)
-
-#### Merged Pull Requests
-- gem: pin down googleauth gem to below 1.9 [#773](https://github.com/inspec/train/pull/773) ([ahasunos](https://github.com/ahasunos))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.12.0 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- gem: pin down googleauth gem to below 1.9 [#773](https://github.com/inspec/train/pull/773) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.3 -->
-- Turn off vendor cache [#774](https://github.com/inspec/train/pull/774) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.12.2 -->
-- Add missing require for OpenStruct library [#775](https://github.com/inspec/train/pull/775) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.12.1 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.12.3](https://github.com/inspec/train/tree/v3.12.3) (2024-04-16)
+
+#### Merged Pull Requests
+- Add missing require for OpenStruct library [#775](https://github.com/inspec/train/pull/775) ([Vasu1105](https://github.com/Vasu1105))
+- Turn off vendor cache [#774](https://github.com/inspec/train/pull/774) ([Vasu1105](https://github.com/Vasu1105))
+- gem: pin down googleauth gem to below 1.9 [#773](https://github.com/inspec/train/pull/773) ([ahasunos](https://github.com/ahasunos))
+<!-- latest_stable_release -->
+
 ## [v3.12.0](https://github.com/inspec/train/tree/v3.12.0) (2024-03-28)
 
 #### Merged Pull Requests
@@ -26,7 +24,6 @@
 - Upgrade Google REST API Client to latest [#757](https://github.com/inspec/train/pull/757) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - Revert &quot;Upgrade Google REST API Client to latest&quot; [#766](https://github.com/inspec/train/pull/766) ([Vasu1105](https://github.com/Vasu1105))
 - CHEF-8031- Upgrade GCP client libraries [#767](https://github.com/inspec/train/pull/767) ([balasubramanian-s](https://github.com/balasubramanian-s))
-<!-- latest_stable_release -->
 
 ## [v3.11.0](https://github.com/inspec/train/tree/v3.11.0) (2023-11-09)
 
