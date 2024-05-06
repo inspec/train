@@ -40,7 +40,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "azure_mgmt_storage", "~> 0.18"
   spec.add_dependency "docker-api", ">= 1.26", "< 3.0"
   spec.add_dependency "googleauth", ">= 0.16.2", "< 1.9.0"
-  spec.add_dependency "google-apis-admin_directory_v1", "~> 0.46.0"
+  spec.add_dependency "google-apis-admin_directory_v1", ">= 0.46", "< 0.55"
   spec.add_dependency "google-apis-cloudkms_v1", "~> 0.41.0"
   spec.add_dependency "google-apis-monitoring_v3", "~> 0.51.0"
   spec.add_dependency "google-apis-compute_v1", "~> 0.83.0"
