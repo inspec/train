@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.12.4 -->
+## [v3.12.4](https://github.com/inspec/train/tree/v3.12.4) (2024-06-10)
+
+#### Merged Pull Requests
+- CHEF-13189: Remove ruby 3.0 support [#781](https://github.com/inspec/train/pull/781) ([Vasu1105](https://github.com/Vasu1105))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.12.3 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- CHEF-13189: Remove ruby 3.0 support [#781](https://github.com/inspec/train/pull/781) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.12.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
