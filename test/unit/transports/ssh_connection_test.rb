@@ -28,6 +28,8 @@ class MockChannel
   def on_extended_data; end
 
   def on_request(any); end
+
+  def on_close(&block); end
 end
 
 describe "ssh connection" do

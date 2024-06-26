@@ -366,7 +366,7 @@ class Train::Transports::SSH
           end
 
           channel.on_close do
-            session.channels.each { |_, channel| channel.close }
+            session.channels.each { |_, session_channel| session_channel.close }
           end
         end
       end
