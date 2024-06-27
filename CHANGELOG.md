@@ -1,14 +1,15 @@
-<!-- latest_release 3.12.4 -->
-## [v3.12.4](https://github.com/inspec/train/tree/v3.12.4) (2024-06-10)
+<!-- latest_release 3.12.5 -->
+## [v3.12.5](https://github.com/inspec/train/tree/v3.12.5) (2024-06-27)
 
 #### Merged Pull Requests
-- CHEF-13189: Remove ruby 3.0 support [#781](https://github.com/inspec/train/pull/781) ([Vasu1105](https://github.com/Vasu1105))
+- Close SSH channels on close event [#780](https://github.com/inspec/train/pull/780) ([thheinen](https://github.com/thheinen))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.12.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Close SSH channels on close event [#780](https://github.com/inspec/train/pull/780) ([thheinen](https://github.com/thheinen)) <!-- 3.12.5 -->
 - CHEF-13189: Remove ruby 3.0 support [#781](https://github.com/inspec/train/pull/781) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.12.4 -->
 <!-- release_rollup -->
 
