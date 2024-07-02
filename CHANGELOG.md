@@ -1,26 +1,23 @@
-<!-- latest_release 3.12.5 -->
-## [v3.12.5](https://github.com/inspec/train/tree/v3.12.5) (2024-06-27)
-
-#### Merged Pull Requests
-- Close SSH channels on close event [#780](https://github.com/inspec/train/pull/780) ([thheinen](https://github.com/thheinen))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.12.3 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Close SSH channels on close event [#780](https://github.com/inspec/train/pull/780) ([thheinen](https://github.com/thheinen)) <!-- 3.12.5 -->
-- CHEF-13189: Remove ruby 3.0 support [#781](https://github.com/inspec/train/pull/781) ([Vasu1105](https://github.com/Vasu1105)) <!-- 3.12.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.12.5](https://github.com/inspec/train/tree/v3.12.5) (2024-07-02)
+
+#### Merged Pull Requests
+- CHEF-13189: Remove ruby 3.0 support [#781](https://github.com/inspec/train/pull/781) ([Vasu1105](https://github.com/Vasu1105))
+- Close SSH channels on close event [#780](https://github.com/inspec/train/pull/780) ([thheinen](https://github.com/thheinen))
+<!-- latest_stable_release -->
+
 ## [v3.12.3](https://github.com/inspec/train/tree/v3.12.3) (2024-04-16)
 
 #### Merged Pull Requests
 - Add missing require for OpenStruct library [#775](https://github.com/inspec/train/pull/775) ([Vasu1105](https://github.com/Vasu1105))
 - Turn off vendor cache [#774](https://github.com/inspec/train/pull/774) ([Vasu1105](https://github.com/Vasu1105))
 - gem: pin down googleauth gem to below 1.9 [#773](https://github.com/inspec/train/pull/773) ([ahasunos](https://github.com/ahasunos))
-<!-- latest_stable_release -->
 
 ## [v3.12.0](https://github.com/inspec/train/tree/v3.12.0) (2024-03-28)
 
