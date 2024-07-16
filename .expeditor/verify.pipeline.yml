@@ -9,13 +9,21 @@ expeditor:
 steps:
 
   # make sure lint runs on the oldest Ruby we support so we catch any new Ruby-isms here
-  - label: lint-ruby-3.1
+  - label: lint-ruby-3.0.6
     command:
       - RAKE_TASK=lint /workdir/.expeditor/buildkite/verify.sh
     expeditor:
       executor:
         docker:
-          image: ruby:3.1-bullseye
+          image: ruby:3.0.6
+
+  - label: run-tests-ruby-3.0.6
+    command:
+      - /workdir/.expeditor/buildkite/verify.sh
+    expeditor:
+      executor:
+        docker:
+          image: ruby:3.0.6
 
   - label: run-tests-ruby-3.1
     command:
@@ -24,6 +32,18 @@ steps:
       executor:
         docker:
           image: ruby:3.1-bullseye
+
+  - label: run-tests-ruby-3.0-windows
+    command:
+      - /workdir/.expeditor/buildkite/verify.ps1
+    expeditor:
+      executor:
+        docker:
+          environment:
+            - BUILDKITE
+          host_os: windows
+          shell: ["powershell", "-Command"]
+          image: rubydistros/windows-2019:3.0
 
   - label: run-tests-ruby-3.1-windows
     command:
