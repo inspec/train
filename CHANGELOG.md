@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.12.7 -->
+## [v3.12.7](https://github.com/inspec/train/tree/v3.12.7) (2024-08-21)
+
+#### Merged Pull Requests
+- Version pinned for active support gem [#784](https://github.com/inspec/train/pull/784) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.12.6 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Version pinned for active support gem [#784](https://github.com/inspec/train/pull/784) ([Nik08](https://github.com/Nik08)) <!-- 3.12.7 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
