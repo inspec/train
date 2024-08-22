@@ -1,23 +1,20 @@
-<!-- latest_release 3.12.7 -->
-## [v3.12.7](https://github.com/inspec/train/tree/v3.12.7) (2024-08-21)
-
-#### Merged Pull Requests
-- Version pinned for active support gem [#784](https://github.com/inspec/train/pull/784) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.12.6 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Version pinned for active support gem [#784](https://github.com/inspec/train/pull/784) ([Nik08](https://github.com/Nik08)) <!-- 3.12.7 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.12.7](https://github.com/inspec/train/tree/v3.12.7) (2024-08-22)
+
+#### Merged Pull Requests
+- Version pinned for active support gem [#784](https://github.com/inspec/train/pull/784) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v3.12.6](https://github.com/inspec/train/tree/v3.12.6) (2024-07-17)
 
 #### Merged Pull Requests
 - Revert &quot;CHEF-13189: Remove ruby 3.0 support&quot; [#783](https://github.com/inspec/train/pull/783) ([Vasu1105](https://github.com/Vasu1105))
-<!-- latest_stable_release -->
 
 ## [v3.12.5](https://github.com/inspec/train/tree/v3.12.5) (2024-07-02)
 
