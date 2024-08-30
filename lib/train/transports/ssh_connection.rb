@@ -364,9 +364,14 @@ class Train::Transports::SSH
           channel.on_request("exit-signal") do |_, data|
             exit_status = data.read_long
           end
+
+          channel.on_close do
+            session.channels.each { |_, session_channel| session_channel.close }
+          end
         end
       end
-      session.loop
+
+      session.loop { session.busy? }
 
       if timeout && timeoutable?(cmd) && exit_status == GNU_TIMEOUT_EXIT_STATUS
         logger.debug("train ssh command '#{cmd}' reached requested timeout (#{timeout}s)")

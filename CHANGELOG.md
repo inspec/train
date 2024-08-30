@@ -1,17 +1,41 @@
-<!-- latest_release -->
+<!-- latest_release 3.12.8 -->
+## [v3.12.8](https://github.com/inspec/train/tree/v3.12.8) (2024-08-30)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 2.1.1 to 2.2.3 [#756](https://github.com/inspec/train/pull/756) ([dependabot[bot]](https://github.com/dependabot[bot]))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.12.7 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 2.1.1 to 2.2.3 [#756](https://github.com/inspec/train/pull/756) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.12.8 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.12.7](https://github.com/inspec/train/tree/v3.12.7) (2024-08-22)
+
+#### Merged Pull Requests
+- Version pinned for active support gem [#784](https://github.com/inspec/train/pull/784) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
+## [v3.12.6](https://github.com/inspec/train/tree/v3.12.6) (2024-07-17)
+
+#### Merged Pull Requests
+- Revert &quot;CHEF-13189: Remove ruby 3.0 support&quot; [#783](https://github.com/inspec/train/pull/783) ([Vasu1105](https://github.com/Vasu1105))
+
+## [v3.12.5](https://github.com/inspec/train/tree/v3.12.5) (2024-07-02)
+
+#### Merged Pull Requests
+- CHEF-13189: Remove ruby 3.0 support [#781](https://github.com/inspec/train/pull/781) ([Vasu1105](https://github.com/Vasu1105))
+- Close SSH channels on close event [#780](https://github.com/inspec/train/pull/780) ([thheinen](https://github.com/thheinen))
+
 ## [v3.12.3](https://github.com/inspec/train/tree/v3.12.3) (2024-04-16)
 
 #### Merged Pull Requests
 - Add missing require for OpenStruct library [#775](https://github.com/inspec/train/pull/775) ([Vasu1105](https://github.com/Vasu1105))
 - Turn off vendor cache [#774](https://github.com/inspec/train/pull/774) ([Vasu1105](https://github.com/Vasu1105))
 - gem: pin down googleauth gem to below 1.9 [#773](https://github.com/inspec/train/pull/773) ([ahasunos](https://github.com/ahasunos))
-<!-- latest_stable_release -->
 
 ## [v3.12.0](https://github.com/inspec/train/tree/v3.12.0) (2024-03-28)
 
