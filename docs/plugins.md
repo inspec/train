@@ -144,3 +144,12 @@ def platform
  )
 end
 ```
+Example config for transport that supports `unix` and `windows` OS,
+
+```Ruby
+def platform
+  Train::Platforms.name("local-rot13").in_family("unix")
+  Train::Platforms.name("local-rot13").in_family("windows")
+  force_platform!("local-rot13", release: TrainPlugins::LocalRot13::VERSION)
+end
+```
