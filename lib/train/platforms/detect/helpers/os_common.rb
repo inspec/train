@@ -8,7 +8,7 @@ module Train::Platforms::Detect::Helpers
     include Train::Platforms::Detect::Helpers::Windows
 
     def ruby_host_os(regex)
-      ::RbConfig::CONFIG["host_os"] =~ regex
+      regex.match?(::RbConfig::CONFIG["host_os"])
     end
 
     def winrm?
@@ -35,8 +35,9 @@ module Train::Platforms::Detect::Helpers
 
     def command_output(cmd)
       res = @backend.run_command(cmd)
-      stdout = res.stdout
-      stderr = res.stderr
+      # To suppress warning: literal string will be frozen in the future
+      stdout = String.new(res.stdout)
+      stderr = String.new(res.stderr)
       # When you try to execute command using ssh connection as root user and you have provided ssh user identity file
       # it gives standard output to login as authorized user other than root. To show this standard output as an error
       # to user we are matching the string of stdout and raising the error here so that user gets exact information.
