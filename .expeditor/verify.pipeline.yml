@@ -39,7 +39,7 @@ steps:
     expeditor:
       executor:
         docker:
-          image: ruby:3.4-bullseye
+          image: ruby:3.4.2-bullseye
 
   - label: run-tests-ruby-3.0-windows
     command:
