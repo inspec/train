@@ -6,8 +6,6 @@ group :test do
   gem "rake", "~> 13.0"
   gem "chefstyle", "2.2.3"
   gem "concurrent-ruby", "~> 1.0"
-  # Pinning to lower version for 3.0.x compatibility
-  gem "pry-byebug", '~> 3.10'
   gem "m"
   gem "ed25519" # ed25519 ssh key support
   gem "bcrypt_pbkdf" # ed25519 ssh key support
