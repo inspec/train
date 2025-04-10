@@ -12,7 +12,6 @@ end
 require "minitest/autorun"
 require "minitest/spec"
 require "mocha/minitest"
-
 require "train"
 
 class Minitest::Spec
