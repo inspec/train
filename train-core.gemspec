@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "https://github.com/inspec/train/issues",
   }
 
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = ">= 3.1.0"
 
   spec.files = Dir.glob("{LICENSE,lib/**/*}")
     .grep_v(%r{transports/(azure|clients|docker|podman|gcp|helpers|vmware)})
@@ -27,8 +27,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "addressable", "~> 2.5"
-  # Pinning this to support ruby 3.0.X
-  spec.add_dependency "ffi", "~> 1.16.0"
   spec.add_dependency "json", ">= 1.8", "< 3.0"
   spec.add_dependency "mixlib-shellout", ">= 2.0", "< 4.0"
   spec.add_dependency "net-scp", ">= 1.2", "< 5.0"

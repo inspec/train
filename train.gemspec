@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "https://github.com/inspec/train/issues",
   }
 
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = ">= 3.1.0"
 
   spec.files = %w{LICENSE} + Dir.glob("lib/**/*")
     .grep(%r{transports/(azure|clients|docker|podman|gcp|helpers|vmware)})
@@ -31,8 +31,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm", "~> 0.2"
 
   spec.add_dependency "activesupport", ">= 6.0.3.1", "< 7.2.0"
-  # Pinning this to support ruby 3.0.X
-  spec.add_dependency "securerandom", "< 0.4.0"
 
   # azure, docker, gcp dependencies
   spec.add_dependency "inifile", "~> 3.0"
