@@ -148,5 +148,53 @@ module Train::Platforms::Detect::Helpers
 
       result.stdout.chomp
     end
+
+    def wmic_available?
+      @wmic_checked ||= @backend.run_command("where wmic").exit_status == 0
+    end
+
+    def read_cim_os
+      cmd = 'powershell -Command "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber | ConvertTo-Json"'
+      res = @backend.run_command(cmd)
+      return unless res.exit_status == 0
+
+      begin
+        sys_info = JSON.parse(res.stdout)
+        @platform[:release] = sys_info["Version"]
+        @platform[:build] = sys_info["BuildNumber"]
+        @platform[:name] = sys_info["Caption"]
+        @platform[:name] = @platform[:name].gsub("Microsoft", "").strip unless @platform[:name].empty?
+        @platform[:arch] = read_cim_cpu
+      rescue
+        nil
+      end
+    end
+
+    def read_cim_cpu
+      cmd = 'powershell -Command "(Get-CimInstance Win32_Processor).Architecture"'
+      res = @backend.run_command(cmd)
+      return unless res.exit_status == 0
+
+      arch_map = {
+        0 => "i386",
+        1 => "mips",
+        2 => "alpha",
+        3 => "powerpc",
+        5 => "arm",
+        6 => "ia64",
+        9 => "x86_64",
+      }
+
+      arch_map[res.stdout.strip.to_i]
+    end
+
+    def windows_uuid_from_cim
+      cmd = 'powershell -Command "(Get-CimInstance -Class Win32_ComputerSystemProduct).UUID"'
+      res = @backend.run_command(cmd)
+      return unless res.exit_status == 0
+
+      res.stdout.strip
+    end
+
   end
 end
