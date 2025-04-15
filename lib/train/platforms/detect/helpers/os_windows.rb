@@ -135,10 +135,45 @@ module Train::Platforms::Detect::Helpers
     end
 
     def windows_uuid_from_wmic
-      result = @backend.run_command("wmic csproduct get UUID")
+
+      # Switched from `wmic csproduct get UUID` to `wmic csproduct get UUID /value`
+      # to make the parsing of the UUID more reliable and consistent.
+      #
+      # When using the original `wmic csproduct get UUID` command, the output includes
+      # a header line and spacing that can vary depending on the system, making it harder
+      # to reliably extract the UUID. In some cases, splitting by line and taking the last
+      # element returns an empty string, even when exit_status is 0.
+      #
+      # Example:
+      #
+      # (byebug) result = @backend.run_command("wmic csproduct get UUID")
+      # #<struct Train::Extras::CommandResult stdout="UUID                                  \r\r\nEC20EBD7-8E03-06A8-645F-2D22E5A3BA4B  \r\r\n\r\r\n", stderr="", exit_status=0>
+      # (byebug) result.stdout
+      # "UUID                                  \r\r\nEC20EBD7-8E03-06A8-645F-2D22E5A3BA4B  \r\r\n\r\r\n"
+      # (byebug) result.exit_status
+      # 0
+      # (byebug) result.stdout.split("\r\n")[-1].strip
+      # ""
+      #
+      # In contrast, `wmic csproduct get UUID /value` returns a consistent `UUID=<value>` format,
+      # which is more suitable for regex matching.
+      #
+      # Example:
+      #
+      # byebug) result = @backend.run_command("wmic csproduct get UUID /value")
+      # #<struct Train::Extras::CommandResult stdout="\r\r\n\r\r\nUUID=EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B\r\r\n\r\r\n\r\r\n\r\r\n", stderr="", exit_status=0>
+      # (byebug) result.stdout
+      # "\r\r\n\r\r\nUUID=EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B\r\r\n\r\r\n\r\r\n\r\r\n"
+      # (byebug) result.stdout&.match(/UUID=([A-F0-9\-]+)/i)&.captures&.first
+      # "EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B"
+      #
+      # This change improves parsing reliability and handles edge cases where the previous
+      # approach would return `nil` or raise errors on empty output lines.
+
+      result = @backend.run_command("wmic csproduct get UUID /value")
       return unless result.exit_status == 0
 
-      result.stdout.split("\r\n")[-1].strip
+      result.stdout&.match(/UUID=([A-F0-9\-]+)/i)&.captures&.first
     end
 
     def windows_uuid_from_registry
