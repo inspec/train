@@ -27,7 +27,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "addressable", "~> 2.5"
-  spec.add_dependency "ffi", "~> 1.16.0" # train-core doesn't directly depend on FFI, but 1.13.0 broke windows
+  # Pinning this to support ruby 3.0.X
+  spec.add_dependency "ffi", "~> 1.16.0"
   spec.add_dependency "json", ">= 1.8", "< 3.0"
   spec.add_dependency "mixlib-shellout", ">= 2.0", "< 4.0"
   spec.add_dependency "net-scp", ">= 1.2", "< 5.0"
