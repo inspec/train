@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "activesupport", ">= 6.0.3.1", "< 7.2.0"
   # Pinning this to support ruby 3.0.X
   spec.add_dependency "securerandom", "< 0.4.0"
+  spec.add_dependency "ffi", "~> 1.16"
 
   # azure, docker, gcp dependencies
   spec.add_dependency "inifile", "~> 3.0"
