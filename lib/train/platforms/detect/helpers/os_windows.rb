@@ -149,8 +149,18 @@ module Train::Platforms::Detect::Helpers
       result.stdout.chomp
     end
 
+    # Checks if `wmic` is available and not deprecated
     def wmic_available?
-      @wmic_checked ||= @backend.run_command("where wmic").exit_status == 0
+      # Return memoized value if already checked
+      return @wmic_available unless @wmic_available.nil?
+
+      # Runs the `wmic /?`` command, which provides help information for the WMIC (Windows Management Instrumentation Command-line) tool.
+      # It displays a list of available global switches and aliases, as well as details about their usage.
+      # The output also includes information about deprecated status for the 'wmic' tool.
+      result = @backend.run_command("wmic /?")
+
+      # Check if command ran successfully and output does not contain 'wmic is deprecated'
+      @wmic_available = result.exit_status == 0 && !(result.stdout.downcase.include?("wmic is deprecated"))
     end
 
     def read_cim_os
