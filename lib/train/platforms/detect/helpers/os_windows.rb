@@ -145,7 +145,6 @@ module Train::Platforms::Detect::Helpers
       wmic_available? ? windows_uuid_from_wmic : windows_uuid_from_cim
     end
 
-
     def windows_uuid_from_wmic
       result = @backend.run_command("wmic csproduct get UUID")
       return unless result.exit_status == 0
