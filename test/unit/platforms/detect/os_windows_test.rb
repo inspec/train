@@ -123,3 +123,76 @@ describe "os_detect_windows" do
     end
   end
 end
+
+describe "wmic_available?" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command("wmic /?", "", "", 0)
+    detector
+  end
+
+  it "returns true if wmic is available" do
+    _(detector.wmic_available?).must_equal(true)
+  end
+
+  it "returns false if wmic is not available" do
+    detector.backend.mock_command("wmic /?", "", "", 1)
+    _(detector.wmic_available?).must_equal(false)
+  end
+
+  it "returns false if wmic is available but is deprecated" do
+    detector.backend.mock_command("wmic /?", "WMIC is deprecated", "", 0)
+    _(detector.wmic_available?).must_equal(false)
+  end
+end
+
+describe "windows_uuid_from_cim" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance -Class Win32_ComputerSystemProduct).UUID"', "EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B", "", 0)
+    detector
+  end
+
+  it "retrieves the correct UUID from CIM" do
+    _(detector.windows_uuid_from_cim).must_equal("EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B")
+  end
+
+  it "returns nil if the command fails" do
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance -Class Win32_ComputerSystemProduct).UUID"', "", "", 1)
+    assert_nil(detector.windows_uuid_from_cim)
+  end
+end
+
+describe "read_cim_cpu" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance Win32_Processor).Architecture"', "9", "", 0)
+    detector
+  end
+
+  it "retrieves the correct architecture from CIM" do
+    _(detector.read_cim_cpu).must_equal("x86_64")
+  end
+
+  it "returns nil if the command fails" do
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance Win32_Processor).Architecture"', "", "", 1)
+    assert_nil(detector.read_cim_cpu)
+  end
+end
+
+describe "read_cim_os" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command('powershell -Command "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber | ConvertTo-Json"', "{\"Caption\":\"Microsoft Windows 11\", \"Version\": \"10.0.26100\", \"BuildNumber\": \"18362\"}", "", 0)
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance Win32_Processor).Architecture"', "9", "", 0)
+    detector
+  end
+
+  it "retrieves the correct OS information from CIM" do
+    detector.read_cim_os
+    _(detector.platform[:name]).must_equal("Windows 11")
+    _(detector.platform[:release]).must_equal("10.0.26100")
+    _(detector.platform[:build]).must_equal("18362")
+    _(detector.platform[:arch]).must_equal("x86_64")
+  end
+end
