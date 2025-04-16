@@ -25,6 +25,9 @@ module Train::Platforms::Detect::Helpers
         @platform[:name] = "Windows #{@platform[:release]}"
       end
 
+      # `Get-CimInstance` is a PowerShell-specific command and is not available in Command Prompt.
+      # Since the logic has always relied on `read_wmic` at this point, we are skipping the conditional check for `wmic_available?`
+      # and directly invoking `read_wmic` to maintain the existing behavior.
       read_wmic
       true
     end
@@ -42,7 +45,9 @@ module Train::Platforms::Detect::Helpers
         @platform[:release] = payload["Version"]
         @platform[:name] = payload["Caption"]
 
-        read_wmic
+        # Prefer retrieving the OS details via `wmic` if available on the system to retain existing behavior.
+        # If `wmic` is not available, fall back to using CIM as an alternative method.
+        wmic_available? ? read_wmic : read_cim_os
         true
       rescue
         false
@@ -108,7 +113,7 @@ module Train::Platforms::Detect::Helpers
     def windows_uuid
       uuid = windows_uuid_from_chef
       uuid = windows_uuid_from_machine_file if uuid.nil?
-      uuid = windows_uuid_from_wmic if uuid.nil?
+      uuid = windows_uuid_from_wmic_or_cim if uuid.nil?
       uuid = windows_uuid_from_registry if uuid.nil?
       raise Train::TransportError, "Cannot find a UUID for your node." if uuid.nil?
 
@@ -133,6 +138,13 @@ module Train::Platforms::Detect::Helpers
       json = JSON.parse(file.content)
       json["node_uuid"]
     end
+
+    def windows_uuid_from_wmic_or_cim
+      # Prefer retrieving the Windows UUID via `wmic` if available on the system to retain existing behavior.
+      # If `wmic` is not available, fall back to using CIM as an alternative method.
+      wmic_available? ? windows_uuid_from_wmic : windows_uuid_from_cim
+    end
+
 
     def windows_uuid_from_wmic
       result = @backend.run_command("wmic csproduct get UUID")
