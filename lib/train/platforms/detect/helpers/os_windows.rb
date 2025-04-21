@@ -135,7 +135,6 @@ module Train::Platforms::Detect::Helpers
     end
 
     def windows_uuid_from_wmic
-
       # Switched from `wmic csproduct get UUID` to `wmic csproduct get UUID /value`
       # to make the parsing of the UUID more reliable and consistent.
       #
