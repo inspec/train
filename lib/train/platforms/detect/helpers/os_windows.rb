@@ -25,6 +25,9 @@ module Train::Platforms::Detect::Helpers
         @platform[:name] = "Windows #{@platform[:release]}"
       end
 
+      # `Get-CimInstance` is a PowerShell-specific command and is not available in Command Prompt.
+      # Since the logic has always relied on `read_wmic` at this point, we are skipping the conditional check for `wmic_available?`
+      # and directly invoking `read_wmic` to maintain the existing behavior.
       read_wmic
       true
     end
@@ -42,7 +45,9 @@ module Train::Platforms::Detect::Helpers
         @platform[:release] = payload["Version"]
         @platform[:name] = payload["Caption"]
 
-        read_wmic
+        # Prefer retrieving the OS details via `wmic` if available on the system to retain existing behavior.
+        # If `wmic` is not available, fall back to using CIM as an alternative method.
+        wmic_available? ? read_wmic : read_cim_os
         true
       rescue
         false
@@ -108,7 +113,7 @@ module Train::Platforms::Detect::Helpers
     def windows_uuid
       uuid = windows_uuid_from_chef
       uuid = windows_uuid_from_machine_file if uuid.nil?
-      uuid = windows_uuid_from_wmic if uuid.nil?
+      uuid = windows_uuid_from_wmic_or_cim if uuid.nil?
       uuid = windows_uuid_from_registry if uuid.nil?
       raise Train::TransportError, "Cannot find a UUID for your node." if uuid.nil?
 
@@ -132,6 +137,12 @@ module Train::Platforms::Detect::Helpers
 
       json = JSON.parse(file.content)
       json["node_uuid"]
+    end
+
+    def windows_uuid_from_wmic_or_cim
+      # Prefer retrieving the Windows UUID via `wmic` if available on the system to retain existing behavior.
+      # If `wmic` is not available, fall back to using CIM as an alternative method.
+      wmic_available? ? windows_uuid_from_wmic : windows_uuid_from_cim
     end
 
     def windows_uuid_from_wmic
@@ -182,5 +193,63 @@ module Train::Platforms::Detect::Helpers
 
       result.stdout.chomp
     end
+
+    # Checks if `wmic` is available and not deprecated
+    def wmic_available?
+      # Return memoized value if already checked
+      return @wmic_available unless @wmic_available.nil?
+
+      # Runs the `wmic /?`` command, which provides help information for the WMIC (Windows Management Instrumentation Command-line) tool.
+      # It displays a list of available global switches and aliases, as well as details about their usage.
+      # The output also includes information about deprecated status for the 'wmic' tool.
+      result = @backend.run_command("wmic /?")
+
+      # Check if command ran successfully and output does not contain 'wmic is deprecated'
+      @wmic_available = result.exit_status == 0 && !(result.stdout.downcase.include?("wmic is deprecated"))
+    end
+
+    def read_cim_os
+      cmd = 'powershell -Command "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber | ConvertTo-Json"'
+      res = @backend.run_command(cmd)
+      return unless res.exit_status == 0
+
+      begin
+        sys_info = JSON.parse(res.stdout)
+        @platform[:release] = sys_info["Version"]
+        @platform[:build] = sys_info["BuildNumber"]
+        @platform[:name] = sys_info["Caption"]
+        @platform[:name] = @platform[:name].gsub("Microsoft", "").strip unless @platform[:name].empty?
+        @platform[:arch] = read_cim_cpu
+      rescue
+        nil
+      end
+    end
+
+    def read_cim_cpu
+      cmd = 'powershell -Command "(Get-CimInstance Win32_Processor).Architecture"'
+      res = @backend.run_command(cmd)
+      return unless res.exit_status == 0
+
+      arch_map = {
+        0 => "i386",
+        1 => "mips",
+        2 => "alpha",
+        3 => "powerpc",
+        5 => "arm",
+        6 => "ia64",
+        9 => "x86_64",
+      }
+
+      arch_map[res.stdout.strip.to_i]
+    end
+
+    def windows_uuid_from_cim
+      cmd = 'powershell -Command "(Get-CimInstance -Class Win32_ComputerSystemProduct).UUID"'
+      res = @backend.run_command(cmd)
+      return unless res.exit_status == 0
+
+      res.stdout.strip
+    end
+
   end
 end

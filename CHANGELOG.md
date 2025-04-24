@@ -1,15 +1,15 @@
-<!-- latest_release 3.12.9 -->
-## [v3.12.9](https://github.com/inspec/train/tree/v3.12.9) (2025-04-21)
+<!-- latest_release 3.12.10 -->
+## [v3.12.10](https://github.com/inspec/train/tree/v3.12.10) (2025-04-24)
 
 #### Merged Pull Requests
-- chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos))
-- update docs with examples to set valid platform family [#763](https://github.com/inspec/train/pull/763) ([sathish-progress](https://github.com/sathish-progress))
+- CHEF-20278: Support platform detection via `Get-CimInstance` for newer Windows versions [#788](https://github.com/inspec/train/pull/788) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.12.7 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- CHEF-20278: Support platform detection via `Get-CimInstance` for newer Windows versions [#788](https://github.com/inspec/train/pull/788) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.10 -->
 - chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.9 -->
 - update docs with examples to set valid platform family [#763](https://github.com/inspec/train/pull/763) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.12.8 -->
 - Update chefstyle requirement from 2.1.1 to 2.2.3 [#756](https://github.com/inspec/train/pull/756) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.12.8 -->
