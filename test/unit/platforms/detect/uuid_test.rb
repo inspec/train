@@ -85,7 +85,7 @@ describe "uuid" do
   end
 
   it "finds a windows uuid from wmic" do
-    commands = { "wmic csproduct get UUID" => "UUID\r\nd400073f-0920-41aa-8dd3-2ea59b18f5ce\r\n" }
+    commands = { "wmic csproduct get UUID" => "UUID\r\nd400073f-0920-41aa-8dd3-2ea59b18f5ce\r\n", "wmic /?" => "" } # Mocking wmic command to simulate its availability
     plat = mock_platform("windows", commands)
     _(plat.uuid).must_equal "d400073f-0920-41aa-8dd3-2ea59b18f5ce"
   end
