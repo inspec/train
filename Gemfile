@@ -6,6 +6,12 @@ group :test do
   gem "rake", "~> 13.0"
   gem "chefstyle", "2.2.3"
   gem "concurrent-ruby", "~> 1.0"
+  if Gem.ruby_version < Gem::Version.new("3.1.0")
+    # byebug 12.0.0+ requires Ruby 3.1+
+    gem "byebug", "~> 11.0"
+  else
+    gem "byebug"
+  end
   gem "m"
   gem "ed25519" # ed25519 ssh key support
   gem "bcrypt_pbkdf" # ed25519 ssh key support

@@ -1,7 +1,8 @@
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.12.9 -->
+## [v3.12.9](https://github.com/inspec/train/tree/v3.12.9) (2025-04-21)
 
 #### Merged Pull Requests
+- chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos))
 - update docs with examples to set valid platform family [#763](https://github.com/inspec/train/pull/763) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
@@ -9,6 +10,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.9 -->
 - update docs with examples to set valid platform family [#763](https://github.com/inspec/train/pull/763) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.12.8 -->
 - Update chefstyle requirement from 2.1.1 to 2.2.3 [#756](https://github.com/inspec/train/pull/756) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.12.8 -->
 <!-- release_rollup -->
