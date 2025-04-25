@@ -140,8 +140,8 @@ module Train::Platforms::Detect::Helpers
     end
 
     def windows_uuid_from_wmic_or_cim
-      # Prefer retrieving the Windows UUID via `wmic` if available on the system to retain existing behavior.
-      # If `wmic` is not available, fall back to using CIM as an alternative method.
+      # Retrieve the Windows UUID using `wmic` if it is available and not marked as deprecated, maintaining compatibility with older systems.
+      # If `wmic` is unavailable or deprecated, use the `Get-CimInstance` command, which is the modern and recommended approach by Microsoft.
       wmic_available? ? windows_uuid_from_wmic : windows_uuid_from_cim
     end
 
