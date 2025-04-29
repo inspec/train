@@ -30,11 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-core", "= #{Train::VERSION}"
   spec.add_dependency "train-winrm", "~> 0.2"
 
-  if Gem.ruby_version >= Gem::Version.new("3.1.0")
-    spec.add_dependency "activesupport", ">= 6.0.3.1"
-  else
-    spec.add_dependency "activesupport", ">= 6.0.3.1", "< 7.2.0"
-  end
+  spec.add_dependency "activesupport", ">= 6.0.3.1", "< 7.2.0"
 
   # azure, docker, gcp dependencies
   spec.add_dependency "inifile", "~> 3.0"
