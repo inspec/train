@@ -34,6 +34,8 @@ if Gem.ruby_version >= Gem::Version.new("2.7.0")
   end
 end
 
+gem "train-winrm", git: "https://github.com/inspec/train-winrm", branch: "nm/testing-chef-winrm-fixes"
+
 group :tools do
   gem "pry", "~> 0.10"
   gem "rb-readline"
