@@ -1,14 +1,15 @@
-<!-- latest_release 3.12.11 -->
-## [v3.12.11](https://github.com/inspec/train/tree/v3.12.11) (2025-04-30)
+<!-- latest_release 3.12.12 -->
+## [v3.12.12](https://github.com/inspec/train/tree/v3.12.12) (2025-04-30)
 
 #### Merged Pull Requests
-- Version pinning changes for train-winrm [#793](https://github.com/inspec/train/pull/793) ([Nik08](https://github.com/Nik08))
+- chore: update comment for clarity [#791](https://github.com/inspec/train/pull/791) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.12.7 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- chore: update comment for clarity [#791](https://github.com/inspec/train/pull/791) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.12 -->
 - Version pinning changes for train-winrm [#793](https://github.com/inspec/train/pull/793) ([Nik08](https://github.com/Nik08)) <!-- 3.12.11 -->
 - CHEF-20278: Support platform detection via `Get-CimInstance` for newer Windows versions [#788](https://github.com/inspec/train/pull/788) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.10 -->
 - chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.9 -->
