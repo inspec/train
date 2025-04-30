@@ -196,3 +196,34 @@ describe "read_cim_os" do
     _(detector.platform[:arch]).must_equal("x86_64")
   end
 end
+
+describe "windows_uuid_from_wmic when wmic csproduct get UUID /value returns a valid UUID in stdout" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command("wmic csproduct get UUID /value", "\r\r\n\r\r\nUUID=EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B\r\r\n\r\r\n\r\r\n\r\r\n", "", 0)
+    detector
+  end
+
+  it "retrieves the correct UUID from wmic" do
+    _(detector.windows_uuid_from_wmic).must_equal("EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B")
+  end
+end
+
+describe "windows_uuid_from_wmic when stdout is empty even though wmic csproduct get UUID /value exits successfully" do
+
+  # This is a highly unlikely scenario, but there have been cases where customers
+  # observed an empty stdout from `wmic csproduct get UUID` despite a successful exit status.
+  # This test case is to ensure that we handle this gracefully.
+  # In such cases, we should return nil (which is expected) instead of raising an error.
+
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command("wmic csproduct get UUID /value", "", "", 0)
+    detector
+  end
+
+  it "retrieves the correct UUID from wmic" do
+    assert_nil(detector.windows_uuid_from_wmic)
+  end
+end
+
