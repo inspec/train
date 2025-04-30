@@ -1,14 +1,17 @@
-<!-- latest_release 3.12.10 -->
-## [v3.12.10](https://github.com/inspec/train/tree/v3.12.10) (2025-04-24)
+<!-- latest_release unreleased -->
+## Unreleased
 
 #### Merged Pull Requests
-- CHEF-20278: Support platform detection via `Get-CimInstance` for newer Windows versions [#788](https://github.com/inspec/train/pull/788) ([ahasunos](https://github.com/ahasunos))
+- pin: update pinning of activesupport in gemspec file [#792](https://github.com/inspec/train/pull/792) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.12.7 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- pin: update pinning of activesupport in gemspec file [#792](https://github.com/inspec/train/pull/792) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.12 -->
+- chore: update comment for clarity [#791](https://github.com/inspec/train/pull/791) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.12 -->
+- Version pinning changes for train-winrm [#793](https://github.com/inspec/train/pull/793) ([Nik08](https://github.com/Nik08)) <!-- 3.12.11 -->
 - CHEF-20278: Support platform detection via `Get-CimInstance` for newer Windows versions [#788](https://github.com/inspec/train/pull/788) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.10 -->
 - chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.9 -->
 - update docs with examples to set valid platform family [#763](https://github.com/inspec/train/pull/763) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.12.8 -->
