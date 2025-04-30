@@ -1,7 +1,8 @@
-<!-- latest_release unreleased -->
-## Unreleased
+<!-- latest_release 3.12.13 -->
+## [v3.12.13](https://github.com/inspec/train/tree/v3.12.13) (2025-04-30)
 
 #### Merged Pull Requests
+- CHEF-20278: Enhance `windows_uuid_from_wmic` to use `/value` flag for reliable UUID retrieval [#789](https://github.com/inspec/train/pull/789) ([ahasunos](https://github.com/ahasunos))
 - pin: update pinning of activesupport in gemspec file [#792](https://github.com/inspec/train/pull/792) ([ahasunos](https://github.com/ahasunos))
 <!-- latest_release -->
 
@@ -9,6 +10,7 @@
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- CHEF-20278: Enhance `windows_uuid_from_wmic` to use `/value` flag for reliable UUID retrieval [#789](https://github.com/inspec/train/pull/789) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.13 -->
 - pin: update pinning of activesupport in gemspec file [#792](https://github.com/inspec/train/pull/792) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.12 -->
 - chore: update comment for clarity [#791](https://github.com/inspec/train/pull/791) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.12 -->
 - Version pinning changes for train-winrm [#793](https://github.com/inspec/train/pull/793) ([Nik08](https://github.com/Nik08)) <!-- 3.12.11 -->
