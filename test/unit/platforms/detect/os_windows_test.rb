@@ -91,6 +91,7 @@ describe "os_detect_windows" do
       detector.backend.mock_command("Get-WmiObject Win32_OperatingSystem | Select Caption,Version | ConvertTo-Json", "{\"Caption\":\"Microsoft Windows 10 Pro\", \"Version\": \"10.0.18362\"}", "", 0)
       detector.backend.mock_command("wmic os get * /format:list", "\r\r\nBuildNumber=10240\r\r\nCaption=Microsoft Windows 10 Pro\r\r\nOSArchitecture=64-bit\r\r\nVersion=10.0.18362\r\r\n\r\r\n" , "", 0)
       detector.backend.mock_command("wmic cpu get architecture /format:list", "\r\r\nArchitecture=9\r\r\n" , "", 0)
+      detector.backend.mock_command("wmic /?", "", "", 0) # Mocking wmic command to simulate its availability
       detector
     end
 
@@ -122,3 +123,107 @@ describe "os_detect_windows" do
     end
   end
 end
+
+describe "wmic_available?" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command("wmic /?", "", "", 0)
+    detector
+  end
+
+  it "returns true if wmic is available" do
+    _(detector.wmic_available?).must_equal(true)
+  end
+
+  it "returns false if wmic is not available" do
+    detector.backend.mock_command("wmic /?", "", "", 1)
+    _(detector.wmic_available?).must_equal(false)
+  end
+
+  it "returns false if wmic is available but is deprecated" do
+    detector.backend.mock_command("wmic /?", "WMIC is deprecated", "", 0)
+    _(detector.wmic_available?).must_equal(false)
+  end
+end
+
+describe "windows_uuid_from_cim" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance -Class Win32_ComputerSystemProduct).UUID"', "EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B", "", 0)
+    detector
+  end
+
+  it "retrieves the correct UUID from CIM" do
+    _(detector.windows_uuid_from_cim).must_equal("EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B")
+  end
+
+  it "returns nil if the command fails" do
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance -Class Win32_ComputerSystemProduct).UUID"', "", "", 1)
+    assert_nil(detector.windows_uuid_from_cim)
+  end
+end
+
+describe "read_cim_cpu" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance Win32_Processor).Architecture"', "9", "", 0)
+    detector
+  end
+
+  it "retrieves the correct architecture from CIM" do
+    _(detector.read_cim_cpu).must_equal("x86_64")
+  end
+
+  it "returns nil if the command fails" do
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance Win32_Processor).Architecture"', "", "", 1)
+    assert_nil(detector.read_cim_cpu)
+  end
+end
+
+describe "read_cim_os" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command('powershell -Command "Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, BuildNumber | ConvertTo-Json"', "{\"Caption\":\"Microsoft Windows 11\", \"Version\": \"10.0.26100\", \"BuildNumber\": \"18362\"}", "", 0)
+    detector.backend.mock_command('powershell -Command "(Get-CimInstance Win32_Processor).Architecture"', "9", "", 0)
+    detector
+  end
+
+  it "retrieves the correct OS information from CIM" do
+    detector.read_cim_os
+    _(detector.platform[:name]).must_equal("Windows 11")
+    _(detector.platform[:release]).must_equal("10.0.26100")
+    _(detector.platform[:build]).must_equal("18362")
+    _(detector.platform[:arch]).must_equal("x86_64")
+  end
+end
+
+describe "windows_uuid_from_wmic when wmic csproduct get UUID /value returns a valid UUID in stdout" do
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command("wmic csproduct get UUID /value", "\r\r\n\r\r\nUUID=EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B\r\r\n\r\r\n\r\r\n\r\r\n", "", 0)
+    detector
+  end
+
+  it "retrieves the correct UUID from wmic" do
+    _(detector.windows_uuid_from_wmic).must_equal("EC20EBD7-8E03-06A8-645F-2D22E5A3BA4B")
+  end
+end
+
+describe "windows_uuid_from_wmic when stdout is empty even though wmic csproduct get UUID /value exits successfully" do
+
+  # This is a highly unlikely scenario, but there have been cases where customers
+  # observed an empty stdout from `wmic csproduct get UUID` despite a successful exit status.
+  # This test case is to ensure that we handle this gracefully.
+  # In such cases, we should return nil (which is expected) instead of raising an error.
+
+  let(:detector) do
+    detector = OsDetectWindowsTester.new
+    detector.backend.mock_command("wmic csproduct get UUID /value", "", "", 0)
+    detector
+  end
+
+  it "retrieves the correct UUID from wmic" do
+    assert_nil(detector.windows_uuid_from_wmic)
+  end
+end
+

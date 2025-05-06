@@ -1,26 +1,27 @@
-<!-- latest_release 3.12.9 -->
-## [v3.12.9](https://github.com/inspec/train/tree/v3.12.9) (2025-04-21)
-
-#### Merged Pull Requests
-- chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos))
-- update docs with examples to set valid platform family [#763](https://github.com/inspec/train/pull/763) ([sathish-progress](https://github.com/sathish-progress))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.12.7 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos)) <!-- 3.12.9 -->
-- update docs with examples to set valid platform family [#763](https://github.com/inspec/train/pull/763) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.12.8 -->
-- Update chefstyle requirement from 2.1.1 to 2.2.3 [#756](https://github.com/inspec/train/pull/756) ([dependabot[bot]](https://github.com/dependabot[bot])) <!-- 3.12.8 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.12.13](https://github.com/inspec/train/tree/v3.12.13) (2025-04-30)
+
+#### Merged Pull Requests
+- Update chefstyle requirement from 2.1.1 to 2.2.3 [#756](https://github.com/inspec/train/pull/756) ([dependabot[bot]](https://github.com/dependabot[bot]))
+- update docs with examples to set valid platform family [#763](https://github.com/inspec/train/pull/763) ([sathish-progress](https://github.com/sathish-progress))
+- chore: fix pipeline for ruby 3.0 on ci [#790](https://github.com/inspec/train/pull/790) ([ahasunos](https://github.com/ahasunos))
+- CHEF-20278: Support platform detection via `Get-CimInstance` for newer Windows versions [#788](https://github.com/inspec/train/pull/788) ([ahasunos](https://github.com/ahasunos))
+- Version pinning changes for train-winrm [#793](https://github.com/inspec/train/pull/793) ([Nik08](https://github.com/Nik08))
+- chore: update comment for clarity [#791](https://github.com/inspec/train/pull/791) ([ahasunos](https://github.com/ahasunos))
+- pin: update pinning of activesupport in gemspec file [#792](https://github.com/inspec/train/pull/792) ([ahasunos](https://github.com/ahasunos))
+- CHEF-20278: Enhance `windows_uuid_from_wmic` to use `/value` flag for reliable UUID retrieval [#789](https://github.com/inspec/train/pull/789) ([ahasunos](https://github.com/ahasunos))
+<!-- latest_stable_release -->
+
 ## [v3.12.7](https://github.com/inspec/train/tree/v3.12.7) (2024-08-22)
 
 #### Merged Pull Requests
 - Version pinned for active support gem [#784](https://github.com/inspec/train/pull/784) ([Nik08](https://github.com/Nik08))
-<!-- latest_stable_release -->
 
 ## [v3.12.6](https://github.com/inspec/train/tree/v3.12.6) (2024-07-17)
 
