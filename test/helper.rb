@@ -12,8 +12,6 @@ end
 require "minitest/autorun"
 require "minitest/spec"
 require "mocha/minitest"
-require "byebug"
-
 require "train"
 
 class Minitest::Spec
