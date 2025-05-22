@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.13.0 -->
+## [v3.13.0](https://github.com/inspec/train/tree/v3.13.0) (2025-05-22)
+
+#### Merged Pull Requests
+- CHEF-19301-Ruby 3.4.x Upgrade [#787](https://github.com/inspec/train/pull/787) ([balasubramanian-s](https://github.com/balasubramanian-s))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.12.13 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- CHEF-19301-Ruby 3.4.x Upgrade [#787](https://github.com/inspec/train/pull/787) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 3.13.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
