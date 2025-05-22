@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri" => "https://github.com/inspec/train/issues",
   }
 
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = ">= 3.1.0"
 
   spec.files = %w{LICENSE} + Dir.glob("lib/**/*")
     .grep(%r{transports/(azure|clients|docker|podman|gcp|helpers|vmware)})
@@ -30,7 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-core", "= #{Train::VERSION}"
   spec.add_dependency "train-winrm", "~> 0.2.19" # This version is required for Ruby 3.0 compatibility
 
-  spec.add_dependency "activesupport", ">= 6.0.3.1", "< 7.2.0"
+  spec.add_dependency "activesupport", "~> 7.2", ">= 7.2.2.1"
 
   # azure, docker, gcp dependencies
   spec.add_dependency "inifile", "~> 3.0"
@@ -48,4 +48,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency "google-apis-cloudresourcemanager_v1", "~> 0.35.0"
   spec.add_dependency "google-apis-storage_v1", "~> 0.30.0"
   spec.add_dependency "google-apis-iam_v1", "~> 0.50.0"
+  # Gem dependency needed with Ruby 3.4 upgrade
+  spec.add_dependency "ostruct", "~> 0.1.0"
 end

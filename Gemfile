@@ -25,14 +25,14 @@ group :test do
   gem "simplecov", "~> 0.21"
   gem "simplecov_json_formatter"
 end
-
-if Gem.ruby_version >= Gem::Version.new("2.7.0")
-  group :integration do
-    gem "berkshelf", ">= 6.0"
-    gem "test-kitchen", ">= 2"
-    gem "kitchen-vagrant"
-  end
-end
+#  uncomment when you resume integration testing
+# if Gem.ruby_version >= Gem::Version.new("2.7.0")
+#   group :integration do
+#     gem "berkshelf", ">= 6.0"
+#     gem "test-kitchen", ">= 2"
+#     gem "kitchen-vagrant"
+#   end
+# end
 
 group :tools do
   gem "pry", "~> 0.10"
