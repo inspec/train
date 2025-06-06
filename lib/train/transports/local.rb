@@ -222,7 +222,7 @@ module Train::Transports
         def acquire_pipe
           require "win32/process"
           require "securerandom"
-          pipe_name = SecureRandom.uuid
+          pipe_name = "inspec_#{SecureRandom.uuid}"
 
           @server_pid = start_pipe_server(pipe_name)
 
