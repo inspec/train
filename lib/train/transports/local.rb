@@ -221,19 +221,22 @@ module Train::Transports
 
         def acquire_pipe
           require "win32/process"
-          pipe_name = "inspec_#{SecureRandom.hex}"
+          require "securerandom"
+          pipe_name = SecureRandom.uuid
 
           @server_pid = start_pipe_server(pipe_name)
 
-          # Ensure process is killed when the Train process exits
           at_exit { close rescue Errno::EIO }
 
           pipe = nil
 
-          # PowerShell needs time to create pipe.
           100.times do
-            pipe = open("//./pipe/#{pipe_name}", "r+")
-            break
+            if pipe_owned_by_current_user?(pipe_name)
+              pipe = open("//./pipe/#{pipe_name}", "r+")
+              break
+            else
+              raise "Pipe ownership verification failed! Possible hijack attempt."
+            end
           rescue
             sleep 0.1
           end
