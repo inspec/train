@@ -230,6 +230,12 @@ module Train::Transports
 
           pipe = nil
 
+          # Verify ownership before connecting
+          owner, current_user, is_owner = pipe_owned_by_current_user?(pipe_name)
+          unless is_owner
+            raise PipeError, "Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'. Pipe is owned by '#{owner}'."
+          end
+
           # PowerShell needs time to create pipe.
           100.times do
             pipe = open("//./pipe/#{pipe_name}", "r+")
@@ -239,6 +245,25 @@ module Train::Transports
           end
 
           pipe
+        end
+
+        # Optimized ownership verification
+        def pipe_owned_by_current_user?(pipe_name)
+          exists = `powershell -Command "Test-Path \\\\.\\pipe\\#{pipe_name}"`.strip.downcase == "true"
+          current_user = `whoami`.strip
+          unless exists
+            puts "[SECURITY] Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'."
+            puts "[SECURITY] Pipe '#{pipe_name}' does not exist yet. Connection rejected."
+            return [nil, current_user, false]
+          end
+
+          owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
+          is_owner = owner.downcase.include?(current_user.downcase)
+          unless is_owner
+            puts "[SECURITY] Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'."
+            puts "[SECURITY] Pipe '#{pipe_name}' is owned by '#{owner}'. Connection rejected."
+          end
+          [owner, current_user, is_owner]
         end
 
         def start_pipe_server(pipe_name)
