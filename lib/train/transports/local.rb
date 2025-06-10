@@ -6,6 +6,9 @@ require_relative "../plugins"
 require_relative "../errors"
 require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 require "ostruct" unless defined?(OpenStruct)
+require "json" unless defined?(JSON)
+require "base64" unless defined?(Base64)
+require "securerandom" unless defined?(SecureRandom)
 
 module Train::Transports
   class Local < Train.plugin(1)
@@ -137,9 +140,6 @@ module Train::Transports
       end
 
       class WindowsShellRunner
-        require "json" unless defined?(JSON)
-        require "base64" unless defined?(Base64)
-
         def initialize(powershell_cmd = "powershell")
           @powershell_cmd = powershell_cmd
         end
@@ -170,41 +170,27 @@ module Train::Transports
       end
 
       class WindowsPipeRunner
-        require "json" unless defined?(JSON)
-        require "base64" unless defined?(Base64)
-        require "securerandom" unless defined?(SecureRandom)
-
-        def initialize(powershell_cmd = "powershell")
-          @powershell_cmd = powershell_cmd
+        def initialize(powershell_cmd = nil)
+          # 1. Use fully qualified path for PowerShell
+          @powershell_cmd = powershell_cmd || "#{ENV["SystemRoot"]}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
           @server_pid = nil
           @pipe = acquire_pipe
           raise PipeError if @pipe.nil?
         end
 
-        # @param  cmd The command to execute
-        # @return Local::CommandResult with stdout, stderr and exitstatus
-        #         Note that exitstatus ($?) in PowerShell is boolean, but we use a numeric exit code.
-        #         A command that succeeds without setting an exit code will have exitstatus 0
-        #         A command that exits with an exit code will have that value as exitstatus
-        #         A command that fails (e.g. throws exception) before setting an exit code will have exitstatus 1
         def run_command(cmd, _opts)
           script = "$ProgressPreference='SilentlyContinue';" + cmd
           encoded_script = Base64.strict_encode64(script)
-          # TODO: no way to safely implement timeouts here.
           begin
             @pipe.puts(encoded_script)
             @pipe.flush
           rescue Errno::EPIPE
-            # Retry once if the pipe went away
             begin
-              # Maybe the pipe went away, but the server didn't? Reset it, to get a clean start.
               close
             rescue Errno::EIO
-              # Ignore - server already went away
             end
             @pipe = acquire_pipe
             raise PipeError if @pipe.nil?
-
             @pipe.puts(encoded_script)
             @pipe.flush
           end
@@ -221,7 +207,8 @@ module Train::Transports
 
         def acquire_pipe
           require "win32/process"
-          pipe_name = "inspec_#{SecureRandom.hex}"
+          # 3. Randomize pipe name
+          pipe_name = SecureRandom.hex
 
           @server_pid = start_pipe_server(pipe_name)
 
@@ -230,13 +217,13 @@ module Train::Transports
 
           pipe = nil
 
-          # Verify ownership before connecting
+          # 4. Verify ownership before connecting
           owner, current_user, is_owner = pipe_owned_by_current_user?(pipe_name)
           unless is_owner
             raise PipeError, "Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'. Pipe is owned by '#{owner}'."
           end
 
-          # PowerShell needs time to create pipe.
+          # Wait for the pipe to be available
           100.times do
             pipe = open("//./pipe/#{pipe_name}", "r+")
             break
@@ -247,52 +234,27 @@ module Train::Transports
           pipe
         end
 
-        # Optimized ownership verification
-        def pipe_owned_by_current_user?(pipe_name)
-          exists = `powershell -Command "Test-Path \\\\.\\pipe\\#{pipe_name}"`.strip.downcase == "true"
-          current_user = `whoami`.strip
-          unless exists
-            puts "[SECURITY] Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'."
-            puts "[SECURITY] Pipe '#{pipe_name}' does not exist yet. Connection rejected."
-            return [nil, current_user, false]
-          end
-
-          owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
-          is_owner = owner.downcase.include?(current_user.downcase)
-          unless is_owner
-            puts "[SECURITY] Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'."
-            puts "[SECURITY] Pipe '#{pipe_name}' is owned by '#{owner}'. Connection rejected."
-          end
-          [owner, current_user, is_owner]
-        end
-
+        # 5. Set strict ACLs on named pipes (PowerShell)
         def start_pipe_server(pipe_name)
           require "win32/process"
-
           script = <<-EOF
             $ErrorActionPreference = 'Stop'
-
-            $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}')
+            $pipeSecurity = New-Object System.IO.Pipes.PipeSecurity
+            $rule = New-Object System.IO.Pipes.PipeAccessRule("#{ENV['USERNAME']}", "FullControl", "Allow")
+            $pipeSecurity.AddAccessRule($rule)
+            $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut, 1, [System.IO.Pipes.PipeTransmissionMode]::Byte, [System.IO.Pipes.PipeOptions]::None, 4096, 4096, $pipeSecurity)
             $pipeReader = New-Object System.IO.StreamReader($pipeServer)
             $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
-
             $pipeServer.WaitForConnection()
-
-            # Create loop to receive and process user commands/scripts
-            $clientConnected = $true
-            while($clientConnected) {
+            while ($true) {
               $input = $pipeReader.ReadLine()
+              if ($input -eq $null) { break }
               $command = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($input))
-
-              # Execute user command/script and convert result to JSON
               $scriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
               try {
                 $stdout = & $scriptBlock | Out-String
                 $exit_code = $LastExitCode
-                if ($exit_code -eq $null)
-                {
-                  $exit_code = 0
-                }
+                if ($exit_code -eq $null) { $exit_code = 0 }
                 $result = @{ 'stdout' = $stdout ; 'stderr' = ''; 'exitstatus' = $exit_code }
               } catch {
                 $stderr = $_ | Out-String
@@ -300,8 +262,6 @@ module Train::Transports
                 $result = @{ 'stdout' = ''; 'stderr' = $stderr; 'exitstatus' = $exit_code }
               }
               $resultJSON = $result | ConvertTo-JSON
-
-              # Encode JSON in Base64 and write to pipe
               $encodedResult = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($resultJSON))
               $pipeWriter.WriteLine($encodedResult)
               $pipeWriter.Flush()
@@ -310,8 +270,19 @@ module Train::Transports
 
           utf8_script = script.encode("UTF-16LE", "UTF-8")
           base64_script = Base64.strict_encode64(utf8_script)
-          cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
+          cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy Bypass -NonInteractive -EncodedCommand #{base64_script}"
           Process.create(command_line: cmd).process_id
+        end
+
+        # 4. Verify pipe ownership before connecting
+        def pipe_owned_by_current_user?(pipe_name)
+          exists = `powershell -Command "Test-Path \\\\.\\pipe\\#{pipe_name}"`.strip.downcase == "true"
+          current_user = `whoami`.strip
+          return [nil, current_user, false] unless exists
+
+          owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
+          is_owner = owner.downcase.include?(current_user.downcase)
+          [owner, current_user, is_owner]
         end
       end
     end
