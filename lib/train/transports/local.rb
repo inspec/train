@@ -6,9 +6,6 @@ require_relative "../plugins"
 require_relative "../errors"
 require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 require "ostruct" unless defined?(OpenStruct)
-require "json" unless defined?(JSON)
-require "base64" unless defined?(Base64)
-require "securerandom" unless defined?(SecureRandom)
 
 module Train::Transports
   class Local < Train.plugin(1)
@@ -140,6 +137,9 @@ module Train::Transports
       end
 
       class WindowsShellRunner
+        require "json" unless defined?(JSON)
+        require "base64" unless defined?(Base64)
+
         def initialize(powershell_cmd = "powershell")
           @powershell_cmd = powershell_cmd
         end
@@ -170,27 +170,41 @@ module Train::Transports
       end
 
       class WindowsPipeRunner
-        def initialize(powershell_cmd = nil)
-          # 1. Use fully qualified path for PowerShell
-          @powershell_cmd = powershell_cmd || "#{ENV["SystemRoot"]}\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        require "json" unless defined?(JSON)
+        require "base64" unless defined?(Base64)
+        require "securerandom" unless defined?(SecureRandom)
+
+        def initialize(powershell_cmd = "powershell")
+          @powershell_cmd = powershell_cmd
           @server_pid = nil
           @pipe = acquire_pipe
           raise PipeError if @pipe.nil?
         end
 
+        # @param  cmd The command to execute
+        # @return Local::CommandResult with stdout, stderr and exitstatus
+        #         Note that exitstatus ($?) in PowerShell is boolean, but we use a numeric exit code.
+        #         A command that succeeds without setting an exit code will have exitstatus 0
+        #         A command that exits with an exit code will have that value as exitstatus
+        #         A command that fails (e.g. throws exception) before setting an exit code will have exitstatus 1
         def run_command(cmd, _opts)
           script = "$ProgressPreference='SilentlyContinue';" + cmd
           encoded_script = Base64.strict_encode64(script)
+          # TODO: no way to safely implement timeouts here.
           begin
             @pipe.puts(encoded_script)
             @pipe.flush
           rescue Errno::EPIPE
+            # Retry once if the pipe went away
             begin
+              # Maybe the pipe went away, but the server didn't? Reset it, to get a clean start.
               close
             rescue Errno::EIO
+              # Ignore - server already went away
             end
             @pipe = acquire_pipe
             raise PipeError if @pipe.nil?
+
             @pipe.puts(encoded_script)
             @pipe.flush
           end
@@ -223,7 +237,7 @@ module Train::Transports
             raise PipeError, "Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'. Pipe is owned by '#{owner}'."
           end
 
-          # Wait for the pipe to be available
+          # PowerShell needs time to create pipe.
           100.times do
             pipe = open("//./pipe/#{pipe_name}", "r+")
             break
@@ -270,7 +284,7 @@ module Train::Transports
 
           utf8_script = script.encode("UTF-16LE", "UTF-8")
           base64_script = Base64.strict_encode64(utf8_script)
-          cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy Bypass -NonInteractive -EncodedCommand #{base64_script}"
+          cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
           Process.create(command_line: cmd).process_id
         end
 
