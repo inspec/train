@@ -260,7 +260,10 @@ module Train::Transports
             $pipeReader = New-Object System.IO.StreamReader($pipeServer)
             $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
             $pipeServer.WaitForConnection()
-            while ($true) {
+
+            # Create loop to receive and process user commands/scripts
+            $clientConnected = $true
+            while($clientConnected) {
               $input = $pipeReader.ReadLine()
               if ($input -eq $null) { break }
               $command = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($input))
@@ -268,7 +271,10 @@ module Train::Transports
               try {
                 $stdout = & $scriptBlock | Out-String
                 $exit_code = $LastExitCode
-                if ($exit_code -eq $null) { $exit_code = 0 }
+                if ($exit_code -eq $null)
+                {
+                  $exit_code = 0
+                }
                 $result = @{ 'stdout' = $stdout ; 'stderr' = ''; 'exitstatus' = $exit_code }
               } catch {
                 $stderr = $_ | Out-String
@@ -276,6 +282,8 @@ module Train::Transports
                 $result = @{ 'stdout' = ''; 'stderr' = $stderr; 'exitstatus' = $exit_code }
               }
               $resultJSON = $result | ConvertTo-JSON
+
+              # Encode JSON in Base64 and write to pipe
               $encodedResult = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($resultJSON))
               $pipeWriter.WriteLine($encodedResult)
               $pipeWriter.Flush()
