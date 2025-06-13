@@ -1,14 +1,15 @@
-<!-- latest_release 3.13.1 -->
-## [v3.13.1](https://github.com/inspec/train/tree/v3.13.1) (2025-06-13)
+<!-- latest_release 3.13.2 -->
+## [v3.13.2](https://github.com/inspec/train/tree/v3.13.2) (2025-06-13)
 
 #### Merged Pull Requests
-- Version pinned train-winrm with Ruby3.4.x changes [#796](https://github.com/inspec/train/pull/796) ([Nik08](https://github.com/Nik08))
+- revert back to the old constraint to use greater than 1.16.0 ffi gem [#794](https://github.com/inspec/train/pull/794) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.12.13 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- revert back to the old constraint to use greater than 1.16.0 ffi gem [#794](https://github.com/inspec/train/pull/794) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.13.2 -->
 - Version pinned train-winrm with Ruby3.4.x changes [#796](https://github.com/inspec/train/pull/796) ([Nik08](https://github.com/Nik08)) <!-- 3.13.1 -->
 - CHEF-19301-Ruby 3.4.x Upgrade [#787](https://github.com/inspec/train/pull/787) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 3.13.0 -->
 <!-- release_rollup -->
