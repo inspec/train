@@ -221,7 +221,8 @@ module Train::Transports
 
         def acquire_pipe
           require "win32/process"
-          pipe_name = "inspec_#{SecureRandom.hex}"
+          # 3. Randomize pipe name
+          pipe_name = SecureRandom.hex
 
           @server_pid = start_pipe_server(pipe_name)
 
@@ -229,6 +230,12 @@ module Train::Transports
           at_exit { close rescue Errno::EIO }
 
           pipe = nil
+
+          # 4. Verify ownership before connecting
+          owner, current_user, is_owner = pipe_owned_by_current_user?(pipe_name)
+          unless is_owner
+            raise PipeError, "Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'. Pipe is owned by '#{owner}'."
+          end
 
           # PowerShell needs time to create pipe.
           100.times do
@@ -241,25 +248,25 @@ module Train::Transports
           pipe
         end
 
+        # 5. Set strict ACLs on named pipes (PowerShell)
         def start_pipe_server(pipe_name)
           require "win32/process"
-
           script = <<-EOF
             $ErrorActionPreference = 'Stop'
-
-            $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}')
+            $pipeSecurity = New-Object System.IO.Pipes.PipeSecurity
+            $rule = New-Object System.IO.Pipes.PipeAccessRule("#{ENV["USERNAME"]}", "FullControl", "Allow")
+            $pipeSecurity.AddAccessRule($rule)
+            $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut, 1, [System.IO.Pipes.PipeTransmissionMode]::Byte, [System.IO.Pipes.PipeOptions]::None, 4096, 4096, $pipeSecurity)
             $pipeReader = New-Object System.IO.StreamReader($pipeServer)
             $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
-
             $pipeServer.WaitForConnection()
 
             # Create loop to receive and process user commands/scripts
             $clientConnected = $true
             while($clientConnected) {
               $input = $pipeReader.ReadLine()
+              if ($input -eq $null) { break }
               $command = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($input))
-
-              # Execute user command/script and convert result to JSON
               $scriptBlock = $ExecutionContext.InvokeCommand.NewScriptBlock($command)
               try {
                 $stdout = & $scriptBlock | Out-String
@@ -287,6 +294,17 @@ module Train::Transports
           base64_script = Base64.strict_encode64(utf8_script)
           cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
           Process.create(command_line: cmd).process_id
+        end
+
+        # 4. Verify pipe ownership before connecting
+        def pipe_owned_by_current_user?(pipe_name)
+          exists = `powershell -Command "Test-Path \\\\.\\pipe\\#{pipe_name}"`.strip.downcase == "true"
+          current_user = `whoami`.strip
+          return [nil, current_user, false] unless exists
+
+          owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
+          is_owner = owner.downcase.include?(current_user.downcase)
+          [owner, current_user, is_owner]
         end
       end
     end
