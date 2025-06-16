@@ -222,7 +222,7 @@ module Train::Transports
         def acquire_pipe
           require "win32/process"
           # 3. Randomize pipe name
-          pipe_name = SecureRandom.hex
+          pipe_name = "inspec_#{SecureRandom.hex}"
 
           @server_pid = start_pipe_server(pipe_name)
 
