@@ -300,7 +300,7 @@ module Train::Transports
 
         def current_windows_user
           user = Etc.getlogin
-          puts "[DEBUG] whoami returned: '#{user}'"
+          puts "[DEBUG] Etc.getlogin whoami returned: '#{user}'"
           if user.nil? || user.empty?
             require "etc"
             user = Etc.getlogin
