@@ -299,7 +299,7 @@ module Train::Transports
         end
 
         def current_windows_user
-          user = `whoami`.strip
+          user = Etc.getlogin
           puts "[DEBUG] whoami returned: '#{user}'"
           if user.nil? || user.empty?
             require "etc"
