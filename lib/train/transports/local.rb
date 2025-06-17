@@ -306,6 +306,7 @@ module Train::Transports
           if user.nil? || user.empty?
             raise "Unable to determine current Windows user"
           end
+
           user
         end
 

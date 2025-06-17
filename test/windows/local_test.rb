@@ -13,9 +13,7 @@ require "train/transports/local"
 
 describe "windows local command" do
   let(:backend) do
-    # get final config
     target_config = Train.target_config({ logger: Logger.new(STDERR, level: :info) })
-    # initialize train
     Train.create("local", target_config)
   end
   let(:conn) { backend.connection }
@@ -54,6 +52,54 @@ describe "windows local command" do
     _(cmd.stdout).must_match(/Next line throws/)
     _(cmd.stderr).must_equal ""
     _(cmd.exit_status).must_equal 1
+  end
+
+  describe "WindowsPipeRunner security features" do
+    let(:runner) { Train::Transports::Local::Connection::WindowsPipeRunner.allocate }
+    let(:pipe_name) { "test_pipe" }
+
+    before do
+      runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("EC2AMAZ-EEKJDVT\\Administrator")
+      runner.stubs(:`).with("whoami").returns("ec2amaz-eekjdvt\\administrator")
+    end
+
+    it "returns true when current user owns the pipe" do
+      runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("true")
+      runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns("EC2AMAZ-EEKJDVT\\Administrator")
+      owner, current_user, is_owner = runner.pipe_owned_by_current_user?(pipe_name)
+      _(is_owner).must_equal true
+      _(owner).must_equal "EC2AMAZ-EEKJDVT\\Administrator"
+      _(current_user).must_equal "EC2AMAZ-EEKJDVT\\Administrator"
+    end
+
+    it "returns false when current user does not own the pipe" do
+      runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("true")
+      runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns("OTHERDOMAIN\\OtherUser")
+      owner, current_user, is_owner = runner.pipe_owned_by_current_user?(pipe_name)
+      _(is_owner).must_equal false
+      _(owner).must_equal "OTHERDOMAIN\\OtherUser"
+      _(current_user).must_equal "EC2AMAZ-EEKJDVT\\Administrator"
+    end
+
+    it "returns false when pipe does not exist" do
+      runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("false")
+      owner, current_user, is_owner = runner.pipe_owned_by_current_user?(pipe_name)
+      _(is_owner).must_equal false
+      _(owner).must_be_nil
+    end
+
+    it "falls back to whoami if PowerShell user detection fails" do
+      runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("")
+      runner.stubs(:`).with("whoami").returns("ec2amaz-eekjdvt\\administrator")
+      user = runner.current_windows_user
+      _(user).must_equal "ec2amaz-eekjdvt\\administrator"
+    end
+
+    it "raises if both PowerShell and whoami fail" do
+      runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("")
+      runner.stubs(:`).with("whoami").returns("")
+      _ { runner.current_windows_user }.must_raise RuntimeError
+    end
   end
 
   describe "force 64 bit powershell command" do
@@ -150,9 +196,6 @@ describe "windows local command" do
   end
 
   it "can execute a command via ShellRunner if pipe creation fails" do
-    # By forcing `acquire_pipe` to fail to return a pipe, any attempts to create
-    # a `WindowsPipeRunner` object should fail. If we can still run a command,
-    # then we know that it was successfully executed by `Mixlib::ShellOut`.
     Train::Transports::Local::Connection::WindowsPipeRunner
       .any_instance
       .expects(:acquire_pipe)
