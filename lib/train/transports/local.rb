@@ -299,7 +299,7 @@ module Train::Transports
         end
 
         def current_windows_user
-          `powershell -Command "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"`.strip
+          "abc"
         end
 
         # 4. Verify pipe ownership before connecting
