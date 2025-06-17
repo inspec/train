@@ -299,7 +299,18 @@ module Train::Transports
         end
 
         def current_windows_user
-          user = ""
+          user = `whoami`.strip
+          puts "[DEBUG] whoami returned: '#{user}'"
+          if user.nil? || user.empty?
+            require "etc"
+            user = Etc.getlogin
+            puts "[DEBUG] Etc.getlogin returned: '#{user}'"
+          end
+          if user.nil? || user.empty?
+            puts "[DEBUG] No username could be determined!"
+            raise "Unable to determine current Windows user"
+          end
+          user
         end
 
         # 4. Verify pipe ownership before connecting
