@@ -299,18 +299,7 @@ module Train::Transports
         end
 
         def current_windows_user
-          user = Etc.getlogin
-          puts "[DEBUG] Etc.getlogin whoami returned: '#{user}'"
-          if user.nil? || user.empty?
-            require "etc"
-            user = Etc.getlogin
-            puts "[DEBUG] Etc.getlogin returned: '#{user}'"
-          end
-          if user.nil? || user.empty?
-            puts "[DEBUG] No username could be determined!"
-            raise "Unable to determine current Windows user"
-          end
-          user
+          user = `powershell -Command "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"`.strip
         end
 
         # 4. Verify pipe ownership before connecting
