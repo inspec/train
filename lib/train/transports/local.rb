@@ -6,6 +6,7 @@ require_relative "../plugins"
 require_relative "../errors"
 require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
 require "ostruct" unless defined?(OpenStruct)
+require "etc"
 
 module Train::Transports
   class Local < Train.plugin(1)
@@ -297,10 +298,16 @@ module Train::Transports
           Process.create(command_line: cmd).process_id
         end
 
+        def current_windows_user
+          user = `whoami`.strip
+          user = Etc.getlogin if user.nil? || user.empty?
+          user || "unknown"
+        end
+
         # 4. Verify pipe ownership before connecting
         def pipe_owned_by_current_user?(pipe_name)
           exists = `powershell -Command "Test-Path \\\\.\\pipe\\#{pipe_name}"`.strip.downcase == "true"
-          current_user = `whoami`.strip
+          current_user = current_windows_user
           return [nil, current_user, false] unless exists
 
           owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
@@ -311,3 +318,4 @@ module Train::Transports
     end
   end
 end
+
