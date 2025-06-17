@@ -306,6 +306,8 @@ module Train::Transports
         def pipe_owned_by_current_user?(pipe_name)
           exists = `powershell -Command "Test-Path \\\\.\\pipe\\#{pipe_name}"`.strip.downcase == "true"
           current_user = current_windows_user
+          # Debugging output
+          puts "Pipe '#{pipe_name}' exists: #{exists}, current user: '#{current_user}'"
           return [nil, current_user, false] unless exists
 
           owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
