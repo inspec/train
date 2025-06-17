@@ -299,9 +299,7 @@ module Train::Transports
         end
 
         def current_windows_user
-          user = `whoami`.strip
-          user = Etc.getlogin if user.nil? || user.empty?
-          user || "unknown"
+          user = Etc.getlogin
         end
 
         # 4. Verify pipe ownership before connecting
@@ -318,4 +316,3 @@ module Train::Transports
     end
   end
 end
-
