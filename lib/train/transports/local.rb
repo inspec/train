@@ -299,7 +299,7 @@ module Train::Transports
         end
 
         def current_windows_user
-          user = Etc.getlogin
+          user = ""
         end
 
         # 4. Verify pipe ownership before connecting
