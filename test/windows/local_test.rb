@@ -13,7 +13,9 @@ require "train/transports/local"
 
 describe "windows local command" do
   let(:backend) do
+    # get final config
     target_config = Train.target_config({ logger: Logger.new(STDERR, level: :info) })
+    # initialize train
     Train.create("local", target_config)
   end
   let(:conn) { backend.connection }
@@ -198,6 +200,9 @@ describe "windows local command" do
   end
 
   it "can execute a command via ShellRunner if pipe creation fails" do
+    # By forcing `acquire_pipe` to fail to return a pipe, any attempts to create
+    # a `WindowsPipeRunner` object should fail. If we can still run a command,
+    # then we know that it was successfully executed by `Mixlib::ShellOut`.
     Train::Transports::Local::Connection::WindowsPipeRunner
       .any_instance
       .expects(:acquire_pipe)
