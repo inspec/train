@@ -57,28 +57,30 @@ describe "windows local command" do
   describe "WindowsPipeRunner security features" do
     let(:runner) { Train::Transports::Local::Connection::WindowsPipeRunner.allocate }
     let(:pipe_name) { "test_pipe" }
+    let(:domain_user) { "DOMAIN\\User" }
+    let(:other_user) { "OTHERDOMAIN\\OtherUser" }
 
     before do
-      runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("EC2AMAZ-EEKJDVT\\Administrator")
-      runner.stubs(:`).with("whoami").returns("ec2amaz-eekjdvt\\administrator")
+      runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns(domain_user)
+      runner.stubs(:`).with("whoami").returns(domain_user.downcase)
     end
 
     it "returns true when current user owns the pipe" do
       runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("true")
-      runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns("EC2AMAZ-EEKJDVT\\Administrator")
+      runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns(domain_user)
       owner, current_user, is_owner = runner.pipe_owned_by_current_user?(pipe_name)
       _(is_owner).must_equal true
-      _(owner).must_equal "EC2AMAZ-EEKJDVT\\Administrator"
-      _(current_user).must_equal "EC2AMAZ-EEKJDVT\\Administrator"
+      _(owner).must_equal domain_user
+      _(current_user).must_equal domain_user
     end
 
     it "returns false when current user does not own the pipe" do
       runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("true")
-      runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns("OTHERDOMAIN\\OtherUser")
+      runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns(other_user)
       owner, current_user, is_owner = runner.pipe_owned_by_current_user?(pipe_name)
       _(is_owner).must_equal false
-      _(owner).must_equal "OTHERDOMAIN\\OtherUser"
-      _(current_user).must_equal "EC2AMAZ-EEKJDVT\\Administrator"
+      _(owner).must_equal other_user
+      _(current_user).must_equal domain_user
     end
 
     it "returns false when pipe does not exist" do
@@ -90,9 +92,9 @@ describe "windows local command" do
 
     it "falls back to whoami if PowerShell user detection fails" do
       runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("")
-      runner.stubs(:`).with("whoami").returns("ec2amaz-eekjdvt\\administrator")
+      runner.stubs(:`).with("whoami").returns(domain_user.downcase)
       user = runner.current_windows_user
-      _(user).must_equal "ec2amaz-eekjdvt\\administrator"
+      _(user).must_equal domain_user.downcase
     end
 
     it "raises if both PowerShell and whoami fail" do
