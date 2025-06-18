@@ -68,7 +68,7 @@ describe "windows local command" do
     it "returns true when current user owns the pipe" do
       runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("true")
       runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns(domain_user)
-      owner, current_user, is_owner = runner.pipe_owned_by_current_user?(pipe_name)
+      owner, current_user, is_owner = runner.send(:pipe_owned_by_current_user?, pipe_name)
       _(is_owner).must_equal true
       _(owner).must_equal domain_user
       _(current_user).must_equal domain_user
@@ -77,7 +77,7 @@ describe "windows local command" do
     it "returns false when current user does not own the pipe" do
       runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("true")
       runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns(other_user)
-      owner, current_user, is_owner = runner.pipe_owned_by_current_user?(pipe_name)
+      owner, current_user, is_owner = runner.send(:pipe_owned_by_current_user?, pipe_name)
       _(is_owner).must_equal false
       _(owner).must_equal other_user
       _(current_user).must_equal domain_user
@@ -85,7 +85,7 @@ describe "windows local command" do
 
     it "returns false when pipe does not exist" do
       runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("false")
-      owner, current_user, is_owner = runner.pipe_owned_by_current_user?(pipe_name)
+      owner, current_user, is_owner = runner.send(:pipe_owned_by_current_user?, pipe_name)
       _(is_owner).must_equal false
       _(owner).must_be_nil
     end
@@ -93,14 +93,14 @@ describe "windows local command" do
     it "falls back to whoami if PowerShell user detection fails" do
       runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("")
       runner.stubs(:`).with("whoami").returns(domain_user.downcase)
-      user = runner.current_windows_user
+      user = runner.send(:current_windows_user)
       _(user).must_equal domain_user.downcase
     end
 
     it "raises if both PowerShell and whoami fail" do
       runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("")
       runner.stubs(:`).with("whoami").returns("")
-      _ { runner.current_windows_user }.must_raise RuntimeError
+      _ { runner.send(:current_windows_user) }.must_raise RuntimeError
     end
   end
 
