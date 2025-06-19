@@ -317,7 +317,7 @@ module Train::Transports
           return [nil, current_user, false] unless exists
 
           owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
-          is_owner = owner.downcase.include?(current_user.downcase)
+          is_owner = !owner.nil? && !current_user.nil? && owner.casecmp(current_user).zero?
           [owner, current_user, is_owner]
         end
       end
