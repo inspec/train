@@ -1,20 +1,18 @@
-<!-- latest_release 3.13.2 -->
-## [v3.13.2](https://github.com/inspec/train/tree/v3.13.2) (2025-06-13)
-
-#### Merged Pull Requests
-- revert back to the old constraint to use greater than 1.16.0 ffi gem [#794](https://github.com/inspec/train/pull/794) ([sathish-progress](https://github.com/sathish-progress))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.12.13 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- revert back to the old constraint to use greater than 1.16.0 ffi gem [#794](https://github.com/inspec/train/pull/794) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.13.2 -->
-- Version pinned train-winrm with Ruby3.4.x changes [#796](https://github.com/inspec/train/pull/796) ([Nik08](https://github.com/Nik08)) <!-- 3.13.1 -->
-- CHEF-19301-Ruby 3.4.x Upgrade [#787](https://github.com/inspec/train/pull/787) ([balasubramanian-s](https://github.com/balasubramanian-s)) <!-- 3.13.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.13.2](https://github.com/inspec/train/tree/v3.13.2) (2025-06-19)
+
+#### Merged Pull Requests
+- CHEF-19301-Ruby 3.4.x Upgrade [#787](https://github.com/inspec/train/pull/787) ([balasubramanian-s](https://github.com/balasubramanian-s))
+- Version pinned train-winrm with Ruby3.4.x changes [#796](https://github.com/inspec/train/pull/796) ([Nik08](https://github.com/Nik08))
+- revert back to the old constraint to use greater than 1.16.0 ffi gem [#794](https://github.com/inspec/train/pull/794) ([sathish-progress](https://github.com/sathish-progress))
+<!-- latest_stable_release -->
+
 ## [v3.12.13](https://github.com/inspec/train/tree/v3.12.13) (2025-04-30)
 
 #### Merged Pull Requests
@@ -26,7 +24,6 @@
 - chore: update comment for clarity [#791](https://github.com/inspec/train/pull/791) ([ahasunos](https://github.com/ahasunos))
 - pin: update pinning of activesupport in gemspec file [#792](https://github.com/inspec/train/pull/792) ([ahasunos](https://github.com/ahasunos))
 - CHEF-20278: Enhance `windows_uuid_from_wmic` to use `/value` flag for reliable UUID retrieval [#789](https://github.com/inspec/train/pull/789) ([ahasunos](https://github.com/ahasunos))
-<!-- latest_stable_release -->
 
 ## [v3.12.7](https://github.com/inspec/train/tree/v3.12.7) (2024-08-22)
 
