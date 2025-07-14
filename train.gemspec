@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "train-core", "= #{Train::VERSION}"
-  spec.add_dependency "train-winrm", "~> 0.2.19" # This version is required for Ruby 3.0 compatibility
+  spec.add_dependency "train-winrm", "~> 0.3.0" # Ruby 3.4 upgrade included
 
   spec.add_dependency "activesupport", "~> 7.2", ">= 7.2.2.1"
 
