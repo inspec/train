@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.13.3 -->
+## [v3.13.3](https://github.com/inspec/train/tree/v3.13.3) (2025-07-22)
+
+#### Merged Pull Requests
+- CHEF-21404 Enable CI for trufflelog scanning [#798](https://github.com/inspec/train/pull/798) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.13.2 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- CHEF-21404 Enable CI for trufflelog scanning [#798](https://github.com/inspec/train/pull/798) ([Nik08](https://github.com/Nik08)) <!-- 3.13.3 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
