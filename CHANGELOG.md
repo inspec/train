@@ -1,28 +1,24 @@
-<!-- latest_release 3.13.4 -->
-## [v3.13.4](https://github.com/inspec/train/tree/v3.13.4) (2025-08-20)
-
-#### Merged Pull Requests
-- upgrade `train-winrm` [#802](https://github.com/inspec/train/pull/802) ([sathish-progress](https://github.com/sathish-progress))
-- CHEF-24661 - standardize - inspec/train - spurious_file_check [#800](https://github.com/inspec/train/pull/800) ([cgunasree08](https://github.com/cgunasree08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.13.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- upgrade `train-winrm` [#802](https://github.com/inspec/train/pull/802) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.13.4 -->
-- CHEF-24661 - standardize - inspec/train - spurious_file_check [#800](https://github.com/inspec/train/pull/800) ([cgunasree08](https://github.com/cgunasree08)) <!-- 3.13.3 -->
-- CHEF-21404 Enable CI for trufflelog scanning [#798](https://github.com/inspec/train/pull/798) ([Nik08](https://github.com/Nik08)) <!-- 3.13.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.13.4](https://github.com/inspec/train/tree/v3.13.4) (2025-08-20)
+
+#### Merged Pull Requests
+- CHEF-21404 Enable CI for trufflelog scanning [#798](https://github.com/inspec/train/pull/798) ([Nik08](https://github.com/Nik08))
+- CHEF-24661 - standardize - inspec/train - spurious_file_check [#800](https://github.com/inspec/train/pull/800) ([cgunasree08](https://github.com/cgunasree08))
+- upgrade `train-winrm` [#802](https://github.com/inspec/train/pull/802) ([sathish-progress](https://github.com/sathish-progress))
+<!-- latest_stable_release -->
+
 ## [v3.13.2](https://github.com/inspec/train/tree/v3.13.2) (2025-06-19)
 
 #### Merged Pull Requests
 - CHEF-19301-Ruby 3.4.x Upgrade [#787](https://github.com/inspec/train/pull/787) ([balasubramanian-s](https://github.com/balasubramanian-s))
 - Version pinned train-winrm with Ruby3.4.x changes [#796](https://github.com/inspec/train/pull/796) ([Nik08](https://github.com/Nik08))
 - revert back to the old constraint to use greater than 1.16.0 ffi gem [#794](https://github.com/inspec/train/pull/794) ([sathish-progress](https://github.com/sathish-progress))
-<!-- latest_stable_release -->
 
 ## [v3.12.13](https://github.com/inspec/train/tree/v3.12.13) (2025-04-30)
 
