@@ -3,7 +3,7 @@
 [![Build status](https://badge.buildkite.com/ee9d6f49d995b23e943955b12d5aaadf4314d12b7cc99b03be.svg?branch=master)](https://buildkite.com/chef-oss/inspec-train-master-verify)
 [![Gem Version](https://badge.fury.io/rb/train.svg)](https://badge.fury.io/rb/train)
 
-**Umbrella Project**: [Chef Foundation](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-foundation.md)
+
 
 Train lets you talk to your local or remote operating systems and APIs with a unified interface.
 
