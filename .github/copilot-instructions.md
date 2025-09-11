@@ -1,14 +1,14 @@
 ---
-Title: GitHub Copilot Instructions for Train Repository
-Version: 1.1.0
-Last Reviewed: 2025-09-11
-Maintainers: Train Core Maintainers (@chef/inspec-core)
-Applies-To: train, train-core (dual gemspec packaging)
-Supported-Ruby: ">= 3.1" (CI matrix authoritative)
-Minimum-Coverage-Goal: 80%
-Style-Tool: ChefStyle
-Test-Framework: Minitest + Mocha
-CI-Coverage-Env: CI_ENABLE_COVERAGE=1
+title: "GitHub Copilot Instructions for Train Repository"
+version: "1.1.0"
+last_reviewed: "2025-09-11"
+maintainers: "Train Core Maintainers (@chef/inspec-core)"
+applies_to: "train, train-core (dual gemspec packaging)"
+supported_ruby: ">= 3.1"
+minimum_coverage_goal: "80%"
+style_tool: "ChefStyle"
+test_framework: "Minitest + Mocha"
+ci_coverage_env: "CI_ENABLE_COVERAGE=1"
 ---
 
 # GitHub Copilot Instructions for Train Repository
