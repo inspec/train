@@ -1,18 +1,5 @@
 ---
 title: "GitHub Copilot Instructions for Train Repository"
-version: "1.1.0"
-last_reviewed: "2025-09-11"
-maintainers: "Train Core Maintainers (@chef/inspec-core)"
-applies_to: "train, train-core (dual gemspec packaging)"
-supported_ruby: ">= 3.1"
-minimum_coverage_goal: "80%"
-style_tool: "ChefStyle"
-test_framework: "Minitest + Mocha"
-ci_coverage_env: "CI_ENABLE_COVERAGE=1"
----
-
----
-title: "GitHub Copilot Instructions for Train Repository"
 version: "2.0.0"
 last_reviewed: "2025-09-11"
 maintainers: "Train Core Maintainers (@chef/inspec-core)"
@@ -75,6 +62,50 @@ When a JIRA ID is provided:
 - Follow existing test patterns in `test/unit/` directories
 - Mock external dependencies appropriately
 
+## Testing Standards
+
+### Unit Testing Requirements
+- **Framework**: Minitest (primary testing framework)
+- **Coverage**: Maintain > 80% test coverage
+- **Location**: Tests should be in `test/unit/` directories
+- **Naming**: Test files should end with `_test.rb`
+- **Mocking**: Use `mocha/minitest` for mocking external dependencies
+
+### Coverage Configuration
+```ruby
+# Example SimpleCov configuration
+SimpleCov.start do
+  add_filter "/test/"
+  add_group "Transports", ["lib/train/transports"]
+  add_group "Platforms", ["lib/train/platforms"]
+  add_group "Plugins", ["lib/train/plugins"]
+  minimum_coverage 80
+end
+```
+
+### Test Structure Example
+```ruby
+require "helper"
+
+describe Train::Transports::MyTransport do
+  let(:transport) { Train::Transports::MyTransport.new }
+  
+  describe "#connection" do
+    it "establishes connection successfully" do
+      conn = transport.connection
+      _(conn).wont_be_nil
+    end
+    
+    it "handles connection errors gracefully" do
+      # Mock error conditions
+      assert_raises(Train::TransportError) do
+        transport.connection(invalid: true)
+      end
+    end
+  end
+end
+```
+
 ## GitHub CLI & PR Creation
 
 When prompted to create a PR:
@@ -131,19 +162,30 @@ When implementing a task, follow this step-by-step workflow:
 - Ensure proper error handling
 - **Prompt**: "Implementation complete. Next step: Unit test creation. Ready to proceed? (y/n)"
 
-### Step 3: Unit Test Creation
+### Step 3: Unit Test Creation & Validation
 - Create comprehensive test cases for all new code
 - Ensure test coverage > 80%
-- Run tests to verify they pass
-- **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Documentation. Ready to proceed? (y/n)"
+- Run tests to verify they pass: `bundle exec rake test`
+- Fix any failing tests or coverage issues
+- Verify no existing tests are broken by changes
+- **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Code quality & linting. Ready to proceed? (y/n)"
 
-### Step 4: Documentation
+### Step 4: Code Quality & Linting
+- **MANDATORY**: Run ChefStyle linting before creating PR
+- Execute `chefstyle` to check for style and formatting issues
+- Run `chefstyle -a` to automatically fix correctable violations
+- Review and manually fix any remaining ChefStyle violations
+- Ensure all code passes linting standards and style guidelines
+- Verify no new linting violations are introduced
+- **Prompt**: "Code quality checks complete. Next step: Documentation. Ready to proceed? (y/n)"
+
+### Step 5: Documentation
 - Add appropriate code documentation
 - Update README if needed
 - Create/update relevant documentation files
 - **Prompt**: "Documentation complete. Next step: PR creation. Ready to proceed? (y/n)"
 
-### Step 5: PR Creation
+### Step 6: PR Creation
 - Create branch using JIRA ID as branch name
 - Commit and push changes
 - Create PR with HTML-formatted description
@@ -168,9 +210,22 @@ The repository uses the `atlassian-mcp-server` for JIRA integration:
 ## Key Technologies
 - **Ruby**: Primary language (Ruby >= 3.1)
 - **Minitest**: Primary testing framework
-- **SimpleCov**: Code coverage tool
+- **SimpleCov**: Code coverage tool (enabled only when CI_ENABLE_COVERAGE=1)
 - **Bundler**: Ruby dependency management
-- **ChefStyle**: Ruby code style enforcement
+- **Rake**: Ruby build tool
+- **Mocha**: Mocking framework
+- **ChefStyle**: Ruby code style enforcement and linting
+
+## Supported Transports
+- Local execution
+- SSH
+- WinRM
+- Docker and Podman
+- Mock (for testing)
+- AWS API
+- Azure API
+- VMware via PowerCLI
+- Habitat
 
 ## Best Practices
 - Follow existing code patterns in the repository
@@ -179,4 +234,96 @@ The repository uses the `atlassian-mcp-server` for JIRA integration:
 - Write clear, concise code with appropriate comments
 - Ensure cross-platform compatibility when applicable
 
-Remember: All tasks should be prompt-based with explicit confirmation at each step, maintaining high code quality and test coverage standards throughout the process.
+## Error Handling
+
+- Always implement proper error handling using Train's error classes
+- Use appropriate error types: `Train::TransportError`, `Train::UserError`
+- Log errors appropriately for debugging
+- Provide meaningful error messages to users
+- Handle transport-specific error conditions
+
+## Security Considerations
+
+- Never commit sensitive information (credentials, keys)
+- Use environment variables for configuration
+- Follow security best practices for transport development
+- Validate all inputs appropriately
+- Handle authentication securely
+- Consider security implications of new transports
+
+## Additional Best Practices
+
+1. **Version Control**
+   - Make atomic commits with clear messages
+   - Include JIRA ID in commit messages
+   - Keep commits focused on single features
+
+2. **Code Reviews**
+   - Ensure PR descriptions are comprehensive
+   - Include testing information in PR
+   - Reference JIRA tickets appropriately
+   - Document transport-specific changes
+
+3. **Dependencies**
+   - Update Gemfile when adding new Ruby gems
+   - Run `bundle install` after dependency changes
+   - Ensure all dependencies are properly locked
+   - Consider gem compatibility with supported Ruby versions
+
+4. **Performance**
+   - Consider performance implications of transport changes
+   - Test connection establishment and teardown
+   - Optimize for common use cases
+   - Profile transport performance when applicable
+
+## Train-Specific Development Guidelines
+
+### Transport Development
+- Follow the plugin architecture pattern
+- Use Train's connection management
+- Implement proper platform detection
+- Handle authentication securely
+- Support Train's file and command interfaces
+- Provide meaningful error messages
+
+### Platform Support
+- Consider cross-platform compatibility
+- Test on multiple operating systems when applicable
+- Use Train's platform detection system
+- Handle platform-specific edge cases
+
+### Plugin Development
+- Follow Train's plugin registration system
+- Provide proper plugin metadata
+- Use semantic versioning
+- Include comprehensive tests
+
+## Validation and Testing Commands
+
+### Essential Commands
+```bash
+# Install dependencies
+bundle install
+
+# Run all tests
+bundle exec rake test
+
+# Run tests with coverage (locally)
+CI_ENABLE_COVERAGE=1 bundle exec rake test
+
+# Run linting
+bundle exec chefstyle
+
+# Auto-fix linting issues
+bundle exec chefstyle -a
+```
+
+### Documentation Requirements
+- **MANDATORY**: Add comprehensive documentation for all new features
+- Add YARD documentation for public methods and classes using proper syntax
+- Document transport-specific options, configuration, and usage examples
+- Update README.md if adding user-facing features or new transports
+- Create or update relevant documentation in `docs/` directory for major features
+- Include clear usage examples and code samples that are tested and functional
+- Document platform compatibility and requirements
+- Add troubleshooting guides for common issues and error scenarios
