@@ -42,9 +42,9 @@ train/
 ## Critical Instructions
 
 ### 🚨 File Modification Restrictions
-- **DO NOT modify any `*.codegen.go` files** if present in the repository
-- These are auto-generated files and should never be manually edited
-- Always check for presence of codegen files before making changes
+- **DO NOT modify auto-generated files** if present in the repository
+- These files should never be manually edited
+- Always check for presence of auto-generated files before making changes
 
 ### 🔒 Developer Certificate of Origin (DCO) Requirements
 - **MANDATORY**: All commits must be signed with DCO using the `-s` flag
@@ -178,10 +178,10 @@ When implementing a task, follow this step-by-step workflow:
 - **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Code quality & linting. Ready to proceed? (y/n)"
 
 ### Step 4: Code Quality & Linting
-- **MANDATORY**: Run ChefStyle linting before creating PR
-- Execute `chefstyle` to check for style and formatting issues
-- Run `chefstyle -a` to automatically fix correctable violations
-- Review and manually fix any remaining ChefStyle violations
+- **MANDATORY**: Run RuboCop linting before creating PR
+- Execute `bundle exec rake lint` to check for style and formatting issues
+- Run `bundle exec rake lint:auto_correct` to automatically fix correctable violations
+- Review and manually fix any remaining RuboCop violations
 - Ensure all code passes linting standards and style guidelines
 - Verify no new linting violations are introduced
 - **Prompt**: "Code quality checks complete. Next step: Documentation. Ready to proceed? (y/n)"
@@ -215,13 +215,13 @@ The repository uses the `atlassian-mcp-server` for JIRA integration:
 ```
 
 ## Key Technologies
-- **Ruby**: Primary language (Ruby >= 3.1)
+- **Ruby**: Primary language (Ruby >= 3.1.0)
 - **Minitest**: Primary testing framework
 - **SimpleCov**: Code coverage tool (enabled only when CI_ENABLE_COVERAGE=1)
 - **Bundler**: Ruby dependency management
 - **Rake**: Ruby build tool
 - **Mocha**: Mocking framework
-- **ChefStyle**: Ruby code style enforcement and linting
+- **ChefStyle/RuboCop**: Ruby code style enforcement and linting
 
 ## Supported Transports
 - Local execution
@@ -320,10 +320,10 @@ bundle exec rake test
 CI_ENABLE_COVERAGE=1 bundle exec rake test
 
 # Run linting
-bundle exec chefstyle
+bundle exec rake lint
 
 # Auto-fix linting issues
-bundle exec chefstyle -a
+bundle exec rake lint:auto_correct
 
 # Commit with DCO sign-off (MANDATORY)
 git commit -s -m "Your commit message"
