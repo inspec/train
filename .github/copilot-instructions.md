@@ -3,27 +3,7 @@ Title: GitHub Copilot Instructions for Train Repository
 Version: 1.1.0
 Last Reviewed: 2025-09-11
 Maintainers: Train Core Maintainers (@chef/inspec-core)
-Applies-To: tr#### 6. Code Quality & Linting
-- **MANDATORY**: Run ChefStyle linting before creating PR
-- Execute `chefstyle` to check for style and formatting issues
-- Run `chefstyle -a` to automatically fix correctable violations
-- Review and manually fix any remaining ChefStyle violations that cannot be auto-corrected
-- Ensure all code passes linting standards and style guidelines
-- Verify no new linting violations are introduced
-- Run any additional code quality tools if configured
-
-#### 7. Documentation Creation & Validation
-- **MANDATORY**: Create or update documentation before PR creation
-- Add YARD documentation for all new public methods and classes
-- Update README.md if adding user-facing features or transports
-- Create detailed documentation files in `docs/` directory for new transports or major features
-- Include usage examples, configuration options, and troubleshooting guides
-- Document platform compatibility and requirements
-- Validate all code examples in documentation actually work
-- Update any relevant existing documentation that may be affected by changes
-- Ensure documentation follows Train's documentation standards and style
-
-#### 8. Pull Request Creation-core (dual gemspec packaging)
+Applies-To: train, train-core (dual gemspec packaging)
 Supported-Ruby: ">= 3.1" (CI matrix authoritative)
 Minimum-Coverage-Goal: 80%
 Style-Tool: ChefStyle
@@ -51,7 +31,7 @@ CI-Coverage-Env: CI_ENABLE_COVERAGE=1
 Change Type | Actions
 ------------|--------
 Small bugfix (logic) | Add failing unit test → fix → lint → PR
-New transport | Create lib/train/transports/<name>.rb + tests + option docs + update README if user-facing + add usage examples + troubleshooting guide
+New transport | Create lib/train/transports/<name>.rb + tests + YARD docs + README update + docs/<name>_transport.md + usage examples + troubleshooting guide
 Enhance existing transport | Update code + targeted tests (success/failure) + adjust platform logic/tests
 Plugin (non-transport) utility | Add under lib/train/plugins/... + tests + docs
 Dependency bump (runtime) | Update gemspec/Gemfile + run bundle update <gem> + verify compatibility matrix
