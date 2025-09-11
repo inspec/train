@@ -45,7 +45,6 @@ train/
 - **DO NOT modify auto-generated files** if present in the repository
 - These files should never be manually edited
 - Always check for presence of auto-generated files before making changes
-- When adding new transports, ensure platform registration in `lib/train/platforms/detect/specifications/api.rb`
 
 ### 🔒 Developer Certificate of Origin (DCO) Requirements
 - **MANDATORY**: All commits must be signed with DCO using the `-s` flag
