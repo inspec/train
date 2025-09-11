@@ -15,17 +15,13 @@ ci_coverage_env: "CI_ENABLE_COVERAGE=1"
 
 ## TL;DR (Contributor Fast Checklist)
 1. bundle install
-2. Run tests: bundle exec rake test (or bundle exec rake for default task)
-3. (If measuring locally) CI_ENABLE_COVERAGE=1 bundle exec rake test
-4. Lint: bundle exec chefstyle ; bundle exec chefstyle -a ; fix leftovers
-5. Add/Update code + unit tests (always) in test/unit
-6. Add fixtures only if absolutely required (prefer mocks over new fixtures)
-7. For transports / plugins: follow plugin skeleton below & add unit tests + integration tests (if realistic)
-8. Update CHANGELOG via Expeditor commands in commit body if needed (or rely on automation)
-9. Commit with JIRA ID: JIRA-12345: concise summary
-10. Create branch (JIRA ID), push, open PR with label runtest:all:stable
-11. Confirm >80% coverage on CI (SimpleCov only runs when CI_ENABLE_COVERAGE=1)
-12. Respond to review, keep commits atomic
+2. Run tests: bundle exec rake test
+3. Lint: bundle exec chefstyle ; bundle exec chefstyle -a ; fix leftovers
+4. Add/Update code + unit tests (>80% coverage)
+5. Add comprehensive documentation (YARD + README + docs/)
+6. Commit with JIRA ID: JIRA-12345: concise summary
+7. Create branch (JIRA ID), push, open PR with label runtest:all:stable
+8. Respond to review, keep commits atomic
 
 ## Change Type → Required Actions Matrix
 Change Type | Actions
@@ -140,7 +136,7 @@ When a JIRA ID is provided, follow this complete workflow:
 - Consider cross-platform compatibility (Unix, Windows, etc.)
 - Follow Train's plugin architecture when applicable
 
-#### 4. Unit Test Creation
+#### 4. Unit Test Creation & Validation
 - **MANDATORY**: Create comprehensive unit test cases for all new code
 - Use Minitest framework (primary testing framework in this repo)
 - Ensure test coverage is **> 80%** for the repository
@@ -149,21 +145,15 @@ When a JIRA ID is provided, follow this complete workflow:
 - Test both success and failure scenarios
 - Include platform-specific tests when applicable
 - Test transport-specific functionality thoroughly
-
-#### 5. Test Execution & Validation
-- Run all unit tests to ensure they pass
-- Verify test coverage meets the 80% threshold
+- Run all unit tests to ensure they pass and verify coverage meets threshold
 - Fix any failing tests or coverage issues
-- Ensure no existing tests are broken by changes
-- Run integration tests when applicable
-- Test on multiple platforms if transport changes are involved
 
-#### 6. Documentation Creation
+#### 5. Documentation Creation
 - **MANDATORY**: Create comprehensive documentation for all new features (see Documentation Requirements section below for details)
 - Follow all documentation standards and requirements outlined in this guide
 - Ensure documentation is complete before proceeding to code quality checks
 
-#### 7. Code Quality & Linting
+#### 6. Code Quality & Linting
 - **MANDATORY**: Run ChefStyle linting before creating PR
 - Execute `chefstyle` to check for style and formatting issues
 - Run `chefstyle -a` to automatically fix correctable violations
@@ -172,7 +162,7 @@ When a JIRA ID is provided, follow this complete workflow:
 - Verify no new linting violations are introduced
 - Run any additional code quality tools if configured
 
-#### 8. Pull Request Creation
+#### 7. Pull Request Creation
 - Use GitHub CLI to create a branch named after the JIRA ID
 - Push changes to the new branch
 - Create a PR with proper description using HTML tags
@@ -236,9 +226,9 @@ When implementing a task, follow this prompt-based approach:
    - Implement transport-specific functionality if needed
    - **Prompt**: "Implementation complete. Next step: Unit test creation. Ready to proceed? (y/n)"
 
-3. **Testing**
+3. **Testing & Validation**
    - Create comprehensive unit tests
-   - Run tests and verify coverage
+   - Run tests and verify coverage > 80%
    - Test platform compatibility when applicable
    - **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Documentation creation. Ready to proceed? (y/n)"
 
@@ -321,15 +311,6 @@ end
 - Follow Chef community Ruby style guidelines
 - Ensure consistent code formatting across all files
 - Address any security or performance warnings from linters
-
-#### Common ChefStyle Issues and Solutions
-- **Line Length**: Break long lines (max 120 characters typically)
-- **Method Length**: Extract complex logic into smaller methods
-- **Class Length**: Consider splitting large classes into smaller components
-- **Complexity**: Simplify complex conditional statements and loops
-- **Documentation**: Add method and class documentation where required
-- **Naming**: Use descriptive variable and method names following Ruby conventions
-- **Indentation**: Ensure consistent 2-space indentation throughout
 
 #### Transport Development Guidelines
 - Inherit from `Train::Plugins::Transport`
@@ -454,10 +435,9 @@ Use MCP server functions to:
 1. **JIRA Analysis** → Fetch and understand requirements (transport-specific)
 2. **Planning** → Break down implementation approach (consider Train architecture)
 3. **Implementation** → Code the solution following Train patterns
-4. **Testing** → Create comprehensive tests (>80% coverage, platform compatibility)
+4. **Testing & Validation** → Create comprehensive tests (>80% coverage, run and verify)
 5. **Documentation** → Create comprehensive documentation and usage examples
 6. **Code Quality** → Run ChefStyle linting and fix all issues
 7. **PR Creation** → Use GitHub CLI with proper labeling
-8. **Prompt-based** → Confirm each step before proceeding
 
 Remember: All tasks should be prompt-based with explicit confirmation at each step, maintaining high code quality and test coverage standards throughout the process. Consider Train's transport architecture and cross-platform compatibility in all development work.
