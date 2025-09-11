@@ -1,4 +1,72 @@
+---
+Title: GitHub Copilot Instructions for Train Repository
+Version: 1.1.0
+Last Reviewed: 2025-09-11
+Maintainers: Train Core Maintainers (@chef/inspec-core)
+Applies-To: tr#### 6. Code Quality & Linting
+- **MANDATORY**: Run ChefStyle linting before creating PR
+- Execute `chefstyle` to check for style and formatting issues
+- Run `chefstyle -a` to automatically fix correctable violations
+- Review and manually fix any remaining ChefStyle violations that cannot be auto-corrected
+- Ensure all code passes linting standards and style guidelines
+- Verify no new linting violations are introduced
+- Run any additional code quality tools if configured
+
+#### 7. Documentation Creation & Validation
+- **MANDATORY**: Create or update documentation before PR creation
+- Add YARD documentation for all new public methods and classes
+- Update README.md if adding user-facing features or transports
+- Create detailed documentation files in `docs/` directory for new transports or major features
+- Include usage examples, configuration options, and troubleshooting guides
+- Document platform compatibility and requirements
+- Validate all code examples in documentation actually work
+- Update any relevant existing documentation that may be affected by changes
+- Ensure documentation follows Train's documentation standards and style
+
+#### 8. Pull Request Creation-core (dual gemspec packaging)
+Supported-Ruby: ">= 3.1" (CI matrix authoritative)
+Minimum-Coverage-Goal: 80%
+Style-Tool: ChefStyle
+Test-Framework: Minitest + Mocha
+CI-Coverage-Env: CI_ENABLE_COVERAGE=1
+---
+
 # GitHub Copilot Instructions for Train Repository
+
+## TL;DR (Contributor Fast Checklist)
+1. bundle install
+2. Run tests: bundle exec rake test (or bundle exec rake for default task)
+3. (If measuring locally) CI_ENABLE_COVERAGE=1 bundle exec rake test
+4. Lint: bundle exec chefstyle ; bundle exec chefstyle -a ; fix leftovers
+5. Add/Update code + unit tests (always) in test/unit
+6. Add fixtures only if absolutely required (prefer mocks over new fixtures)
+7. For transports / plugins: follow plugin skeleton below & add unit tests + integration tests (if realistic)
+8. Update CHANGELOG via Expeditor commands in commit body if needed (or rely on automation)
+9. Commit with JIRA ID: JIRA-12345: concise summary
+10. Create branch (JIRA ID), push, open PR with label runtest:all:stable
+11. Confirm >80% coverage on CI (SimpleCov only runs when CI_ENABLE_COVERAGE=1)
+12. Respond to review, keep commits atomic
+
+## Change Type → Required Actions Matrix
+Change Type | Actions
+------------|--------
+Small bugfix (logic) | Add failing unit test → fix → lint → PR
+New transport | Create lib/train/transports/<name>.rb + tests + option docs + update README if user-facing + add usage examples + troubleshooting guide
+Enhance existing transport | Update code + targeted tests (success/failure) + adjust platform logic/tests
+Plugin (non-transport) utility | Add under lib/train/plugins/... + tests + docs
+Dependency bump (runtime) | Update gemspec/Gemfile + run bundle update <gem> + verify compatibility matrix
+Security fix | Add regression test, document in PR, consider CHANGELOG entry
+Refactor (no behavior change) | Ensure unchanged public API; rely on existing tests + add tests for uncovered branches
+Performance improvement | Add micro-benchmark (optional) + ensure no behavior regression
+Documentation only | Spellcheck + ensure examples run (if code)
+
+## What NOT To Do
+- Do NOT edit generated / vendored content (none presently ending in *.codegen.go, still verify).
+- Do NOT add external runtime deps casually—prefer stdlib or existing deps; justify additions.
+- Do NOT introduce global state without thread-safety review.
+- Do NOT change transport option names without deprecation path.
+- Do NOT rescue Exception broadly—target specific Train error classes.
+- Do NOT add large binary fixtures (compress/synthesize/mocks instead).
 
 ## Repository Overview
 
@@ -40,9 +108,9 @@ train/
 ```
 
 ### Key Technologies
-- **Ruby**: Primary language (Ruby 2.7+)
+- **Ruby**: Primary language (Ruby >= 3.1)
 - **Minitest**: Primary testing framework
-- **SimpleCov**: Code coverage tool
+- **SimpleCov**: Code coverage tool (enabled only when CI_ENABLE_COVERAGE=1)
 - **Bundler**: Ruby dependency management
 - **Rake**: Ruby build tool
 - **Mocha**: Mocking framework
@@ -110,7 +178,18 @@ When a JIRA ID is provided, follow this complete workflow:
 - Run integration tests when applicable
 - Test on multiple platforms if transport changes are involved
 
-#### 6. Code Quality & Linting
+#### 6. Documentation Creation
+- **MANDATORY**: Create comprehensive documentation for all new features
+- Add inline code documentation using YARD format for public methods and classes
+- Document transport-specific options, configuration, and usage examples
+- Update README.md if adding user-facing features or new transports
+- Create or update relevant documentation in `docs/` directory
+- Include usage examples and code samples where applicable
+- Document platform compatibility and requirements
+- Add troubleshooting guide for common issues
+- Ensure all documentation is clear, accurate, and follows project standards
+
+#### 7. Code Quality & Linting
 - **MANDATORY**: Run ChefStyle linting before creating PR
 - Execute `chefstyle` to check for style and formatting issues
 - Run `chefstyle -a` to automatically fix correctable violations
@@ -119,7 +198,7 @@ When a JIRA ID is provided, follow this complete workflow:
 - Verify no new linting violations are introduced
 - Run any additional code quality tools if configured
 
-#### 7. Pull Request Creation
+#### 8. Pull Request Creation
 - Use GitHub CLI to create a branch named after the JIRA ID
 - Push changes to the new branch
 - Create a PR with proper description using HTML tags
@@ -187,15 +266,22 @@ When implementing a task, follow this prompt-based approach:
    - Create comprehensive unit tests
    - Run tests and verify coverage
    - Test platform compatibility when applicable
-   - **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Code quality & linting. Ready to proceed? (y/n)"
+   - **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Documentation creation. Ready to proceed? (y/n)"
 
-4. **Code Quality & Linting**
+4. **Documentation Creation**
+   - Create comprehensive documentation for new features
+   - Add inline YARD documentation for public methods
+   - Update README.md and relevant docs/ files
+   - Include usage examples and troubleshooting guides
+   - **Prompt**: "Documentation completed and reviewed. Next step: Code quality & linting. Ready to proceed? (y/n)"
+
+5. **Code Quality & Linting**
    - Run ChefStyle linting: `chefstyle` and `chefstyle -a`
    - Manually fix any remaining linting violations
    - Ensure all code passes style and quality standards
    - **Prompt**: "Code linting completed and all issues resolved. Next step: PR creation. Ready to proceed? (y/n)"
 
-5. **PR Creation**
+6. **PR Creation**
    - Create branch, commit changes, and create PR
    - Add required labels
    - **Prompt**: "PR created successfully. Workflow complete. Any additional steps needed? (y/n)"
@@ -280,11 +366,16 @@ end
 - Support Train's audit logging when applicable
 
 #### Documentation Requirements
-- Add YARD documentation for public methods
-- Include examples in documentation
-- Document transport-specific options and requirements
-- Update README files when necessary
-- Document platform compatibility
+- **MANDATORY**: Add comprehensive documentation for all new features
+- Add YARD documentation for public methods and classes
+- Include clear usage examples and configuration options
+- Document transport-specific requirements and platform compatibility
+- Update README files when necessary for user-facing features
+- Create troubleshooting guides for common issues
+- Document security considerations and best practices
+- Ensure all code examples are tested and functional
+- Add inline comments for complex logic and algorithms
+- Document any breaking changes or migration requirements
 
 ### MCP Server Integration
 
@@ -388,8 +479,9 @@ Use MCP server functions to:
 2. **Planning** → Break down implementation approach (consider Train architecture)
 3. **Implementation** → Code the solution following Train patterns
 4. **Testing** → Create comprehensive tests (>80% coverage, platform compatibility)
-5. **Code Quality** → Run ChefStyle linting and fix all issues
-6. **PR Creation** → Use GitHub CLI with proper labeling
-6. **Prompt-based** → Confirm each step before proceeding
+5. **Documentation** → Create comprehensive documentation and usage examples
+6. **Code Quality** → Run ChefStyle linting and fix all issues
+7. **PR Creation** → Use GitHub CLI with proper labeling
+8. **Prompt-based** → Confirm each step before proceeding
 
 Remember: All tasks should be prompt-based with explicit confirmation at each step, maintaining high code quality and test coverage standards throughout the process. Consider Train's transport architecture and cross-platform compatibility in all development work.

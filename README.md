@@ -140,6 +140,40 @@ require 'train'
 Train.create('vmware')
 ```
 
+**Kubernetes**
+
+To connect to a Kubernetes cluster, Train uses kubectl commands. You can authenticate using a kubeconfig file or direct cluster endpoint.
+
+```ruby
+require 'train'
+# Using default kubeconfig file (~/.kube/config)
+train = Train.create('kubernetes')
+```
+
+```ruby
+require 'train'
+# Using custom kubeconfig file
+train = Train.create('kubernetes', kubeconfig_path: '/path/to/kubeconfig')
+```
+
+```ruby
+require 'train'
+# Using direct cluster endpoint
+train = Train.create('kubernetes', cluster_endpoint: 'https://k8s-cluster.example.com:6443', namespace: 'production')
+```
+
+The Kubernetes transport provides access to cluster resources through Train's file interface:
+
+```ruby
+connection = train.connection
+# Access ConfigMaps
+config = connection.file('/configmap/default/my-config/app.yml')
+# Access Secrets (automatically base64 decoded)
+secret = connection.file('/secret/default/my-secret/password')
+# Access container logs
+logs = connection.file('/logs/default/my-pod/my-container')
+```
+
 ## Configuration
 
 To get a list of available options for a plugin:

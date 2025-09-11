@@ -6,6 +6,31 @@ require "open3" unless defined?(Open3)
 require "timeout" unless defined?(Timeout)
 
 module Train::Transports
+  # Train transport for connecting to Kubernetes clusters via kubectl
+  #
+  # This transport provides a unified interface to interact with Kubernetes clusters
+  # through kubectl commands. It supports authentication via kubeconfig files or
+  # direct cluster endpoints, and provides access to cluster resources through
+  # Train's standard command and file interfaces.
+  #
+  # @example Basic usage with kubeconfig
+  #   transport = Train::Transports::Kubernetes.new
+  #   connection = transport.connection
+  #   result = connection.run_command("kubectl get pods")
+  #
+  # @example Using with specific cluster endpoint
+  #   transport = Train::Transports::Kubernetes.new(
+  #     cluster_endpoint: "https://k8s-cluster.example.com:6443",
+  #     namespace: "production"
+  #   )
+  #
+  # @example Accessing ConfigMaps and Secrets
+  #   connection = transport.connection
+  #   config = connection.file("/configmap/default/my-config/app.yml")
+  #   secret = connection.file("/secret/default/my-secret/password")
+  #
+  # @author Chef InSpec Team
+  # @since 3.14.0
   class Kubernetes < Train.plugin(1)
     name "kubernetes"
 
@@ -15,13 +40,31 @@ module Train::Transports
     option :namespace, default: "default"
     option :timeout, default: 30
 
+    # Creates a new connection to the Kubernetes cluster
+    #
+    # @param _ [Hash] unused parameter for compatibility
+    # @return [Connection] a new connection instance
     def connection(_ = nil)
       @connection ||= Connection.new(@options)
     end
 
+    # Kubernetes transport connection class
+    #
+    # Handles the actual connection and communication with Kubernetes clusters.
+    # Provides kubectl command execution and resource access through Train's
+    # standard interfaces.
     class Connection < BaseConnection
       attr_reader :options
 
+      # Initialize a new Kubernetes connection
+      #
+      # @param options [Hash] connection options
+      # @option options [String] :kubeconfig_path path to kubeconfig file
+      # @option options [String] :cluster_endpoint direct cluster endpoint URL
+      # @option options [String] :namespace Kubernetes namespace (default: "default")
+      # @option options [Integer] :timeout connection timeout in seconds
+      #
+      # @raise [Train::TransportError] if connection cannot be established
       def initialize(options)
         super(options)
 
@@ -43,6 +86,9 @@ module Train::Transports
         connect
       end
 
+      # Returns the platform information for this connection
+      #
+      # @return [Train::Platforms::Platform] platform object with kubernetes details
       def platform
         # Ensure kubernetes platform is registered in families
         Train::Platforms::Detect::Specifications::Api.load
@@ -58,6 +104,13 @@ module Train::Transports
         plat
       end
 
+      # Establishes connection to the Kubernetes cluster
+      #
+      # Validates that kubectl is available and tests connectivity to the cluster.
+      # This method is called automatically during connection initialization.
+      #
+      # @raise [Train::TransportError] if kubectl is not available or connection fails
+      # @return [void]
       def connect
         # Validate kubectl is available
         unless kubectl_available?
@@ -70,16 +123,27 @@ module Train::Transports
         raise Train::TransportError, "Failed to connect to Kubernetes cluster: #{e.message}"
       end
 
+      # Returns the URI for this connection
+      #
+      # @return [String] URI in the format kubernetes://endpoint
       def uri
         endpoint = @cluster_endpoint || extract_cluster_endpoint
         "kubernetes://#{endpoint || "unknown"}"
       end
 
+      # Returns a unique identifier for this connection
+      #
+      # @return [String] unique identifier including endpoint and namespace
       def unique_identifier
         endpoint = @cluster_endpoint || extract_cluster_endpoint
         "kubernetes:#{endpoint}:#{@namespace}"
       end
 
+      # Closes the connection
+      #
+      # For kubectl-based transport, there's no persistent connection to close.
+      #
+      # @return [void]
       def close
         # No persistent connection to close for kubectl-based transport
       end
@@ -208,6 +272,22 @@ module Train::Transports
         Train::Extras::CommandResult.new("", e.message, 1)
       end
 
+      # Executes a command via the connection
+      #
+      # This method handles command execution for the Kubernetes transport.
+      # Only kubectl commands are supported - other commands will return an error.
+      #
+      # @param cmd [String] the command to execute
+      # @param opts [Hash] command options (currently unused)
+      # @return [Train::Extras::CommandResult] result object with stdout, stderr, and exit status
+      #
+      # @example Execute kubectl command
+      #   result = connection.run_command_via_connection("kubectl get pods")
+      #   puts result.stdout
+      #
+      # @example Invalid command
+      #   result = connection.run_command_via_connection("ls /tmp")
+      #   # Returns error indicating only kubectl operations are supported
       def run_command_via_connection(cmd, opts = {})
         # Parse kubectl commands vs direct execution
         if cmd.start_with?("kubectl ")
