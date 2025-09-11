@@ -10,6 +10,7 @@ module Train::Platforms::Detect::Specifications
       plat.name("azure").in_family("cloud")
       plat.name("gcp").in_family("cloud")
       plat.name("vmware").in_family("cloud")
+      plat.name("kubernetes").in_family("cloud")
 
       plat.family("iaas").in_family("api")
       plat.name("oneview").in_family("iaas")
