@@ -46,6 +46,13 @@ train/
 - These are auto-generated files and should never be manually edited
 - Always check for presence of codegen files before making changes
 
+### 🔒 Developer Certificate of Origin (DCO) Requirements
+- **MANDATORY**: All commits must be signed with DCO using the `-s` flag
+- Use `git commit -s` for all commits to add the required "Signed-off-by" line
+- DCO ensures legal compliance and contribution authenticity
+- Failing to sign commits will cause CI/CD pipeline failures
+- If you forget to sign a commit, you can amend it: `git commit --amend -s`
+
 ## JIRA Integration & MCP Server Usage
 
 When a JIRA ID is provided:
@@ -123,9 +130,9 @@ gh auth login
 # Create feature branch (use JIRA ID as branch name)
 git checkout -b JIRA-12345
 
-# Make your changes, commit them
+# Make your changes, commit them with DCO sign-off
 git add .
-git commit -m "JIRA-12345: Brief description of changes"
+git commit -s -m "JIRA-12345: Brief description of changes"
 
 # Push branch
 git push origin JIRA-12345
@@ -187,7 +194,7 @@ When implementing a task, follow this step-by-step workflow:
 
 ### Step 6: PR Creation
 - Create branch using JIRA ID as branch name
-- Commit and push changes
+- Commit and push changes with DCO sign-off
 - Create PR with HTML-formatted description
 - Add required label "runtest:all:stable"
 - **Prompt**: "PR created successfully. Workflow complete. Any additional steps needed? (y/n)"
@@ -256,6 +263,7 @@ The repository uses the `atlassian-mcp-server` for JIRA integration:
 1. **Version Control**
    - Make atomic commits with clear messages
    - Include JIRA ID in commit messages
+   - **MANDATORY**: Always use DCO sign-off with `git commit -s`
    - Keep commits focused on single features
 
 2. **Code Reviews**
@@ -316,6 +324,12 @@ bundle exec chefstyle
 
 # Auto-fix linting issues
 bundle exec chefstyle -a
+
+# Commit with DCO sign-off (MANDATORY)
+git commit -s -m "Your commit message"
+
+# Amend last commit to add DCO sign-off if forgotten
+git commit --amend -s
 ```
 
 ### Documentation Requirements
