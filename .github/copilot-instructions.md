@@ -45,6 +45,7 @@ train/
 - **DO NOT modify auto-generated files** if present in the repository
 - These files should never be manually edited
 - Always check for presence of auto-generated files before making changes
+- When adding new transports, ensure platform registration in `lib/train/platforms/detect/specifications/api.rb`
 
 ### 🔒 Developer Certificate of Origin (DCO) Requirements
 - **MANDATORY**: All commits must be signed with DCO using the `-s` flag
@@ -73,10 +74,108 @@ When a JIRA ID is provided:
 
 ### Unit Testing Requirements
 - **Framework**: Minitest (primary testing framework)
-- **Coverage**: Maintain > 80% test coverage
-- **Location**: Tests should be in `test/unit/` directories
+- **Coverage**: Maintain > 80% test coverage for new code
+- **Location**: Tests should be in `test/unit/transports/` for transport tests
 - **Naming**: Test files should end with `_test.rb`
 - **Mocking**: Use `mocha/minitest` for mocking external dependencies
+
+### Transport Testing Patterns
+
+```ruby
+require "test_helper"
+
+describe Train::Transports::YourTransport do
+  let(:transport) { Train::Transports::YourTransport.new }
+  let(:connection_options) { { host: 'example.com', port: 443 } }
+  
+  describe "transport registration" do
+    it "registers the transport" do
+      _(Train.create('your_transport')).must_be_instance_of Train::Transports::YourTransport
+    end
+  end
+  
+  describe "option validation" do
+    it "requires host option" do
+      _(proc { transport.connection({}) }).must_raise Train::UserError
+    end
+    
+    it "uses default port when not specified" do
+      conn = transport.connection(host: 'example.com')
+      _(conn.options[:port]).must_equal 443
+    end
+  end
+  
+  describe "connection management" do
+    it "creates new connection" do
+      conn = transport.connection(connection_options)
+      _(conn).must_be_instance_of Train::Transports::YourTransport::Connection
+    end
+    
+    it "reuses existing connection when possible" do
+      conn1 = transport.connection(connection_options)
+      conn2 = transport.connection(connection_options)
+      _(conn1).must_equal conn2
+    end
+  end
+end
+
+describe Train::Transports::YourTransport::Connection do
+  let(:connection) { Train::Transports::YourTransport::Connection.new(connection_options) }
+  let(:connection_options) { { host: 'example.com', port: 443 } }
+  
+  describe "platform detection" do
+    it "detects correct platform" do
+      platform = connection.platform
+      _(platform.name).must_equal 'your_platform'
+      _(platform.family_hierarchy).must_include 'api'
+    end
+  end
+  
+  describe "command execution" do
+    it "executes commands successfully" do
+      connection.stubs(:execute_command).returns(mock_result(stdout: 'output', stderr: '', exit_code: 0))
+      result = connection.run_command('test command')
+      _(result.stdout).must_equal 'output'
+      _(result.exit_code).must_equal 0
+    end
+    
+    it "handles command errors" do
+      connection.stubs(:execute_command).raises(StandardError.new('Connection failed'))
+      result = connection.run_command('failing command')
+      _(result.exit_code).must_equal 1
+      _(result.stderr).must_include 'Connection failed'
+    end
+  end
+  
+  describe "file operations" do
+    it "handles file access" do
+      connection.stubs(:get_file_info).returns(mock_file_info)
+      file = connection.file('/path/to/file')
+      _(file).must_be_instance_of Train::File::Remote
+    end
+    
+    it "handles missing files" do
+      connection.stubs(:get_file_info).raises(FileNotFoundError)
+      file = connection.file('/nonexistent')
+      _(file.exist?).must_equal false
+    end
+  end
+  
+  private
+  
+  def mock_result(stdout: '', stderr: '', exit_code: 0)
+    result = Object.new
+    result.stubs(:stdout).returns(stdout)
+    result.stubs(:stderr).returns(stderr)
+    result.stubs(:exit_code).returns(exit_code)
+    result
+  end
+  
+  def mock_file_info
+    { mode: 0644, size: 1024, mtime: Time.now }
+  end
+end
+```
 
 ### Coverage Configuration
 ```ruby
@@ -249,6 +348,40 @@ The repository uses the `atlassian-mcp-server` for JIRA integration:
 - Provide meaningful error messages to users
 - Handle transport-specific error conditions
 
+### Common Error Patterns
+
+```ruby
+# Configuration validation errors
+raise Train::UserError, "Missing required option: #{option}" if opts[option].nil?
+
+# Connection errors
+begin
+  establish_connection
+rescue SomeNetworkError => e
+  raise Train::TransportError, "Failed to connect: #{e.message}"
+end
+
+# Command execution errors
+def run_command_via_connection(cmd, &_data_handler)
+  begin
+    result = execute_command(cmd)
+    CommandResult.new(result.stdout, result.stderr, result.exit_code)
+  rescue CommandExecutionError => e
+    CommandResult.new('', e.message, 1)
+  end
+end
+
+# File operation errors
+def file_via_connection(path)
+  begin
+    file_info = get_file_info(path)
+    FileCommon.new(self, path, file_info)
+  rescue FileNotFoundError
+    FileCommon.new(self, path, follow_symlink: false)
+  end
+end
+```
+
 ## Security Considerations
 
 - Never commit sensitive information (credentials, keys)
@@ -286,6 +419,95 @@ The repository uses the `atlassian-mcp-server` for JIRA integration:
 
 ## Train-Specific Development Guidelines
 
+### Transport Implementation Patterns
+
+When implementing a new transport, follow this structure:
+
+```ruby
+module Train::Transports
+  class YourTransport < Train.plugin(1)
+    name 'your_transport'
+    
+    # Configuration options
+    option :host, required: true
+    option :port, default: 443
+    option :ssl, default: true
+    
+    def connection(state = {})
+      opts = merge_options(options, state || {})
+      validate_options!(opts)
+      
+      if @connection && reusable?
+        @connection
+      else
+        @connection = Connection.new(opts)
+      end
+    end
+    
+    private
+    
+    def validate_options!(opts)
+      # Validate required options
+      super(opts)
+      # Add transport-specific validations
+    end
+  end
+  
+  class Connection < BaseConnection
+    def initialize(opts)
+      super(opts)
+      @options = opts
+      # Initialize transport-specific connection
+    end
+    
+    def platform
+      # Implement platform detection
+      force_platform!('your_platform', platform_details)
+    end
+    
+    def run_command_via_connection(cmd, &_data_handler)
+      # Implement command execution
+      # Return CommandResult object
+    end
+    
+    def file_via_connection(path)
+      # Implement file operations
+      # Return FileCommon object
+    end
+    
+    private
+    
+    def connect
+      # Establish connection
+    end
+    
+    def disconnect
+      # Clean up connection
+    end
+  end
+end
+```
+
+### Platform Registration
+
+For new transports, ensure platform family registration:
+
+```ruby
+# In lib/train/platforms/detect/specifications/api.rb
+module Train::Platforms::Detect::Specifications
+  class Api < Train::Platforms::Detect::Specifications::OS
+    def platform_detect
+      return false unless @backend.class.to_s == 'Train::Transports::YourTransport::Connection'
+      
+      @platform[:name] = 'your_platform'
+      @platform[:family] = 'api'
+      @platform[:family_hierarchy] = %w{your_platform api}
+      true
+    end
+  end
+end
+```
+
 ### Transport Development
 - Follow the plugin architecture pattern
 - Use Train's connection management
@@ -293,6 +515,12 @@ The repository uses the `atlassian-mcp-server` for JIRA integration:
 - Handle authentication securely
 - Support Train's file and command interfaces
 - Provide meaningful error messages
+- **IMPORTANT**: Register new platform families in `lib/train/platforms/detect/specifications/api.rb`
+- Use Train's configuration validation system (`validate_options!`)
+- Implement proper connection lifecycle management (connect, disconnect, etc.)
+- Support both URI-style and hash-style connection options
+- Handle transport-specific errors with appropriate Train exception types
+- Consider timeout and retry mechanisms for network-based transports
 
 ### Platform Support
 - Consider cross-platform compatibility
@@ -324,12 +552,7 @@ bundle exec rake lint
 
 # Auto-fix linting issues
 bundle exec rake lint:auto_correct
-
-# Commit with DCO sign-off (MANDATORY)
-git commit -s -m "Your commit message"
-
-# Amend last commit to add DCO sign-off if forgotten
-git commit --amend -s
+```
 ```
 
 ### Documentation Requirements
