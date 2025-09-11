@@ -159,15 +159,9 @@ When a JIRA ID is provided, follow this complete workflow:
 - Test on multiple platforms if transport changes are involved
 
 #### 6. Documentation Creation
-- **MANDATORY**: Create comprehensive documentation for all new features
-- Add inline code documentation using YARD format for public methods and classes
-- Document transport-specific options, configuration, and usage examples
-- Update README.md if adding user-facing features or new transports
-- Create or update relevant documentation in `docs/` directory
-- Include usage examples and code samples where applicable
-- Document platform compatibility and requirements
-- Add troubleshooting guide for common issues
-- Ensure all documentation is clear, accurate, and follows project standards
+- **MANDATORY**: Create comprehensive documentation for all new features (see Documentation Requirements section below for details)
+- Follow all documentation standards and requirements outlined in this guide
+- Ensure documentation is complete before proceeding to code quality checks
 
 #### 7. Code Quality & Linting
 - **MANDATORY**: Run ChefStyle linting before creating PR
@@ -347,15 +341,17 @@ end
 
 #### Documentation Requirements
 - **MANDATORY**: Add comprehensive documentation for all new features
-- Add YARD documentation for public methods and classes
-- Include clear usage examples and configuration options
-- Document transport-specific requirements and platform compatibility
-- Update README files when necessary for user-facing features
-- Create troubleshooting guides for common issues
+- Add YARD documentation for public methods and classes using proper syntax
+- Document transport-specific options, configuration, and usage examples
+- Update README.md if adding user-facing features or new transports
+- Create or update relevant documentation in `docs/` directory for major features
+- Include clear usage examples and code samples that are tested and functional
+- Document platform compatibility and requirements
+- Add troubleshooting guides for common issues and error scenarios
 - Document security considerations and best practices
-- Ensure all code examples are tested and functional
 - Add inline comments for complex logic and algorithms
 - Document any breaking changes or migration requirements
+- Ensure all documentation is clear, accurate, and follows project standards
 
 ### MCP Server Integration
 
