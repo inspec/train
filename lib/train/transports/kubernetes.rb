@@ -90,18 +90,7 @@ module Train::Transports
       #
       # @return [Train::Platforms::Platform] platform object with kubernetes details
       def platform
-        # Ensure kubernetes platform is registered in families
-        Train::Platforms::Detect::Specifications::Api.load
-
-        # Register kubernetes in cloud family if not already registered
-        k8s_platform = Train::Platforms.list["kubernetes"]
-        if k8s_platform.nil? || k8s_platform.families.empty?
-          Train::Platforms.name("kubernetes").in_family("cloud")
-        end
-
-        plat = force_platform!("kubernetes", @platform_details)
-        plat.find_family_hierarchy
-        plat
+        force_platform!("kubernetes", @platform_details)
       end
 
       # Establishes connection to the Kubernetes cluster
@@ -163,9 +152,8 @@ module Train::Transports
       end
 
       def kubectl_available?
-        Open3.popen3("kubectl version --client=true") do |_stdin, _stdout, _stderr, wait_thr|
-          wait_thr.value.success?
-        end
+        _stdout, _stderr, status = Open3.capture3("kubectl", "version", "--client", "--output=json")
+        status.success?
       rescue StandardError
         false
       end
