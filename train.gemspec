@@ -46,7 +46,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "google-apis-monitoring_v3", "~> 0.51.0"
   spec.add_dependency "google-apis-compute_v1", "~> 0.83.0"
   spec.add_dependency "google-apis-cloudresourcemanager_v1", "~> 0.35.0"
-  spec.add_dependency "google-apis-storage_v1", "~> 0.30.0"
+  spec.add_dependency "google-apis-storage_v1", ">= 0.30", "< 0.57"
   spec.add_dependency "google-apis-iam_v1", "~> 0.50.0"
   # Gem dependency needed with Ruby 3.4 upgrade
   spec.add_dependency "ostruct", "~> 0.1.0"
