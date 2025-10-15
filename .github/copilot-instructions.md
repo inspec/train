@@ -393,3 +393,37 @@ Use MCP server functions to:
 6. **Prompt-based** → Confirm each step before proceeding
 
 Remember: All tasks should be prompt-based with explicit confirmation at each step, maintaining high code quality and test coverage standards throughout the process. Consider Train's transport architecture and cross-platform compatibility in all development work.
+
+1. AI-Assisted Development & Compliance
+✅ Create PR with ai-assisted label (if label doesn't exist, create it with description "Work completed with AI assistance following Progress AI policies" and color "9A4DFF")
+✅ Include "This work was completed with AI assistance following Progress AI policies" in PR description
+2. Jira Ticket Updates (MANDATORY)
+✅ IMMEDIATELY after PR creation: Update Jira ticket custom field customfield_11170 ("Does this Work Include AI Assisted Code?") to "Yes"
+✅ Use atlassian-mcp tools to update the Jira field programmatically
+✅ CRITICAL: Use correct field format: {"customfield_11170": {"value": "Yes"}}
+✅ Verify the field update was successful
+3. Documentation Requirements
+✅ Reference AI assistance in commit messages where appropriate
+✅ Document any AI-generated code patterns or approaches in PR description
+✅ Maintain transparency about which parts were AI-assisted vs manual implementation
+Workflow Integration
+This AI compliance checklist should be integrated into the main development workflow Step 4 (Pull Request Creation):
+
+Step 4: Pull Request Creation & AI Compliance
+- Step 4.1: Create branch and commit changes
+- Step 4.2: Push changes to remote
+- Step 4.3: Create PR with ai-assisted label
+- Step 4.4: IMMEDIATELY update Jira customfield_11170 to "Yes" 
+- Step 4.5: Verify both PR labels and Jira field are properly set
+- Step 4.6: Provide complete summary including AI compliance confirmation
+Never skip Jira field updates - This is required for Progress AI governance
+Always verify updates succeeded - Check response from atlassian-mcp tools
+Treat as atomic operation - PR creation and Jira updates should happen together
+Double-check before final summary - Confirm all AI compliance items are completed
+Audit Trail
+All AI-assisted work must be traceable through:
+
+GitHub PR labels (ai-assisted)
+Jira custom field (customfield_11170 = "Yes")
+PR descriptions mentioning AI assistance
+Commit messages where relevant
