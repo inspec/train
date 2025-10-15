@@ -1,20 +1,18 @@
----
-title: "GitHub Copilot Instructions for Train Repository"
-version: "2.0.0"
-last_reviewed: "2025-09-11"
-maintainers: "Train Core Maintainers (@chef/inspec-core)"
----
-
 # GitHub Copilot Instructions for Train Repository
 
 ## Repository Overview
 
 This repository contains the Train Transport Interface, a Ruby library that provides a unified interface to talk to local or remote operating systems and APIs. Train is a core component of the Chef InSpec ecosystem.
 
-## Folder Structure
+### Folder Structure
 ```
 train/
 ├── .github/                              # GitHub workflows and configurations
+│   ├── CODEOWNERS                        # Code ownership definitions
+│   ├── ISSUE_TEMPLATE/                   # Issue templates
+│   ├── dependabot.yml                    # Dependabot configuration
+│   ├── lock.yml                          # Lock configuration
+│   └── workflows/                        # CI/CD workflows
 ├── .expeditor/                           # Chef Expeditor CI configuration
 ├── contrib/                              # Contribution utilities
 ├── docs/                                 # Documentation
@@ -26,6 +24,8 @@ train/
 │   │   ├── platforms/                    # Platform detection
 │   │   ├── plugins/                      # Plugin system
 │   │   └── transports/                   # Transport implementations
+│   │       ├── clients/                  # Transport clients
+│   │       └── helpers/                  # Transport helpers
 │   └── train.rb                          # Main entry point
 ├── test/                                 # Test suites
 │   ├── fixtures/                         # Test fixtures and plugins
@@ -39,144 +39,177 @@ train/
 └── README.md                             # Project documentation
 ```
 
+### Key Technologies
+- **Ruby**: Primary language (Ruby 2.7+)
+- **Minitest**: Primary testing framework
+- **SimpleCov**: Code coverage tool
+- **Bundler**: Ruby dependency management
+- **Rake**: Ruby build tool
+- **Mocha**: Mocking framework
+- **ChefStyle**: Ruby code style enforcement and linting
+
+### Supported Transports
+- Local execution
+- SSH
+- WinRM
+- Docker and Podman
+- Mock (for testing)
+- AWS API
+- Azure API
+- VMware via PowerCLI
+- Habitat
+
 ## Critical Instructions
 
 ### 🚨 File Modification Restrictions
-- **DO NOT modify auto-generated files** if present in the repository
-- These files should never be manually edited
-- Always check for presence of auto-generated files before making changes
+- **DO NOT modify any `*.codegen.go` files** if present in the repository
+- These are auto-generated files and should never be manually edited
+- Always check for presence of codegen files before making changes
 
-### 🔒 Developer Certificate of Origin (DCO) Requirements
-- **MANDATORY**: All commits must be signed with DCO using the `-s` flag
-- Use `git commit -s` for all commits to add the required "Signed-off-by" line
-- DCO ensures legal compliance and contribution authenticity
-- Failing to sign commits will cause CI/CD pipeline failures
-- If you forget to sign a commit, you can amend it: `git commit --amend -s`
+### JIRA Integration & Task Implementation Workflow
 
-## JIRA Integration & MCP Server Usage
+When a JIRA ID is provided, follow this complete workflow:
 
-When a JIRA ID is provided:
+#### 1. JIRA Issue Analysis
 - Use the `atlassian-mcp-server` MCP server to fetch JIRA issue details
 - Read and understand the story requirements thoroughly
 - Identify all acceptance criteria and technical requirements
-- Implement the task according to the story requirements
+- Note any dependencies or constraints mentioned
+- Consider transport-specific requirements and compatibility
 
-## Testing Requirements
+#### 2. Implementation Planning
+- Break down the task into smaller, manageable components
+- Identify which files need to be created, modified, or tested
+- Plan the implementation approach based on Train's architecture
+- Consider existing transport patterns and plugin conventions
+- Review platform compatibility requirements
 
-- **MANDATORY**: Create comprehensive unit test cases for all implementations
-- Ensure test coverage is **> 80%** for the repository
+#### 3. Code Implementation
+- Implement the feature according to JIRA requirements
+- Follow existing code patterns and Ruby conventions
+- Ensure proper error handling and logging
+- Add appropriate documentation and comments
+- Consider cross-platform compatibility (Unix, Windows, etc.)
+- Follow Train's plugin architecture when applicable
+
+#### 4. Unit Test Creation
+- **MANDATORY**: Create comprehensive unit test cases for all new code
 - Use Minitest framework (primary testing framework in this repo)
+- Ensure test coverage is **> 80%** for the repository
 - Follow existing test patterns in `test/unit/` directories
-- Mock external dependencies appropriately
+- Mock external dependencies appropriately using Mocha
+- Test both success and failure scenarios
+- Include platform-specific tests when applicable
+- Test transport-specific functionality thoroughly
 
-## Testing Standards
+#### 5. Test Execution & Validation
+- Run all unit tests to ensure they pass
+- Verify test coverage meets the 80% threshold
+- Fix any failing tests or coverage issues
+- Ensure no existing tests are broken by changes
+- Run integration tests when applicable
+- Test on multiple platforms if transport changes are involved
 
-### Unit Testing Requirements
+#### 6. Code Quality & Linting
+- **MANDATORY**: Run ChefStyle linting before creating PR
+- Execute `chefstyle` to check for style and formatting issues
+- Run `chefstyle -a` to automatically fix correctable violations
+- Review and manually fix any remaining ChefStyle violations that cannot be auto-corrected
+- Ensure all code passes linting standards and style guidelines
+- Verify no new linting violations are introduced
+- Run any additional code quality tools if configured
+
+#### 7. Pull Request Creation
+- Use GitHub CLI to create a branch named after the JIRA ID
+- Push changes to the new branch
+- Create a PR with proper description using HTML tags
+- **MANDATORY**: Add label `runtest:all:stable` to the PR
+- PR description should include:
+  - Summary of changes made
+  - JIRA ticket reference
+  - Testing performed
+  - Platform compatibility notes
+  - Any breaking changes or migration notes
+
+### GitHub CLI Authentication & PR Workflow
+
+```bash
+# Authenticate with GitHub CLI
+gh auth login
+
+# Create feature branch (use JIRA ID as branch name)
+git checkout -b JIRA-12345
+
+# Make your changes, commit them
+git add .
+git commit -m "JIRA-12345: Brief description of changes"
+
+# Run linting and fix issues before pushing
+chefstyle
+
+# Auto-fix correctable style violations
+chefstyle -a
+
+# Fix any remaining issues that ChefStyle couldn't auto-correct
+# Review ChefStyle output and manually fix remaining violations
+
+# Commit any linting fixes
+git add .
+git commit -m "JIRA-12345: Fix linting issues"
+
+# Push branch
+git push origin JIRA-12345
+
+# Create PR with proper labeling
+gh pr create \
+  --title "JIRA-12345: Feature title" \
+  --body "<h2>Summary</h2><p>Description of changes...</p><h2>JIRA</h2><p>JIRA-12345</p><h2>Testing</h2><p>Test coverage and validation performed...</p>" \
+  --label "runtest:all:stable"
+```
+
+### Step-by-Step Workflow Example
+
+When implementing a task, follow this prompt-based approach:
+
+1. **Initial Analysis**
+   - Fetch JIRA details using MCP server
+   - Analyze requirements and create implementation plan
+   - Consider Train-specific architecture and patterns
+   - **Prompt**: "Analysis complete. Next step: Implementation planning. Ready to proceed? (y/n)"
+
+2. **Implementation**
+   - Create/modify necessary files
+   - Follow coding standards and Train patterns
+   - Implement transport-specific functionality if needed
+   - **Prompt**: "Implementation complete. Next step: Unit test creation. Ready to proceed? (y/n)"
+
+3. **Testing**
+   - Create comprehensive unit tests
+   - Run tests and verify coverage
+   - Test platform compatibility when applicable
+   - **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Code quality & linting. Ready to proceed? (y/n)"
+
+4. **Code Quality & Linting**
+   - Run ChefStyle linting: `chefstyle` and `chefstyle -a`
+   - Manually fix any remaining linting violations
+   - Ensure all code passes style and quality standards
+   - **Prompt**: "Code linting completed and all issues resolved. Next step: PR creation. Ready to proceed? (y/n)"
+
+5. **PR Creation**
+   - Create branch, commit changes, and create PR
+   - Add required labels
+   - **Prompt**: "PR created successfully. Workflow complete. Any additional steps needed? (y/n)"
+
+### Testing Standards
+
+#### Unit Testing Requirements
 - **Framework**: Minitest (primary testing framework)
-- **Coverage**: Maintain > 80% test coverage for new code
-- **Location**: Tests should be in `test/unit/transports/` for transport tests
+- **Coverage**: Maintain > 80% test coverage
+- **Location**: Tests should be in `test/unit/` directories
 - **Naming**: Test files should end with `_test.rb`
 - **Mocking**: Use `mocha/minitest` for mocking external dependencies
 
-### Transport Testing Patterns
-
-```ruby
-require "test_helper"
-
-describe Train::Transports::YourTransport do
-  let(:transport) { Train::Transports::YourTransport.new }
-  let(:connection_options) { { host: 'example.com', port: 443 } }
-  
-  describe "transport registration" do
-    it "registers the transport" do
-      _(Train.create('your_transport')).must_be_instance_of Train::Transports::YourTransport
-    end
-  end
-  
-  describe "option validation" do
-    it "requires host option" do
-      _(proc { transport.connection({}) }).must_raise Train::UserError
-    end
-    
-    it "uses default port when not specified" do
-      conn = transport.connection(host: 'example.com')
-      _(conn.options[:port]).must_equal 443
-    end
-  end
-  
-  describe "connection management" do
-    it "creates new connection" do
-      conn = transport.connection(connection_options)
-      _(conn).must_be_instance_of Train::Transports::YourTransport::Connection
-    end
-    
-    it "reuses existing connection when possible" do
-      conn1 = transport.connection(connection_options)
-      conn2 = transport.connection(connection_options)
-      _(conn1).must_equal conn2
-    end
-  end
-end
-
-describe Train::Transports::YourTransport::Connection do
-  let(:connection) { Train::Transports::YourTransport::Connection.new(connection_options) }
-  let(:connection_options) { { host: 'example.com', port: 443 } }
-  
-  describe "platform detection" do
-    it "detects correct platform" do
-      platform = connection.platform
-      _(platform.name).must_equal 'your_platform'
-      _(platform.family_hierarchy).must_include 'api'
-    end
-  end
-  
-  describe "command execution" do
-    it "executes commands successfully" do
-      connection.stubs(:execute_command).returns(mock_result(stdout: 'output', stderr: '', exit_code: 0))
-      result = connection.run_command('test command')
-      _(result.stdout).must_equal 'output'
-      _(result.exit_code).must_equal 0
-    end
-    
-    it "handles command errors" do
-      connection.stubs(:execute_command).raises(StandardError.new('Connection failed'))
-      result = connection.run_command('failing command')
-      _(result.exit_code).must_equal 1
-      _(result.stderr).must_include 'Connection failed'
-    end
-  end
-  
-  describe "file operations" do
-    it "handles file access" do
-      connection.stubs(:get_file_info).returns(mock_file_info)
-      file = connection.file('/path/to/file')
-      _(file).must_be_instance_of Train::File::Remote
-    end
-    
-    it "handles missing files" do
-      connection.stubs(:get_file_info).raises(FileNotFoundError)
-      file = connection.file('/nonexistent')
-      _(file.exist?).must_equal false
-    end
-  end
-  
-  private
-  
-  def mock_result(stdout: '', stderr: '', exit_code: 0)
-    result = Object.new
-    result.stubs(:stdout).returns(stdout)
-    result.stubs(:stderr).returns(stderr)
-    result.stubs(:exit_code).returns(exit_code)
-    result
-  end
-  
-  def mock_file_info
-    { mode: 0644, size: 1024, mtime: Time.now }
-  end
-end
-```
-
-### Coverage Configuration
+#### Coverage Configuration
 ```ruby
 # Example SimpleCov configuration
 SimpleCov.start do
@@ -188,7 +221,7 @@ SimpleCov.start do
 end
 ```
 
-### Test Structure Example
+#### Test Structure Example
 ```ruby
 require "helper"
 
@@ -211,93 +244,53 @@ describe Train::Transports::MyTransport do
 end
 ```
 
-## GitHub CLI & PR Creation
+### Code Quality Standards
 
-When prompted to create a PR:
-- Use GitHub CLI to create a branch named after the JIRA ID
-- Push changes to the new branch
-- Create a PR with proper description using HTML tags
-- **MANDATORY**: Add label `runtest:all:stable` to the PR
-- All tasks will be performed on local repo
+#### Ruby Standards
+- Follow Ruby community conventions
+- Use proper indentation (2 spaces)
+- Add appropriate comments and documentation
+- Handle errors gracefully using Train's error classes
+- Use meaningful variable and method names
+- Follow Train's existing patterns for transports and plugins
 
-### GitHub CLI Commands
-```bash
-# Authenticate with GitHub CLI (no ~/.profile needed)
-gh auth login
+#### Code Linting and Style Requirements
+- **MANDATORY**: Run ChefStyle before submitting PR: `chefstyle`
+- Auto-fix all possible style and formatting issues: `chefstyle -a`
+- Manually resolve remaining ChefStyle violations that cannot be auto-corrected
+- Follow Chef community Ruby style guidelines
+- Ensure consistent code formatting across all files
+- Address any security or performance warnings from linters
 
-# Create feature branch (use JIRA ID as branch name)
-git checkout -b JIRA-12345
+#### Common ChefStyle Issues and Solutions
+- **Line Length**: Break long lines (max 120 characters typically)
+- **Method Length**: Extract complex logic into smaller methods
+- **Class Length**: Consider splitting large classes into smaller components
+- **Complexity**: Simplify complex conditional statements and loops
+- **Documentation**: Add method and class documentation where required
+- **Naming**: Use descriptive variable and method names following Ruby conventions
+- **Indentation**: Ensure consistent 2-space indentation throughout
 
-# Make your changes, commit them with DCO sign-off
-git add .
-git commit -s -m "JIRA-12345: Brief description of changes"
+#### Transport Development Guidelines
+- Inherit from `Train::Plugins::Transport`
+- Implement required methods: `connection`, `options`
+- Use Train's connection management patterns
+- Handle platform-specific requirements
+- Provide appropriate error handling
+- Support Train's audit logging when applicable
 
-# Push branch
-git push origin JIRA-12345
+#### Documentation Requirements
+- **MANDATORY**: Add comprehensive documentation for all new features
+- Add YARD documentation for public methods
+- Include examples in documentation
+- Document transport-specific options and requirements
+- Update README files when necessary
+- Document platform compatibility
+- Provide usage examples in `docs/` directory
+- Include clear usage examples and code samples that are tested and functional
+- Add troubleshooting guides for common issues and error scenarios
 
-# Create PR with proper labeling
-gh pr create \
-  --title "JIRA-12345: Feature title" \
-  --body "<h2>Summary</h2><p>Description of changes...</p><h2>JIRA</h2><p>JIRA-12345</p>" \
-  --label "runtest:all:stable"
-```
-
-## Prompt-Based Workflow
-
-All tasks should be prompt-based with the following approach:
-- After each step, provide a summary of what was completed
-- Clearly state what the next step will be
-- List remaining steps in the workflow
-- Ask for explicit confirmation before proceeding: "Ready to proceed? (y/n)"
-- Allow for course correction if needed
-
-## Complete Implementation Workflow
-
-When implementing a task, follow this step-by-step workflow:
-
-### Step 1: JIRA Analysis
-- Fetch JIRA details using atlassian-mcp-server
-- Analyze requirements and acceptance criteria
-- Create implementation plan
-- **Prompt**: "Analysis complete. Next step: Implementation. Ready to proceed? (y/n)"
-
-### Step 2: Implementation
-- Create/modify necessary files (avoiding prohibited files)
-- Follow existing code patterns and conventions
-- Ensure proper error handling
-- **Prompt**: "Implementation complete. Next step: Unit test creation. Ready to proceed? (y/n)"
-
-### Step 3: Unit Test Creation & Validation
-- Create comprehensive test cases for all new code
-- Ensure test coverage > 80%
-- Run tests to verify they pass: `bundle exec rake test`
-- Fix any failing tests or coverage issues
-- Verify no existing tests are broken by changes
-- **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Code quality & linting. Ready to proceed? (y/n)"
-
-### Step 4: Code Quality & Linting
-- **MANDATORY**: Run RuboCop linting before creating PR
-- Execute `bundle exec rake lint` to check for style and formatting issues
-- Run `bundle exec rake lint:auto_correct` to automatically fix correctable violations
-- Review and manually fix any remaining RuboCop violations
-- Ensure all code passes linting standards and style guidelines
-- Verify no new linting violations are introduced
-- **Prompt**: "Code quality checks complete. Next step: Documentation. Ready to proceed? (y/n)"
-
-### Step 5: Documentation
-- Add appropriate code documentation
-- Update README if needed
-- Create/update relevant documentation files
-- **Prompt**: "Documentation complete. Next step: PR creation. Ready to proceed? (y/n)"
-
-### Step 6: PR Creation
-- Create branch using JIRA ID as branch name
-- Commit and push changes with DCO sign-off
-- Create PR with HTML-formatted description
-- Add required label "runtest:all:stable"
-- **Prompt**: "PR created successfully. Workflow complete. Any additional steps needed? (y/n)"
-
-## MCP Server Configuration
+### MCP Server Integration
 
 The repository uses the `atlassian-mcp-server` for JIRA integration:
 
@@ -312,90 +305,48 @@ The repository uses the `atlassian-mcp-server` for JIRA integration:
 }
 ```
 
-## Key Technologies
-- **Ruby**: Primary language (Ruby >= 3.1.0)
-- **Minitest**: Primary testing framework
-- **SimpleCov**: Code coverage tool (enabled only when CI_ENABLE_COVERAGE=1)
-- **Bundler**: Ruby dependency management
-- **Rake**: Ruby build tool
-- **Mocha**: Mocking framework
-- **ChefStyle/RuboCop**: Ruby code style enforcement and linting
+Use MCP server functions to:
+- Fetch JIRA issue details
+- Get issue requirements and acceptance criteria
+- Understand context and dependencies
+- Review transport-specific requirements
 
-## Supported Transports
-- Local execution
-- SSH
-- WinRM
-- Docker and Podman
-- Mock (for testing)
-- AWS API
-- Azure API
-- VMware via PowerCLI
-- Habitat
+### Prompt-Based Interaction Guidelines
 
-## Best Practices
-- Follow existing code patterns in the repository
-- Use meaningful variable and method names
-- Handle errors gracefully using Train's error classes
-- Write clear, concise code with appropriate comments
-- Ensure cross-platform compatibility when applicable
+- After each major step, provide a summary of what was completed
+- Clearly state what the next step will be
+- List remaining steps in the workflow
+- Ask for explicit confirmation before proceeding
+- Allow for course correction if needed
+- Consider platform and transport implications at each step
 
-## Error Handling
+### Train-Specific Development Guidelines
 
-- Always implement proper error handling using Train's error classes
-- Use appropriate error types: `Train::TransportError`, `Train::UserError`
-- Log errors appropriately for debugging
-- Provide meaningful error messages to users
-- Handle transport-specific error conditions
-
-### Common Error Patterns
-
-```ruby
-# Configuration validation errors
-raise Train::UserError, "Missing required option: #{option}" if opts[option].nil?
-
-# Connection errors
-begin
-  establish_connection
-rescue SomeNetworkError => e
-  raise Train::TransportError, "Failed to connect: #{e.message}"
-end
-
-# Command execution errors
-def run_command_via_connection(cmd, &_data_handler)
-  begin
-    result = execute_command(cmd)
-    CommandResult.new(result.stdout, result.stderr, result.exit_code)
-  rescue CommandExecutionError => e
-    CommandResult.new('', e.message, 1)
-  end
-end
-
-# File operation errors
-def file_via_connection(path)
-  begin
-    file_info = get_file_info(path)
-    FileCommon.new(self, path, file_info)
-  rescue FileNotFoundError
-    FileCommon.new(self, path, follow_symlink: false)
-  end
-end
-```
-
-## Security Considerations
-
-- Never commit sensitive information (credentials, keys)
-- Use environment variables for configuration
-- Follow security best practices for transport development
-- Validate all inputs appropriately
+#### Transport Development
+- Follow the plugin architecture pattern
+- Use Train's connection management
+- Implement proper platform detection
 - Handle authentication securely
-- Consider security implications of new transports
+- Support Train's file and command interfaces
+- Provide meaningful error messages
 
-## Additional Best Practices
+#### Platform Support
+- Consider cross-platform compatibility
+- Test on multiple operating systems when applicable
+- Use Train's platform detection system
+- Handle platform-specific edge cases
+
+#### Plugin Development
+- Follow Train's plugin registration system
+- Provide proper plugin metadata
+- Use semantic versioning
+- Include comprehensive tests
+
+### Additional Best Practices
 
 1. **Version Control**
    - Make atomic commits with clear messages
    - Include JIRA ID in commit messages
-   - **MANDATORY**: Always use DCO sign-off with `git commit -s`
    - Keep commits focused on single features
 
 2. **Code Reviews**
@@ -416,150 +367,67 @@ end
    - Optimize for common use cases
    - Profile transport performance when applicable
 
-## Train-Specific Development Guidelines
+### Error Handling
 
-### Transport Implementation Patterns
+- Always implement proper error handling using Train's error classes
+- Use appropriate error types: `Train::TransportError`, `Train::UserError`
+- Log errors appropriately for debugging
+- Provide meaningful error messages to users
+- Handle transport-specific error conditions
 
-When implementing a new transport, follow this structure:
+### Security Considerations
 
-```ruby
-module Train::Transports
-  class YourTransport < Train.plugin(1)
-    name 'your_transport'
-    
-    # Configuration options
-    option :host, required: true
-    option :port, default: 443
-    option :ssl, default: true
-    
-    def connection(state = {})
-      opts = merge_options(options, state || {})
-      validate_options!(opts)
-      
-      if @connection && reusable?
-        @connection
-      else
-        @connection = Connection.new(opts)
-      end
-    end
-    
-    private
-    
-    def validate_options!(opts)
-      # Validate required options
-      super(opts)
-      # Add transport-specific validations
-    end
-  end
-  
-  class Connection < BaseConnection
-    def initialize(opts)
-      super(opts)
-      @options = opts
-      # Initialize transport-specific connection
-    end
-    
-    def platform
-      # Implement platform detection
-      force_platform!('your_platform', platform_details)
-    end
-    
-    def run_command_via_connection(cmd, &_data_handler)
-      # Implement command execution
-      # Return CommandResult object
-    end
-    
-    def file_via_connection(path)
-      # Implement file operations
-      # Return FileCommon object
-    end
-    
-    private
-    
-    def connect
-      # Establish connection
-    end
-    
-    def disconnect
-      # Clean up connection
-    end
-  end
-end
-```
-
-### Platform Registration
-
-For new transports, ensure platform family registration:
-
-```ruby
-# In lib/train/platforms/detect/specifications/api.rb
-module Train::Platforms::Detect::Specifications
-  class Api < Train::Platforms::Detect::Specifications::OS
-    def platform_detect
-      return false unless @backend.class.to_s == 'Train::Transports::YourTransport::Connection'
-      
-      @platform[:name] = 'your_platform'
-      @platform[:family] = 'api'
-      @platform[:family_hierarchy] = %w{your_platform api}
-      true
-    end
-  end
-end
-```
-
-### Transport Development
-- Follow the plugin architecture pattern
-- Use Train's connection management
-- Implement proper platform detection
+- Never commit sensitive information (credentials, keys)
+- Use environment variables for configuration
+- Follow security best practices for transport development
+- Validate all inputs appropriately
 - Handle authentication securely
-- Support Train's file and command interfaces
-- Provide meaningful error messages
-- **IMPORTANT**: Register new platform families in `lib/train/platforms/detect/specifications/api.rb`
-- Use Train's configuration validation system (`validate_options!`)
-- Implement proper connection lifecycle management (connect, disconnect, etc.)
-- Support both URI-style and hash-style connection options
-- Handle transport-specific errors with appropriate Train exception types
-- Consider timeout and retry mechanisms for network-based transports
+- Consider security implications of new transports
 
-### Platform Support
-- Consider cross-platform compatibility
-- Test on multiple operating systems when applicable
-- Use Train's platform detection system
-- Handle platform-specific edge cases
+---
 
-### Plugin Development
-- Follow Train's plugin registration system
-- Provide proper plugin metadata
-- Use semantic versioning
-- Include comprehensive tests
+## Workflow Summary
 
-## Validation and Testing Commands
+1. **JIRA Analysis** → Fetch and understand requirements (transport-specific)
+2. **Planning** → Break down implementation approach (consider Train architecture)
+3. **Implementation** → Code the solution following Train patterns
+4. **Testing** → Create comprehensive tests (>80% coverage, platform compatibility)
+5. **Code Quality** → Run ChefStyle linting and fix all issues
+6. **PR Creation** → Use GitHub CLI with proper labeling
+6. **Prompt-based** → Confirm each step before proceeding
 
-### Essential Commands
-```bash
-# Install dependencies
-bundle install
+Remember: All tasks should be prompt-based with explicit confirmation at each step, maintaining high code quality and test coverage standards throughout the process. Consider Train's transport architecture and cross-platform compatibility in all development work.
 
-# Run all tests
-bundle exec rake test
+1. AI-Assisted Development & Compliance
+✅ Create PR with ai-assisted label (if label doesn't exist, create it with description "Work completed with AI assistance following Progress AI policies" and color "9A4DFF")
+✅ Include "This work was completed with AI assistance following Progress AI policies" in PR description
+2. Jira Ticket Updates (MANDATORY)
+✅ IMMEDIATELY after PR creation: Update Jira ticket custom field customfield_11170 ("Does this Work Include AI Assisted Code?") to "Yes"
+✅ Use atlassian-mcp tools to update the Jira field programmatically
+✅ CRITICAL: Use correct field format: {"customfield_11170": {"value": "Yes"}}
+✅ Verify the field update was successful
+3. Documentation Requirements
+✅ Reference AI assistance in commit messages where appropriate
+✅ Document any AI-generated code patterns or approaches in PR description
+✅ Maintain transparency about which parts were AI-assisted vs manual implementation
+Workflow Integration
+This AI compliance checklist should be integrated into the main development workflow Step 4 (Pull Request Creation):
 
-# Run tests with coverage (locally)
-CI_ENABLE_COVERAGE=1 bundle exec rake test
+Step 4: Pull Request Creation & AI Compliance
+- Step 4.1: Create branch and commit changes
+- Step 4.2: Push changes to remote
+- Step 4.3: Create PR with ai-assisted label
+- Step 4.4: IMMEDIATELY update Jira customfield_11170 to "Yes" 
+- Step 4.5: Verify both PR labels and Jira field are properly set
+- Step 4.6: Provide complete summary including AI compliance confirmation
+Never skip Jira field updates - This is required for Progress AI governance
+Always verify updates succeeded - Check response from atlassian-mcp tools
+Treat as atomic operation - PR creation and Jira updates should happen together
+Double-check before final summary - Confirm all AI compliance items are completed
+Audit Trail
+All AI-assisted work must be traceable through:
 
-# Run linting
-bundle exec rake lint
-
-# Auto-fix linting issues
-bundle exec rake lint:auto_correct
-```
-```
-
-### Documentation Requirements
-- **MANDATORY**: Add comprehensive documentation for all new features
-- Add YARD documentation for public methods and classes using proper syntax
-- Document transport-specific options, configuration, and usage examples
-- Update README.md if adding user-facing features or new transports
-- Create or update relevant documentation in `docs/` directory for major features
-- Include clear usage examples and code samples that are tested and functional
-- Document platform compatibility and requirements
-- Add troubleshooting guides for common issues and error scenarios
+GitHub PR labels (ai-assisted)
+Jira custom field (customfield_11170 = "Yes")
+PR descriptions mentioning AI assistance
+Commit messages where relevant
