@@ -261,7 +261,7 @@ module Train::Platforms::Detect::Helpers
                             # For any unknown architecture, preserve the original value
                             # This handles: arm64, ia64, arm, mips, alpha, and future architectures
                             arch_string
-                          end
+                           end
       end
       # If PROCESSOR_ARCHITECTURE fails, architecture remains unset (consistent with other methods)
 
