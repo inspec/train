@@ -262,10 +262,8 @@ module Train::Platforms::Detect::Helpers
                             # This handles: arm64, ia64, arm, mips, alpha, and future architectures
                             arch_string
                            end
-      else
-        # Explicitly set architecture to nil when command fails to ensure consistent behavior
-        @platform[:arch] = nil
       end
+      # If PROCESSOR_ARCHITECTURE fails, architecture remains unset (consistent with other methods)
 
       # Try to get more detailed OS info from systeminfo command as fallback
       # This is slower than wmic but works without PowerShell
