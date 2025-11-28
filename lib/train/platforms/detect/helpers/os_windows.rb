@@ -25,10 +25,9 @@ module Train::Platforms::Detect::Helpers
         @platform[:name] = "Windows #{@platform[:release]}"
       end
 
-      # `Get-CimInstance` is a PowerShell-specific command and is not available in Command Prompt.
-      # Since the logic has always relied on `read_wmic` at this point, we are skipping the conditional check for `wmic_available?`
-      # and directly invoking `read_wmic` to maintain the existing behavior.
-      read_wmic
+      # Prefer retrieving the OS details via `wmic` if available on the system to retain existing behavior.
+      # If `wmic` is not available, fall back to using cmd-only commands as an alternative method.
+      wmic_available? ? read_wmic : read_cmd_os
       true
     end
 
@@ -241,6 +240,62 @@ module Train::Platforms::Detect::Helpers
       }
 
       arch_map[res.stdout.strip.to_i]
+    end
+
+    # Fallback method for reading OS info using cmd-only commands when wmic is not available
+    def read_cmd_os
+      # Try to get architecture from PROCESSOR_ARCHITECTURE environment variable
+      # This covers the same architectures as wmic CPU detection but uses environment variables
+      # which are available on all Windows versions since NT
+      arch_res = @backend.run_command("echo %PROCESSOR_ARCHITECTURE%")
+      if arch_res.exit_status == 0
+        arch_string = arch_res.stdout.strip.downcase
+        # Only set architecture if we got actual output
+        unless arch_string.empty?
+          @platform[:arch] = case arch_string
+                            when "x86"
+                              "i386"
+                            when "amd64", "x64"
+                              "x86_64"
+                            when "ppc", "powerpc"
+                              "powerpc"
+                            else
+                              # For any unknown architecture, preserve the original value
+                              # This handles: arm64, ia64, arm, mips, alpha, and future architectures
+                              arch_string
+                             end
+        end
+      end
+      # If PROCESSOR_ARCHITECTURE fails, architecture remains unset (consistent with other methods)
+
+      # Try to get more detailed OS info from systeminfo command as fallback
+      # This is slower than wmic but works without PowerShell
+      # Only override the basic info from check_cmd if systeminfo provides better data
+      sysinfo_res = @backend.run_command("systeminfo")
+      if sysinfo_res.exit_status == 0
+        sysinfo_res.stdout.lines.each do |line|
+          line = line.strip
+          if line =~ /^OS Name:\s*(.+)$/i
+            os_name = $1.strip
+            # Only override if we get a more detailed name than the basic "Windows X.X.X" from check_cmd
+            detailed_name = os_name.gsub("Microsoft", "").strip
+            @platform[:name] = detailed_name unless detailed_name.empty?
+          elsif line =~ /^OS Version:\s*(.+)$/i
+            version_info = $1.strip
+            # Extract version number from format like "10.0.19044 N/A Build 19044"
+            if version_info =~ /^(\d+\.\d+\.\d+)/
+              # Only override release if systeminfo provides the same or more detailed version
+              systeminfo_release = $1
+              @platform[:release] = systeminfo_release if systeminfo_release
+            end
+            # Extract build number (this is additional info not available from check_cmd)
+            if version_info =~ /Build (\d+)/
+              @platform[:build] = $1
+            end
+          end
+        end
+      end
+      # If systeminfo fails, we keep the basic info from check_cmd method
     end
 
     def windows_uuid_from_cim
