@@ -250,18 +250,21 @@ module Train::Platforms::Detect::Helpers
       arch_res = @backend.run_command("echo %PROCESSOR_ARCHITECTURE%")
       if arch_res.exit_status == 0
         arch_string = arch_res.stdout.strip.downcase
-        @platform[:arch] = case arch_string
-                          when "x86"
-                            "i386"
-                          when "amd64", "x64"
-                            "x86_64"
-                          when "ppc", "powerpc"
-                            "powerpc"
-                          else
-                            # For any unknown architecture, preserve the original value
-                            # This handles: arm64, ia64, arm, mips, alpha, and future architectures
-                            arch_string
-                           end
+        # Only set architecture if we got actual output
+        unless arch_string.empty?
+          @platform[:arch] = case arch_string
+                            when "x86"
+                              "i386"
+                            when "amd64", "x64"
+                              "x86_64"
+                            when "ppc", "powerpc"
+                              "powerpc"
+                            else
+                              # For any unknown architecture, preserve the original value
+                              # This handles: arm64, ia64, arm, mips, alpha, and future architectures
+                              arch_string
+                             end
+        end
       end
       # If PROCESSOR_ARCHITECTURE fails, architecture remains unset (consistent with other methods)
 
