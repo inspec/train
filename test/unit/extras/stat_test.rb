@@ -191,6 +191,36 @@ describe "stat" do
     end
   end
 
+  describe "chainguard stat" do
+    let(:backend) do
+      mock = Train::Transports::Mock.new(verbose: true).connection
+      mock.mock_os({ name: "wolfi", family: "chainguard", release: nil })
+      mock.commands = {
+        "stat /path 2>/dev/null -c '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'" => mock.mock_command("", "", "", 0),
+        "stat /path-stat 2>/dev/null -c '%s\n%f\n%U\n%u\n%G\n%g\n%X\n%Y\n%C'" => mock.mock_command("", "360\n43ff\nroot\n0\nrootz\n1\n1444520846\n1444522445\n?", "", 0),
+      }
+      mock
+    end
+
+    it "ignores wrong stat results" do
+      _(cls.linux_stat("/path", backend, false)).must_equal({})
+    end
+
+    it "reads correct stat results" do
+      _(cls.linux_stat("/path-stat", backend, false)).must_equal({
+        type: :directory,
+        mode: 01777,
+        owner: "root",
+        uid: 0,
+        group: "rootz",
+        gid: 1,
+        mtime: 1444522445,
+        size: 360,
+        selinux_label: nil,
+      })
+    end
+  end
+
   describe "bsd stat" do
     let(:backend) { Minitest::Mock.new }
 

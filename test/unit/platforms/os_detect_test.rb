@@ -306,8 +306,8 @@ describe "os_detect" do
       end
     end
 
-    describe "when on a chainguard build" do
-      it "sets the correct family/release for wolfi" do
+    describe "when on a Wolfi build" do
+      it "sets the correct family/release for Wolfi OS" do
         os_release = "ID=wolfi\nVERSION_ID=20230201"
         files = {
           "/etc/os-release" => os_release,
@@ -317,6 +317,20 @@ describe "os_detect" do
         _(platform[:name]).must_equal("wolfi")
         _(platform[:family]).must_equal("chainguard")
         _(platform[:release]).must_equal("20230201")
+      end
+    end
+
+    describe "when on a Chainguard build" do
+      it "sets the correct family/release for Chainguard OS" do
+        os_release = "ID=chainguard\nVERSION_ID=20230214"
+        files = {
+          "/etc/os-release" => os_release,
+        }
+        platform = scan_with_files("linux", files)
+
+        _(platform[:name]).must_equal("chainguard")
+        _(platform[:family]).must_equal("chainguard")
+        _(platform[:release]).must_equal("20230214")
       end
     end
   end
