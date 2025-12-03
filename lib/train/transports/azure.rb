@@ -1,5 +1,5 @@
 require "train/plugins"
-require "ms_rest_azure"
+require "ms_rest_azure2"
 require "azure_mgmt_resources2"
 require "azure_graph_rbac2"
 require "azure_mgmt_key_vault2"
