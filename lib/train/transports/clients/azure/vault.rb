@@ -1,9 +1,9 @@
-require "azure_mgmt_key_vault"
+require "azure_mgmt_key_vault2"
 
-# Wrapper class for ::Azure::KeyVault::Profiles::Latest::Mgmt::Client allowing custom configuration,
-# for example, defining additional settings for the ::MsRestAzure::ApplicationTokenProvider.
+# Wrapper class for ::Azure::KeyVault2::Profiles::Latest::Mgmt::Client allowing custom configuration,
+# for example, defining additional settings for the ::MsRestAzure2::ApplicationTokenProvider.
 class Vault
-  AUTH_ENDPOINT = MsRestAzure::AzureEnvironments::AzureCloud.active_directory_endpoint_url
+  AUTH_ENDPOINT = MsRestAzure2::AzureEnvironments::AzureCloud.active_directory_endpoint_url
   RESOURCE_ENDPOINT = "https://vault.azure.net".freeze
 
   def self.client(vault_name, credentials)
@@ -12,11 +12,11 @@ class Vault
     credentials[:credentials] = ::MsRest::TokenCredentials.new(provider(credentials))
     credentials[:base_url] = api_endpoint(vault_name)
 
-    ::Azure::KeyVault::Profiles::Latest::Mgmt::Client.new(credentials)
+    ::Azure::KeyVault2::Profiles::Latest::Mgmt::Client.new(credentials)
   end
 
   def self.provider(credentials)
-    ::MsRestAzure::ApplicationTokenProvider.new(
+    ::MsRestAzure2::ApplicationTokenProvider.new(
       credentials[:tenant_id],
       credentials[:client_id],
       credentials[:client_secret],
@@ -25,11 +25,11 @@ class Vault
   end
 
   def self.api_endpoint(vault_name)
-    "https://#{vault_name}#{MsRestAzure::AzureEnvironments::AzureCloud.key_vault_dns_suffix}"
+    "https://#{vault_name}#{MsRestAzure2::AzureEnvironments::AzureCloud.key_vault_dns_suffix}"
   end
 
   def self.settings
-    client_settings = MsRestAzure::ActiveDirectoryServiceSettings.get_azure_settings
+    client_settings = MsRestAzure2::ActiveDirectoryServiceSettings.get_azure_settings
     client_settings.authentication_endpoint = AUTH_ENDPOINT
     client_settings.token_audience = RESOURCE_ENDPOINT
     client_settings

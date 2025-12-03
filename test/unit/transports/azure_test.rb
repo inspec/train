@@ -107,7 +107,7 @@ describe "azure transport" do
     it "validate credentials" do
       connection.connect
       token = credentials[:credentials].instance_variable_get(:@token_provider)
-      _(token.class).must_equal MsRestAzure::ApplicationTokenProvider
+      _(token.class).must_equal MsRestAzure2::ApplicationTokenProvider
 
       _(credentials[:credentials].class).must_equal MsRest::TokenCredentials
       _(credentials[:tenant_id]).must_equal "test_tenant_id"
@@ -123,7 +123,7 @@ describe "azure transport" do
 
       connection.connect
       token = credentials[:credentials].instance_variable_get(:@token_provider)
-      _(token.class).must_equal MsRestAzure::MSITokenProvider
+      _(token.class).must_equal MsRestAzure2::MSITokenProvider
 
       _(credentials[:credentials].class).must_equal MsRest::TokenCredentials
       _(credentials[:tenant_id]).must_equal "test_tenant_id"
