@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.14.0 -->
+## [v3.14.0](https://github.com/inspec/train/tree/v3.14.0) (2025-12-08)
+
+#### Merged Pull Requests
+- Update ffi dependency to allow versions &gt;= 1.16.0 and &lt; 1.18 [#814](https://github.com/inspec/train/pull/814) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.13.4 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Update ffi dependency to allow versions &gt;= 1.16.0 and &lt; 1.18 [#814](https://github.com/inspec/train/pull/814) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.14.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
