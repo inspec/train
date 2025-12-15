@@ -1,9 +1,9 @@
 require "helper"
 
 # Required because this test file acesses classes under Azure::
-require "azure_mgmt_resources"
-require "azure_graph_rbac"
-require "azure_mgmt_key_vault"
+require "azure_mgmt_resources2"
+require "azure_graph_rbac2"
+require "azure_mgmt_key_vault2"
 
 describe "azure transport" do
   def transport(options = nil)
@@ -78,13 +78,13 @@ describe "azure transport" do
     end
 
     it "can use azure_client default client" do
-      management_api_client = Azure::Resources::Profiles::Latest::Mgmt::Client
+      management_api_client = Azure::Resources2::Profiles::Latest::Mgmt::Client
       client = connection.azure_client
       _(client.class).must_equal management_api_client
     end
 
     it "can use azure_client graph client" do
-      graph_api_client = Azure::GraphRbac::Profiles::Latest::Client
+      graph_api_client = Azure::GraphRbac2::Profiles::Latest::Client
       client = connection.azure_client(graph_api_client)
       _(client.class).must_equal graph_api_client
     end
@@ -96,7 +96,7 @@ describe "azure transport" do
     end
 
     it "cannot instantiate azure_client vault client without a vault name" do
-      vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
+      vault_api_client = ::Azure::KeyVault2::Profiles::Latest::Mgmt::Client
       assert_raises(Train::UserError) do
         connection.azure_client(vault_api_client)
       end
@@ -109,7 +109,7 @@ describe "azure transport" do
       token = credentials[:credentials].instance_variable_get(:@token_provider)
       _(token.class).must_equal MsRestAzure2::ApplicationTokenProvider
 
-      _(credentials[:credentials].class).must_equal MsRest::TokenCredentials
+      _(credentials[:credentials].class).must_equal MsRest2::TokenCredentials
       _(credentials[:tenant_id]).must_equal "test_tenant_id"
       _(credentials[:client_id]).must_equal "test_client_id"
       _(credentials[:client_secret]).must_equal "test_client_secret"
@@ -125,7 +125,7 @@ describe "azure transport" do
       token = credentials[:credentials].instance_variable_get(:@token_provider)
       _(token.class).must_equal MsRestAzure2::MSITokenProvider
 
-      _(credentials[:credentials].class).must_equal MsRest::TokenCredentials
+      _(credentials[:credentials].class).must_equal MsRest2::TokenCredentials
       _(credentials[:tenant_id]).must_equal "test_tenant_id"
       _(credentials[:subscription_id]).must_equal "test_subscription_id"
       _(credentials[:client_id]).must_be_nil

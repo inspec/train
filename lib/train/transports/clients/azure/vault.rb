@@ -9,10 +9,10 @@ class Vault
   def self.client(vault_name, credentials)
     raise ::Train::UserError, "Vault Name cannot be nil" if vault_name.nil?
 
-    credentials[:credentials] = ::MsRest::TokenCredentials.new(provider(credentials))
+    credentials[:credentials] = ::MsRest2::TokenCredentials.new(provider(credentials))
     credentials[:base_url] = api_endpoint(vault_name)
 
-    ::Azure::KeyVault2::Profiles::Latest::Mgmt::Client.new(credentials)
+    ::Azure::KeyVault::Profiles::Latest::Mgmt::Client.new(credentials)
   end
 
   def self.provider(credentials)

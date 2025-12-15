@@ -95,7 +95,7 @@ module Train::Transports
         end
 
         @credentials = {
-          credentials: ::MsRest::TokenCredentials.new(provider),
+          credentials: ::MsRest2::TokenCredentials.new(provider),
           subscription_id: @options[:subscription_id],
           tenant_id: @options[:tenant_id],
         }

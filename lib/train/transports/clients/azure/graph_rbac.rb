@@ -7,7 +7,7 @@ class GraphRbac
   API_ENDPOINT = MsRestAzure2::AzureEnvironments::AzureCloud.active_directory_graph_resource_id
 
   def self.client(credentials)
-    credentials[:credentials] = ::MsRest::TokenCredentials.new(provider(credentials))
+    credentials[:credentials] = ::MsRest2::TokenCredentials.new(provider(credentials))
     credentials[:base_url] = API_ENDPOINT
 
     ::Azure::GraphRbac2::Profiles::Latest::Client.new(credentials)
