@@ -12,7 +12,7 @@ class Vault
     credentials[:credentials] = ::MsRest2::TokenCredentials.new(provider(credentials))
     credentials[:base_url] = api_endpoint(vault_name)
 
-    ::Azure::KeyVault::Profiles::Latest::Mgmt::Client.new(credentials)
+    ::Azure::KeyVault2::Profiles::Latest::Mgmt::Client.new(credentials)
   end
 
   def self.provider(credentials)

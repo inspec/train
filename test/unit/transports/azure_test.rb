@@ -90,7 +90,7 @@ describe "azure transport" do
     end
 
     it "can use azure_client vault client" do
-      vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
+      vault_api_client = ::Azure::KeyVault2::Profiles::Latest::Mgmt::Client
       client = connection.azure_client(vault_api_client, vault_name: "Test Vault")
       _(client.class).must_equal vault_api_client
     end
