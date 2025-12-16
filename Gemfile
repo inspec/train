@@ -1,12 +1,6 @@
 source "https://rubygems.org"
 gemspec name: "train"
 
-gem "azure_graph_rbac2", git: "https://github.com/chef/azure-sdk-for-ruby", branch: "bs/update-azure-graph-rbac2", glob: "data/azure_graph_rbac2/*.gemspec"
-gem "ms_rest_azure2", git: "https://github.com/chef/azure-sdk-for-ruby", branch: "bs/update-faraday-rest-azure2", glob: "runtime/ms_rest_azure2/*.gemspec"
-gem "ms_rest2", git: "https://github.com/chef/azure-sdk-for-ruby", branch: "bs/update-faraday-rest-azure2", glob: "runtime/ms_rest2/*.gemspec"
-gem "azure_mgmt_key_vault2", git: "https://github.com/chef/azure-sdk-for-ruby", branch: "CHEF-28641-refactor-azure-mgmt-key-vault-to-key-vault2", glob: "management/azure_mgmt_key_vault2/*.gemspec"
-gem "azure_mgmt_resources2", git: "https://github.com/chef/azure-sdk-for-ruby", branch: "master", glob: "management/azure_mgmt_resources2/*.gemspec"
-
 group :development do
   gem "bundler", "~> 2.4"
   gem "minitest", "~> 5.8"
