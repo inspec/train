@@ -1,8 +1,7 @@
 source "https://rubygems.org"
 gemspec name: "train"
 
-group :development do
-  gem "bundler", "~> 2.4"
+group :test do
   gem "minitest", "~> 5.8"
   gem "rake", "~> 13.0"
   gem "chefstyle", "2.2.3"
