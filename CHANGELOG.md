@@ -1,26 +1,23 @@
-<!-- latest_release 3.14.1 -->
-## [v3.14.1](https://github.com/inspec/train/tree/v3.14.1) (2025-12-15)
-
-#### Merged Pull Requests
-- os detection: add chainguard/wolfi linux distro [#812](https://github.com/inspec/train/pull/812) ([stevebeattie](https://github.com/stevebeattie))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.13.4 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- os detection: add chainguard/wolfi linux distro [#812](https://github.com/inspec/train/pull/812) ([stevebeattie](https://github.com/stevebeattie)) <!-- 3.14.1 -->
-- Update ffi dependency to allow versions &gt;= 1.16.0 and &lt; 1.18 [#814](https://github.com/inspec/train/pull/814) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.14.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.14.1](https://github.com/inspec/train/tree/v3.14.1) (2025-12-18)
+
+#### Merged Pull Requests
+- Update ffi dependency to allow versions &gt;= 1.16.0 and &lt; 1.18 [#814](https://github.com/inspec/train/pull/814) ([sathish-progress](https://github.com/sathish-progress))
+- os detection: add chainguard/wolfi linux distro [#812](https://github.com/inspec/train/pull/812) ([stevebeattie](https://github.com/stevebeattie))
+<!-- latest_stable_release -->
+
 ## [v3.13.4](https://github.com/inspec/train/tree/v3.13.4) (2025-08-20)
 
 #### Merged Pull Requests
 - CHEF-21404 Enable CI for trufflelog scanning [#798](https://github.com/inspec/train/pull/798) ([Nik08](https://github.com/Nik08))
 - CHEF-24661 - standardize - inspec/train - spurious_file_check [#800](https://github.com/inspec/train/pull/800) ([cgunasree08](https://github.com/cgunasree08))
 - upgrade `train-winrm` [#802](https://github.com/inspec/train/pull/802) ([sathish-progress](https://github.com/sathish-progress))
-<!-- latest_stable_release -->
 
 ## [v3.13.2](https://github.com/inspec/train/tree/v3.13.2) (2025-06-19)
 
