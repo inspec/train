@@ -232,6 +232,27 @@ module Train::Platforms::Detect::Specifications
         end
       end
 
+      declare_category("chainguard", "linux") do
+        rel = linux_os_release
+        rel && rel["ID"] =~ /(wolfi|chainguard)/
+      end
+
+      declare_instance("wolfi", "Wolfi Linux", "chainguard") do
+        rel = linux_os_release
+        if rel && rel["ID"] =~ /wolfi/
+          @platform[:release] = rel["VERSION_ID"]
+          true
+        end
+      end
+
+      declare_instance("chainguard", "Chainguard Linux", "chainguard") do
+        rel = linux_os_release
+        if rel && rel["ID"] =~ /chainguard/
+          @platform[:release] = rel["VERSION_ID"]
+          true
+        end
+      end
+
       # brocade family detected here if device responds to 'uname' command,
       # happens when logging in as root
       plat.family("brocade").title("Brocade Family").in_family("linux")

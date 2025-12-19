@@ -1,14 +1,15 @@
-<!-- latest_release 3.14.0 -->
-## [v3.14.0](https://github.com/inspec/train/tree/v3.14.0) (2025-12-08)
+<!-- latest_release 3.14.1 -->
+## [v3.14.1](https://github.com/inspec/train/tree/v3.14.1) (2025-12-15)
 
 #### Merged Pull Requests
-- Update ffi dependency to allow versions &gt;= 1.16.0 and &lt; 1.18 [#814](https://github.com/inspec/train/pull/814) ([sathish-progress](https://github.com/sathish-progress))
+- os detection: add chainguard/wolfi linux distro [#812](https://github.com/inspec/train/pull/812) ([stevebeattie](https://github.com/stevebeattie))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.13.4 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- os detection: add chainguard/wolfi linux distro [#812](https://github.com/inspec/train/pull/812) ([stevebeattie](https://github.com/stevebeattie)) <!-- 3.14.1 -->
 - Update ffi dependency to allow versions &gt;= 1.16.0 and &lt; 1.18 [#814](https://github.com/inspec/train/pull/814) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.14.0 -->
 <!-- release_rollup -->
 
