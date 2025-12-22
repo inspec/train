@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "googleauth", ">= 0.16.2", "< 1.9.0"
   spec.add_dependency "google-apis-admin_directory_v1", "~> 0.46.0"
   spec.add_dependency "google-apis-cloudkms_v1", "~> 0.41.0"
-  spec.add_dependency "google-apis-monitoring_v3", "~> 0.51.0"
+  spec.add_dependency "google-apis-monitoring_v3", ">= 0.51", "< 0.83"
   spec.add_dependency "google-apis-compute_v1", "~> 0.83.0"
   spec.add_dependency "google-apis-cloudresourcemanager_v1", "~> 0.35.0"
   spec.add_dependency "google-apis-storage_v1", "~> 0.30.0"
