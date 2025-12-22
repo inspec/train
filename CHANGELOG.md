@@ -1,24 +1,21 @@
-<!-- latest_release 3.15.0 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.15.0](https://github.com/inspec/train/tree/v3.15.0) (2025-12-22)
 
 #### Merged Pull Requests
 - CHEF-19255 Fix named pipes to be more secure [#797](https://github.com/inspec/train/pull/797) ([sa-progress](https://github.com/sa-progress))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.14.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- CHEF-19255 Fix named pipes to be more secure [#797](https://github.com/inspec/train/pull/797) ([sa-progress](https://github.com/sa-progress)) <!-- 3.15.0 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.14.1](https://github.com/inspec/train/tree/v3.14.1) (2025-12-18)
 
 #### Merged Pull Requests
 - Update ffi dependency to allow versions &gt;= 1.16.0 and &lt; 1.18 [#814](https://github.com/inspec/train/pull/814) ([sathish-progress](https://github.com/sathish-progress))
 - os detection: add chainguard/wolfi linux distro [#812](https://github.com/inspec/train/pull/812) ([stevebeattie](https://github.com/stevebeattie))
-<!-- latest_stable_release -->
 
 ## [v3.13.4](https://github.com/inspec/train/tree/v3.13.4) (2025-08-20)
 
