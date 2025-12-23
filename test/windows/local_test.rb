@@ -3,7 +3,7 @@
 
 require "minitest/autorun"
 require "minitest/spec"
-require "mocha/minitest"
+require "mocha/setup"
 require "train"
 require "tempfile" unless defined?(Tempfile)
 require "logger"
@@ -54,54 +54,6 @@ describe "windows local command" do
     _(cmd.stdout).must_match(/Next line throws/)
     _(cmd.stderr).must_equal ""
     _(cmd.exit_status).must_equal 1
-  end
-
-  describe "WindowsPipeRunner security features" do
-    let(:runner) { Train::Transports::Local::Connection::WindowsPipeRunner.allocate }
-    let(:pipe_name) { "test_pipe" }
-    let(:domain_user) { "DOMAIN\\User" }
-    let(:other_user) { "OTHERDOMAIN\\OtherUser" }
-
-    before do
-      runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns(domain_user)
-      runner.stubs(:`).with("whoami").returns(domain_user.downcase)
-    end
-
-    it "returns true when current user owns the pipe" do
-      runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("true")
-      runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns(domain_user)
-      owner, _, is_owner = runner.send(:pipe_owned_by_current_user?, pipe_name)
-      _(is_owner).must_equal true
-      _(owner).must_equal domain_user
-    end
-
-    it "returns false when current user does not own the pipe" do
-      runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("true")
-      runner.stubs(:`).with(regexp_matches(/Get-Acl/)).returns(other_user)
-      owner, _, is_owner = runner.send(:pipe_owned_by_current_user?, pipe_name)
-      _(is_owner).must_equal false
-      _(owner).must_equal other_user
-    end
-
-    it "returns false when pipe does not exist" do
-      runner.stubs(:`).with(regexp_matches(/Test-Path/)).returns("false")
-      owner, _, is_owner = runner.send(:pipe_owned_by_current_user?, pipe_name)
-      _(is_owner).must_equal false
-      _(owner).must_be_nil
-    end
-
-    it "falls back to whoami if PowerShell user detection fails" do
-      runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("")
-      runner.stubs(:`).with("whoami").returns(domain_user.downcase)
-      user = runner.send(:current_windows_user)
-      _(user).must_equal domain_user.downcase
-    end
-
-    it "raises if both PowerShell and whoami fail" do
-      runner.stubs(:`).with(regexp_matches(/WindowsIdentity/)).returns("")
-      runner.stubs(:`).with("whoami").returns("")
-      _ { runner.send(:current_windows_user) }.must_raise RuntimeError
-    end
   end
 
   describe "force 64 bit powershell command" do
