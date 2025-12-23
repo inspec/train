@@ -1,23 +1,20 @@
-<!-- latest_release 3.15.1 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.15.1](https://github.com/inspec/train/tree/v3.15.1) (2025-12-23)
 
 #### Merged Pull Requests
 - Revert &quot;CHEF-19255 Fix named pipes to be more secure&quot; [#817](https://github.com/inspec/train/pull/817) ([sathish-progress](https://github.com/sathish-progress))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.15.0 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Revert &quot;CHEF-19255 Fix named pipes to be more secure&quot; [#817](https://github.com/inspec/train/pull/817) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.15.1 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.15.0](https://github.com/inspec/train/tree/v3.15.0) (2025-12-22)
 
 #### Merged Pull Requests
 - CHEF-19255 Fix named pipes to be more secure [#797](https://github.com/inspec/train/pull/797) ([sa-progress](https://github.com/sa-progress))
-<!-- latest_stable_release -->
 
 ## [v3.14.1](https://github.com/inspec/train/tree/v3.14.1) (2025-12-18)
 
