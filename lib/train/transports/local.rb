@@ -303,8 +303,8 @@ module Train::Transports
               # Encode JSON in Base64 and write to pipe
               $encodedResult = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($resultJSON))
               try {
-              $pipeWriter.WriteLine($encodedResult)
-              $pipeWriter.Flush()
+                $pipeWriter.WriteLine($encodedResult)
+                $pipeWriter.Flush()
               } catch [System.IO.IOException] {
                 # Pipe was closed by client, exit gracefully
                 $clientConnected = $false
