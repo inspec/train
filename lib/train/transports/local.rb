@@ -229,11 +229,27 @@ module Train::Transports
           at_exit { close rescue Errno::EIO }
 
           pipe = nil
+          ownership_verified = false
 
           # PowerShell needs time to create pipe.
           100.times do
+            unless ownership_verified
+              owner, current_user, is_owner = pipe_owned_by_current_user?(pipe_name)
+              if owner.nil?
+                sleep 0.1
+                next
+              end
+
+              unless is_owner
+                raise PipeError, "Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'. Pipe is owned by '#{owner}'."
+              end
+              ownership_verified = true
+            end
+
             pipe = open("//./pipe/#{pipe_name}", "r+")
             break
+          rescue PipeError
+            raise
           rescue
             sleep 0.1
           end
