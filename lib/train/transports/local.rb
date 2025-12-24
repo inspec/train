@@ -277,6 +277,10 @@ module Train::Transports
             $clientConnected = $true
             while($clientConnected) {
               $input = $pipeReader.ReadLine()
+              if ($input -eq $null) {
+                $clientConnected = $false
+                break
+              }
               $command = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($input))
 
               # Execute user command/script and convert result to JSON
