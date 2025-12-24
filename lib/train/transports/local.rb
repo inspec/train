@@ -262,8 +262,12 @@ module Train::Transports
 
           script = <<-EOF
             $ErrorActionPreference = 'Stop'
-
-            $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}')
+            $ProgressPreference = 'SilentlyContinue'
+            $user = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+            $pipeSecurity = New-Object System.IO.Pipes.PipeSecurity
+            $rule = New-Object System.IO.Pipes.PipeAccessRule($user, "FullControl", "Allow")
+            $pipeSecurity.AddAccessRule($rule)
+            $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut, 1, [System.IO.Pipes.PipeTransmissionMode]::Byte, [System.IO.Pipes.PipeOptions]::None, 4096, 4096, $pipeSecurity)
             $pipeReader = New-Object System.IO.StreamReader($pipeServer)
             $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
 
