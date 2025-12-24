@@ -318,6 +318,29 @@ module Train::Transports
           cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
           Process.create(command_line: cmd).process_id
         end
+
+        def current_windows_user
+          user = `powershell -Command "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"`.strip
+          if user.nil? || user.empty?
+            user = `whoami`.strip
+          end
+          if user.nil? || user.empty?
+            raise "Unable to determine current Windows user"
+          end
+
+          user
+        end
+
+        # Verify pipe ownership before connecting
+        def pipe_owned_by_current_user?(pipe_name)
+          exists = `powershell -Command "Test-Path \\\\.\\pipe\\#{pipe_name}"`.strip.downcase == "true"
+          current_user = current_windows_user
+          return [nil, current_user, false] unless exists
+
+          owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
+          is_owner = !owner.nil? && !current_user.nil? && owner.casecmp(current_user) == 0
+          [owner, current_user, is_owner]
+        end
       end
     end
   end
