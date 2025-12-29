@@ -243,6 +243,7 @@ module Train::Transports
               unless is_owner
                 raise PipeError, "Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'. Pipe is owned by '#{owner}'."
               end
+
               ownership_verified = true
             end
 
