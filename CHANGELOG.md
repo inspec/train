@@ -1,23 +1,20 @@
-<!-- latest_release 3.15.2 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.15.2](https://github.com/inspec/train/tree/v3.15.2) (2026-01-09)
 
 #### Merged Pull Requests
 - Update ostruct dep version [#819](https://github.com/inspec/train/pull/819) ([Stromweld](https://github.com/Stromweld))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.15.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Update ostruct dep version [#819](https://github.com/inspec/train/pull/819) ([Stromweld](https://github.com/Stromweld)) <!-- 3.15.2 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.15.1](https://github.com/inspec/train/tree/v3.15.1) (2025-12-23)
 
 #### Merged Pull Requests
 - Revert &quot;CHEF-19255 Fix named pipes to be more secure&quot; [#817](https://github.com/inspec/train/pull/817) ([sathish-progress](https://github.com/sathish-progress))
-<!-- latest_stable_release -->
 
 ## [v3.15.0](https://github.com/inspec/train/tree/v3.15.0) (2025-12-22)
 
