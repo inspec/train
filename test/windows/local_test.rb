@@ -272,6 +272,38 @@ describe "windows local command" do
     end
   end
 
+  describe "pipe security and ownership verification" do
+    let(:runner) { conn.instance_variable_get(:@runner) }
+
+    it "current_windows_user returns a valid username" do
+      skip "ShellRunner in use" unless runner.is_a?(Train::Transports::Local::Connection::WindowsPipeRunner)
+
+      user = runner.send(:current_windows_user)
+      _(user).wont_be_nil
+      _(user).wont_be_empty
+      _(user).must_match(/\S+/)
+    end
+
+    it "handles multiple sequential commands without pipe errors" do
+      skip "ShellRunner in use" unless runner.is_a?(Train::Transports::Local::Connection::WindowsPipeRunner)
+
+      5.times do |i|
+        cmd = conn.run_command("Write-Output 'iteration #{i}'")
+        _(cmd.stdout).must_equal "iteration #{i}\r\n"
+        _(cmd.exit_status).must_equal 0
+      end
+    end
+
+    it "handles large output without pipe errors" do
+      skip "ShellRunner in use" unless runner.is_a?(Train::Transports::Local::Connection::WindowsPipeRunner)
+
+      cmd = conn.run_command("1..100 | ForEach-Object { Write-Output \"Line $_\" }")
+      _(cmd.exit_status).must_equal 0
+      _(cmd.stdout).must_include "Line 1"
+      _(cmd.stdout).must_include "Line 100"
+    end
+  end
+
   after do
     # close the connection
     conn.close
