@@ -269,10 +269,11 @@ module Train::Transports
             $rule = New-Object System.IO.Pipes.PipeAccessRule($user, "FullControl", "Allow")
             $pipeSecurity.AddAccessRule($rule)
             $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut, 1, [System.IO.Pipes.PipeTransmissionMode]::Byte, [System.IO.Pipes.PipeOptions]::None, 4096, 4096, $pipeSecurity)
+            
+            $pipeServer.WaitForConnection()
+
             $pipeReader = New-Object System.IO.StreamReader($pipeServer)
             $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
-
-            $pipeServer.WaitForConnection()
 
             # Create loop to receive and process user commands/scripts
             $clientConnected = $true
