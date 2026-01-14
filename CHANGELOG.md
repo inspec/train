@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.16.0 -->
+## [v3.16.0](https://github.com/inspec/train/tree/v3.16.0) (2026-01-14)
+
+#### Merged Pull Requests
+- CHEF-19255 Fix pipe broken issue [#818](https://github.com/inspec/train/pull/818) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.15.2 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- CHEF-19255 Fix pipe broken issue [#818](https://github.com/inspec/train/pull/818) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.16.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
