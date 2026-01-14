@@ -229,11 +229,28 @@ module Train::Transports
           at_exit { close rescue Errno::EIO }
 
           pipe = nil
+          ownership_verified = false
 
           # PowerShell needs time to create pipe.
           100.times do
+            unless ownership_verified
+              owner, current_user, is_owner = pipe_owned_by_current_user?(pipe_name)
+              if owner.nil?
+                sleep 0.1
+                next
+              end
+
+              unless is_owner
+                raise PipeError, "Unauthorized user '#{current_user}' tried to connect to pipe '#{pipe_name}'. Pipe is owned by '#{owner}'."
+              end
+
+              ownership_verified = true
+            end
+
             pipe = open("//./pipe/#{pipe_name}", "r+")
             break
+          rescue PipeError
+            raise
           rescue
             sleep 0.1
           end
@@ -246,17 +263,26 @@ module Train::Transports
 
           script = <<-EOF
             $ErrorActionPreference = 'Stop'
-
-            $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}')
-            $pipeReader = New-Object System.IO.StreamReader($pipeServer)
-            $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
+            $ProgressPreference = 'SilentlyContinue'
+            $user = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+            $pipeSecurity = New-Object System.IO.Pipes.PipeSecurity
+            $rule = New-Object System.IO.Pipes.PipeAccessRule($user, "FullControl", "Allow")
+            $pipeSecurity.AddAccessRule($rule)
+            $pipeServer = New-Object System.IO.Pipes.NamedPipeServerStream('#{pipe_name}', [System.IO.Pipes.PipeDirection]::InOut, 1, [System.IO.Pipes.PipeTransmissionMode]::Byte, [System.IO.Pipes.PipeOptions]::None, 4096, 4096, $pipeSecurity)
 
             $pipeServer.WaitForConnection()
+
+            $pipeReader = New-Object System.IO.StreamReader($pipeServer)
+            $pipeWriter = New-Object System.IO.StreamWriter($pipeServer)
 
             # Create loop to receive and process user commands/scripts
             $clientConnected = $true
             while($clientConnected) {
               $input = $pipeReader.ReadLine()
+              if ($input -eq $null) {
+                $clientConnected = $false
+                break
+              }
               $command = [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($input))
 
               # Execute user command/script and convert result to JSON
@@ -278,8 +304,14 @@ module Train::Transports
 
               # Encode JSON in Base64 and write to pipe
               $encodedResult = [System.Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes($resultJSON))
-              $pipeWriter.WriteLine($encodedResult)
-              $pipeWriter.Flush()
+              try {
+                $pipeWriter.WriteLine($encodedResult)
+                $pipeWriter.Flush()
+              } catch [System.IO.IOException] {
+                # Pipe was closed by client, exit gracefully
+                $clientConnected = $false
+                break
+              }
             }
           EOF
 
@@ -287,6 +319,29 @@ module Train::Transports
           base64_script = Base64.strict_encode64(utf8_script)
           cmd = "#{@powershell_cmd} -NoProfile -ExecutionPolicy bypass -NonInteractive -EncodedCommand #{base64_script}"
           Process.create(command_line: cmd).process_id
+        end
+
+        def current_windows_user
+          user = `powershell -Command "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"`.strip
+          if user.nil? || user.empty?
+            user = `whoami`.strip
+          end
+          if user.nil? || user.empty?
+            raise "Unable to determine current Windows user"
+          end
+
+          user
+        end
+
+        # Verify pipe ownership before connecting
+        def pipe_owned_by_current_user?(pipe_name)
+          exists = `powershell -Command "Test-Path \\\\.\\pipe\\#{pipe_name}"`.strip.downcase == "true"
+          current_user = current_windows_user
+          return [nil, current_user, false] unless exists
+
+          owner = `powershell -Command "(Get-Acl \\\\.\\pipe\\#{pipe_name}).Owner" 2>&1`.strip
+          is_owner = !owner.nil? && !current_user.nil? && owner.casecmp(current_user) == 0
+          [owner, current_user, is_owner]
         end
       end
     end
