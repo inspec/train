@@ -239,10 +239,6 @@ We also want to thank [halo](https://github.com/halo) who did a great contributi
 
 | **Author:**          | Christoph Hartmann (<chartmann@chef.io>)
 
-| **Copyright:**       | Copyright (c) 2015-2019 Chef Software Inc.
-
-| **Copyright:**       | Copyright (c) 2015 Vulcano Security GmbH.
-
 | **License:**         | Apache License, Version 2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -256,3 +252,6 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+
+# Copyright
+See [COPYRIGHT.md](./COPYRIGHT.md).
