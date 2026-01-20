@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.16.1 -->
+## [v3.16.1](https://github.com/inspec/train/tree/v3.16.1) (2026-01-20)
+
+#### Merged Pull Requests
+- Handle exceptions during pipe connection wait in WindowsPipeRunner [#821](https://github.com/inspec/train/pull/821) ([sathish-progress](https://github.com/sathish-progress))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.16.0 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Handle exceptions during pipe connection wait in WindowsPipeRunner [#821](https://github.com/inspec/train/pull/821) ([sathish-progress](https://github.com/sathish-progress)) <!-- 3.16.1 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
