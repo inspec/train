@@ -299,5 +299,101 @@ describe "local transport" do
         _(result).must_equal mock_pipe
       end
     end
+
+    describe "#acquire_pipe retry behavior" do
+      let(:runner) do
+        pipe_runner_class.allocate.tap do |r|
+          r.instance_variable_set(:@powershell_cmd, "powershell")
+          r.instance_variable_set(:@server_pid, nil)
+        end
+      end
+
+      before do
+        runner.stubs(:require).with("win32/process").returns(true)
+        runner.stubs(:sleep)
+      end
+
+      it "retries when pipe is not immediately available" do
+        mock_pipe = mock("pipe")
+        runner.expects(:start_pipe_server).returns(12345)
+        runner.expects(:pipe_owned_by_current_user?).times(3).returns(
+          [nil, "DOMAIN\\user", false],
+          [nil, "DOMAIN\\user", false],
+          ["DOMAIN\\user", "DOMAIN\\user", true]
+        )
+        runner.expects(:open).returns(mock_pipe)
+
+        result = runner.send(:acquire_pipe)
+        _(result).must_equal mock_pipe
+      end
+
+      it "retries when pipe open fails transiently" do
+        mock_pipe = mock("pipe")
+        runner.expects(:start_pipe_server).returns(12345)
+        runner.expects(:pipe_owned_by_current_user?).returns(
+          ["DOMAIN\\user", "DOMAIN\\user", true]
+        )
+
+        open_attempts = 0
+        runner.stubs(:open).with { |path, mode|
+          open_attempts += 1
+          if open_attempts < 3
+            raise Errno::ENOENT
+          end
+
+          true
+        }.returns(mock_pipe)
+
+        result = runner.send(:acquire_pipe)
+        _(result).must_equal mock_pipe
+      end
+
+      it "returns nil after exhausting all retries" do
+        runner.expects(:start_pipe_server).returns(12345)
+        runner.expects(:pipe_owned_by_current_user?).at_least_once.returns([nil, "DOMAIN\\user", false])
+
+        result = runner.send(:acquire_pipe)
+        _(result).must_be_nil
+      end
+    end
+
+    describe "#run_command pipe recovery" do
+      let(:runner) do
+        pipe_runner_class.allocate.tap do |r|
+          r.instance_variable_set(:@powershell_cmd, "powershell")
+          r.instance_variable_set(:@server_pid, 12345)
+        end
+      end
+
+      it "retries with new pipe when Errno::EPIPE occurs" do
+        old_pipe = mock("old_pipe")
+        new_pipe = mock("new_pipe")
+        runner.instance_variable_set(:@pipe, old_pipe)
+
+        old_pipe.expects(:puts).raises(Errno::EPIPE)
+        runner.expects(:close).once
+        runner.expects(:acquire_pipe).returns(new_pipe)
+
+        new_pipe.expects(:puts).with(anything)
+        new_pipe.expects(:flush)
+        new_pipe.expects(:readline).returns(Base64.encode64('{"stdout":"ok","stderr":"","exitstatus":0}'))
+
+        result = runner.run_command("test-command", {})
+
+        _(result.stdout).must_equal "ok"
+        _(result.exit_status).must_equal 0
+      end
+
+      it "raises PipeError when recovery fails" do
+        old_pipe = mock("old_pipe")
+        runner.instance_variable_set(:@pipe, old_pipe)
+
+        old_pipe.expects(:puts).raises(Errno::EPIPE)
+        runner.expects(:close).once
+        runner.expects(:acquire_pipe).returns(nil)
+
+        _ { runner.run_command("test-command", {}) }.must_raise Train::Transports::Local::PipeError
+      end
+    end
   end
 end
