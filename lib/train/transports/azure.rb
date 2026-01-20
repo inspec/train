@@ -1,8 +1,8 @@
 require "train/plugins"
-require "ms_rest_azure"
-require "azure_mgmt_resources"
-require "azure_graph_rbac"
-require "azure_mgmt_key_vault"
+require "ms_rest_azure2"
+require "azure_mgmt_resources2"
+require "azure_graph_rbac2"
+require "azure_mgmt_key_vault2"
 require "socket" unless defined?(Socket)
 require "timeout" unless defined?(Timeout)
 require "train/transports/helpers/azure/file_credentials"
@@ -50,8 +50,8 @@ module Train::Transports
         @options[:msi_port] = @options[:msi_port].to_i unless @options[:msi_port].nil?
 
         # additional platform details
-        release = Gem.loaded_specs["azure_mgmt_resources"].version
-        @platform_details = { release: "azure_mgmt_resources-v#{release}" }
+        release = Gem.loaded_specs["azure_mgmt_resources2"].version
+        @platform_details = { release: "azure_mgmt_resources2-v#{release}" }
 
         connect
       end
@@ -60,16 +60,16 @@ module Train::Transports
         force_platform!("azure", @platform_details)
       end
 
-      def azure_client(klass = ::Azure::Resources::Profiles::Latest::Mgmt::Client, opts = {})
+      def azure_client(klass = ::Azure::Resources2::Profiles::Latest::Mgmt::Client, opts = {})
         if cache_enabled?(:api_call)
           return @cache[:api_call][klass.to_s.to_sym] unless @cache[:api_call][klass.to_s.to_sym].nil?
         end
 
-        if klass == ::Azure::Resources::Profiles::Latest::Mgmt::Client
-          @credentials[:base_url] = MsRestAzure::AzureEnvironments::AzureCloud.resource_manager_endpoint_url
-        elsif klass == ::Azure::GraphRbac::Profiles::Latest::Client
+        if klass == ::Azure::Resources2::Profiles::Latest::Mgmt::Client
+          @credentials[:base_url] = MsRestAzure2::AzureEnvironments::AzureCloud.resource_manager_endpoint_url
+        elsif klass == ::Azure::GraphRbac2::Profiles::Latest::Client
           client = GraphRbac.client(@credentials)
-        elsif klass == ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
+        elsif klass == ::Azure::KeyVault2::Profiles::Latest::Mgmt::Client
           client = Vault.client(opts[:vault_name], @credentials)
         end
 
@@ -85,9 +85,9 @@ module Train::Transports
         if msi_auth?
           # this needs set for azure cloud to authenticate
           ENV["MSI_VM"] = "true"
-          provider = ::MsRestAzure::MSITokenProvider.new(@options[:msi_port])
+          provider = ::MsRestAzure2::MSITokenProvider.new(@options[:msi_port])
         else
-          provider = ::MsRestAzure::ApplicationTokenProvider.new(
+          provider = ::MsRestAzure2::ApplicationTokenProvider.new(
             @options[:tenant_id],
             @options[:client_id],
             @options[:client_secret]
@@ -95,7 +95,7 @@ module Train::Transports
         end
 
         @credentials = {
-          credentials: ::MsRest::TokenCredentials.new(provider),
+          credentials: ::MsRest2::TokenCredentials.new(provider),
           subscription_id: @options[:subscription_id],
           tenant_id: @options[:tenant_id],
         }
@@ -138,7 +138,7 @@ module Train::Transports
             # determine the namespace for the resource type
             namespace, type = resource_type.split(%r{/})
 
-            client = azure_client(::Azure::Resources::Profiles::Latest::Mgmt::Client)
+            client = azure_client(::Azure::Resources2::Profiles::Latest::Mgmt::Client)
             provider = client.providers.get(namespace)
 
             # get the latest API version for the type
