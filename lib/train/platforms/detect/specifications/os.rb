@@ -373,10 +373,11 @@ module Train::Platforms::Detect::Specifications
         # rubocop:disable Layout/ExtraSpacing
         # rubocop:disable Layout/SpaceAroundOperators
         if unix_uname_s =~ /darwin/i
-          @platform[:release] ||= unix_uname_r.lines[0].chomp
-          @platform[:arch]      = unix_uname_m
+          cmd = @backend.run_command("sw_vers -productVersion")
+          @platform[:release] = cmd.stdout.chomp if cmd.exit_status == 0
+          @platform[:arch] = unix_uname_m
           cmd = @backend.run_command("sw_vers -buildVersion")
-          @platform[:build]     = cmd.stdout.chomp if cmd.exit_status == 0
+          @platform[:build] = cmd.stdout.chomp if cmd.exit_status == 0
           true
         end
         # rubocop:enable Layout/ExtraSpacing
