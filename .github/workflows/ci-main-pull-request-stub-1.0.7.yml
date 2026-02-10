@@ -7,9 +7,9 @@ name: CI Pull Request on Main Branch
 
 on: 
   pull_request:
-    branches: [ vj/update-common-github-action-workflow, main ]
+    branches: [ main ]
   push:
-    branches: [ vj/update-common-github-action-workflow, main ]
+    branches: [ main ]
   workflow_dispatch:
 
 permissions:
