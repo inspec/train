@@ -4,9 +4,9 @@ name: CI Pull Request – TruffleHog Only
 
 on: 
   pull_request:
-    branches: [ main ]
+    branches: [ vj/update-common-github-action-workflow, main ]
   push:
-    branches: [ main ]
+    branches: [ vj/update-common-github-action-workflow,main ]
 
   workflow_dispatch:
 
