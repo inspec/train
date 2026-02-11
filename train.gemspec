@@ -34,11 +34,9 @@ Gem::Specification.new do |spec|
 
   # azure, docker, gcp dependencies
   spec.add_dependency "inifile", "~> 3.0"
-  spec.add_dependency "azure_graph_rbac", "~> 0.16"
-  spec.add_dependency "azure_mgmt_key_vault", "~> 0.17"
-  spec.add_dependency "azure_mgmt_resources", "~> 0.15"
-  spec.add_dependency "azure_mgmt_security", "~> 0.18"
-  spec.add_dependency "azure_mgmt_storage", "~> 0.18"
+  spec.add_dependency "azure_graph_rbac2", "~> 0.18.0"
+  spec.add_dependency "azure_mgmt_key_vault2", "~> 0.18.0"
+  spec.add_dependency "azure_mgmt_resources2", "~> 1.1"
   spec.add_dependency "docker-api", ">= 1.26", "< 3.0"
   spec.add_dependency "googleauth", ">= 0.16.2", "< 1.9.0"
   spec.add_dependency "google-apis-admin_directory_v1", "~> 0.46.0"
