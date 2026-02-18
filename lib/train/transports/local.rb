@@ -5,6 +5,7 @@
 require_relative "../plugins"
 require_relative "../errors"
 require "mixlib/shellout" unless defined?(Mixlib::ShellOut)
+require "timeout" unless defined?(Timeout)
 require "ostruct" unless defined?(OpenStruct)
 
 module Train::Transports
@@ -94,11 +95,15 @@ module Train::Transports
         # If we don't have a runner, such as at the beginning of setting up the
         # transport and performing the first few steps of OS detection, fall
         # back to shelling out.
-        res = Mixlib::ShellOut.new(cmd)
-        res.run_command
-        Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+        run_spawned_command(cmd, opts)
       rescue Errno::ENOENT => _
         CommandResult.new("", "", 1)
+      end
+
+      def run_spawned_command(cmd, opts = {})
+        return run_shellout_command(cmd, opts) if windows_platform?
+
+        self.class.spawn_command(cmd, opts)
       end
 
       def file_via_connection(path)
@@ -113,6 +118,7 @@ module Train::Transports
         include_options Train::Extras::CommandWrapper
 
         def initialize(connection, options)
+          @connection = connection
           @cmd_wrapper = Local::CommandWrapper.load(connection, options)
         end
 
@@ -121,14 +127,7 @@ module Train::Transports
             cmd = @cmd_wrapper.run(cmd)
           end
 
-          res = Mixlib::ShellOut.new(cmd)
-          res.timeout = opts[:timeout]
-          begin
-            res.run_command
-          rescue Mixlib::ShellOut::CommandTimeout
-            raise Train::CommandTimeoutReached
-          end
-          Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+          @connection.run_spawned_command(cmd, opts)
         end
 
         def close
@@ -166,6 +165,48 @@ module Train::Transports
 
         def close
           # nothing to do at the moment
+        end
+      end
+
+      class << self
+        def spawn_command(cmd, opts = {})
+          stdout_reader, stdout_writer = IO.pipe
+          stderr_reader, stderr_writer = IO.pipe
+          pid = Process.spawn(cmd, { pgroup: true, out: stdout_writer, err: stderr_writer })
+          stdout_writer.close
+          stderr_writer.close
+
+          stdout_thread = Thread.new { stdout_reader.read }
+          stderr_thread = Thread.new { stderr_reader.read }
+          status = nil
+
+          begin
+            if opts[:timeout]
+              Timeout.timeout(opts[:timeout]) { Process.wait(pid); status = $?.dup }
+            else
+              Process.wait(pid)
+              status = $?.dup
+            end
+          rescue Timeout::Error
+            terminate_process_group(pid)
+            Process.wait(pid) rescue Errno::ECHILD
+            raise Train::CommandTimeoutReached
+          ensure
+            stdout_reader.close unless stdout_reader.closed?
+            stderr_reader.close unless stderr_reader.closed?
+          end
+
+          Local::CommandResult.new(stdout_thread.value, stderr_thread.value, status&.exitstatus)
+        rescue Errno::ENOENT
+          Local::CommandResult.new("", "", 1)
+        end
+
+        def terminate_process_group(pid)
+          Process.kill("TERM", -pid)
+          sleep 0.1
+          Process.kill("KILL", -pid)
+        rescue Errno::ESRCH, ArgumentError
+          nil
         end
       end
 
@@ -320,6 +361,21 @@ module Train::Transports
           is_owner = !owner.nil? && !current_user.nil? && owner.casecmp(current_user) == 0
           [owner, current_user, is_owner]
         end
+      end
+
+      def run_shellout_command(cmd, opts)
+        res = Mixlib::ShellOut.new(cmd)
+        res.timeout = opts[:timeout]
+        begin
+          res.run_command
+        rescue Mixlib::ShellOut::CommandTimeout
+          raise Train::CommandTimeoutReached
+        end
+        Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
+      end
+
+      def windows_platform?
+        Gem.win_platform?
       end
     end
   end
