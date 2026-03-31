@@ -426,6 +426,15 @@ module Train::Platforms::Detect::Specifications
         .detect do
           cisco_show_version
         end
+      plat.name("cisco_asa").title("Cisco ASA OS").in_family("cisco")
+        .detect do
+          v = cisco_show_version
+          next unless v[:type] == "asa"
+
+          @platform[:release] = v[:version]
+          @platform[:arch] = nil
+          true
+        end
 
       declare_cisco("cisco_ios", "Cisco IOS", "cisco", :cisco_show_version, "ios")
       declare_cisco("cisco_ios_xe", "Cisco IOS XE", "cisco", :cisco_show_version, "ios-xe")

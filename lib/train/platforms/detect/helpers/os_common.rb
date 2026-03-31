@@ -86,7 +86,9 @@ module Train::Platforms::Detect::Helpers
     def cisco_show_version
       return @cache[:cisco] if @cache.key?(:cisco)
 
-      res = command_output("show version")
+      # Limit result size using output modifier (since IOS 12.0), if supported
+      res = command_output("show version | grep [Vv]ersion|Hardware")
+      res = command_output("show version") unless res.include? 'Cisco'
 
       m = res.match(/Cisco IOS Software, [^,]+? \(([^,]+?)\), Version (\d+\.\d+)/)
       unless m.nil?
@@ -109,6 +111,12 @@ module Train::Platforms::Detect::Helpers
         v = res[/^\s*system:\s+version (\d+\.\d+)/, 1]
         v ||= res[/NXOS: version (\d+\.\d+)/, 1]
         return @cache[:cisco] = { version: v, type: "nexus" }
+      end
+
+      m = res.match(/Cisco Adaptive Security Appliance Software Version (\d+\.\d+)/)
+      unless m.nil?
+        model = res.match(/Hardware:\s+(ASA\d+)/)
+        return @cache[:cisco] = { version: m[1], model: model[1], type: "asa" }
       end
 
       @cache[:cisco] = nil
