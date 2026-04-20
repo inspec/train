@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.16.2 -->
+## [v3.16.2](https://github.com/inspec/train/tree/v3.16.2) (2026-04-20)
+
+#### Merged Pull Requests
+- Upgrade json gem version [#829](https://github.com/inspec/train/pull/829) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.16.1 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Upgrade json gem version [#829](https://github.com/inspec/train/pull/829) ([chandra-progress](https://github.com/chandra-progress)) <!-- 3.16.2 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
