@@ -1,23 +1,20 @@
-<!-- latest_release 3.16.2 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v3.16.2](https://github.com/inspec/train/tree/v3.16.2) (2026-04-20)
 
 #### Merged Pull Requests
 - Upgrade json gem version [#829](https://github.com/inspec/train/pull/829) ([chandra-progress](https://github.com/chandra-progress))
-<!-- latest_release -->
-
-<!-- release_rollup since=3.16.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Upgrade json gem version [#829](https://github.com/inspec/train/pull/829) ([chandra-progress](https://github.com/chandra-progress)) <!-- 3.16.2 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v3.16.1](https://github.com/inspec/train/tree/v3.16.1) (2026-01-20)
 
 #### Merged Pull Requests
 - Handle exceptions during pipe connection wait in WindowsPipeRunner [#821](https://github.com/inspec/train/pull/821) ([sathish-progress](https://github.com/sathish-progress))
-<!-- latest_stable_release -->
 
 ## [v3.16.0](https://github.com/inspec/train/tree/v3.16.0) (2026-01-14)
 
