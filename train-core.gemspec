@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "addressable", "~> 2.5"
   spec.add_dependency "ffi", ">= 1.16.0", "< 1.18"
-  spec.add_dependency "json", ">= 1.8", "< 3.0"
+  spec.add_dependency "json", ">= 2.19.2", "< 3.0"
   spec.add_dependency "mixlib-shellout", ">= 2.0", "< 4.0"
   spec.add_dependency "net-scp", ">= 1.2", "< 5.0"
   spec.add_dependency "net-ssh", ">= 2.9", "< 8.0"
