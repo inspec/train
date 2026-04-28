@@ -1,23 +1,20 @@
-<!-- latest_release 3.16.3 -->
-## [v3.16.3](https://github.com/inspec/train/tree/v3.16.3) (2026-04-27)
-
-#### Merged Pull Requests
-- chore: Bump activesupport minimum version to 7.2.3.1 [#830](https://github.com/inspec/train/pull/830) ([mohan-progress](https://github.com/mohan-progress))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.16.2 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- chore: Bump activesupport minimum version to 7.2.3.1 [#830](https://github.com/inspec/train/pull/830) ([mohan-progress](https://github.com/mohan-progress)) <!-- 3.16.3 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.16.3](https://github.com/inspec/train/tree/v3.16.3) (2026-04-28)
+
+#### Merged Pull Requests
+- chore: Bump activesupport minimum version to 7.2.3.1 [#830](https://github.com/inspec/train/pull/830) ([mohan-progress](https://github.com/mohan-progress))
+<!-- latest_stable_release -->
+
 ## [v3.16.2](https://github.com/inspec/train/tree/v3.16.2) (2026-04-20)
 
 #### Merged Pull Requests
 - Upgrade json gem version [#829](https://github.com/inspec/train/pull/829) ([chandra-progress](https://github.com/chandra-progress))
-<!-- latest_stable_release -->
 
 ## [v3.16.1](https://github.com/inspec/train/tree/v3.16.1) (2026-01-20)
 
