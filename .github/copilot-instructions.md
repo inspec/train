@@ -431,3 +431,21 @@ GitHub PR labels (ai-assisted)
 Jira custom field (customfield_11170 = "Yes")
 PR descriptions mentioning AI assistance
 Commit messages where relevant
+
+---
+
+## Walk Track — Branch Strategy
+
+See [`.github/walk-branch-strategy.md`](.github/walk-branch-strategy.md) for the full Walk branch and PR chain strategy.
+
+**Summary:**
+- `ex1` branches from `main`
+- `ex2` branches from `ex1`, `ex3` from `ex2`, and so on
+- PR base = previous exercise branch (keeps diffs focused)
+- Branch naming: `vasundhar-walk-ex<N>`
+
+---
+
+## PR Template
+
+See [`.github/pr-template-instructions.md`](.github/pr-template-instructions.md) for the Walk PR template.
