@@ -22,9 +22,9 @@ awareness, multi-file reasoning, and structured output habits.
 
 ### Branch Naming
 ```
-vasundhar-walk-ex<N>
+vasundhara-walk-ex<N>
 ```
-Example: `vasundhar-walk-ex1`, `vasundhar-walk-ex2`
+Example: `vasundhara-walk-ex1`, `vasundhara-walk-ex2`
 
 ### PR Chain Pattern
 Each exercise branches from the **previous exercise's branch** (not `main`).
@@ -32,9 +32,9 @@ This keeps each PR diff focused on only the incremental change for that exercise
 
 ```
 main
- └── vasundhar-walk-ex1       ← branches from main, PR base = main
-      └── vasundhar-walk-ex2  ← branches from ex1, PR base = ex1
-           └── vasundhar-walk-ex3  ← branches from ex2, PR base = ex2
+ └── vasundhara-walk-ex1       ← branches from main, PR base = main
+      └── vasundhara-walk-ex2  ← branches from ex1, PR base = ex1
+           └── vasundhara-walk-ex3  ← branches from ex2, PR base = ex2
 ```
 
 > Full branch strategy: `.github/walk-branch-strategy.md`

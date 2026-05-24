@@ -11,13 +11,13 @@ keeping diffs focused and reviewable. PRs target the previous exercise's branch
 ## Naming Convention
 
 ```
-vasundhar-walk-ex1
-vasundhar-walk-ex2
-vasundhar-walk-ex3
+vasundhara-walk-ex1
+vasundhara-walk-ex2
+vasundhara-walk-ex3
 ...
 ```
 
-Pattern: `vasundhar-walk-ex<N>`
+Pattern: `vasundhara-walk-ex<N>`
 
 ---
 
@@ -25,9 +25,9 @@ Pattern: `vasundhar-walk-ex<N>`
 
 ```
 main
- └── vasundhar-walk-ex1       ← branches from main
-      └── vasundhar-walk-ex2  ← branches from ex1
-           └── vasundhar-walk-ex3  ← branches from ex2
+ └── vasundhara-walk-ex1       ← branches from main
+      └── vasundhara-walk-ex2  ← branches from ex1
+           └── vasundhara-walk-ex3  ← branches from ex2
                 ...
 ```
 
@@ -36,9 +36,9 @@ main
 | Exercise | Branch from | PR base |
 |---|---|---|
 | ex1 | `main` | `main` |
-| ex2 | `vasundhar-walk-ex1` | `vasundhar-walk-ex1` |
-| ex3 | `vasundhar-walk-ex2` | `vasundhar-walk-ex2` |
-| exN | `vasundhar-walk-ex(N-1)` | `vasundhar-walk-ex(N-1)` |
+| ex2 | `vasundhara-walk-ex1` | `vasundhara-walk-ex1` |
+| ex3 | `vasundhara-walk-ex2` | `vasundhara-walk-ex2` |
+| exN | `vasundhara-walk-ex(N-1)` | `vasundhara-walk-ex(N-1)` |
 
 ---
 
@@ -48,15 +48,15 @@ main
 # ex1 — branch from main
 git checkout main
 git pull origin main
-git checkout -b vasundhar-walk-ex1
+git checkout -b vasundhara-walk-ex1
 
 # ex2 — branch from ex1
-git checkout vasundhar-walk-ex1
-git checkout -b vasundhar-walk-ex2
+git checkout vasundhara-walk-ex1
+git checkout -b vasundhara-walk-ex2
 
 # exN — branch from ex(N-1)
-git checkout vasundhar-walk-ex(N-1)
-git checkout -b vasundhar-walk-exN
+git checkout vasundhara-walk-ex(N-1)
+git checkout -b vasundhara-walk-exN
 ```
 
 ---
@@ -69,13 +69,13 @@ Always set `--base` to the **previous exercise branch**:
 # ex1 PR — base is main
 gh pr create \
   --base main \
-  --head vasundhar-walk-ex1 \
+  --head vasundhara-walk-ex1 \
   --title "GHCP -- Walk: ex1 <name>"
 
 # ex2 PR — base is ex1
 gh pr create \
-  --base vasundhar-walk-ex1 \
-  --head vasundhar-walk-ex2 \
+  --base vasundhara-walk-ex1 \
+  --head vasundhara-walk-ex2 \
   --title "GHCP -- Walk: ex2 <name>"
 ```
 

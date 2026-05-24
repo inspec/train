@@ -442,7 +442,7 @@ See [`.github/walk-branch-strategy.md`](.github/walk-branch-strategy.md) for the
 - `ex1` branches from `main`
 - `ex2` branches from `ex1`, `ex3` from `ex2`, and so on
 - PR base = previous exercise branch (keeps diffs focused)
-- Branch naming: `vasundhar-walk-ex<N>`
+- Branch naming: `vasundhara-walk-ex<N>`
 
 ---
 
