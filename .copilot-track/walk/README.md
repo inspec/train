@@ -46,6 +46,11 @@ GHCP Walk ex<N>: <short description>
 Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
 ```
 
+Create commits with sign-off enabled:
+```bash
+git commit -s -m "GHCP Walk ex<N>: <short description>"
+```
+
 ---
 
 ## Opening a PR — Step-by-Step
@@ -57,6 +62,10 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
    chefstyle && chefstyle -a
    ```
 3. **Commit** everything (including any lint fixes).
+   ```bash
+   git add .
+   git commit -s -m "GHCP Walk ex<N>: <short description>"
+   ```
 4. **Push** the branch:
    ```bash
    git push origin <username>-walk-ex<N>

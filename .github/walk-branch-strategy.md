@@ -61,6 +61,17 @@ git checkout -b vasundhara-walk-exN
 
 ---
 
+## Committing Changes
+
+Use signed-off commits for every Walk exercise:
+
+```bash
+git add .
+git commit -s -m "GHCP Walk ex<N>: <short description>"
+```
+
+---
+
 ## Opening a PR
 
 Always set `--base` to the **previous exercise branch**:

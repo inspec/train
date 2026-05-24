@@ -142,7 +142,7 @@ git checkout -b JIRA-12345
 
 # Make your changes, commit them
 git add .
-git commit -m "JIRA-12345: Brief description of changes"
+git commit -s -m "JIRA-12345: Brief description of changes"
 
 # Run linting and fix issues before pushing
 chefstyle
@@ -155,7 +155,7 @@ chefstyle -a
 
 # Commit any linting fixes
 git add .
-git commit -m "JIRA-12345: Fix linting issues"
+git commit -s -m "JIRA-12345: Fix linting issues"
 
 # Push branch
 git push origin JIRA-12345
@@ -443,6 +443,7 @@ See [`.github/walk-branch-strategy.md`](.github/walk-branch-strategy.md) for the
 - `ex2` branches from `ex1`, `ex3` from `ex2`, and so on
 - PR base = previous exercise branch (keeps diffs focused)
 - Branch naming: `vasundhara-walk-ex<N>`
+- Use signed-off commits: `git commit -s -m "..."`
 
 ---
 
