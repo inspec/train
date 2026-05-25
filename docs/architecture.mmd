@@ -1,0 +1,16 @@
+flowchart LR
+  app["User code\nlib/train.rb"] --> entry["Train.create / Train.options\nlib/train.rb"]
+  entry --> registry["Plugin registry\nlib/train/plugins.rb"]
+  registry --> transport["Transport classes\nlib/train/transports/*.rb"]
+  transport --> conn["Shared connection behavior\nlib/train/plugins/base_connection.rb"]
+  conn --> fileapi["File abstraction\nlib/train/file.rb"]
+  conn --> platform["Platform detection\nlib/train/platforms/*.rb"]
+
+  config["Target hash / URI\nlib/train.rb"] --> normalize["target_config / unpack_target_from_uri\nlib/train.rb"]
+  normalize --> validate["validate_backend\nlib/train.rb"]
+  validate --> transport
+
+  transport --> cmd["run_command_via_connection\nlib/train/transports/*.rb"]
+  transport --> fileimpl["file_via_connection\nlib/train/transports/*.rb"]
+  cmd --> output["CommandResult / stdout / stderr"]
+  fileimpl --> content["File data / metadata\nlib/train/file/local.rb\nlib/train/file/remote.rb"]

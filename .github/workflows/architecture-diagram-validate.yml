@@ -1,0 +1,47 @@
+name: Validate architecture diagram
+
+on:
+  pull_request:
+    paths:
+      - docs/architecture.md
+      - docs/architecture.mmd
+      - contrib/validate_architecture_diagram.sh
+      - .github/workflows/architecture-diagram-validate.yml
+  push:
+    branches:
+      - main
+      - release/**
+    paths:
+      - docs/architecture.md
+      - docs/architecture.mmd
+      - contrib/validate_architecture_diagram.sh
+      - .github/workflows/architecture-diagram-validate.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  render-architecture-diagram:
+    name: Render architecture diagram
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Mermaid CLI
+        run: npm install --global @mermaid-js/mermaid-cli@10.9.1
+
+      - name: Render architecture diagram
+        run: bash contrib/validate_architecture_diagram.sh "$RUNNER_TEMP/architecture-diagram"
+
+      - name: Upload rendered diagram
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-diagram
+          path: ${{ runner.temp }}/architecture-diagram/architecture.svg
