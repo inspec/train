@@ -249,6 +249,11 @@ We also want to thank [halo](https://github.com/halo) who did a great contributi
 1. Push to the branch (git push origin my-new-feature)
 1. Create new Pull Request
 
+Additional contributor guidance:
+
+- [Contribution guide](CONTRIBUTING.md)
+- [Walk onboarding prompt](docs/onboarding-walk.md)
+
 ## License
 
 | **Author:**          | Dominik Richter (<drichter@chef.io>)
