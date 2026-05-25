@@ -164,6 +164,20 @@ describe Train do
       _(res).must_equal nu
     end
 
+    it "prefers string keys over symbol keys for the same field" do
+      org = {
+        target: "ssh://symbol_user:symbol_pass@host.com:22/path",
+        user: "symbol_user",
+        "user" => "string_user",
+        password: "symbol_pass",
+        "password" => "string_pass",
+      }
+
+      res = Train.target_config(org)
+      _(res[:user]).must_equal "string_user"
+      _(res[:password]).must_equal "string_pass"
+    end
+
     it "supports IPv4 URIs" do
       org = { target: "mock://1.2.3.4:123" }
       res = Train.target_config(org)

@@ -67,12 +67,17 @@ module Train
   # TODO: deprecate; can't issue a warning because train doesn't have a logger until the connection is setup (See base_connection.rb)
   def self.target_config(config = nil)
     conf = config.dup
-    # Symbolize keys
-    conf.keys.each do |key|
-      unless key.is_a? Symbol
-        conf[key.to_sym] = conf.delete(key)
+    # Symbolize keys while preserving historical precedence where string keys
+    # override symbol keys for the same logical field.
+    symbolized_conf = {}
+    conf.each_pair do |key, value|
+      if key.is_a?(Symbol)
+        symbolized_conf[key] = value unless symbolized_conf.key?(key)
+      else
+        symbolized_conf[key.to_sym] = value
       end
     end
+    conf = symbolized_conf
 
     group_keys_and_keyfiles(conf) # TODO: move logic into SSH plugin
     return conf if conf[:target].to_s.empty?
