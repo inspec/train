@@ -195,6 +195,34 @@ bundle exec rake test:windows
 bundle exec ruby -I .\test\windows\ .\test\windows\local_test.rb
 ```
 
+## Coverage
+
+Train coverage is enabled through `SimpleCov` when `CI_ENABLE_COVERAGE` is set.
+
+Prerequisite (run once per environment or after dependency changes):
+
+```
+bundle install
+```
+
+Run unit tests with coverage locally:
+
+```
+CI_ENABLE_COVERAGE=1 bundle exec rake test
+```
+
+Expected output includes:
+
+- Test summary (runs/assertions/failures/errors/skips)
+- Total line coverage percentage
+- Coverage report directory (default: `coverage/`)
+
+Example summary format for PR Evidence:
+
+```
+Coverage: <NN.NN>% (CI_ENABLE_COVERAGE=1 bundle exec rake test)
+```
+
 
 # Kudos and Contributors
 

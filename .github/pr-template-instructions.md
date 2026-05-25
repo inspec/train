@@ -12,7 +12,7 @@ Use the following template for all Pull Requests in this repository.
 
 ## Evidence
 - Tests/logs/metrics: <commands + output summary>
-- Coverage: <percentage or contract evidence>
+- Coverage: <total percentage + exact command used>
 
 ## Risk & Rollback
 - Risk: low/medium

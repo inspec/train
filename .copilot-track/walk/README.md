@@ -58,6 +58,7 @@ git commit -s -m "GHCP Walk ex<N>: <short description>"
 1. **Finish all changes** on your exercise branch.
 2. **Run tests and linting**:
    ```bash
+   bundle install
    bundle exec rake test
    chefstyle && chefstyle -a
    ```
