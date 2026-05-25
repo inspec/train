@@ -1,5 +1,6 @@
 require "docker"
 require "train/plugins"
+require_relative "helpers/container_command_helper"
 
 module Train::Transports
   class Podman < Train.plugin(1)
@@ -53,6 +54,8 @@ module Train::Transports
 
   class Train::Transports::Podman
     class Connection < BaseConnection
+      include Train::Transports::Helpers::ContainerCommandHelper
+
       def initialize(options)
         super(options)
 
@@ -115,15 +118,7 @@ module Train::Transports
       end
 
       def run_command_via_connection(cmd, &_data_handler)
-        cmd = @cmd_wrapper.run(cmd) unless @cmd_wrapper.nil?
-
-        # Cannot use os.windows? here because it calls run_command_via_connection,
-        # causing infinite recursion during initial platform detection
-        if sniff_for_windows?
-          invocation = cmd_run_command(cmd)
-        else
-          invocation = sh_run_command(cmd)
-        end
+        invocation = build_container_invocation(cmd, cmd_wrapper: @cmd_wrapper)
         stdout, stderr, exit_status = @container.exec(
           invocation, user: @options[:user]
         )
@@ -133,14 +128,6 @@ module Train::Transports
       rescue => _
         # @TODO: differentiate any other error
         raise
-      end
-
-      def sh_run_command(cmd)
-        ["/bin/sh", "-c", cmd]
-      end
-
-      def cmd_run_command(cmd)
-        ["cmd.exe", "/s", "/c", cmd]
       end
 
       def sniff_for_windows?
