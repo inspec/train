@@ -1,0 +1,41 @@
+name: Contract tests
+
+on:
+  pull_request:
+    paths:
+      - lib/train/transports/helpers/azure/file_credentials.rb
+      - test/unit/transports/helpers/azure/file_credentials_test.rb
+      - docs/contract-tests.md
+      - .github/workflows/contract-tests.yml
+  push:
+    branches:
+      - main
+      - release/**
+    paths:
+      - lib/train/transports/helpers/azure/file_credentials.rb
+      - test/unit/transports/helpers/azure/file_credentials_test.rb
+      - docs/contract-tests.md
+      - .github/workflows/contract-tests.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  azure-file-credentials-contract:
+    name: Azure file credentials contract
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Run contract test
+        run: bundle exec ruby -Ilib:test test/unit/transports/helpers/azure/file_credentials_test.rb

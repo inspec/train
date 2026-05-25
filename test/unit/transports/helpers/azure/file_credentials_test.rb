@@ -124,4 +124,15 @@ describe "parse_credentials_file" do
 
     assert_equal("Index must be greater than 0.", error.message)
   end
+
+  it "enforces response shape contract for parsed credentials" do
+    options[:credentials_file] = cred_file_single_entry.path
+
+    result = Train::Transports::Helpers::Azure::FileCredentials.parse(**options)
+    expected_keys = %i{subscription_id tenant_id client_id client_secret}
+
+    assert_instance_of(Hash, result)
+    assert_equal(expected_keys.sort, result.keys.sort)
+    expected_keys.each { |key| refute_nil(result[key]) }
+  end
 end
