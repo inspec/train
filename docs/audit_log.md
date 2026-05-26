@@ -42,6 +42,28 @@ The following example shows data returned from a command event.
 {"timestamp":"2023-11-06 11:21:32 -0500","app":"train","type":"cmd","command":"whoami"}
 ```
 
+### Command completion event
+
+The audit log also emits a command completion event after execution. This is useful for
+observing latency and command outcomes.
+
+The command completion event returns:
+
+- timestamp
+- type (`cmd_complete`)
+- command (the invocation run on the target system)
+- duration_ms (execution time in milliseconds)
+- cache_hit (`true` when command result came from Train command cache)
+- exit_status (when available from the transport result)
+- user (system user who executes the command)
+- hostname (hostname of the system if it is a remote target)
+
+Example:
+
+```json
+{"timestamp":"2026-05-26 11:21:35 -0500","app":"train","type":"cmd_complete","command":"whoami","duration_ms":4.71,"cache_hit":false,"exit_status":0}
+```
+
 ### File event
 
 The audit log returns the following file event data:
@@ -83,3 +105,6 @@ Note: this is an example for developers; Train is a support library and has no d
   c.run_command("whoami")
   c.file("<path-to-file>").content
 ```
+
+After running commands, open the configured audit log file to view `cmd` and `cmd_complete`
+events.

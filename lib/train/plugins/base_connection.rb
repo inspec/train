@@ -149,6 +149,9 @@ class Train::Plugins::Transport
     #               class's implementation of run_command_via_connection should receive
     #               and apply these options.
     def run_command(cmd, opts = {}, &data_handler)
+      start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      cache_hit = false
+
       # Some implementations do not accept an opts argument.
       # We cannot update all implementations to accept opts due to them being separate plugins.
       # Therefore here we check the implementation's arity to maintain compatibility.
@@ -156,14 +159,28 @@ class Train::Plugins::Transport
 
       case method(:run_command_via_connection).arity.abs
       when 1
-        return run_command_via_connection(cmd, &data_handler) unless cache_enabled?(:command)
+        unless cache_enabled?(:command)
+          result = run_command_via_connection(cmd, &data_handler)
+          log_command_completion(cmd, start_time, result, cache_hit)
+          return result
+        end
 
-        @cache[:command][cmd] ||= run_command_via_connection(cmd, &data_handler)
+        cache_hit = @cache[:command].key?(cmd)
+        result = @cache[:command][cmd] ||= run_command_via_connection(cmd, &data_handler)
+        log_command_completion(cmd, start_time, result, cache_hit)
+        result
 
       when 2
-        return run_command_via_connection(cmd, opts, &data_handler) unless cache_enabled?(:command)
+        unless cache_enabled?(:command)
+          result = run_command_via_connection(cmd, opts, &data_handler)
+          log_command_completion(cmd, start_time, result, cache_hit)
+          return result
+        end
 
-        @cache[:command][cmd] ||= run_command_via_connection(cmd, opts, &data_handler)
+        cache_hit = @cache[:command].key?(cmd)
+        result = @cache[:command][cmd] ||= run_command_via_connection(cmd, opts, &data_handler)
+        log_command_completion(cmd, start_time, result, cache_hit)
+        result
       else
         raise NotImplementedError, "#{self.class} does not implement run_command_via_connection with arity #{method(:run_command_via_connection).arity}"
       end
@@ -263,6 +280,24 @@ class Train::Plugins::Transport
 
     def clear_cache(type)
       @cache[type.to_sym] = {}
+    end
+
+    def log_command_completion(cmd, start_time, result, cache_hit)
+      return unless @audit_log
+
+      duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) * 1000).round(2)
+      payload = {
+        type: "cmd_complete",
+        command: cmd.to_s,
+        duration_ms: duration_ms,
+        cache_hit: cache_hit,
+        user: @audit_log_data[:username],
+        hostname: @audit_log_data[:hostname],
+      }
+
+      payload[:exit_status] = result.exit_status if result && result.respond_to?(:exit_status)
+
+      @audit_log.info(payload)
     end
 
     # @return [Logger] logger for reporting information
