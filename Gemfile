@@ -3,7 +3,7 @@ gemspec name: "train"
 
 group :test do
   gem "minitest", "~> 5.8"
-  gem "rake", "~> 13.0"
+  gem "rake", "~> 13.4"
   gem "chefstyle", "2.2.3"
   gem "concurrent-ruby", "~> 1.0"
   if Gem.ruby_version < Gem::Version.new("3.1.0")
