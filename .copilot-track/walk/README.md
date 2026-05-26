@@ -98,12 +98,23 @@ git commit -s -m "GHCP Walk ex<N>: <short description>"
 - Coverage: <percentage or contract evidence>
 
 ## Risk & Rollback
-- Risk: low / medium
-- Rollback: revert <commit SHA> or toggle <flag>
+- Risk: low / medium / high and why
+- Rollback plan:
+   - Primary: revert <commit SHA>
+   - Alternate: disable/toggle <flag or workflow> if applicable
+   - Impact/Recovery note
 
 ## Review Focus
-- Key areas for reviewer attention
-- Verification steps the reviewer can run
+- Review focus (3-5 bullets):
+   - Riskiest file/logic and why
+   - Edge cases to inspect
+   - CI/config/doc behavior that should be visible
+- Reviewer verification steps (copy/paste runnable):
+   1. <command>
+   2. <command>
+   3. <expected result>
+- Optional AI review request:
+   - If available in repo settings, request AI/Copilot review and include notable findings.
 
 ## Track
 - Level: Walk
