@@ -1,0 +1,5 @@
+# Ignore VCS internals that generate hash-like false positives
+^/repo/\.git/
+
+# Known fake test token fixture used in unit tests (not a real credential)
+^/repo/test/unit/transports/gcp_test\.rb$
