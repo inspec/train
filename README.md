@@ -223,6 +223,21 @@ Example summary format for PR Evidence:
 Coverage: <NN.NN>% (CI_ENABLE_COVERAGE=1 bundle exec rake test)
 ```
 
+## Advisory CI Coverage Summary
+
+This repository also includes an advisory GitHub Actions workflow at
+`.github/workflows/coverage-summary.yml`.
+
+- It runs coverage using `CI_ENABLE_COVERAGE=1 bundle exec rake test`.
+- It writes the total line coverage and test result summary to the GitHub job summary.
+- It is non-blocking by design: the coverage test step uses `continue-on-error`, so the workflow surfaces evidence without gating merges.
+
+Where to view it:
+
+- Open the `Coverage Summary` workflow run in GitHub Actions.
+- Open the `Advisory coverage summary` job.
+- Read the markdown shown in the job summary panel.
+
 
 # Kudos and Contributors
 

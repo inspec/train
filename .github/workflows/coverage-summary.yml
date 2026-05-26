@@ -1,0 +1,44 @@
+name: Coverage Summary
+
+on:
+  pull_request:
+    branches: [ main, release/** ]
+  push:
+    branches: [ main, release/** ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  advisory-coverage:
+    name: Advisory coverage summary
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Run coverage tests
+        id: coverage
+        continue-on-error: true
+        run: |
+          CI_ENABLE_COVERAGE=1 bundle exec rake test 2>&1 | tee coverage-test-output.txt
+
+      - name: Write advisory summary
+        if: always()
+        run: |
+          ruby contrib/write_coverage_summary.rb \
+            --coverage-file coverage/.last_run.json \
+            --test-output coverage-test-output.txt \
+            --summary-file "$GITHUB_STEP_SUMMARY" \
+            --threshold 80 \
+            --command "CI_ENABLE_COVERAGE=1 bundle exec rake test" \
+            --step-outcome "${{ steps.coverage.outcome }}"
