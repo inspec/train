@@ -64,6 +64,29 @@ Example:
 {"timestamp":"2026-05-26 11:21:35 -0500","app":"train","type":"cmd_complete","command":"whoami","duration_ms":4.71,"cache_hit":false,"exit_status":0}
 ```
 
+#### Feature Flag Lifecycle (`TRAIN_ENABLE_CMD_COMPLETE_AUDIT`)
+
+The `cmd_complete` event is controlled by a feature flag to reduce rollout risk for behavior changes.
+
+- Creation: added as a safety toggle for command-completion telemetry.
+- Default state: enabled when unset (current behavior is preserved).
+- Enable explicitly: set `TRAIN_ENABLE_CMD_COMPLETE_AUDIT=1` (also accepts `true`, `yes`, `on`).
+- Disable: set `TRAIN_ENABLE_CMD_COMPLETE_AUDIT=0` (also accepts `false`, `no`, `off`).
+- Removal trigger: remove this flag once telemetry format and behavior are stable across supported transports and no rollback path is needed.
+
+Examples:
+
+```bash
+# Enabled (default)
+unset TRAIN_ENABLE_CMD_COMPLETE_AUDIT
+
+# Explicitly enabled
+export TRAIN_ENABLE_CMD_COMPLETE_AUDIT=1
+
+# Disabled
+export TRAIN_ENABLE_CMD_COMPLETE_AUDIT=0
+```
+
 ### File event
 
 The audit log returns the following file event data:

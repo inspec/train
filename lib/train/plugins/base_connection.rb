@@ -283,7 +283,7 @@ class Train::Plugins::Transport
     end
 
     def log_command_completion(cmd, start_time, result, cache_hit)
-      return unless @audit_log
+      return unless @audit_log && command_completion_audit_enabled?
 
       duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) * 1000).round(2)
       payload = {
@@ -298,6 +298,14 @@ class Train::Plugins::Transport
       payload[:exit_status] = result.exit_status if result && result.respond_to?(:exit_status)
 
       @audit_log.info(payload)
+    end
+
+    def command_completion_audit_enabled?
+      raw_value = ENV["TRAIN_ENABLE_CMD_COMPLETE_AUDIT"]
+      return true if raw_value.nil?
+
+      normalized = raw_value.to_s.strip.downcase
+      !%w{0 false no off}.include?(normalized)
     end
 
     # @return [Logger] logger for reporting information

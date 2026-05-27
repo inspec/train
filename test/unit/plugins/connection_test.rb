@@ -181,6 +181,24 @@ describe "v1 Connection Plugin" do
     end
 
     describe "run command" do
+      def with_cmd_complete_audit_flag(value)
+        original = ENV["TRAIN_ENABLE_CMD_COMPLETE_AUDIT"]
+
+        if value.nil?
+          ENV.delete("TRAIN_ENABLE_CMD_COMPLETE_AUDIT")
+        else
+          ENV["TRAIN_ENABLE_CMD_COMPLETE_AUDIT"] = value
+        end
+
+        yield
+      ensure
+        if original.nil?
+          ENV.delete("TRAIN_ENABLE_CMD_COMPLETE_AUDIT")
+        else
+          ENV["TRAIN_ENABLE_CMD_COMPLETE_AUDIT"] = original
+        end
+      end
+
       it "with caching" do
         connection.enable_cache(:command)
         connection.expects(:run_command_via_connection).once.returns("test_user")
@@ -201,37 +219,59 @@ describe "v1 Connection Plugin" do
       end
 
       it "adds command completion telemetry to audit log" do
-        audit_events = []
-        audit_log = Object.new
-        audit_log.define_singleton_method(:info) do |event|
-          audit_events << event
+        with_cmd_complete_audit_flag(nil) do
+          audit_events = []
+          audit_log = Object.new
+          audit_log.define_singleton_method(:info) do |event|
+            audit_events << event
+          end
+
+          connection.instance_variable_set(:@audit_log, audit_log)
+          connection.instance_variable_set(:@audit_log_data, { username: "alice", hostname: "example.test" })
+
+          result = Struct.new(:exit_status).new(7)
+          connection.expects(:run_command_via_connection).once.returns(result)
+
+          _(connection.run_command("whoami")).must_equal(result)
+          _(audit_events.length).must_equal 2
+
+          cmd_start_event = audit_events[0]
+          cmd_complete_event = audit_events[1]
+
+          _(cmd_start_event[:type]).must_equal "cmd"
+          _(cmd_start_event[:command]).must_equal "whoami"
+
+          _(cmd_complete_event[:type]).must_equal "cmd_complete"
+          _(cmd_complete_event[:command]).must_equal "whoami"
+          _(cmd_complete_event[:exit_status]).must_equal 7
+          _(cmd_complete_event[:cache_hit]).must_equal false
+          _(cmd_complete_event[:user]).must_equal "alice"
+          _(cmd_complete_event[:hostname]).must_equal "example.test"
+          _(cmd_complete_event[:duration_ms]).must_be_kind_of Numeric
         end
-
-        connection.instance_variable_set(:@audit_log, audit_log)
-        connection.instance_variable_set(:@audit_log_data, { username: "alice", hostname: "example.test" })
-
-        result = Struct.new(:exit_status).new(7)
-        connection.expects(:run_command_via_connection).once.returns(result)
-
-        _(connection.run_command("whoami")).must_equal(result)
-        _(audit_events.length).must_equal 2
-
-        cmd_start_event = audit_events[0]
-        cmd_complete_event = audit_events[1]
-
-        _(cmd_start_event[:type]).must_equal "cmd"
-        _(cmd_start_event[:command]).must_equal "whoami"
-
-        _(cmd_complete_event[:type]).must_equal "cmd_complete"
-        _(cmd_complete_event[:command]).must_equal "whoami"
-        _(cmd_complete_event[:exit_status]).must_equal 7
-        _(cmd_complete_event[:cache_hit]).must_equal false
-        _(cmd_complete_event[:user]).must_equal "alice"
-        _(cmd_complete_event[:hostname]).must_equal "example.test"
-        _(cmd_complete_event[:duration_ms]).must_be_kind_of Numeric
       end
 
-      it "marks command cache hits in completion telemetry" do
+      it "can disable command completion telemetry via feature flag" do
+        with_cmd_complete_audit_flag("0") do
+          audit_events = []
+          audit_log = Object.new
+          audit_log.define_singleton_method(:info) do |event|
+            audit_events << event
+          end
+
+          connection.instance_variable_set(:@audit_log, audit_log)
+          connection.instance_variable_set(:@audit_log_data, { username: "alice", hostname: "example.test" })
+
+          result = Struct.new(:exit_status).new(7)
+          connection.expects(:run_command_via_connection).once.returns(result)
+
+          _(connection.run_command("whoami")).must_equal(result)
+          _(audit_events.length).must_equal 1
+          _(audit_events[0][:type]).must_equal "cmd"
+        end
+      end
+
+      it "respects process-level command completion feature flag mode" do
         audit_events = []
         audit_log = Object.new
         audit_log.define_singleton_method(:info) do |event|
@@ -241,17 +281,41 @@ describe "v1 Connection Plugin" do
         connection.instance_variable_set(:@audit_log, audit_log)
         connection.instance_variable_set(:@audit_log_data, {})
 
-        connection.enable_cache(:command)
         result = Struct.new(:exit_status).new(0)
         connection.expects(:run_command_via_connection).once.returns(result)
 
         connection.run_command("whoami")
-        connection.run_command("whoami")
 
-        completion_events = audit_events.select { |e| e[:type] == "cmd_complete" }
-        _(completion_events.length).must_equal 2
-        _(completion_events[0][:cache_hit]).must_equal false
-        _(completion_events[1][:cache_hit]).must_equal true
+        completion_events = audit_events.select { |event| event[:type] == "cmd_complete" }
+        raw_value = ENV["TRAIN_ENABLE_CMD_COMPLETE_AUDIT"]
+        expected_enabled = raw_value.nil? || !%w{0 false no off}.include?(raw_value.to_s.strip.downcase)
+
+        _(completion_events.length).must_equal(expected_enabled ? 1 : 0)
+      end
+
+      it "marks command cache hits in completion telemetry" do
+        with_cmd_complete_audit_flag("1") do
+          audit_events = []
+          audit_log = Object.new
+          audit_log.define_singleton_method(:info) do |event|
+            audit_events << event
+          end
+
+          connection.instance_variable_set(:@audit_log, audit_log)
+          connection.instance_variable_set(:@audit_log_data, {})
+
+          connection.enable_cache(:command)
+          result = Struct.new(:exit_status).new(0)
+          connection.expects(:run_command_via_connection).once.returns(result)
+
+          connection.run_command("whoami")
+          connection.run_command("whoami")
+
+          completion_events = audit_events.select { |e| e[:type] == "cmd_complete" }
+          _(completion_events.length).must_equal 2
+          _(completion_events[0][:cache_hit]).must_equal false
+          _(completion_events[1][:cache_hit]).must_equal true
+        end
       end
     end
   end
