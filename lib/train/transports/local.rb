@@ -192,21 +192,20 @@ module Train::Transports
           encoded_script = Base64.strict_encode64(script)
           # TODO: no way to safely implement timeouts here.
           begin
-            @pipe.puts(encoded_script)
-            @pipe.flush
+            write_to_pipe(encoded_script)
           rescue Errno::EPIPE
             # Retry once if the pipe went away
-            begin
-              # Maybe the pipe went away, but the server didn't? Reset it, to get a clean start.
-              close
-            rescue Errno::EIO
-              # Ignore - server already went away
-            end
-            @pipe = acquire_pipe
-            raise PipeError if @pipe.nil?
+            recover_pipe!
 
-            @pipe.puts(encoded_script)
-            @pipe.flush
+            begin
+              write_to_pipe(encoded_script)
+            rescue Errno::EPIPE
+              raise unless extra_pipe_retry_enabled?
+
+              sleep(extra_pipe_retry_backoff_seconds)
+              recover_pipe!
+              write_to_pipe(encoded_script)
+            end
           end
           res = OpenStruct.new(JSON.parse(Base64.decode64(@pipe.readline)))
           Local::CommandResult.new(res.stdout, res.stderr, res.exitstatus)
@@ -218,6 +217,40 @@ module Train::Transports
         end
 
         private
+
+        def write_to_pipe(encoded_script)
+          @pipe.puts(encoded_script)
+          @pipe.flush
+        end
+
+        def recover_pipe!
+          begin
+            # Maybe the pipe went away, but the server didn't? Reset it, to get a clean start.
+            close
+          rescue Errno::EIO
+            # Ignore - server already went away
+          end
+
+          @pipe = acquire_pipe
+          raise PipeError if @pipe.nil?
+        end
+
+        def extra_pipe_retry_enabled?
+          value = ENV["TRAIN_LOCAL_PIPE_EXTRA_RETRY"]
+          return false if value.nil?
+
+          %w{1 true yes on}.include?(value.to_s.strip.downcase)
+        end
+
+        def extra_pipe_retry_backoff_seconds
+          raw = ENV["TRAIN_LOCAL_PIPE_RETRY_BACKOFF_SECONDS"]
+          return 0.05 if raw.nil?
+
+          parsed = Float(raw)
+          parsed < 0 ? 0.05 : parsed
+        rescue ArgumentError, TypeError
+          0.05
+        end
 
         def acquire_pipe
           require "win32/process"

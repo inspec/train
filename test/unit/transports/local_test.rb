@@ -384,6 +384,59 @@ describe "local transport" do
         _(result.exit_status).must_equal 0
       end
 
+      it "raises Errno::EPIPE when second retry fails by default" do
+        old_pipe = mock("old_pipe")
+        new_pipe = mock("new_pipe")
+        runner.instance_variable_set(:@pipe, old_pipe)
+
+        old_pipe.expects(:puts).raises(Errno::EPIPE)
+        runner.expects(:close).once
+        runner.expects(:acquire_pipe).returns(new_pipe)
+
+        new_pipe.expects(:puts).raises(Errno::EPIPE)
+
+        _ { runner.run_command("test-command", {}) }.must_raise Errno::EPIPE
+      end
+
+      it "performs one additional retry with backoff when opt-in flag is enabled" do
+        old_pipe = mock("old_pipe")
+        retry_pipe = mock("retry_pipe")
+        recovered_pipe = mock("recovered_pipe")
+        runner.instance_variable_set(:@pipe, old_pipe)
+
+        original_flag = ENV["TRAIN_LOCAL_PIPE_EXTRA_RETRY"]
+        original_backoff = ENV["TRAIN_LOCAL_PIPE_RETRY_BACKOFF_SECONDS"]
+        ENV["TRAIN_LOCAL_PIPE_EXTRA_RETRY"] = "1"
+        ENV["TRAIN_LOCAL_PIPE_RETRY_BACKOFF_SECONDS"] = "0.05"
+
+        old_pipe.expects(:puts).raises(Errno::EPIPE)
+        runner.expects(:close).twice
+        runner.expects(:acquire_pipe).twice.returns(retry_pipe, recovered_pipe)
+
+        retry_pipe.expects(:puts).raises(Errno::EPIPE)
+        runner.expects(:sleep).with(0.05).once
+
+        recovered_pipe.expects(:puts).with(anything)
+        recovered_pipe.expects(:flush)
+        recovered_pipe.expects(:readline).returns(Base64.encode64('{"stdout":"ok","stderr":"","exitstatus":0}'))
+
+        result = runner.run_command("test-command", {})
+        _(result.stdout).must_equal "ok"
+        _(result.exit_status).must_equal 0
+      ensure
+        if original_flag.nil?
+          ENV.delete("TRAIN_LOCAL_PIPE_EXTRA_RETRY")
+        else
+          ENV["TRAIN_LOCAL_PIPE_EXTRA_RETRY"] = original_flag
+        end
+
+        if original_backoff.nil?
+          ENV.delete("TRAIN_LOCAL_PIPE_RETRY_BACKOFF_SECONDS")
+        else
+          ENV["TRAIN_LOCAL_PIPE_RETRY_BACKOFF_SECONDS"] = original_backoff
+        end
+      end
+
       it "raises PipeError when recovery fails" do
         old_pipe = mock("old_pipe")
         runner.instance_variable_set(:@pipe, old_pipe)
