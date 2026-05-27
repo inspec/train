@@ -1,0 +1,13 @@
+AllCops:
+  DisabledByDefault: true
+  NewCops: enable
+  TargetRubyVersion: 2.7
+  Include:
+    - "lib/train/plugins/base_connection.rb"
+
+Style/RedundantInterpolation:
+  Enabled: true
+
+Metrics/MethodLength:
+  Enabled: true
+  Max: 20

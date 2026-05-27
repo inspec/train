@@ -1,0 +1,39 @@
+name: Strict Lint (Plugins Path)
+
+on:
+  pull_request:
+    paths:
+      - "lib/train/plugins/base_connection.rb"
+      - ".rubocop-strict-plugins.yml"
+      - ".github/workflows/strict-lint-plugins.yml"
+  push:
+    branches:
+      - main
+      - release/**
+    paths:
+      - "lib/train/plugins/base_connection.rb"
+      - ".rubocop-strict-plugins.yml"
+      - ".github/workflows/strict-lint-plugins.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  strict-lint-plugins-path:
+    name: Strict lint for plugins path
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.1"
+          bundler-cache: true
+
+      - name: Run scoped strict RuboCop
+        run: |
+          bundle exec rubocop -c .rubocop-strict-plugins.yml lib/train/plugins/base_connection.rb

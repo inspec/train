@@ -148,6 +148,9 @@ class Train::Plugins::Transport
     # @param [Hash] optional hash of options for this command. The derived connection
     #               class's implementation of run_command_via_connection should receive
     #               and apply these options.
+    # rubocop:disable Metrics/MethodLength
+    # Compatibility note: this dispatch logic intentionally handles transport plugin arity
+    # differences in one place to avoid breaking external plugins.
     def run_command(cmd, opts = {}, &data_handler)
       start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
       cache_hit = false
@@ -155,7 +158,7 @@ class Train::Plugins::Transport
       # Some implementations do not accept an opts argument.
       # We cannot update all implementations to accept opts due to them being separate plugins.
       # Therefore here we check the implementation's arity to maintain compatibility.
-      @audit_log.info({ type: "cmd", command: "#{cmd}", user: @audit_log_data[:username], hostname: @audit_log_data[:hostname] }) if @audit_log
+      @audit_log.info({ type: "cmd", command: cmd.to_s, user: @audit_log_data[:username], hostname: @audit_log_data[:hostname] }) if @audit_log
 
       case method(:run_command_via_connection).arity.abs
       when 1
@@ -185,11 +188,12 @@ class Train::Plugins::Transport
         raise NotImplementedError, "#{self.class} does not implement run_command_via_connection with arity #{method(:run_command_via_connection).arity}"
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     # This is the main file call for all connections. This will call the private
     # file_via_connection on the connection with optional caching
     def file(path, *args)
-      @audit_log.info({ type: "file", path: "#{path}", user: @audit_log_data[:username], hostname: @audit_log_data[:hostname] }) if @audit_log
+      @audit_log.info({ type: "file", path: path.to_s, user: @audit_log_data[:username], hostname: @audit_log_data[:hostname] }) if @audit_log
       return file_via_connection(path, *args) unless cache_enabled?(:file)
 
       @cache[:file][path] ||= file_via_connection(path, *args)
