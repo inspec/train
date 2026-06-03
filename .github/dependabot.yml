@@ -15,18 +15,3 @@ updates:
       - dependency-name: "googleauth"
         versions:
           - ">=0.12"
-      - dependency-name: "azure_mgmt_resources"
-        versions:
-          - ">=0.16"
-      - dependency-name: "azure_mgmt_security"
-        versions:
-         - ">=0.19"
-      - dependency-name: "azure_mgmt_storage"
-        versions:
-         - ">=0.19"
-      - dependency-name: "azure_mgmt_key_vault"
-        versions:
-         - ">=0.18"
-      - dependency-name: "azure_graph_rbac"
-        versions:
-         - ">=0.17"
