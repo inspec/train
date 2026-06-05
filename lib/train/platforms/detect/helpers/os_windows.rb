@@ -244,27 +244,33 @@ module Train::Platforms::Detect::Helpers
 
     # Fallback method for reading OS info using cmd-only commands when wmic is not available
     def read_cmd_os
-      # Try to get architecture from PROCESSOR_ARCHITECTURE environment variable
+      # Try to get architecture from PROCESSOR_ARCHITECTURE environment variable.
       # This covers the same architectures as wmic CPU detection but uses environment variables
-      # which are available on all Windows versions since NT
+      # which are available on all Windows versions since NT.
       arch_res = @backend.run_command("echo %PROCESSOR_ARCHITECTURE%")
-      if arch_res.exit_status == 0
-        arch_string = arch_res.stdout.strip.downcase
-        # Only set architecture if we got actual output
-        unless arch_string.empty?
-          @platform[:arch] = case arch_string
-                            when "x86"
-                              "i386"
-                            when "amd64", "x64"
-                              "x86_64"
-                            when "ppc", "powerpc"
-                              "powerpc"
-                            else
-                              # For any unknown architecture, preserve the original value
-                              # This handles: arm64, ia64, arm, mips, alpha, and future architectures
-                              arch_string
-                             end
-        end
+      arch_string = arch_res.exit_status == 0 ? arch_res.stdout.strip.downcase : ""
+
+      # In PowerShell sessions (e.g., WinRM in Test Kitchen), CMD-style variable
+      # expansion is not supported — %PROCESSOR_ARCHITECTURE% is returned literally
+      # rather than being expanded.  Fall back to PowerShell syntax in that case.
+      if arch_string.empty? || arch_string == "%processor_architecture%"
+        ps_res = @backend.run_command("$env:PROCESSOR_ARCHITECTURE")
+        arch_string = ps_res.exit_status == 0 ? ps_res.stdout.strip.downcase : ""
+      end
+
+      unless arch_string.empty?
+        @platform[:arch] = case arch_string
+                          when "x86"
+                            "i386"
+                          when "amd64", "x64"
+                            "x86_64"
+                          when "ppc", "powerpc"
+                            "powerpc"
+                          else
+                            # For any unknown architecture, preserve the original value
+                            # This handles: arm64, ia64, arm, mips, alpha, and future architectures
+                            arch_string
+                           end
       end
       # If PROCESSOR_ARCHITECTURE fails, architecture remains unset (consistent with other methods)
 
