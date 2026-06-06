@@ -72,6 +72,17 @@ module Train::Platforms::Detect::Helpers
       }
     end
 
+    def amzn_release(content)
+      id = /^NAME=\s+(.+)$/.match(content)
+      release = /^PRETTY_NAME=\s+(.+)$/.match(content)
+      codename = /^CPE_NAME=\s+(.+)$/.match(content)
+      {
+          id: id.nil? ? nil : id[1],
+          release: release.nil? ? nil : release[1],
+          codename: codename.nil? ? nil : codename[1],
+      }
+    end
+
     def read_linux_lsb
       return @lsb unless @lsb.empty?
 
@@ -79,6 +90,8 @@ module Train::Platforms::Detect::Helpers
         @lsb = lsb_config(raw)
       elsif !(raw = unix_file_contents("/usr/bin/lsb-release")).nil?
         @lsb = lsb_release(raw)
+      elsif !(raw = unix_file_contents("/etc/os-release")).nil?
+        @lsb = amzn_release(raw)
       end
     end
   end
