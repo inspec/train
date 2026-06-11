@@ -289,6 +289,7 @@ describe "read_cmd_os" do
     let(:detector) do
       detector = OsDetectWindowsTester.new
       detector.backend.mock_command("echo %PROCESSOR_ARCHITECTURE%", "", "", 1)
+      detector.backend.mock_command("$env:PROCESSOR_ARCHITECTURE", "", "", 1)
       detector.backend.mock_command("systeminfo", "", "", 0)
       detector
     end
@@ -296,6 +297,30 @@ describe "read_cmd_os" do
     it "sets architecture to nil explicitly" do
       detector.read_cmd_os
       _(detector.platform[:arch]).must_be_nil
+    end
+  end
+
+  describe "in a PowerShell session where %VAR% expansion is not supported" do
+    let(:detector) do
+      detector = OsDetectWindowsTester.new
+      # PowerShell returns the literal string instead of expanding %VAR%
+      detector.backend.mock_command("echo %PROCESSOR_ARCHITECTURE%", "%PROCESSOR_ARCHITECTURE%", "", 0)
+      # Fallback to PowerShell $env: syntax
+      detector.backend.mock_command("$env:PROCESSOR_ARCHITECTURE", "AMD64", "", 0)
+      detector.backend.mock_command("systeminfo", "OS Name:                   Microsoft Windows Server 2025 Datacenter\r\nOS Version:                10.0.26100 N/A Build 26100\r\n", "", 0)
+      detector
+    end
+
+    it "falls back to PowerShell syntax and retrieves the correct architecture" do
+      detector.read_cmd_os
+      _(detector.platform[:arch]).must_equal("x86_64")
+    end
+
+    it "still retrieves OS info from systeminfo" do
+      detector.read_cmd_os
+      _(detector.platform[:name]).must_equal("Windows Server 2025 Datacenter")
+      _(detector.platform[:release]).must_equal("10.0.26100")
+      _(detector.platform[:build]).must_equal("26100")
     end
   end
 
