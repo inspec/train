@@ -1,7 +1,15 @@
-<!-- latest_release -->
+<!-- latest_release 3.16.4 -->
+## [v3.16.4](https://github.com/inspec/train/tree/v3.16.4) (2026-06-11)
+
+#### Merged Pull Requests
+- fix: pin bigdecimal to &lt; 4 to avoid broken transitive installs via activesupport [#833](https://github.com/inspec/train/pull/833) ([chandra-progress](https://github.com/chandra-progress))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=3.16.3 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- fix: pin bigdecimal to &lt; 4 to avoid broken transitive installs via activesupport [#833](https://github.com/inspec/train/pull/833) ([chandra-progress](https://github.com/chandra-progress)) <!-- 3.16.4 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
