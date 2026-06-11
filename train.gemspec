@@ -31,6 +31,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "train-winrm", "~> 0.4.0" # Ruby 3.4 upgrade included
 
   spec.add_dependency "activesupport", "~> 7.2", ">= 7.2.3.1"
+  # bigdecimal 4.x is incompatible to el-7-aarch64, el-7-x86_64; pin to < 4 to avoid broken transitive installs via activesupport
+  spec.add_dependency "bigdecimal", "< 4"
 
   # azure, docker, gcp dependencies
   spec.add_dependency "inifile", "~> 3.0"
