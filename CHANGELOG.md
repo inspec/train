@@ -1,14 +1,15 @@
-<!-- latest_release 3.16.4 -->
-## [v3.16.4](https://github.com/inspec/train/tree/v3.16.4) (2026-06-11)
+<!-- latest_release 3.16.5 -->
+## [v3.16.5](https://github.com/inspec/train/tree/v3.16.5) (2026-06-11)
 
 #### Merged Pull Requests
-- fix: pin bigdecimal to &lt; 4 to avoid broken transitive installs via activesupport [#833](https://github.com/inspec/train/pull/833) ([chandra-progress](https://github.com/chandra-progress))
+- fix: CHEF-33393 - Fall back to PowerShell syntax for arch detection in WinRM sessions [#832](https://github.com/inspec/train/pull/832) ([Nik08](https://github.com/Nik08))
 <!-- latest_release -->
 
 <!-- release_rollup since=3.16.3 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- fix: CHEF-33393 - Fall back to PowerShell syntax for arch detection in WinRM sessions [#832](https://github.com/inspec/train/pull/832) ([Nik08](https://github.com/Nik08)) <!-- 3.16.5 -->
 - fix: pin bigdecimal to &lt; 4 to avoid broken transitive installs via activesupport [#833](https://github.com/inspec/train/pull/833) ([chandra-progress](https://github.com/chandra-progress)) <!-- 3.16.4 -->
 <!-- release_rollup -->
 
