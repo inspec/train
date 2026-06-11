@@ -1,24 +1,21 @@
-<!-- latest_release 3.16.5 -->
-## [v3.16.5](https://github.com/inspec/train/tree/v3.16.5) (2026-06-11)
-
-#### Merged Pull Requests
-- fix: CHEF-33393 - Fall back to PowerShell syntax for arch detection in WinRM sessions [#832](https://github.com/inspec/train/pull/832) ([Nik08](https://github.com/Nik08))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=3.16.3 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- fix: CHEF-33393 - Fall back to PowerShell syntax for arch detection in WinRM sessions [#832](https://github.com/inspec/train/pull/832) ([Nik08](https://github.com/Nik08)) <!-- 3.16.5 -->
-- fix: pin bigdecimal to &lt; 4 to avoid broken transitive installs via activesupport [#833](https://github.com/inspec/train/pull/833) ([chandra-progress](https://github.com/chandra-progress)) <!-- 3.16.4 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v3.16.5](https://github.com/inspec/train/tree/v3.16.5) (2026-06-11)
+
+#### Merged Pull Requests
+- fix: pin bigdecimal to &lt; 4 to avoid broken transitive installs via activesupport [#833](https://github.com/inspec/train/pull/833) ([chandra-progress](https://github.com/chandra-progress))
+- fix: CHEF-33393 - Fall back to PowerShell syntax for arch detection in WinRM sessions [#832](https://github.com/inspec/train/pull/832) ([Nik08](https://github.com/Nik08))
+<!-- latest_stable_release -->
+
 ## [v3.16.3](https://github.com/inspec/train/tree/v3.16.3) (2026-04-28)
 
 #### Merged Pull Requests
 - chore: Bump activesupport minimum version to 7.2.3.1 [#830](https://github.com/inspec/train/pull/830) ([mohan-progress](https://github.com/mohan-progress))
-<!-- latest_stable_release -->
 
 ## [v3.16.2](https://github.com/inspec/train/tree/v3.16.2) (2026-04-20)
 
