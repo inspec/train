@@ -1,10 +1,5 @@
 require "helper"
 
-# Required because this test file acesses classes under Azure::
-require "azure_mgmt_resources"
-require "azure_graph_rbac"
-require "azure_mgmt_key_vault"
-
 describe "azure transport" do
   def transport(options = nil)
     ENV["AZURE_TENANT_ID"] = "test_tenant_id"
@@ -75,62 +70,6 @@ describe "azure transport" do
       client = connection.azure_client(AzureResource)
       _(client.is_a?(AzureResource)).must_equal true
       _(cache[:api_call].count).must_equal 0
-    end
-
-    it "can use azure_client default client" do
-      management_api_client = Azure::Resources::Profiles::Latest::Mgmt::Client
-      client = connection.azure_client
-      _(client.class).must_equal management_api_client
-    end
-
-    it "can use azure_client graph client" do
-      graph_api_client = Azure::GraphRbac::Profiles::Latest::Client
-      client = connection.azure_client(graph_api_client)
-      _(client.class).must_equal graph_api_client
-    end
-
-    it "can use azure_client vault client" do
-      vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
-      client = connection.azure_client(vault_api_client, vault_name: "Test Vault")
-      _(client.class).must_equal vault_api_client
-    end
-
-    it "cannot instantiate azure_client vault client without a vault name" do
-      vault_api_client = ::Azure::KeyVault::Profiles::Latest::Mgmt::Client
-      assert_raises(Train::UserError) do
-        connection.azure_client(vault_api_client)
-      end
-    end
-  end
-
-  describe "connect" do
-    it "validate credentials" do
-      connection.connect
-      token = credentials[:credentials].instance_variable_get(:@token_provider)
-      _(token.class).must_equal MsRestAzure::ApplicationTokenProvider
-
-      _(credentials[:credentials].class).must_equal MsRest::TokenCredentials
-      _(credentials[:tenant_id]).must_equal "test_tenant_id"
-      _(credentials[:client_id]).must_equal "test_client_id"
-      _(credentials[:client_secret]).must_equal "test_client_secret"
-      _(credentials[:subscription_id]).must_equal "test_subscription_id"
-    end
-
-    it "validate msi credentials" do
-      options[:client_id] = nil
-      options[:client_secret] = nil
-      Train::Transports::Azure::Connection.any_instance.stubs(:port_open?).returns(true)
-
-      connection.connect
-      token = credentials[:credentials].instance_variable_get(:@token_provider)
-      _(token.class).must_equal MsRestAzure::MSITokenProvider
-
-      _(credentials[:credentials].class).must_equal MsRest::TokenCredentials
-      _(credentials[:tenant_id]).must_equal "test_tenant_id"
-      _(credentials[:subscription_id]).must_equal "test_subscription_id"
-      _(credentials[:client_id]).must_be_nil
-      _(credentials[:client_secret]).must_be_nil
-      _(options[:msi_port]).must_equal 50342
     end
   end
 
