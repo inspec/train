@@ -92,20 +92,24 @@ describe "os_detect" do
         files = {
           "/System/Library/CoreServices/SystemVersion.plist" => "<string>Mac OS X</string>",
         }
-        platform = scan_with_files("darwin", files)
+        platform = scan_with_files("darwin", files) do |mock|
+          mock.mock_command("sw_vers -productVersion", "10.15.7\n")
+        end
         _(platform[:name]).must_equal("mac_os_x")
         _(platform[:family]).must_equal("darwin")
-        _(platform[:release]).must_equal("test-release")
+        _(platform[:release]).must_equal("10.15.7")
       end
 
       it "sets the correct family, name, and release on macOS >= 11" do
         files = {
           "/System/Library/CoreServices/SystemVersion.plist" => "<string>macOS</string>",
         }
-        platform = scan_with_files("darwin", files)
+        platform = scan_with_files("darwin", files) do |mock|
+          mock.mock_command("sw_vers -productVersion", "11.2.3\n")
+        end
         _(platform[:name]).must_equal("mac_os_x")
         _(platform[:family]).must_equal("darwin")
-        _(platform[:release]).must_equal("test-release")
+        _(platform[:release]).must_equal("11.2.3")
       end
     end
 
@@ -116,10 +120,11 @@ describe "os_detect" do
         }
         platform = scan_with_files("darwin", files) do |mock|
           mock.mock_command("sw_vers -buildVersion", "12345\n")
+          mock.mock_command("sw_vers -productVersion", "17.0.1\n")
         end
         _(platform[:name]).must_equal("darwin")
         _(platform[:family]).must_equal("darwin")
-        _(platform[:release]).must_equal("test-release")
+        _(platform[:release]).must_equal("17.0.1")
         _(platform[:build]).must_equal("12345")
       end
     end
