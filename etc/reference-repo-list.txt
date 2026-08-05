@@ -1,0 +1,19 @@
+# This file lists GitHub repos to clone as reference material for AI-assisted development.
+# Edit this list to add repos relevant to your specific resource pack domain.
+# Format: org/repo (one per line, optionally @branch)
+#
+
+# Major client applications
+inspec/inspec
+chef/chef
+
+# Docs of client applications
+inspec/chef-inspec-docs
+chef/chef-web-docs
+
+# A variety of plugin (transport) implementations
+inspec/train-winrm
+prospectra/train-rest
+inspec/train-aws
+inspec/train-kubernetes
+
