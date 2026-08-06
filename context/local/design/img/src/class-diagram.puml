@@ -1,0 +1,85 @@
+@startuml class-diagram
+title Train Plugin V1 - Class Model
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+
+class "Train::Plugins" as Plugins {
+  +registry : Hash<String, Class>
+}
+
+class "Train::Plugins::Transport" as Transport {
+  {static} +name(name)
+  +initialize(options={})
+  +connection(_opts=nil)  <<abstract>>
+  -logger
+}
+note right of Transport
+  Returned by Train.plugin(1).
+  Includes Train::Options and
+  Train::Extras.
+end note
+
+class "Train::Options" as Options <<module>> {
+  +option(name, conf=nil, &blk)
+  +default_options()
+  +include_options(other)
+  +merge_options(base, opts)
+  +validate_options(opts)
+}
+
+class "BaseConnection" as BaseConn {
+  +initialize(options=nil)
+  +run_command(cmd, opts={}, &h)
+  +file(path, *args)
+  +upload(locals, remote)
+  +download(remotes, local)
+  +platform()  <<alias os>>
+  +login_command()
+  +wait_until_ready()
+  +close()
+  +enable_cache(type) / disable_cache(type)
+  +cached_client(type, key)
+  +force_platform!(name, details=nil)
+  +to_json / load_json(j)
+  --
+  #run_command_via_connection(cmd, opts, &h)  <<implement>>
+  #file_via_connection(path, *args)          <<implement>>
+}
+
+class "CommandResult" as CmdResult <<Struct>> {
+  +stdout
+  +stderr
+  +exit_status
+}
+
+class "Train::File" as TFile {
+  +DATA_FIELDS
+  +exist? mode owner group content mtime size ...
+}
+
+' --- Plugin-provided classes ---
+class "TrainPlugins::X::Transport" as XTransport {
+  +name "x"
+  +connection(_=nil)
+}
+class "TrainPlugins::X::Connection" as XConn {
+  #run_command_via_connection(...)
+  #file_via_connection(...)
+}
+class "TrainPlugins::X::Platform" as XPlat <<module>> {
+  +platform()
+}
+
+Plugins ..> Transport : registers
+Transport ..|> Options : includes
+Transport +-- BaseConn : nested
+BaseConn ..> CmdResult : returns
+BaseConn ..> TFile : returns
+XTransport --|> Transport
+XConn --|> BaseConn
+XConn ..|> XPlat : include
+XTransport --> XConn : builds
+
+@enduml

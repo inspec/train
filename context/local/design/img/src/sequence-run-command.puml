@@ -1,0 +1,52 @@
+@startuml sequence-run-command
+title Train Plugin V1 - run_command / file Runtime Flow (rot13 example)
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor App
+participant "Connection\n(BaseConnection)" as Base
+participant "audit_log" as Audit
+participant "@cache" as Cache
+participant "Plugin impl\nrun_command_via_connection" as Impl
+participant "Target" as Target
+
+== run_command ==
+App -> Base : run_command("echo hello", opts)
+activate Base
+Base -> Audit : info(type: cmd) [if enabled]
+Base -> Base : method(:run_command_via_connection).arity
+note right of Base
+  Arity dispatch keeps compatibility:
+  arity 1 => (cmd, &h)
+  arity 2 => (cmd, opts, &h)
+end note
+alt cache_enabled?(:command)
+  Base -> Cache : @cache[:command][cmd] ||= ...
+end
+Base -> Impl : run_command_via_connection(cmd[, opts], &h)
+activate Impl
+Impl -> Target : execute (e.g. Mixlib::ShellOut)
+Target --> Impl : stdout, stderr, exitstatus
+Impl -> Impl : transform stdout (Rot13.rotate)
+Impl --> Base : CommandResult(stdout, stderr, exit_status)
+deactivate Impl
+Base --> App : CommandResult
+deactivate Base
+
+== file ==
+App -> Base : file("/path")
+activate Base
+Base -> Audit : info(type: file) [if enabled]
+alt cache_enabled?(:file)  (default true)
+  Base -> Cache : @cache[:file][path] ||= ...
+end
+Base -> Impl : file_via_connection(path, *args)
+activate Impl
+Impl -> Impl : wrap Train::File::* (e.g. Local::Unix)\nand/or override content
+Impl --> Base : file object (Train::File-shaped)
+deactivate Impl
+Base --> App : file object
+deactivate Base
+
+@enduml

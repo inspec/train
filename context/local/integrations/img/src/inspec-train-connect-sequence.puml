@@ -1,0 +1,47 @@
+@startuml inspec-train-connect-sequence
+title Target Resolution & Backend Construction (InSpec -> Train)
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+autonumber
+
+actor User
+participant "base_cli\n(-t scheme://credset)" as CLI
+participant "Inspec::Config" as CFG
+participant "Inspec::Backend\n.create" as IB
+participant "Train (facade)" as TRAIN
+participant "Transport\n(train-<name>)" as TR
+participant "BaseConnection" as CONN
+
+User -> CLI : inspec exec ... -t winrm://prod
+CLI -> CFG : new(cli_opts)
+CFG -> CFG : unpack_train_credentials
+activate CFG
+CFG -> CFG : _utc_determine_backend\n(parse scheme:// -> :backend)
+CFG -> CFG : _utc_merge_credset\n(RFC-099 credentials/<transport>/<credset>)\nelse Train.unpack_target_from_uri
+CFG -> TRAIN : Train.options(transport_name)
+TRAIN --> CFG : known option keys
+CFG -> CFG : remap/unprefix CLI opts\n(winrm_transport, sudo, ...)\n+ symbolize keys
+CFG --> IB : train_credentials (Hash)
+deactivate CFG
+
+IB -> TRAIN : validate_backend(creds)
+TRAIN --> IB : transport_name
+IB -> TRAIN : create(name, creds)
+activate TRAIN
+TRAIN -> TRAIN : load_transport\n(registry / require train-<name>)
+TRAIN -> TR : new(options)
+TRAIN --> IB : transport
+deactivate TRAIN
+IB -> TR : connection
+TR -> CONN : new(options) / connect
+CONN --> IB : connection
+
+IB -> CONN : enable/disable_cache(:file,:command)\n(mock => always cached)
+IB --> User : Inspec::Backend.new(connection)
+
+note over IB
+  Errors mapped: Train::ClientError / TransportError
+  / Errno::ENOENT -> friendly "can't connect" strings.
+end note
+@enduml

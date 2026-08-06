@@ -1,0 +1,53 @@
+@startuml agentless-connection-sequence
+title Target Mode - Connection Setup & Resource Execution
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor Operator
+participant "Application::Client\n#reconfigure" as App
+participant "ChefConfig::Config\n.target_mode" as Cfg
+participant "Chef::TrainTransport\n(build_transport)" as TT
+participant "Credentials file\n(target_credentials TOML)" as Creds
+participant "Train" as Train
+participant "BaseConnection" as Conn
+participant "TargetIO::File\n+ Support" as TIO
+
+== Startup / reconfigure ==
+Operator -> App : chef-client --target host.example.org
+App -> Cfg : target_mode.host = target\n(unpack URI if scheme present)
+App -> Cfg : api_client_name/key := operator identity
+App -> Cfg : target_mode.enabled = true\nnode_name = host
+
+== Lazy transport build (first use of transport_connection) ==
+App -> TT : run_context.transport_connection
+activate TT
+TT -> Creds : load_credentials(host)  (RFC099 profile)
+Creds --> TT : {user, password, protocol, ...}
+TT -> Train : Train.options(protocol)
+Train --> TT : valid option keys
+TT -> TT : select tm_config + creds keys\nthat Train knows about
+TT -> Train : Train.create(protocol, train_config)
+activate Train
+Train -> Conn : transport.connection()
+Train --> TT : transport
+deactivate Train
+TT --> App : transport_connection (BaseConnection)
+deactivate TT
+
+== Ohai / platform ==
+App -> Conn : ohai.transport_connection = conn\n(detect platform via Train)
+
+== Resource execution (converge) ==
+Operator -> TIO : ::TargetIO::File.read("/etc/passwd")
+activate TIO
+alt Config.target_mode?
+  TIO -> Conn : file(path).content\n(or run_command / upload)
+  Conn -> Conn : execute over SSH/WinRM/REST
+  Conn --> TIO : content / CommandResult
+else not target mode
+  TIO -> TIO : delegate to native ::File
+end
+TIO --> Operator : result
+deactivate TIO
+@enduml

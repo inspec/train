@@ -1,0 +1,47 @@
+@startuml architecture
+title Train Plugin V1 - Component Architecture
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor "Consumer\n(InSpec / Chef Workstation / your app)" as App
+
+package "Train core (the 'train' gem)" {
+  [Train.create / Train.options] as Facade
+  [load_transport\n(registry -> core -> gem)] as Loader
+  [Train::Plugins.registry\n(name -> Transport class)] as Registry
+  [Train::Options\n(option DSL, merge/validate)] as Options
+  [Train::Platforms::Detect\n(Scanner, families)] as Detect
+  [Train::File::*\n(Local/Remote file impls)] as Files
+  [Train::Plugins::Transport\n(= Train.plugin(1))] as BaseTransport
+  [BaseConnection\n(run_command/file/upload/cache)] as BaseConn
+}
+
+package "Plugin gem 'train-<name>'" {
+  [Entry point\nlib/train-<name>.rb] as Entry
+  [Transport\n< Train.plugin(1)] as PTransport
+  [Connection\n< BaseConnection] as PConn
+  [Platform mixin\n(force_platform!)] as PPlat
+}
+
+cloud "Target\n(host / API / cluster)" as Target
+
+App --> Facade : create(name, opts)\noptions(name)
+Facade --> Loader : resolve name
+Loader ..> Registry : lookup
+Loader ..> Entry : require "train-<name>"\n(on miss)
+Entry --> PTransport : loads
+Entry --> PConn : loads
+Entry --> PPlat : loads
+PTransport --|> BaseTransport
+PConn --|> BaseConn
+PTransport ..> Registry : name "<name>" registers self
+PTransport --> PConn : connection() builds
+PConn ..> PPlat : include (platform detection)
+PConn ..> Files : wraps file objects
+PConn ..> Detect : platform() / force_platform!
+BaseTransport ..> Options : option / default_options
+PConn --> Target : commands / files / API calls
+
+@enduml

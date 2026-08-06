@@ -1,0 +1,54 @@
+@startuml agentless-architecture
+title Chef Infra Client - Target Mode (Agentless) over Train
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam componentStyle rectangle
+
+actor Operator
+
+package "Chef Infra Client (workstation / bastion)" {
+  [CLI: chef-client --target HOST\n(-t / target_mode)] as CLI
+  [ChefConfig::Config.target_mode\n(enabled, protocol, host, ...)] as Cfg
+  [Chef::TrainTransport\n(ChefConfig::Mixin::TrainTransport)] as TT
+  [run_context.transport /\ntransport_connection] as RC
+
+  package "TargetIO shim layer" {
+    [TargetIO::File / Dir / Etc /\nFileUtils / IO / HTTP / Shadow] as TIO
+    [TargetIO::TrainCompat::*] as TC
+    [TargetIO::Support\n(read_file/write_file/upload/run_command)] as Sup
+  }
+
+  [Ohai (transport_connection=)] as Ohai
+  [Resources / Providers\n(opt-in: provides target_mode: true)] as Res
+}
+
+package "Train (train-core + plugins)" {
+  [Train.create(protocol, cfg)\nTrain.options(protocol)] as TrainF
+  [Transport plugin\n(ssh / winrm / rest / ...)] as Plugin
+  [BaseConnection\n(run_command / file / upload / os)] as Conn
+}
+
+cloud "Remote target\n(host / device / API)" as Target
+
+Operator --> CLI
+CLI --> Cfg : sets host, enabled=true
+Cfg --> TT
+TT --> TrainF : build_transport
+TrainF --> Plugin : loads & instantiates
+Plugin --> Conn : connection()
+TT --> RC : transport
+RC --> Conn : transport_connection
+
+Res --> TIO : ::TargetIO::File.read(...)
+TIO --> TC : if target_mode?
+TC --> Sup
+Sup --> Conn : file(...).content / run_command / upload
+Ohai --> Conn : run plugins over transport
+Conn --> Target : SSH/WinRM/REST/...
+
+note bottom of TIO
+  When NOT in target mode, TargetIO::X
+  resolves to the native ::X (File, Dir, ...).
+end note
+@enduml

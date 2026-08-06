@@ -1,0 +1,48 @@
+@startuml v2-actor-boundaries
+title Train Plugin Ecosystem — Actors & Contract Seams
+
+skinparam rectangle {
+  BorderColor #333333
+  FontSize 12
+}
+skinparam ArrowColor #444444
+skinparam defaultTextAlignment center
+
+rectangle "CLIENT APPLICATION\n(InSpec, Chef Target Mode, Test Kitchen)" as client #E8F0FE {
+  rectangle "credential/target resolution\noption marshalling\nresult consumption\nexception rescue" as clientwork
+  rectangle "PLUGIN HOST (InSpec today)\nprivate ~/.inspec/gems\ninstall + activate train-*/inspec-*\n(separate from system gem)" as clienthost #D6E4FF
+}
+
+rectangle "TRAIN CORE (facade + framework)" as core #E6FFEA {
+  rectangle "Loader & registry\nTrain.create / load_transport\nglobal Plugins.registry\nTrain.plugin(version) gate" as coreload
+  rectangle "Option DSL\nURI parsing\nvalidate_backend\nerror taxonomy" as coreopt
+  rectangle "BaseConnection\nrun_command/file dispatch\nresult cache (file/command/api)\nupload/download\naudit-log hook" as coreconn
+  rectangle "Platform-detection engine\nDetect.scan + specifications\nOS/family taxonomy" as coredetect
+  rectangle "**In core: only local + mock**\n(bootstrap + test transports)" as corebuiltin #CFF0D4
+}
+
+rectangle "TRANSPORT PLUGINS (all separate gems)\ntrain-ssh, train-winrm, train-docker,\ntrain-aws, train-gcp, train-rest, ..." as transport #FFF4E5 {
+  rectangle "declare options\nimplement connection()\nrun_command_via_connection\nfile_via_connection\nbuild CommandResult\nconnection reuse (each reinvents)\nauth + sudo/PTY" as tport
+}
+
+rectangle "ECOSYSTEM / PACKAGING\n(RubyGems, bundler)" as eco #F3E8FF {
+  rectangle "gem publish/install (fallback)\ntrain-<name> naming convention" as ecowork
+}
+
+client -down-> coreopt : **Seam 1**\nTrain.options(name),\ntarget hash, creds
+coreload -down-> transport : **Seam 3**\nsubclass Train.plugin(1),\nself.name(reg)
+client -down-> coreconn : **Seam 2**\nrun_command / file /\nplatform  (primitives)
+coreconn -down-> tport : template-method\n*_via_connection
+coredetect -right-> tport : drives via\nprimitives / force_platform!
+clienthost -right-> transport : installs + activates\n(today: per-client)
+eco -down-> clienthost : gems
+
+legend right
+  Seam 1  Config -> transport options (Train.options is a de-facto public contract)
+  Seam 2  Runtime primitives (tiny: run_command, file, platform)
+  Seam 3  Plugin authoring contract (inherit + register)
+  Today's problems (red in companion diagram):
+   - core over-bundles ssh/docker/gcp/azure/... (should be local+mock only)
+   - the plugin host is reinvented per client (InSpec has one; Chef will too)
+endlegend
+@enduml
