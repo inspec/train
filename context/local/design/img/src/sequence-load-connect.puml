@@ -1,0 +1,58 @@
+@startuml sequence-load-connect
+title Train Plugin V1 - Load & Connect Lifecycle
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+actor App
+participant "Train" as Train
+participant "Train::Plugins.registry" as Reg
+participant "Plugin entry\ntrain-<name>.rb" as Entry
+participant "TrainPlugins::X::Transport" as Xport
+participant "TrainPlugins::X::Connection" as Xconn
+participant "Train::Platforms::Detect" as Detect
+
+App -> Train : create("x", opts)
+activate Train
+Train -> Train : load_transport("x")
+Train -> Reg : registry["x"] ?
+alt not registered yet
+  Train -> Train : require "train/transports/x" (core)\nelse require "train-x" (gem)
+  Train -> Entry : load
+  activate Entry
+  Entry -> Xport : require transport
+  Xport -> Reg : name "x" => registry["x"]=self
+  Entry -> Xconn : require connection
+  deactivate Entry
+end
+Train -> Xport : new(opts)
+activate Xport
+Xport -> Xport : merge_options + (validate_options)
+Xport --> Train : transport instance
+deactivate Xport
+Train --> App : transport
+deactivate Train
+
+App -> Xport : connection()
+activate Xport
+Xport -> Xconn : new(@options)
+activate Xconn
+Xconn -> Xconn : super(options)\n(setup cache, audit log)
+Xconn -> Xconn : authenticate / configure SDK\n(optional)
+Xconn --> Xport : connection
+deactivate Xconn
+Xport --> App : connection
+deactivate Xport
+
+App -> Xconn : platform (a.k.a. os)
+activate Xconn
+alt plugin overrides platform (typical)
+  Xconn -> Xconn : force_platform!("x", release: ...)
+else default
+  Xconn -> Detect : scan(self)
+  Detect --> Xconn : detected Platform
+end
+Xconn --> App : Platform
+deactivate Xconn
+
+@enduml

@@ -1,0 +1,71 @@
+@startuml archetypes
+title Train Plugin V1 - Real-World Connection Archetypes
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+
+legend top
+  Green = implemented   Red = deliberately omitted ("cheat")
+  All four are Train transports; three ship as train- gems, gcp ships in train core.
+endlegend
+
+class "train-winrm\n(remote-protocol / shell)" as WinRM {
+  +run_command_via_connection  <color:green>YES</color>
+  +file_via_connection -> Remote::Windows  <color:green>YES</color>
+  +upload/download (WinRM::FS)  <color:green>YES</color>
+  +wait_until_ready / login_command  <color:green>YES</color>
+  +connection(state,&block) reuse  <color:green>YES</color>
+  +validate_options override  <color:green>YES</color>
+  +lazy gem activation  <color:green>YES</color>
+  +socks monkeypatch  <color:green>YES</color>
+  --
+  family: (OS via Remote::Windows)
+}
+
+class "train-aws\n(API-only)" as Aws {
+  +run_command_via_connection  <color:red>NO</color>
+  +file_via_connection  <color:red>NO</color>
+  +aws_client / aws_resource  <color:green>custom</color>
+  +enable_cache :api_call (forced)  <color:green>YES</color>
+  +URI+ENV option mapping  <color:green>YES</color>
+  +unique_identifier (STS)  <color:green>YES</color>
+  --
+  platform: force_platform!("aws")
+  family: cloud
+}
+
+class "train-kubernetes\n(hybrid API + shell)" as K8s {
+  +run_command_via_connection -> kubectl exec  <color:green>YES</color>
+  +file_via_connection -> custom File::Linux  <color:green>YES</color>
+  +K8s::Client (k8s-ruby) API  <color:green>YES</color>
+  +per-call opts (pod/ns/container)  <color:green>YES</color>
+  --
+  platform: force_platform!("k8s")
+  family: cloud
+}
+
+class "gcp\n(API-only, in train core)" as Gcp {
+  +run_command_via_connection  <color:red>NO</color>
+  +file_via_connection  <color:red>NO</color>
+  +gcp_client(klass) / gcp_*_client  <color:green>custom</color>
+  +enable_cache :api_call (forced)  <color:green>YES</color>
+  +ENV-lazy option defaults  <color:green>YES</color>
+  +unique_identifier (auth id)  <color:green>YES</color>
+  --
+  platform: force_platform!("gcp")
+  family: cloud
+}
+
+WinRM -[hidden]right- Aws
+Aws -[hidden]right- K8s
+K8s -[hidden]right- Gcp
+
+note bottom of Gcp
+  Not a separate gem: lib/train/transports/gcp.rb,
+  class Gcp < Train.plugin(1), name "gcp".
+  Sibling of the in-core azure transport; the closest
+  structural twin of train-aws. There is no train-gcp gem.
+end note
+
+@enduml
