@@ -1,0 +1,62 @@
+@startuml inspec-train-architecture
+title InSpec over Train — Layered Architecture & the Two Plugin Systems
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam rectangle {
+  BorderColor #444444
+  BackgroundColor #F7F7F7
+}
+
+package "InSpec (inspec-core gem)" #EAF2FF {
+  rectangle "CLI / base_cli\n-t/--target, -b/--backend,\n--host --sudo* --winrm_* --key_files\n(transport-specific flags)" as CLI
+  rectangle "Inspec::Config\nunpack_train_credentials:\n- determine backend (scheme://)\n- RFC-099 credset lookup\n- Train.options(name) remap\n- symbolize keys" as CFG
+  rectangle "Inspec::Runner\nBackend.create(conf);\nprofile.supports_platform?" as RUN
+  rectangle "Inspec::Backend (wrapper)\nbackend => Train connection\nlocal_transport?, add_resource_methods,\nmethod_missing -> resource DSL" as IB
+  rectangle "Resources (Inspec.resource(1))\ncommand / file / os / platform / http ...\ncall inspec.backend.{run_command,file,platform}" as RES
+  rectangle "Plugin v2 (Inspec.plugin(2))\ntypes: cli, dsl(input/resource_dsl),\nmock, reporter, streaming_reporter,\nresource_pack  — NO transport type" as PV2
+}
+
+package "Train (train / train-core gem)" #EAFBEA {
+  rectangle "Facade\nTrain.create / validate_backend /\noptions / unpack_target_from_uri /\nplugin(1) / Plugins.registry" as TF
+  rectangle "BaseConnection (god object)\nrun_command · file · upload/download ·\nplatform detect · caching\n(file/command/api_call)" as BC
+  rectangle "Bundled transports (core):\nlocal, ssh, docker, podman,\nmock, azure, gcp, vmware, cisco_ios" as CORE
+  rectangle "External transport gems\n(Train v1 plugins):\ntrain-winrm, train-aws,\ntrain-kubernetes, train-habitat,\ntrain-rest" as EXT
+}
+
+package "Targets" #FFF6E6 {
+  rectangle "OS/shell\n(local, ssh, winrm,\ndocker, podman, k8s exec)" as TOS
+  rectangle "Cloud/REST APIs\n(aws, azure, gcp, rest)" as TAPI
+}
+
+CLI --> CFG
+CFG --> RUN
+RUN --> IB
+IB --> RES
+RES --> IB : inspec.backend.*
+IB --> TF : Backend.create
+TF --> BC
+BC --> CORE
+BC --> EXT
+CORE --> TOS
+EXT --> TOS
+CORE --> TAPI
+EXT --> TAPI
+
+' The bridge between the two plugin systems
+PV2 ..> TF : registry bridge\nloaded_plugin?("train-x") ->\nTrain::Plugins.registry;\nplugin-mgr installs train-* gems
+
+note bottom of PV2
+  Two SEPARATE plugin systems:
+  InSpec Plugin v2 owns resources/CLI/reporters (NOT transports).
+  Train v1 owns transports. InSpec only *bridges* to Train's
+  registry to recognize/install train-* gems.
+end note
+
+note right of BC
+  InSpec uses a SMALL slice of the god object:
+  run_command, file, platform, hostname (+ .class checks).
+  No HTTP primitive exists -> http resource has its own path.
+end note
+
+@enduml

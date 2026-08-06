@@ -1,0 +1,68 @@
+@startuml targetio-dispatch
+title TargetIO Shim Dispatch and Train Primitives Used
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam classAttributeIconSize 0
+
+class "TargetIO::File" as File {
+  read / readlines / open
+  exist? / stat / mode / owner ...
+  --dispatch--
+  target_mode? ? TrainCompat::File : ::File
+}
+class "TargetIO::Dir" as Dir {
+  entries / glob / mktmpdir
+  target_mode? ? TrainCompat::Dir : ::Dir
+}
+class "TargetIO::Etc" as Etc {
+  getpwnam / getgrnam
+  (parses /etc/passwd via File.read)
+}
+class "TargetIO::FileUtils" as FU {
+  cp / mv / rm / mkdir / chmod / chown
+  (all via run_command)
+}
+class "TargetIO::IO" as IO
+class "TargetIO::HTTP" as HTTP {
+  get/put/post via curl|wget
+  (run_command on target)
+}
+class "TargetIO::Shadow" as Shadow {
+  (guards: unix only)
+}
+
+class "TargetIO::Support" as Support {
+  read_file(f)   -> connection.file(f).content
+  write_file/upload -> connection.upload(...)
+  run_command(c) -> connection.run_command(c)
+  sudo? / remote_user -> connection.transport_options[...]
+  transport_connection = run_context.transport_connection
+}
+
+class "Train BaseConnection" as Conn {
+  +file(path) -> Train::File (content, stat, mode, ...)
+  +run_command(cmd) -> CommandResult(stdout, exit_status)
+  +upload(local, remote)
+  +os / platform (unix? etc.)
+  +transport_options (sudo, user)
+}
+
+File ..> Support
+Dir ..> Support
+Etc ..> File
+FU ..> Support
+IO ..> Support
+HTTP ..> Support
+Shadow ..> Support
+Support ..> Conn : uses
+
+note bottom of Conn
+  Train features actually used by Chef:
+  file().content / .stat / .mode / .owner / .mtime / .exist?
+  run_command().stdout / .exit_status
+  upload() ; os.unix? ; transport_options[:sudo|:user]
+  (Train.create, Train.options, Train.unpack_target_from_uri,
+   Train::PluginLoadError at setup time)
+end note
+@enduml

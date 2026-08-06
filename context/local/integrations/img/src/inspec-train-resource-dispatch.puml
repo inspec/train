@@ -1,0 +1,45 @@
+@startuml inspec-train-resource-dispatch
+title Resource -> Train Primitive Dispatch (runtime & test paths)
+
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+
+rectangle "Resource instance\n(Inspec.resource(1))" as R {
+}
+rectangle "command\ninspec.backend.run_command(cmd, timeout:)" as CMD
+rectangle "file / directory\ninspec.backend.file(path)" as FILE
+rectangle "os / platform\ninspec.backend.platform" as OS
+
+rectangle "Inspec::Backend\nbackend (Train connection)" as IB
+rectangle "Train::Plugins::Transport::BaseConnection" as CONN
+
+rectangle "CommandResult\n(stdout, stderr, exit_status)" as CR
+rectangle "Train::File::* object\n(content, mode, owner, ...)" as FO
+rectangle "Train::Platforms::Platform\n(name, release, family_hierarchy)" as PL
+
+R --> CMD
+R --> FILE
+R --> OS
+CMD --> IB
+FILE --> IB
+OS --> IB
+IB --> CONN : delegates (small slice)
+CONN --> CR
+CONN --> FO
+CONN --> PL
+
+note bottom of CONN
+  Runtime target: real transport (ssh/winrm/local/...).
+  Test target: Train::Transports::Mock::Connection via MockLoader
+  (mock_os + fixture files + mocked commands).
+end note
+
+note right of R
+  Coupling seams:
+  * command resource rescues Train::CommandTimeoutReached.
+  * check_supported! is BYPASSED when
+    backend.backend is a Mock::Connection.
+  * http resource forks its own path when
+    inspec.local_transport? (Train has no HTTP primitive).
+end note
+@enduml
