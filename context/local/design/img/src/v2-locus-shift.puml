@@ -1,0 +1,54 @@
+@startuml v2-locus-shift
+title Recommended Locus Shifts for Plugin API v2 (what moves, and where)
+
+skinparam defaultTextAlignment left
+skinparam rectangle {
+  FontSize 11
+  BorderColor #555555
+}
+skinparam ArrowColor #B03030
+left to right direction
+
+package "TODAY (v1)" #FDECEC {
+  rectangle "Core bundles many transports\nssh/docker/gcp/azure/vmware/...\nin train-core, privileged load path" as c0
+  rectangle "Plugin host reinvented per client\nInSpec has a full one\n(~/.inspec/gems); Chef will too" as c00
+  rectangle "Capability discovery\n= client sniffs by class name\n(is_a? Mock, local_transport?)" as c1
+  rectangle "Error handling\n= clients rescue Train::* classes" as c2
+  rectangle "Secret redaction\n= nobody (no sensitive flag)" as c3
+  rectangle "URI parsing quirks\n= hardcoded in core\n(# move logic into ssh/winrm)" as c4
+  rectangle "Connection reuse/pool\n= each transport reinvents\n+ client caches backend" as c5
+  rectangle "Audit logging\n= bolt-on beside option DSL" as c6
+  rectangle "HTTP/API facility\n= absent; clients improvise\n(curl, Net::HTTP)" as c7
+  rectangle "API versioning\n= Train.plugin(1) only" as c8
+  rectangle "Registration\n= global mutable singleton" as c9
+  rectangle "Platform detection\n= engine assumes shell/file\nprimitives exist" as c10
+}
+
+package "RECOMMENDED (v2)" #EAF6EC {
+  rectangle "Core ships only local + mock\nall others are plugin gems\n(train-ssh, train-gcp, ...)" as n0
+  rectangle "Shared train-level plugin host\nclients delegate install/activate" as n00
+  rectangle "Core-declared **capability manifest**\ntransports advertise; clients query" as n1
+  rectangle "Core **error contract**\ndeclared codes/categories, not classes" as n2
+  rectangle "Core option **metadata (sensitive)**\nenforced in log/audit redaction" as n3
+  rectangle "Transport-provided **URI parser hook**\ncore stays generic" as n4
+  rectangle "Core **connection lifecycle/pool**\ntransports implement open/close only" as n5
+  rectangle "Core cross-cutting **middleware**\n(audit + diag logging + metrics)" as n6
+  rectangle "Core **request primitive**\nuniform HTTP/API surface" as n7
+  rectangle "Core **negotiated version**\n+ capability gating" as n8
+  rectangle "Core **scoped registry**\n(instance/isolated, versioned)" as n9
+  rectangle "Core detection w/ transport-declared\n**strategy** (shell | api | force)" as n10
+}
+
+c0 --> n0
+c00 --> n00
+c1 --> n1
+c2 --> n2
+c3 --> n3
+c4 --> n4
+c5 --> n5
+c6 --> n6
+c7 --> n7
+c8 --> n8
+c9 --> n9
+c10 --> n10
+@enduml
