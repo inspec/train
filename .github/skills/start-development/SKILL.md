@@ -11,7 +11,7 @@ First, determine if the user is running Windows, MacOS, or Linux. Use that infor
 
 ## Load env file if present
 
-Read eny env vars from etc/env.sh if present or etc/env.default.sh if not. You should source this in any shell you run.
+Read any env vars from etc/env.sh if present or etc/env.default.sh if not. You should source this in any shell you run.
 
 ## Setup gh
 

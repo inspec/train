@@ -5,7 +5,7 @@ description: Search the shared context system for information. Use this whenever
 
 ## Initialization Required
 
-If `context/shared/map.md` does not exist, run /start-developement.
+If `context/shared/map.md` does not exist, run /start-development.
 
 ## Load Context Map
 
