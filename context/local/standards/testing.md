@@ -2,22 +2,34 @@
 
 #### Unit Testing Requirements
 - **Framework**: Minitest (primary testing framework)
-- **Coverage**: Maintain > 80% test coverage
+- **Coverage**: >80% is an *aspirational* target, **not** an enforced gate — see
+  "Coverage Configuration" below for what the repo actually does.
 - **Location**: Tests should be in `test/unit/` directories
 - **Naming**: Test files should end with `_test.rb`
 - **Mocking**: Use `mocha/minitest` for mocking external dependencies
 
 #### Coverage Configuration
+Coverage is **opt-in and ungated**. The real `test/helper.rb` only starts
+SimpleCov when `CI_ENABLE_COVERAGE` is set, and configures **no**
+`minimum_coverage` threshold and **no** `add_group`s:
+
 ```ruby
-# Example SimpleCov configuration
-SimpleCov.start do
-  add_filter "/test/"
-  add_group "Transports", ["lib/train/transports"]
-  add_group "Platforms", ["lib/train/platforms"]
-  add_group "Plugins", ["lib/train/plugins"]
-  minimum_coverage 80
+# test/helper.rb (actual)
+if ENV["CI_ENABLE_COVERAGE"]
+  require "simplecov"
+  SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+  ])
+  SimpleCov.start do
+    add_filter "/test/"
+  end
 end
 ```
+
+So there is no build-breaking coverage floor; running tests without
+`CI_ENABLE_COVERAGE` does not measure coverage at all. Treat >80% as a goal to
+aim for, not a CI gate. (A dedicated `.expeditor/coverage.pipeline.yml` runs the
+coverage job in CI.)
 
 #### Test Structure Example
 ```ruby
@@ -98,8 +110,10 @@ Use `mocha` stubs only for third-party SDK/network boundaries — not for Train'
 own classes, which should be driven through their real interfaces.
 
 ### Coverage & style gates
-- Maintain **> 80%** coverage (SimpleCov, configured in `test/helper.rb`).
+- **Coverage is not gated.** SimpleCov runs only when `CI_ENABLE_COVERAGE` is set
+  and enforces no `minimum_coverage` (see "Coverage Configuration" above). >80% is
+  a goal, not a build gate.
 - Run **ChefStyle** before submitting: `chefstyle` (auto-fix with `chefstyle -a`).
-  `chefstyle` is loaded in the `Rakefile`.
+  `chefstyle` is loaded in the `Rakefile` — this *is* an enforced style gate.
 - Keep unit tests deterministic and offline; anything requiring sudo, SSH, WinRM,
   Docker, or a cloud/API credential belongs in the gated integration tasks.

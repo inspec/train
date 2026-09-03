@@ -1,4 +1,20 @@
 
+> [!IMPORTANT]
+> **Correction / house process.** The content below is an *illustrative*
+> JIRA-driven template; it is **not** the authoritative process for this repo.
+> The real release/CI process is **Chef Expeditor + Buildkite + ChefStyle** —
+> see [../background/release-and-ci.md](../background/release-and-ci.md). In
+> particular:
+> - **Version bumps and the changelog are automated by Expeditor** (label-driven);
+>   do not bump `lib/train/version.rb` or edit the changelog by hand in a feature PR.
+> - **Test coverage is NOT gated.** SimpleCov runs only under `CI_ENABLE_COVERAGE`
+>   with no `minimum_coverage`; the ">80%" figures below are aspirational, not a
+>   CI threshold (see [testing.md](./testing.md)).
+> - PRs are validated by the Buildkite **`verify`** pipeline (ChefStyle lint on
+>   Ruby 3.1; tests on Ruby 3.1 and 3.4, plus 3.1 on Windows).
+> - JIRA/HTML-PR-body/prompt-confirmation steps below are optional local
+>   conventions, not required by the project.
+
 ### JIRA Integration & Task Implementation Workflow
 
 When a JIRA ID is provided, follow this complete workflow:
@@ -28,7 +44,7 @@ When a JIRA ID is provided, follow this complete workflow:
 #### 4. Unit Test Creation
 - **MANDATORY**: Create comprehensive unit test cases for all new code
 - Use Minitest framework (primary testing framework in this repo)
-- Ensure test coverage is **> 80%** for the repository
+- Aim for high coverage (a ~80% target is aspirational, **not** a CI gate)
 - Follow existing test patterns in `test/unit/` directories
 - Mock external dependencies appropriately using Mocha
 - Test both success and failure scenarios
@@ -37,7 +53,7 @@ When a JIRA ID is provided, follow this complete workflow:
 
 #### 5. Test Execution & Validation
 - Run all unit tests to ensure they pass
-- Verify test coverage meets the 80% threshold
+- Review coverage locally if desired (no enforced threshold; see testing.md)
 - Fix any failing tests or coverage issues
 - Ensure no existing tests are broken by changes
 - Run integration tests when applicable
@@ -120,7 +136,7 @@ When implementing a task, follow this prompt-based approach:
    - Create comprehensive unit tests
    - Run tests and verify coverage
    - Test platform compatibility when applicable
-   - **Prompt**: "Tests created and passing. Coverage verified > 80%. Next step: Code quality & linting. Ready to proceed? (y/n)"
+   - **Prompt**: "Tests created and passing. Coverage reviewed (aspirational, not gated). Next step: Code quality & linting. Ready to proceed? (y/n)"
 
 4. **Code Quality & Linting**
    - Run ChefStyle linting: `chefstyle` and `chefstyle -a`
@@ -215,7 +231,7 @@ Use MCP server functions to:
 1. **JIRA Analysis** → Fetch and understand requirements (transport-specific)
 2. **Planning** → Break down implementation approach (consider Train architecture)
 3. **Implementation** → Code the solution following Train patterns
-4. **Testing** → Create comprehensive tests (>80% coverage, platform compatibility)
+4. **Testing** → Create comprehensive tests (aspirational ~80% coverage, not gated; platform compatibility)
 5. **Code Quality** → Run ChefStyle linting and fix all issues
 6. **PR Creation** → Use GitHub CLI with proper labeling
 7. **Prompt-based** → Confirm each step before proceeding

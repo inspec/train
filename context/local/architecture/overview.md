@@ -49,7 +49,13 @@ structural fact — plugins split into **two archetypes**.
   and reads `transport_options[:sudo]`/`[:user]` off it.
 - **Core** — the registry + `Transport` + `BaseConnection`, plus `Options`,
   `Platforms`/`Detect`, `File`/`Stat`, `AuditLog`, and the error taxonomy.
-- **Plugins** — see the archetype split below.
+- **Plugins** — see the archetype split below. Nodes marked `*` in the diagram are
+  **in-repo** transports (they ship inside the `train`/`train-core` gems); bare
+  `train-*` names are **external plugin gems** installed separately and discovered
+  over RubyGems. This distinction is orthogonal to the archetype split — e.g.
+  `ssh` (in-repo) and `train-winrm` (external gem) are both OS-command transports.
+  `winrm` is external despite the stale `train-core` gemspec description; see the
+  canonical [in-repo vs external transport map](../../shared/by-product/train/design/architecture.md#in-repo-transports-vs-external-plugin-gems).
 
 See: [`design/architecture.md`](../../shared/by-product/train/design/architecture.md),
 [`domains/integration-inspec.md`](../../shared/by-product/train/domains/integration-inspec.md),
