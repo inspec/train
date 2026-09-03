@@ -1,0 +1,88 @@
+@startuml 02-core-classes
+!include _style.puml
+title Train — Core Classes
+
+top to bottom direction
+
+class "Train" as Train <<core>> {
+  +self.create(name, *args) : Transport
+  +self.options(name) : Hash
+  +self.load_transport(name) : Class
+  +self.target_config(config) : Hash
+  +self.unpack_target_from_uri(uri, opts) : Hash
+  +self.validate_backend(creds, default="local") : String
+}
+
+class "Plugins" as Plugins <<core>> {
+  +self.registry : Hash<String,Class>
+  +self.plugin(version=1) : Class
+}
+
+class "Plugins::Transport" as Transport <<core>> {
+  +initialize(options={})
+  +connection(_options=nil) : BaseConnection {abstract}
+  +self.name(name)
+  --
+  +self.option(name, conf, &blk)
+  +self.default_options : Hash
+  +validate_options(opts)
+}
+
+abstract class "BaseConnection" as BaseConnection <<abstract>> {
+  +initialize(options=nil)
+  +run_command(cmd, opts={}, &blk) : CommandResult
+  +file(path, *args) : File
+  +platform() : Platform
+  +upload(locals, remote)
+  +download(remotes, local)
+  +force_platform!(name, details=nil) : Platform
+  +enable_cache(type) / disable_cache(type)
+  +close() / wait_until_ready() / login_command()
+  --
+  #run_command_via_connection(cmd, [opts], &blk)  {abstract}
+  #file_via_connection(path, *args)  {abstract}
+  --
+  -@cache_enabled : {file:true, command:false, api_call:false}
+  -@audit_log : AuditLog
+}
+
+class "Options" as Options <<core>> {
+  ClassOptions: option / default_options / include_options
+  InstanceOptions: merge_options / validate_options
+}
+
+class "CommandResult" as CommandResult <<core>> {
+  +stdout
+  +stderr
+  +exit_status
+}
+
+class "File" as File <<abstract>> {
+  DATA_FIELDS = exist? mode owner group
+     uid gid content mtime size selinux_label path
+  +to_json / type / directory? / symlink?
+  +md5sum / sha256sum
+}
+
+class "AuditLog" as AuditLog <<core>> {
+  +self.create(opts) : Logger
+  +info(entry)
+}
+
+Train --> Plugins : registry lookup
+Plugins --> Transport : plugin(1) base
+Transport ..> Options : Options.attach(self)
+Transport --> BaseConnection : #connection returns
+BaseConnection ..> Options : include InstanceOptions
+BaseConnection --> CommandResult : run_command returns
+BaseConnection --> File : file returns
+BaseConnection --> AuditLog : logs when enabled
+
+note right of BaseConnection
+  run_command dispatches on the
+  arity of run_command_via_connection
+  (1 vs 2) for plugin back-compat.
+  Caching: file=on, command/api_call=off.
+end note
+
+@enduml

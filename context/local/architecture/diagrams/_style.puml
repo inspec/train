@@ -1,0 +1,68 @@
+' Shared PlantUML skin for Train architecture diagrams.
+' Included by every diagram via: !include _style.puml
+' Keep this the single source of visual truth so all diagrams look consistent.
+
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam defaultFontSize 12
+skinparam roundcorner 6
+skinparam ArrowColor #37474F
+skinparam ArrowThickness 1
+
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #37474F
+  ArrowColor #37474F
+  BorderThickness 1
+  AttributeFontColor #455A64
+  FontColor #102027
+}
+
+skinparam package {
+  BackgroundColor #FAFAFA
+  BorderColor #90A4AE
+  FontColor #263238
+}
+
+skinparam note {
+  BackgroundColor #FFF8E1
+  BorderColor #FFB300
+  FontColor #4E342E
+}
+
+skinparam sequence {
+  ArrowColor #37474F
+  LifeLineBorderColor #90A4AE
+  LifeLineBackgroundColor #ECEFF1
+  ParticipantBorderColor #37474F
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantFontColor #102027
+  ActorBorderColor #37474F
+}
+
+' Stereotype colors used to distinguish the two plugin archetypes.
+' <<oscmd>>  = OS-command transport (implements run_command_via_connection + file_via_connection)
+' <<api>>    = API transport (force_platform!, bespoke client surface, no file/command)
+' <<core>>   = shipped inside the train gem
+' <<plugin>> = external train-* gem
+skinparam class<<oscmd>> {
+  BackgroundColor #E8F5E9
+  BorderColor #2E7D32
+}
+skinparam class<<api>> {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+}
+skinparam class<<core>> {
+  BackgroundColor #FFFFFF
+  BorderColor #37474F
+}
+skinparam class<<plugin>> {
+  BackgroundColor #F3E5F5
+  BorderColor #6A1B9A
+}
+skinparam class<<abstract>> {
+  BackgroundColor #FFFDE7
+  BorderColor #F9A825
+}

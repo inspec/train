@@ -1,0 +1,59 @@
+@startuml 05-file-hierarchy
+!include _style.puml
+title Train — File Abstraction Hierarchy
+
+abstract class "Train::File" as File <<abstract>> {
+  +initialize(backend, path, follow_symlink=true)
+  DATA_FIELDS = exist? mode owner group uid
+     gid content mtime size selinux_label path
+  +to_json / type / source / path
+  +file? / directory? / symlink? / socket? ...
+  +md5sum / sha256sum
+  +mounted?
+  #sanitize_filename(path)
+}
+
+class "File::Local" as Local <<core>>
+class "File::Remote" as Remote <<core>>
+
+class "File::Local::Unix" as LUnix <<core>>
+class "File::Local::Windows" as LWin <<core>>
+
+class "File::Remote::Unix" as RUnix <<core>>
+class "File::Remote::Windows" as RWin <<core>>
+class "File::Remote::Linux" as RLinux <<core>>
+class "File::Remote::Aix" as RAix <<core>>
+class "File::Remote::Qnx" as RQnx <<core>>
+
+class "Extras::Stat" as Stat <<core>> {
+  +self.stat(path, backend, follow)
+  +self.find_type(mode)
+  mode/type/owner/group/...
+}
+
+File <|-- Local
+File <|-- Remote
+Local <|-- LUnix
+Local <|-- LWin
+Remote <|-- RUnix
+Remote <|-- RWin
+RUnix <|-- RLinux
+RUnix <|-- RAix
+RUnix <|-- RQnx
+
+File ..> Stat : mode/type via Stat
+
+note right of File
+  Base raises NotImplementedError for every
+  DATA_FIELD except path. OS/transport
+  subclass supplies the real implementation.
+  BaseConnection#file returns one of these.
+end note
+
+note bottom of Remote
+  Remote subclasses shell out via the
+  backend (run_command) to read metadata;
+  Local subclasses use Ruby File/Stat directly.
+end note
+
+@enduml
