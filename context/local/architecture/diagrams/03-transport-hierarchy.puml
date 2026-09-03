@@ -11,10 +11,13 @@ abstract class "BaseConnection" as Base <<abstract>> {
 package "OS-command transports\n(implement run_command_via_connection + file_via_connection,\nreal platform detection)" <<Rectangle>> {
   class "Local::Connection" as Local <<oscmd>>
   class "SSH::Connection" as Ssh <<oscmd>>
-  class "Docker::Connection" as Docker <<oscmd>>
-  class "Podman::Connection" as Podman <<oscmd>>
   class "TrainPlugins::Winrm::Connection" as Winrm <<oscmd>>
-  class "TrainPlugins::Kubernetes::Connection" as K8s <<oscmd>>
+}
+
+package "OS-command by history — should be API\n(archetype mismatch: shell out to a CLI that fronts an API)" <<Rectangle>> {
+  class "Docker::Connection" as Docker <<historical>>
+  class "Podman::Connection" as Podman <<historical>>
+  class "TrainPlugins::Kubernetes::Connection" as K8s <<historical>>
 }
 
 package "API transports\n(force_platform!, bespoke client surface,\nno file/command primitives)" <<Rectangle>> {
@@ -41,15 +44,25 @@ note right of Aws
   API archetype exposes clients like
   aws_client(klass) / azure_client;
   callers must know the transport type.
-  Anti-patterns observed here:
+  Impl anti-pattern observed here:
    - ENV export of AWS creds
-   - k8s connect() calling exit on error
 end note
 
 note left of Local
   OS-command archetype fulfills the
   universal contract: run_command + file
   work against any resource unchanged.
+  Correctly archetyped: these target a
+  real OS shell (local/ssh/winrm).
+end note
+
+note bottom of K8s
+  Mis-archetyped: docker/podman/kubernetes
+  target API-first systems but shell out to
+  docker/podman/kubectl exec. Should be API
+  transports. train-kubernetes also calls
+  exit() on connect error and swallows ENOENT.
+  Two axes: archetype fit + impl quality.
 end note
 
 @enduml

@@ -63,15 +63,28 @@ The single most useful lens for understanding (and correctly extending) Train:
 
 | | **OS-command transports** | **API transports** |
 |---|---|---|
-| Examples | `local`, `ssh`, `docker`, `podman`, `train-winrm`, `train-kubernetes` | `aws`, `azure`, `gcp`, `vmware`, `train-rest` |
+| Examples | `local`, `ssh`, `train-winrm` | `aws`, `azure`, `gcp`, `vmware`, `train-rest` |
 | Implements | `run_command_via_connection` **and** `file_via_connection` | neither |
 | Platform | **real detection** via the Scanner | `force_platform!` (hardcoded) |
 | Consumer surface | universal — `run_command`/`file` work unchanged | **bespoke** clients (`aws_client(klass)`, REST verbs, …) |
 
+> **A third, cautionary group — historically mis-archetyped.** `docker`, `podman`,
+> and `train-kubernetes` are *implemented* as OS-command transports (they shell
+> out to `docker exec` / `podman exec` / `kubectl exec`) but their targets are
+> **API-first systems** (Docker Engine API, Podman libpod API, Kubernetes API).
+> They should have been **API** transports. Treat them as *lessons, not models* —
+> the archetype choice itself is the defect, and `train-kubernetes` compounds it
+> with real implementation anti-patterns (exit-on-error, swallowed `ENOENT`,
+> hardcoded tty/stdin). Judge transports on **two axes**: *archetype fit*
+> (conceptual) and *implementation quality* (behavioral). See
+> [`advice/anti-patterns.md` #0](../../shared/by-product/train/advice/anti-patterns.md)
+> and [`design/plugin-archetypes.md`](../../shared/by-product/train/design/plugin-archetypes.md).
+
 ![Transport / connection hierarchy](diagrams/03-transport-hierarchy.svg)
 
-If you are writing a plugin, **decide which archetype you are** first — it
-determines almost everything else. Full treatment:
+If you are writing a plugin, **decide which archetype you are** first — pick by
+the target's *native* contract (a real shell → OS-command; anything reachable
+over an HTTP/SDK API → API, *even if a CLI exists*). Full treatment:
 [`design/plugin-archetypes.md`](../../shared/by-product/train/design/plugin-archetypes.md).
 
 ---

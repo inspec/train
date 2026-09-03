@@ -31,9 +31,11 @@ package "Plugins" {
   package "OS-command transports" <<Rectangle>> {
     [local] as PLocal <<oscmd>>
     [ssh] as PSsh <<oscmd>>
-    [docker / podman] as PDocker <<oscmd>>
     [train-winrm] as PWinrm <<oscmd>>
-    [train-kubernetes] as PK8s <<oscmd>>
+  }
+  package "OS-command by history\n(should be API — anti-pattern)" <<Rectangle>> {
+    [docker / podman] as PDocker <<historical>>
+    [train-kubernetes] as PK8s <<historical>>
   }
   package "API transports" <<Rectangle>> {
     [aws / azure / gcp] as PAws <<api>>
@@ -69,6 +71,13 @@ Transport <|-- PVmware
 note bottom of Platforms
   API transports skip real detection and
   call force_platform! instead of scanning.
+end note
+
+note right of PK8s
+  docker/podman/kubernetes shell out to a CLI
+  (docker/podman/kubectl exec) that fronts an API.
+  They are OS-command by history but should be
+  API transports. Lessons, not models.
 end note
 
 @enduml

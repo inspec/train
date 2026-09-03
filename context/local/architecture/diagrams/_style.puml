@@ -66,3 +66,28 @@ skinparam class<<abstract>> {
   BackgroundColor #FFFDE7
   BorderColor #F9A825
 }
+' <<historical>> = built as an OS-command transport but conceptually mis-archetyped
+' (targets an API-first system; should be an API transport). Cautionary, not a model.
+skinparam class<<historical>> {
+  BackgroundColor #FFF3E0
+  BorderColor #E65100
+}
+
+' Component-diagram variants (diagram 01 uses component nodes, which take
+' their stereotype colors from skinparam component<<...>>, not class<<...>>).
+skinparam component<<oscmd>> {
+  BackgroundColor #E8F5E9
+  BorderColor #2E7D32
+}
+skinparam component<<api>> {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+}
+skinparam component<<core>> {
+  BackgroundColor #FFFFFF
+  BorderColor #37474F
+}
+skinparam component<<historical>> {
+  BackgroundColor #FFF3E0
+  BorderColor #E65100
+}
