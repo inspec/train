@@ -1,0 +1,59 @@
+@startuml 07-seq-run-command
+!include _style.puml
+title Train — Sequence: create connection and run a command
+
+actor Consumer as C
+participant "Train" as T <<core>>
+participant "Plugins.registry" as Reg
+participant "Transport\n(subclass)" as Tr
+participant "BaseConnection\n(subclass)" as Conn
+participant "AuditLog" as Audit
+participant "run_command_via_connection\n(plugin impl)" as Impl
+
+== Resolve & connect ==
+C -> T : create(name, opts)
+activate T
+T -> T : load_transport(name)
+T -> Reg : registry[name]
+alt registered
+  Reg --> T : class
+else not registered
+  T -> T : require "train/transports/name"
+  note right of T
+    then require "train-<name>" gem;
+    silent rescue LoadError ->
+    raise PluginLoadError
+  end note
+end
+T -> Tr : new(opts)  (merge/validate options)
+Tr --> C : transport
+deactivate T
+C -> Tr : connection
+Tr -> Conn : new(options)
+note right of Conn
+  loads OS + Api specifications,
+  sets cache {file:true, command:false, api_call:false},
+  wires AuditLog if enabled
+end note
+Conn --> C : connection
+
+== Run a command ==
+C -> Conn : run_command(cmd, opts)
+activate Conn
+Conn -> Audit : info(type: cmd, ...) [if enabled]
+Conn -> Conn : arity = run_command_via_connection.arity.abs
+alt arity == 1
+  Conn -> Impl : run_command_via_connection(cmd, &blk)
+else arity == 2
+  Conn -> Impl : run_command_via_connection(cmd, opts, &blk)
+else other
+  Conn -->x C : NotImplementedError
+end
+Impl --> Conn : CommandResult(stdout, stderr, exit_status)
+alt command caching enabled
+  Conn -> Conn : @cache[:command][cmd] ||= result
+end
+Conn --> C : CommandResult
+deactivate Conn
+
+@enduml

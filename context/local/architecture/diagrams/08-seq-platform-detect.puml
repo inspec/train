@@ -1,0 +1,53 @@
+@startuml 08-seq-platform-detect
+!include _style.puml
+title Train — Sequence: lazy platform detection
+
+actor Consumer as C
+participant "BaseConnection" as Conn <<abstract>>
+participant "Platforms::Detect" as Detect <<core>>
+participant "Detect::Scanner" as Scan <<core>>
+participant "Train::Platforms\n(registry)" as Reg <<core>>
+participant "Platform" as Plat <<core>>
+
+== OS-command transport ==
+C -> Conn : platform  (aliased as os)
+activate Conn
+Conn -> Conn : @platform ||= ...
+Conn -> Detect : scan(self)
+Detect -> Scan : new(backend).scan
+activate Scan
+Scan -> Reg : top_platforms
+loop each candidate platform/family
+  Scan -> Scan : instance_eval(&plat.detect)
+  note right of Scan
+    detect block probes the target via
+    backend.run_command / backend.file
+    (uname, /etc/os-release, lsb, files ...)
+  end note
+  alt match
+    Scan -> Scan : scan_children -> family hierarchy
+  end
+end
+alt found
+  Scan -> Plat : get_platform (backend, platform hash,\nadd_platform_methods, family_hierarchy)
+  Plat --> Scan : Platform
+else none
+  Scan -->x C : PlatformDetectionFailed
+end
+Scan --> Detect : Platform
+deactivate Scan
+Detect --> Conn : Platform
+Conn --> C : Platform (os.family, os.name, os.release, ...)
+deactivate Conn
+
+== API transport (no probing) ==
+C -> Conn : platform
+activate Conn
+Conn -> Conn : force_platform!(name, details)
+Conn -> Reg : Platforms.name(name)
+Conn -> Plat : backend=self; find_family_hierarchy; add_platform_methods
+Plat --> Conn : Platform
+Conn --> C : Platform
+deactivate Conn
+
+@enduml

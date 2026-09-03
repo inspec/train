@@ -1,0 +1,91 @@
+@startuml 01-component-context
+!include _style.puml
+title Train — Component / Context View
+
+' How Train sits between its consumers and its plugins.
+
+package "Consumers" {
+  package "Chef InSpec" {
+    [Inspec::Backend] as InspecBackend <<core>>
+    [InSpec resources\n(command, file, os, ...)] as InspecResources
+    [Inspec::Config\n(unpack_train_credentials)] as InspecConfig
+  }
+  package "Chef Infra Client" {
+    [Chef target_io\n(TargetIO::File / Dir / etc.)] as ChefTargetIO
+    [Chef::Application] as ChefApp
+  }
+}
+
+package "Train core (train gem)" {
+  [Train.create /\nload_transport\n(registry)] as TrainEntry <<core>>
+  [Transport\n(plugin base)] as Transport <<core>>
+  [BaseConnection] as BaseConnection <<abstract>>
+  [Options\n(Class/InstanceOptions)] as Options <<core>>
+  [Platforms + Detect\n(Scanner, Specifications)] as Platforms <<core>>
+  [File / Stat] as File <<core>>
+  [AuditLog] as AuditLog <<core>>
+  [errors] as Errors <<core>>
+}
+
+package "Plugins" {
+  package "OS-command transports" <<Rectangle>> {
+    [local *] as PLocal <<oscmd>>
+    [ssh *] as PSsh <<oscmd>>
+    [train-winrm] as PWinrm <<oscmd>>
+  }
+  package "OS-command by history\n(should be API — anti-pattern)" <<Rectangle>> {
+    [docker / podman *] as PDocker <<historical>>
+    [train-kubernetes] as PK8s <<historical>>
+  }
+  package "API transports" <<Rectangle>> {
+    [azure / gcp / vmware *] as PAzure <<api>>
+    [train-aws] as PAws <<api>>
+    [train-rest] as PRest <<api>>
+  }
+}
+
+note top of PLocal
+  * = in-repo transport (ships in train / train-core).
+  Bare "train-*" names are **external plugin gems**,
+  installed separately and discovered via RubyGems.
+  See design/architecture.md#in-repo-transports-vs-external-plugin-gems.
+  (winrm is external despite the stale train-core gemspec text.)
+end note
+
+InspecConfig --> TrainEntry : credentials hash
+InspecBackend --> TrainEntry : Train.create(name, opts)
+InspecBackend --> BaseConnection : holds connection
+InspecResources --> BaseConnection : run_command / file / os
+ChefApp --> TrainEntry : Train.create
+ChefTargetIO --> BaseConnection : file / run_command\n(reads transport_options[:sudo/:user])
+
+TrainEntry --> Transport : resolves & instantiates
+Transport --> BaseConnection : #connection
+BaseConnection --> Options : merge/validate
+BaseConnection --> AuditLog : log cmd/file (if enabled)
+BaseConnection --> Platforms : #platform (lazy scan)
+BaseConnection --> File : #file
+BaseConnection ..> Errors : raises
+
+Transport <|-- PLocal
+Transport <|-- PSsh
+Transport <|-- PDocker
+Transport <|-- PWinrm
+Transport <|-- PK8s
+Transport <|-- PAzure
+Transport <|-- PAws
+Transport <|-- PRest
+
+note bottom of Platforms
+  API transports skip real detection and
+  call force_platform! instead of scanning.
+end note
+
+note right of PK8s
+  docker/podman/kubernetes shell out to a CLI
+  (docker/podman/kubectl exec) that fronts an API.
+  They are OS-command by history but should be
+  API transports. Lessons, not models.
+end note
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml 06-error-hierarchy
+!include _style.puml
+title Train — Exception Hierarchy
+
+class "::StandardError" as Std <<abstract>>
+
+class "Train::Error" as Err <<core>> {
+  +reason : Symbol
+  +initialize(message="", reason=:not_provided)
+}
+
+class "Train::UserError" as UserErr <<core>>
+class "Train::ClientError" as ClientErr <<core>>
+class "Train::TransportError" as TransportErr <<core>>
+
+class "Train::PluginLoadError" as PluginLoad <<core>> {
+  +transport_name
+}
+class "Train::PlatformDetectionFailed" as PlatDetect <<core>>
+class "Train::PlatformUuidDetectionFailed" as PlatUuid <<core>>
+class "Train::UnknownCacheType" as CacheType <<core>>
+class "Train::CommandTimeoutReached" as CmdTimeout <<core>>
+
+Std <|-- Err
+Err <|-- UserErr
+Err <|-- ClientErr
+Err <|-- TransportErr
+Err <|-- PlatDetect
+Err <|-- PlatUuid
+Err <|-- CacheType
+Err <|-- CmdTimeout
+UserErr <|-- PluginLoad
+
+note right of Err
+  Every library-raised exception derives
+  from Train::Error and carries a :reason
+  symbol for programmatic handling.
+end note
+
+note bottom of UserErr
+  UserError  = bad user input (creds, target)
+  ClientError = misuse of the API / unimpl.
+  TransportError = failure in the transport layer
+end note
+
+@enduml

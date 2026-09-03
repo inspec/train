@@ -1,0 +1,82 @@
+@startuml 04-platform-detection
+!include _style.puml
+title Train — Platform Detection Subsystem
+
+class "Train::Platforms" as Platforms <<core>> {
+  +self.name(name, cond={}) : Platform
+  +self.family(name, cond={}) : Family
+  +self.list / families
+  +self.top_platforms
+  +self.export
+}
+
+class "Detect" as Detect <<core>> {
+  +self.scan(backend) : Platform
+}
+
+class "Detect::Scanner" as Scanner <<core>> {
+  +initialize(backend)
+  +scan : Platform
+  -scan_children(parent)
+  -scan_family_children(plat)
+  -check_condition(condition)
+  -get_platform(plat)
+}
+
+class "Detect::Specifications::OS" as SpecOS <<core>> {
+  +self.load
+}
+class "Detect::Specifications::Api" as SpecApi <<core>> {
+  +self.load
+}
+
+class "Platform" as Platform <<core>> {
+  +name / title / family
+  +backend / platform : Hash
+  +family_hierarchy
+  +find_family_hierarchy
+  +add_platform_methods
+  +uuid
+}
+
+class "Family" as Family <<core>> {
+  +name / title
+  +children / families
+}
+
+class "Common" as Common <<core>> {
+  +detect(&block)
+  +family / families(*)
+  +platform(name)
+}
+
+class "Detect::UUID" as UUID <<core>> {
+  +find_or_create_uuid
+}
+
+Detect --> Scanner : new(backend).scan
+Scanner --> Platforms : top_platforms
+Scanner --> Platform : get_platform / add_platform_methods
+Platforms --> Platform : creates / registry (list)
+Platforms --> Family : creates / registry (families)
+Platform ..|> Common
+Family ..|> Common
+SpecOS ..> Platforms : declares family/platform tree
+SpecApi ..> Platforms : declares API platforms
+Platform --> UUID : lazy uuid
+
+note bottom of Scanner
+  scan() instance_evals each platform's
+  detect block against the backend, walking
+  top_platforms -> children -> families.
+  Probes run via run_command + file on the
+  backend (OSCommon helpers).
+end note
+
+note right of SpecApi
+  API transports register here and are
+  selected through force_platform!,
+  bypassing the command/file probing.
+end note
+
+@enduml

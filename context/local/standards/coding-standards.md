@@ -2,6 +2,11 @@
 ### Code Quality Standards
 
 #### Ruby Standards
+- **Supported Ruby**: the authoritative requirement is the gemspec floor —
+  `required_ruby_version >= 3.1.0` (both `train.gemspec` and `train-core.gemspec`).
+  Target `>= 3.1.0`. (Note: a local `.ruby-version` file may be present for
+  developer convenience, but it is untracked/gitignored and **not** authoritative —
+  don't treat it as the supported-version pin.)
 - Follow Ruby community conventions
 - Use proper indentation (2 spaces)
 - Add appropriate comments and documentation
