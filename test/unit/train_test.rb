@@ -61,6 +61,82 @@ describe Train do
       # So use to_s
       _(transport.class.to_s).must_equal "TrainPlugins::TestFixture::Transport"
     end
+
+    it "loads the premium gem plugin in preference to the non-premium gem plugin" do
+      # 'train-premium-test-fixture-premium' and 'train-premium-test-fixture' both register a
+      # transport named 'premium-test-fixture'. Since the premium gem is tried first, and
+      # load_transport returns as soon as the registry is populated, the non-premium gem
+      # should never even be required.
+      transport = Train.create("premium-test-fixture")
+      _(transport.class.premium?).must_equal true
+    end
+
+    it "attempts to load transports in order: premium gem, core transport, non-premium gem" do
+      # `require` is process-global and idempotent, so real core transport/gem files can't be
+      # used to reliably assert load order across a full test run. Stub Kernel#require instead
+      # to directly observe the paths load_transport tries, and in what order.
+      attempts = []
+      Train.stub :require, ->(path) { attempts << path; raise LoadError, "boom" } do
+        _ { Train.load_transport("widget") }.must_raise Train::PluginLoadError
+      end
+      _(attempts).must_equal(
+        ["train-widget-premium", "train/transports/widget", "train-widget"]
+      )
+    end
+
+    it "stops as soon as the premium gem populates the registry" do
+      attempts = []
+      ex = nil
+      Train.stub :require, ->(path) {
+        attempts << path
+        if path == "train-widget-premium"
+          ex = Class.new(Train.plugin 1) { name "widget" }
+          true
+        else
+          raise LoadError, "boom"
+        end
+      } do
+        train = Train.create("widget")
+        _(train.class).must_equal ex
+      end
+      _(attempts).must_equal ["train-widget-premium"]
+    end
+
+    it "falls back to the core transport path when the premium gem cant be loaded" do
+      attempts = []
+      ex = nil
+      Train.stub :require, ->(path) {
+        attempts << path
+        if path == "train/transports/widget"
+          ex = Class.new(Train.plugin 1) { name "widget" }
+          true
+        else
+          raise LoadError, "boom"
+        end
+      } do
+        train = Train.create("widget")
+        _(train.class).must_equal ex
+      end
+      _(attempts).must_equal ["train-widget-premium", "train/transports/widget"]
+    end
+
+    it "falls back to the non-premium gem when neither the premium gem nor the core transport are available" do
+      attempts = []
+      ex = nil
+      Train.stub :require, ->(path) {
+        attempts << path
+        if path == "train-widget"
+          ex = Class.new(Train.plugin 1) { name "widget" }
+          true
+        else
+          raise LoadError, "boom"
+        end
+      } do
+        train = Train.create("widget")
+        _(train.class).must_equal ex
+      end
+      _(attempts).must_equal ["train-widget-premium", "train/transports/widget", "train-widget"]
+    end
   end
 
   describe "#options" do
