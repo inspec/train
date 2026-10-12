@@ -51,8 +51,8 @@ module Train
 
     load_order = [
       "train-#{transport_name}-premium",
-      "train/transports/#{transport_name}",
       "train-#{transport_name}",
+      "train/transports/#{transport_name}",
     ]
 
     load_order.each do |path|

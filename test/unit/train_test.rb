@@ -71,7 +71,7 @@ describe Train do
       _(transport.class.premium?).must_equal true
     end
 
-    it "attempts to load transports in order: premium gem, core transport, non-premium gem" do
+    it "attempts to load transports in order: premium gem, non-premium gem, core transport" do
       # `require` is process-global and idempotent, so real core transport/gem files can't be
       # used to reliably assert load order across a full test run. Stub Kernel#require instead
       # to directly observe the paths load_transport tries, and in what order.
@@ -80,7 +80,7 @@ describe Train do
         _ { Train.load_transport("widget") }.must_raise Train::PluginLoadError
       end
       _(attempts).must_equal(
-        ["train-widget-premium", "train/transports/widget", "train-widget"]
+        ["train-widget-premium", "train-widget", "train/transports/widget"]
       )
     end
 
@@ -102,7 +102,7 @@ describe Train do
       _(attempts).must_equal ["train-widget-premium"]
     end
 
-    it "falls back to the core transport path when the premium gem cant be loaded" do
+    it "falls back to the core transport path when neither the premium nor non-premium gem can be loaded" do
       attempts = []
       ex = nil
       Train.stub :require, ->(path) {
@@ -117,10 +117,10 @@ describe Train do
         train = Train.create("widget")
         _(train.class).must_equal ex
       end
-      _(attempts).must_equal ["train-widget-premium", "train/transports/widget"]
+      _(attempts).must_equal ["train-widget-premium", "train-widget", "train/transports/widget"]
     end
 
-    it "falls back to the non-premium gem when neither the premium gem nor the core transport are available" do
+    it "falls back to the non-premium gem when the premium gem is not available" do
       attempts = []
       ex = nil
       Train.stub :require, ->(path) {
@@ -135,7 +135,7 @@ describe Train do
         train = Train.create("widget")
         _(train.class).must_equal ex
       end
-      _(attempts).must_equal ["train-widget-premium", "train/transports/widget", "train-widget"]
+      _(attempts).must_equal ["train-widget-premium", "train-widget"]
     end
   end
 
