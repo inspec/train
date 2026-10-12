@@ -31,8 +31,16 @@ module Train
   end
 
   # Load the transport plugin indicated by name. If the plugin is not
-  # yet found in the plugin registry, it will be attempted to load from
-  # `train/transports/plugin_name`.
+  # yet found in the plugin registry, it will be attempted to load, in
+  # order, from:
+  #   1. the premium train plugin gem (`train-plugin_name-premium`)
+  #   2. the core transports (`train/transports/plugin_name`)
+  #   3. the non-premium train plugin gem (`train-plugin_name`)
+  #
+  # Note: this method only requires already-installed gems/files; it does
+  # not install missing gems. Callers (e.g. InSpec) are responsible for
+  # catching Train::PluginLoadError and driving their own install/retry
+  # flow if desired.
   #
   # @param [String] name of the plugin
   # @return [Train::Transport] the transport plugin
@@ -41,19 +49,21 @@ module Train
     transport_class = Train::Plugins.registry[transport_name]
     return transport_class unless transport_class.nil?
 
-    # Try to load the transport name from the core transports...
-    require "train/transports/" + transport_name
-    Train::Plugins.registry[transport_name]
-  rescue LoadError => _
-    begin
-      # If it's not in the core transports, try loading from a train plugin gem.
-      gem_name = "train-" + transport_name
-      require gem_name
-      return Train::Plugins.registry[transport_name]
-      # rubocop: disable Lint/HandleExceptions
-    rescue LoadError => _
-      # rubocop: enable Lint/HandleExceptions
-      # Intentionally empty rescue - we're handling it below anyway
+    load_order = [
+      "train-#{transport_name}-premium",
+      "train-#{transport_name}",
+      "train/transports/#{transport_name}",
+    ]
+
+    load_order.each do |path|
+      begin
+        require path
+      rescue LoadError
+        next
+      end
+
+      loaded_class = Train::Plugins.registry[transport_name]
+      return loaded_class unless loaded_class.nil?
     end
 
     ex = Train::PluginLoadError.new("Can't find train plugin #{transport_name}. Please install it first.")
