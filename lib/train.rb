@@ -33,9 +33,8 @@ module Train
   # Load the transport plugin indicated by name. If the plugin is not
   # yet found in the plugin registry, it will be attempted to load, in
   # order, from:
-  #   1. the premium train plugin gem (`train-plugin_name-premium`)
+  #   1. the train plugin gem (`train-plugin_name`)
   #   2. the core transports (`train/transports/plugin_name`)
-  #   3. the non-premium train plugin gem (`train-plugin_name`)
   #
   # Note: this method only requires already-installed gems/files; it does
   # not install missing gems. Callers (e.g. InSpec) are responsible for
@@ -50,7 +49,6 @@ module Train
     return transport_class unless transport_class.nil?
 
     load_order = [
-      "train-#{transport_name}-premium",
       "train-#{transport_name}",
       "train/transports/#{transport_name}",
     ]
