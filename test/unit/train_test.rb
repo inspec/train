@@ -61,6 +61,37 @@ describe Train do
       # So use to_s
       _(transport.class.to_s).must_equal "TrainPlugins::TestFixture::Transport"
     end
+
+    it "attempts to load transports in order: plugin gem, core transport" do
+      # `require` is process-global and idempotent, so real core transport/gem files can't be
+      # used to reliably assert load order across a full test run. Stub Kernel#require instead
+      # to directly observe the paths load_transport tries, and in what order.
+      attempts = []
+      Train.stub :require, ->(path) { attempts << path; raise LoadError, "boom" } do
+        _ { Train.load_transport("widget") }.must_raise Train::PluginLoadError
+      end
+      _(attempts).must_equal(
+        ["train-widget", "train/transports/widget"]
+      )
+    end
+
+    it "falls back to the core transport path when the plugin gem cannot be loaded" do
+      attempts = []
+      ex = nil
+      Train.stub :require, ->(path) {
+        attempts << path
+        if path == "train/transports/widget"
+          ex = Class.new(Train.plugin 1) { name "widget" }
+          true
+        else
+          raise LoadError, "boom"
+        end
+      } do
+        train = Train.create("widget")
+        _(train.class).must_equal ex
+      end
+      _(attempts).must_equal ["train-widget", "train/transports/widget"]
+    end
   end
 
   describe "#options" do
